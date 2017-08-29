@@ -24,7 +24,7 @@
     "node": ">=7.6.0"
   },
   "configs": {
-    "server": "https://raw.githubusercontent.com/alibaba/dawn/master/docs/${name}.yml",
+    "server": "https://alibaba.github.io/dawn",
     "registry": "https://registry.npm.taobao.org",
     "cacheTTL": 600000,
     "middlewarePrefix": "dn-middleware",

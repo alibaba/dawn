@@ -23,10 +23,10 @@ $ dn config [name] [value]
 示例一：
 
 ```sh
-$ dn config server http://your_server_url/{name}.yml
+$ dn config server http://your_server_url
 ```
 
-上边的示例，将会新「中心服务」更改为 `your_server_url`，server 的 URL 要求必须有 `{name}` 占位符
+上边的示例，将会新「中心服务」更改为 `your_server_url`
 
 示例二：
 

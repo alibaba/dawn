@@ -10,7 +10,7 @@ title: 团队配置
 
 Dawn 的私有服务端搭建成本「极低」，不需要下载任务服务端程序，只需要有一个支持静态文件的 Web Server 即可，如果没有，在 GitHub 或 GitLab 上，新建一个 repo 也行，只要能托管静态文件即可，当然你也可用基于动态服务搭建 dawn 中心服务
 
-假如，你现在有一个 Web Server，并可能过 http://your_server_url/{name}.yml 访问，比如 
+假如，你现在有一个 Web Server，并可能过 `http://your_server_url/<name>.yml` 访问，比如 
 
 - http://your_server_url/template.yml
 - http://your_server_url/middleware.yml
