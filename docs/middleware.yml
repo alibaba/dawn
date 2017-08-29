@@ -1,0 +1,3 @@
+webpack:
+  location: dn-middleware-webpack
+  summary: Build middleware based on Webpack

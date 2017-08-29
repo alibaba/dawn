@@ -49,6 +49,7 @@
     "ntils": "^2.0.15",
     "oneport": "^1.0.2",
     "opn": "^4.0.2",
+    "pre-commit": "^1.2.2",
     "require-dir": "^0.3.1",
     "rightpad": "^1.0.1",
     "semver": "^5.4.1",
