@@ -2,6 +2,8 @@
 
 Dawn 取「黎明、破晓」之意， 是一个轻量的「任务管理和构建」工具。
 
+[![Build Status](https://www.travis-ci.org/alibaba/dawn.svg?branch=master)](https://www.travis-ci.org/alibaba/dawn)
+
 - [English](README.md)
 
 ## 特点
