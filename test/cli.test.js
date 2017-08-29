@@ -20,13 +20,13 @@ describe('cli', function () {
     await sleep(2000);
   });
 
-  it('#test2', function (done) {
+  it('#test2', async function () {
     cli.disabledExit = true;
     cli.once('fail', function (err) {
       expect(err.message).to.be.equal('mw2');
-      done();
     });
     cli.parse(['node', 'dn', 'run', 'test2']);
+    await sleep(3000);
   });
 
   it('#unhandled', async function () {

@@ -9,7 +9,7 @@
     "dawn": "./bin/cli.js"
   },
   "scripts": {
-    "test": "dn test && dn build"
+    "test": "node ./bin/cli.js test && node ./bin/cli.js build"
   },
   "keywords": [
     "dawn",
@@ -39,7 +39,6 @@
     "decompress": "^4.2.0",
     "decompress-targz": "^4.1.1",
     "del": "^2.2.2",
-    "file-type": "^5.2.0",
     "globby": "^6.1.0",
     "inquirer": "^3.0.6",
     "js-yaml": "^3.8.3",
@@ -49,7 +48,6 @@
     "ntils": "^2.0.15",
     "oneport": "^1.0.2",
     "opn": "^4.0.2",
-    "pre-commit": "^1.2.2",
     "require-dir": "^0.3.1",
     "rightpad": "^1.0.1",
     "semver": "^5.4.1",
