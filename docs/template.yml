@@ -1,0 +1,11 @@
+front:
+  location: dn-template-front
+  summary: Blank front end project template
+
+node:
+  location: dn-template-node
+  summary: Blank node project template
+
+middleware:
+  location: dn-template-middleware
+  summary: Dawn middleware project template
