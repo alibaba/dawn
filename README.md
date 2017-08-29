@@ -26,7 +26,7 @@ $ npm install dawn -g
 - Getting Started: [getting-started.md](docs/mds/getting-started.md)
 - Pipeline: [pipeline.md](docs/mds/pipeline.md)
 - Middleware: [middleware.md](docs/mds/middleware.md)
-- More docs: [http://dawn.github.io](http://dawn.github.io);
+- More docs: [https://alibaba.github.io/dawn/docs/](https://alibaba.github.io/dawn/docs/)
 
 ## License
 
