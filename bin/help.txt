@@ -1,0 +1,36 @@
+ _______       ___   ____    __    ____ .__   __. 
+|       \     /   \  \   \  /  \  /   / |  \ |  | 
+|  .--.  |   /  ^  \  \   \/    \/   /  |   \|  | 
+|  |  |  |  /  /_\  \  \            /   |  . `  | 
+|  '--'  | /  _____  \  \    /\    /    |  |\   | 
+|_______/ /__/     \__\  \__/  \__/     |__| \__| 
+                                                                          
+Usage: dn <command> [options] [args]
+
+Commands:
+  i, init           Initialize a dawn project
+  a, add            Adding project resources 
+  d, dev            Start dev server and build in real-time
+  t, test           Perform static code checking and testing
+  b, build          Build current project
+  p, publish        Publish current project to target environment
+  r, run            Run a command
+  u, update         Update remote configs and dependent modules
+  c, config         Configure the preferences 
+     template       Display template list
+     middleware     Display middleware list
+
+Options:
+  -t, --template    Specify the template name for the init command
+  -e, --env         Specify environment variables for all commands
+  -v, --version     Display the current version of CLI
+  -h, --help        Display cli help information
+
+Examples:
+
+  # Create a project
+  mkdir demo && cd demo
+  dn init
+
+  # Build a project
+  dn build

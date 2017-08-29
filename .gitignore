@@ -1,0 +1,10 @@
+*.DS_Store
+*.log
+logs/
+node_modules/
+demo/
+examples/
+.vscode/
+.cache/
+.nyc_output/
+coverage/

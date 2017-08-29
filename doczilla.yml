@@ -1,0 +1,23 @@
+output: ./docs/docs
+
+locales:
+
+  - name: zh
+    text: 中文
+    title: Dawn 
+    links:
+      - text: GitHub
+        url: https://github.com/alibaba/dawn
+    groups:
+      - name: guide
+        text: 使用指南
+      - name: service
+        text: 中心服务
+      - name: middleware
+        text: 常用中间件
+      - name: template
+        text: 常用模板
+
+    docs:
+      - ./**/*.md
+      - '!./node_modules/**/*.md'

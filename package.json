@@ -1,0 +1,62 @@
+{
+  "name": "dawn",
+  "realName": "dawn",
+  "version": "0.5.12",
+  "description": "dawn cli",
+  "main": "./lib/index.js",
+  "bin": {
+    "dn": "./bin/cli.js",
+    "dawn": "./bin/cli.js"
+  },
+  "scripts": {
+    "test": "dn test && dn build"
+  },
+  "keywords": [
+    "dawn",
+    "cli",
+    "dn",
+    "generate",
+    "build"
+  ],
+  "author": "Houfeng",
+  "license": "MIT",
+  "engines": {
+    "node": ">=7.6.0"
+  },
+  "configs": {
+    "server": "https://raw.githubusercontent.com/alibaba/dawn/master/docs/${name}.yml",
+    "registry": "https://registry.npm.taobao.org",
+    "cacheTTL": 600000,
+    "middlewarePrefix": "dn-middleware",
+    "templatePrefix": "dn-template"
+  },
+  "dependencies": {
+    "cmdline": "^2.0.3",
+    "cnpm": "^5.1.1",
+    "confman": "^0.2.3",
+    "console3": "^1.0.4",
+    "debug": "^2.6.8",
+    "decompress": "^4.2.0",
+    "decompress-targz": "^4.1.1",
+    "del": "^2.2.2",
+    "file-type": "^5.2.0",
+    "globby": "^6.1.0",
+    "inquirer": "^3.0.6",
+    "js-yaml": "^3.8.3",
+    "leftpad": "^0.0.0",
+    "mkdirp": "^0.5.1",
+    "node-fetch": "^1.6.3",
+    "ntils": "^2.0.15",
+    "oneport": "^1.0.2",
+    "opn": "^4.0.2",
+    "require-dir": "^0.3.1",
+    "rightpad": "^1.0.1",
+    "semver": "^5.4.1",
+    "shify": "^2.0.3",
+    "stp": "^0.0.4",
+    "stream2buffer": "^0.0.4"
+  },
+  "devDependencies": {
+    "pre-commit": "^1.2.2"
+  }
+}
