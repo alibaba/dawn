@@ -101,5 +101,5 @@ after:
 
 ### rc.yml
 
-我们知道本地 `.dawnrc` 中支持三项配置 `server`、`registry`、`cacheTTL`，但是中心服务的 `rc.yml` 只支持 `registry`、`cacheTTL` 两项配置，并且是在本地 `.dawnrc` 没有指定任何值时才会有效，也就是说本地配置高于远程配置。
+我们知道本地 `.dawnrc` 中支持三项配置 `server`、`registry`、`cacheTTL`，但是中心服务的 `rc.yml` 只支持 `registry` 一项配置，并且是在本地 `.dawnrc` 没有指定任何值时才会有效，也就是说本地配置高于远程配置。
  
