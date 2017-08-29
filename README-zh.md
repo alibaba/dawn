@@ -14,6 +14,12 @@ Dawn 取「黎明、破晓」之意， 是一个轻量的「任务管理和构�
 - 支持基于「中心服务」管理中件间和工程模板
 - 支持搭建私有中心服务，并统一下发构建规则，易于团队统一管理
 
+## 安装
+
+```sh
+$ npm install dawn -g
+```
+
 ## 文档
 
 - 使用入门：[getting-started.md](docs/mds/getting-started.md)
