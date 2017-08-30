@@ -2,6 +2,7 @@ test:
   - name: lint
   - name: unit
     env: node
+    timeout: 10000
     files: ./test/**/*.test.js
 
 dev:
