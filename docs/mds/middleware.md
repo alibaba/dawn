@@ -1,14 +1,14 @@
 ---
 group: guide
 name: middleware
-title: 开发中件间
+title: 开发中间件
 index: 3
 ---
 
 # 开发一个中间件
 
 
-通常，应该先看看是否已经存满足您需求的中件间，查看「推荐的中间件」，可以通过如下命令：
+通常，应该先看看是否已经存满足您需求的中间件，查看「推荐的中间件」，可以通过如下命令：
 
 ```sh
 $ dn middleware [keyword]
@@ -23,9 +23,9 @@ $ dn middleware webpack
   3. webpack1       : 基于 Webpack1 的构建中间件
 ```
 
-通过「上下方向键」可以选择指定中件间，然后「回车」可以查看对应中件间的在线使用说明。
+通过「上下方向键」可以选择指定中间件，然后「回车」可以查看对应中件间的在线使用说明。
 
-当您决定要开发一个新的中件间时，您可以通过 dn init 命令，然后选择「中件间工程模板」即可快速创建一个「中件间」，如下：
+当您决定要开发一个新的中间件时，您可以通过 dn init 命令，然后选择「中件间工程模板」即可快速创建一个「中间件」，如下：
 
 ```sh
 $ dn init
@@ -37,7 +37,7 @@ $ dn init
 ❯ 5. middleware : Middleware Project Template
 ```
 
-DN 中间件和 Koa 中件间类似，中件间核心基础代码结构如下：
+DN 中间件和 Koa 中间件类似，中间件核心基础代码结构如下：
 
 ```js
 /**
@@ -67,4 +67,4 @@ module.exports = function (opts) {
 中间件就是一个标准和 npm 包，但是要求必须命名为 `dn-middleware-xxx` 这样的格式，开发完成后直接通过 npm 发布就行了。
 
 ### 提交到推荐列表
-如果希望，将你的中件间加入到「推荐中件间列表」，请 fork 后，编辑 docs/middleware.yml，然后，发起一个 Pull Request 就行了。
+如果希望，将你的中间件加入到「推荐中间件列表」，请 fork 后，编辑 docs/middleware.yml，然后，发起一个 Pull Request 就行了。
