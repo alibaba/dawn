@@ -26,6 +26,21 @@ Dawn is a lightweight task management and build tool for front-end and nodejs.
 $ npm install dawn -g
 ```
 
+## Use
+```sh
+# 1. Create & Initialize
+$ dn init -t front
+
+# 2. Development & Real-time compilation
+$ dn dev
+
+# 3. Lint & Test
+$ dn test
+
+# 4. Build & package
+$ dn build
+```
+
 ## Documents
 
 - Getting Started: [getting-started.md](docs/mds/getting-started.md)
