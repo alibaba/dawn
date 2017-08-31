@@ -1,10 +1,12 @@
+![Banner](docs/assets/banner.png)
+
 # Dawn
 
 Dawn 取「黎明、破晓」之意， 是一个轻量的「任务管理和构建」工具。
 
 [![Build Status](https://www.travis-ci.org/alibaba/dawn.svg?branch=master)](https://www.travis-ci.org/alibaba/dawn)
 
-- [English](README.md)
+- [English README](README.md)
 
 ## 特点
 
@@ -26,6 +28,10 @@ $ npm install dawn -g
 - 配置 Pipeline：[pipeline.md](docs/mds/pipeline.md)
 - 中件间：[middleware.md](docs/mds/middleware.md)
 - 更多文档：[https://alibaba.github.io/dawn/docs/](https://alibaba.github.io/dawn/docs/)
+
+## 贡献
+
+[贡献](CONTRIBUTING-zh.md)
 
 ## License
 
