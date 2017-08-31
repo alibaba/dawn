@@ -1,7 +1,7 @@
 {
   "name": "dawn",
   "realName": "dawn",
-  "version": "0.5.13",
+  "version": "0.5.14",
   "description": "dawn cli",
   "main": "./lib/index.js",
   "bin": {
