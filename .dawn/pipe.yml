@@ -19,5 +19,6 @@ publish:
   - name: shell
     script:
       - dn test
+      - npm run coveralls
       - dn build
       - npm pu
