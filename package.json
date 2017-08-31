@@ -9,10 +9,11 @@
     "dawn": "./bin/cli.js"
   },
   "scripts": {
+    "dnconfig": "node ./bin/cli.js config registry http://registry.npmjs.com",
     "dntest": "node ./bin/cli.js test",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "dnbuild": "node ./bin/cli.js build",
-    "test": "npm run dntest && npm run coveralls"
+    "test": "npm run dnconfig && npm run dntest && npm run coveralls"
   },
   "keywords": [
     "dawn",
@@ -26,7 +27,7 @@
   },
   "configs": {
     "server": "https://alibaba.github.io/dawn",
-    "registry": "https://registry.npm.taobao.org",
+    "registry": "http://registry.npmjs.com",
     "cacheTTL": 600000,
     "middlewarePrefix": "dn-middleware",
     "templatePrefix": "dn-template"
