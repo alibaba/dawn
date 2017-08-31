@@ -48,10 +48,16 @@ $ dn build
 - 中件间：[middleware.md](docs/mds/middleware.md)
 - 更多文档：[https://alibaba.github.io/dawn/docs/](https://alibaba.github.io/dawn/docs/)
 
+
 ## 贡献
 
 [贡献](CONTRIBUTING-zh.md)
 
-## License
+
+## 日志
+
+[更新日志](CHANGELOG.md)
+
+## 协议
 
 [MIT](https://tldrlegal.com/license/mit-license)

@@ -54,6 +54,11 @@ $ dn build
 [CONTRIBUTING](CONTRIBUTING.md)
 
 
+## Changelog
+
+[Changelog](CHANGELOG.md)
+
+
 ## License
 
 [MIT](https://tldrlegal.com/license/mit-license)
