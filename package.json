@@ -21,8 +21,6 @@
     "generate",
     "build"
   ],
-  "author": "Houfeng",
-  "license": "MIT",
   "engines": {
     "node": ">=7.6.0"
   },
@@ -32,6 +30,20 @@
     "cacheTTL": 600000,
     "middlewarePrefix": "dn-middleware",
     "templatePrefix": "dn-template"
+  },
+  "author": {
+    "name": "Houfeng",
+    "email": "admin@xhou.net"
+  },
+  "homepage": "http://alibaba.github.io/dawn",
+  "bugs": {
+    "url": "https://github.com/alibaba/dawn/issues",
+    "email": "admin@xhou.net"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alibaba/dawn.git"
   },
   "dependencies": {
     "cmdline": "^2.0.3",

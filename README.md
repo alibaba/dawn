@@ -4,7 +4,7 @@
 
 Dawn is a lightweight task management and build tool for front-end and nodejs.
 
-[![npm](https://img.shields.io/npm/l/dawn.svg)](https://github.com/alibaba/dawn)
+[![npm](https://img.shields.io/npm/l/dawn.svg)](LICENSE.md)
 [![NPM Version](https://img.shields.io/npm/v/dawn.svg)](https://www.npmjs.com/package/dawn)
 [![Build Status](https://www.travis-ci.org/alibaba/dawn.svg?branch=master)](https://www.travis-ci.org/alibaba/dawn)
 [![Coverage Status](https://coveralls.io/repos/github/alibaba/dawn/badge.svg?branch=dev)](https://coveralls.io/github/alibaba/dawn?branch=dev)
