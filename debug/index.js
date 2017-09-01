@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2017 Alibaba Group Holding Limited
+ * @author Houfeng <admin@xhou.net>
+ */
+
 const path = require('path');
 const cli = require('../bin/cli-core');
 const configs = require('../lib/configs');

@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2017 Alibaba Group Holding Limited
+ * @author Houfeng <admin@xhou.net>
+ */
+
 const console = require('console3');
 const pkg = require('../package.json');
 const path = require('path');

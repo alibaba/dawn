@@ -1,5 +1,10 @@
 #!/usr/bin/env node
 
+/**
+ * Copyright (c) 2017 Alibaba Group Holding Limited
+ * @author Houfeng <admin@xhou.net>
+ */
+
 const console = require('console3');
 const pkg = require('../package.json');
 const semver = require('semver');
