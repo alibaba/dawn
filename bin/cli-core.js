@@ -55,9 +55,8 @@ cmdline
     try {
       let context = new Context(this, {
         template,
+        cmd,
         onFail: cmdline.onFail,
-        disUnhandled: true,
-        disRemote: true,
         middlewares: [middlewares.init]
       });
       await context.run();
@@ -115,7 +114,7 @@ cmdline
     }
     this.set('$1', $2);
     if (!core.commands[cmd]) {
-      return cmdline.onFail(new Error(`Invalid command ${cmd}`));
+      return cmdline.onFail(new Error(`Invalid command: ${cmd}`));
     }
     console.warn('The command is deprecated');
     try {

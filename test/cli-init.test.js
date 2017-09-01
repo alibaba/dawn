@@ -12,7 +12,7 @@ describe('cli', function () {
     if (fs.existsSync(filename)) fs.unlinkSync(filename);
     if (fs.existsSync(dirname)) fs.rmdirSync(dirname);
     expect(fs.existsSync(filename)).to.be.equal(false);
-    cli.parse(['node', 'dn', 'init', '-t', 'dn-template-unit-demo']);
+    cli.parse(['node', 'dn', 'init', '-t', 'unit-demo']);
     await sleep(18000);
     expect(fs.existsSync(filename)).to.be.equal(true);
   });
