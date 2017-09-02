@@ -13,11 +13,12 @@ describe('cli', function () {
   });
 
   it('#test1', async function () {
+    process.chdir(path.resolve(__dirname, './demo1'));
     cli.once('done', function (ctx) {
       expect(ctx.opts.value).to.be.equal('mw1');
     });
     cli.parse(['node', 'dn', 'run', 'test1']);
-    await sleep(2000);
+    await sleep(3000);
   });
 
   it('#test2', async function () {
