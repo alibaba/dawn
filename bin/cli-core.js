@@ -54,9 +54,7 @@ cmdline
     this.set('command', cmd);
     try {
       let context = new Context(this, {
-        template,
-        cmd,
-        onFail: cmdline.onFail,
+        template, cmd,
         middlewares: [middlewares.init]
       });
       await context.run();
@@ -81,11 +79,7 @@ cmdline
     process.env.DN_ENV = env || '';
     process.env.NODE_ENV = env || process.env.NODE_ENV || '';
     try {
-      let context = new Context(this, {
-        cmd,
-        env,
-        onFail: cmdline.onFail
-      });
+      let context = new Context(this, { cmd, env });
       await context.run();
       cmdline.onDone(context);
     } catch (err) {
