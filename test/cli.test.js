@@ -7,37 +7,43 @@ beforeEach(function () {
 
 describe('cli', function () {
 
-  it('#update', async function () {
+  it('#update', function (done) {
+    cli.once('done', () => {
+      done();
+    });
     cli.parse(['node', 'dn', 'update']);
-    await sleep(4000);
   });
 
-  it('#test1', async function () {
+  it('#test1', function (done) {
     process.chdir(path.resolve(__dirname, './demo1'));
     cli.once('done', function (ctx) {
       expect(ctx.opts.value).to.be.equal('mw1');
+      done();
     });
     cli.parse(['node', 'dn', 'run', 'test1']);
-    await sleep(3000);
   });
 
-  it('#test2', async function () {
+  it('#test2', function (done) {
     cli.disabledExit = true;
     cli.once('fail', function (err) {
       expect(err.message).to.be.equal('mw2');
+      done();
     });
     cli.parse(['node', 'dn', 'run', 'test2']);
-    await sleep(3000);
   });
 
-  it('#unhandled', async function () {
+  it('#unhandled', function (done) {
+    cli.once('done', () => {
+      done();
+    });
     cli.parse(['node', 'dn', 'dev']);
-    await sleep(2000);
   });
 
-  it('#clean', async function () {
+  it('#clean', function (done) {
+    cli.once('done', () => {
+      done();
+    });
     cli.parse(['node', 'dn', '$', 'clean']);
-    await sleep(4000);
   });
 
 });

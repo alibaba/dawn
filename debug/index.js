@@ -9,12 +9,12 @@ const configs = require('../lib/configs');
 const sleep = require('../lib/common/sleep');
 
 process.env.DEBUG = 'cli';
-process.chdir(path.resolve(__dirname, '../test/demo1'));
+//process.chdir(path.resolve(__dirname, '../test/demo1'));
 
 (async () => {
-  cli.once('done', function (ctx) {
-    console.log(ctx.opts.value);
+  process.chdir(path.resolve(__dirname, '../test/demo2'));
+  cli.once('done', () => {
+    console.log('done');
   });
-  cli.parse(['node', 'dn', 'run', 'test1']);
-  await sleep(3000);
+  cli.parse(['node', 'dn', 'update']);
 })();
