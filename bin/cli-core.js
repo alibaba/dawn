@@ -53,10 +53,12 @@ cmdline
     cmd = ALIAS[cmd] || cmd;
     this.set('command', cmd);
     try {
-      let context = new Context(this, {
+      let downloadCtx = new Context(this, {
         template, cmd,
         middlewares: [middlewares.init]
       });
+      await downloadCtx.run();
+      let context = new Context(this, { template, cmd });
       await context.run();
       cmdline.onDone(context);
     } catch (err) {

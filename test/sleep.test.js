@@ -9,8 +9,8 @@ describe('sleep', function () {
 
   it('#sleep', async function () {
     let time = Date.now();
-    await sleep(1000);
-    expect(Date.now() - time >= 1000).to.be.equal(true);
+    await sleep(100);
+    expect(Date.now() - time >= 100).to.be.equal(true);
   });
 
 });
