@@ -7,3 +7,18 @@ build:
   - name: shell
     script:
       - dn dev
+
+test1:
+  - name: dn-middleware-unit-demo
+    data:
+      mw1: mw1
+
+test2:
+  - name: dn-middleware-unit-demo
+    data:
+      mw2: mw2
+
+test3:
+  - name: dn-middleware-unit-demo
+    data:
+      mw3: mw3
