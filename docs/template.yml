@@ -9,3 +9,7 @@ node:
 middleware:
   location: dn-template-middleware
   summary: Dawn middleware project template
+
+react:
+  location: dn-template-react
+  summary: Based on react-scripts, like create-react-app
