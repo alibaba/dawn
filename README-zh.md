@@ -2,7 +2,7 @@
 
 # Dawn
 
-Dawn 取「黎明、破晓」之意， 是一个轻量的「任务管理和构建」工具。
+Dawn 取「黎明、破晓」之意，原为「阿里云·业务运营团队」内部的前端构建和工程化工具，现已完全开源。它通过 `pipeline` 和 `middleware` 将开发过程抽象为相对固定的阶段和有限的操作，简化并统一了开发人员的日常构建与开发相关的工作。
 
 [![npm](https://img.shields.io/npm/l/dawn.svg)](LICENSE.md)
 [![NPM Version](https://img.shields.io/npm/v/dawn.svg)](https://www.npmjs.com/package/dawn)
