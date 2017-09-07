@@ -37,8 +37,27 @@ $ dn dev
 # 3. Lint & Test
 $ dn test
 
-# 4. Build & package
+# 4. Build & pack
 $ dn build
+```
+
+## Example（.dawn.yml or .dawn folder）
+
+```yml
+# Development & Real-time compilation
+dev:
+  - name: webpack
+    entry: ./src/*.js
+    template: ./assets/*.html
+    watch: true
+  - name: server
+    port: 8001
+    
+# Build & pack
+buid:
+  - name: webpack
+    entry: ./src/*.js
+    template: ./assets/*.html
 ```
 
 ## Documents

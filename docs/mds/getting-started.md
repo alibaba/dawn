@@ -43,15 +43,19 @@ $ dn init [template] [options]
 
 示例：
 ```sh
-$ dn template 
-? Found 5 templates, press enter to initialize the project (Use arrow keys)
-❯ 1. mobx       : Mbox Project Template
-  2. dva        : Dva Project Template (for WB)
-  3. front      : Front Project Template
-  4. node       : Node.js Project Template
-  5. middleware : Middleware Project Template
+$ dn init 
+? Found 4 templates (Use arrow keys)
+❯ 1. front      : Blank front end project template
+  2. node       : Blank node project template
+  3. middleware : Dawn middleware project template
+  4. react      : Based on react-scripts, like create-react-app
 ```
 选择一个工程类型，回车即可按向导初始化一个工程，还可以通过 `-t` 或 `--template` 直接按指定的模板名称，直接初始化工程。
+
+比如，通过名为 `front` 的模板，初始化一个工程
+```sh
+$ dn init -t front
+```
 
 
 ### 启动开发服务
@@ -77,7 +81,7 @@ $ dn build
 ```
 
 执行构建任务，不同的工程类型的构建过程和结果可能不同，取决于初始化工程时使用的工程模板。
-完成后，会在当前项目的根目录产生 **build** 目录，这是构建结果，当时也可以指定为其它目录名称。
+完成后，会在当前项目的根目录产生 **build** 目录，这是构建结果，当然，也可以指定为其它目录名称。
 
 
 ### 发布工程
@@ -86,14 +90,14 @@ $ dn build
 $ dn publish
 ```
 
-可以通过 publish 命将发布代码或构建结果，不同的工程模板决定了最终发布位置，是否支持 publish 命令决定于选择的「工程模板」。
+可以通过 `dn publish` 命令发布代码和构建结果，不同的工程模板决定了最终发布位置，是否支持 `publish` 命令决于选择的「工程模板」。
 
 
 ### 执行自定义任务
 
-init/dev/build/test/publish 这几个命令可以直接作为「子命令」写在 dn 后边，对于其它名称的 pipie 需要使用 `run` 命令
+init/dev/build/test/publish 这几个命令可以直接作为「子命令」写在 dn 后边，对于其它名称的 `pipie` 需要使用 `run` 命令
 
-编辑 .dawn/pipe.yml
+编辑 `.dawn/pipe.yml` 或 `.dawn.yml`
 
 ```yaml
 demo:

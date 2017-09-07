@@ -13,6 +13,9 @@ dev:
   - name: shell
     script:
       - echo 你好
+      - echo Hello
 ```
 
-提示：执行 shell 时的当前工作目录就是「当前项目根目录」
+在 `script` 选项中可以写多行 `shell/bat` 脚本代码，将会依次执行。
+
+提示：执行 shell 时的当前工作目录就是「项目根目录」

@@ -17,7 +17,7 @@ $ dn middleware [keyword]
 示例:
 ```sh
 $ dn middleware webpack
-? Found 3 middlewares, Press enter to view the document (Use arrow keys)
+? Found 3 templates (Use arrow keys)
 ❯ 1. webpack        : 基于 Webpack 的构建中间件（无缝升级）
   2. webpack2       : 基于 Webpack2 的构建中间件
   3. webpack1       : 基于 Webpack1 的构建中间件
@@ -29,15 +29,13 @@ $ dn middleware webpack
 
 ```sh
 $ dn init
-? Found 5 templates, press enter to initialize the project
-  1. mobx       : Mbox Project Template
-  2. dva        : Dva Project Template (for WB)
-  3. front      : Front Project Template
-  4. node       : Node.js Project Template
-❯ 5. middleware : Middleware Project Template
+? Found 3 templates (Use arrow keys)
+  1. front      : Front Project Template
+  2. node       : Node.js Project Template
+❯ 3. middleware : Middleware Project Template
 ```
 
-DN 中间件和 Koa 中间件类似，中间件核心基础代码结构如下：
+Dawn 的中间件和 Koa 中间件类似，中间件核心基础代码结构如下：
 
 ```js
 /**
@@ -64,7 +62,7 @@ module.exports = function (opts) {
 };
 ```
 
-中间件就是一个标准和 npm 包，但是要求必须命名为 `dn-middleware-xxx` 这样的格式，开发完成后直接通过 npm 发布就行了。
+中间件是一个标准的 npm 包，但是要求必须命名为 `dn-middleware-xxx` 这样的格式，开发完成后直接通过 `npm publish` 发布就行了。
 
 ### 提交到推荐列表
-如果希望，将你的中间件加入到「推荐中间件列表」，请 fork 后，编辑 docs/middleware.yml，然后，发起一个 Pull Request 就行了。
+如果希望将你的中间件添加到「推荐中间件列表」，请 fork [https://alibaba.github.io/dawn](https://alibaba.github.io/dawn) 后，编辑 `docs/middleware.yml`，然后，发起一个 Pull Request 就行了。
