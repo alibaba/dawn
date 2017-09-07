@@ -13,8 +13,14 @@
     "dntest": "node ./bin/cli.js test",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "dnbuild": "node ./bin/cli.js build",
-    "test": "npm run dnconfig && npm run dntest"
+    "test": "npm run dnconfig && npm run dntest",
+    "gitrebase": "git pull --rebase origin master"
   },
+  "pre-push": [
+    "test",
+    "dnbuild",
+    "gitrebase"
+  ],
   "keywords": [
     "dawn",
     "cli",
@@ -74,6 +80,6 @@
   "devDependencies": {
     "coveralls": "^2.13.1",
     "nyc": "^11.1.0",
-    "pre-commit": "^1.2.2"
+    "pre-push": "^0.1.1"
   }
 }
