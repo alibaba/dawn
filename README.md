@@ -68,16 +68,8 @@ buid:
 - More docs: [https://alibaba.github.io/dawn/docs/](https://alibaba.github.io/dawn/docs/)
 
 
-## Contributing
+## Others
 
-[CONTRIBUTING](CONTRIBUTING.md)
-
-
-## Changelog
-
-[Changelog](CHANGELOG.md)
-
-
-## License
-
-[MIT](https://tldrlegal.com/license/mit-license)
+- [CONTRIBUTING](CONTRIBUTING.md)
+- [Changelog](CHANGELOG.md)
+- [MIT](https://tldrlegal.com/license/mit-license)
