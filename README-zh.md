@@ -41,6 +41,25 @@ $ dn test
 $ dn build
 ```
 
+## 示例（.dawn.yml 或 .dawn 目录）
+
+```yml
+# 启动开发服务
+dev:
+  - name: webpack
+    entry: ./src/*.js
+    template: ./assets/*.html
+    watch: true
+  - name: server
+    port: 8001
+    
+# 直接构建
+buid:
+  - name: webpack
+    entry: ./src/*.js
+    template: ./assets/*.html
+```
+
 ## 文档
 
 - 使用入门：[getting-started.md](docs/mds/getting-started.md)
