@@ -68,15 +68,8 @@ buid:
 - 更多文档：[https://alibaba.github.io/dawn/docs/](https://alibaba.github.io/dawn/docs/)
 
 
-## 贡献
+## 其它
 
-[贡献](CONTRIBUTING-zh.md)
-
-
-## 日志
-
-[更新日志](CHANGELOG.md)
-
-## 协议
-
-[MIT](https://tldrlegal.com/license/mit-license)
+- [贡献](CONTRIBUTING-zh.md)
+- [更新日志](CHANGELOG.md)
+- [MIT 协议](https://tldrlegal.com/license/mit-license)
