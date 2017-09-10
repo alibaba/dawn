@@ -30,10 +30,10 @@ dn template
 
 ### *.template 文件
 
-如果一个模板中有 `*.template` 文件，在用此模板创建的工程时，用以此产生对应的文件，比如，在模板中有两个文件`.dawn.yml` 和 `.dawn.yml.template` ，那么最终用这个模板创建的工程中的  `.dawn.yml` 会和模板中的 `.dawn.yml.template` 一致，而不是模板中的 `.dawn.yml`
+如果一个模板中有 `*.template` 文件，在用此模板创建的工程时，会被重命名，去掉 `.template` 后缀，重命名后的文件如有重名会被覆盖，比如，在模板中有两个文件`.dawn.yml` 和 `.dawn.yml.template` ，那么最终用这个模板创建的工程中的  `.dawn.yml` 的内容会和模板中的 `.dawn.yml.template` 一致。
 
 #### 注意
-通常模板中的 `.gitignore` 需要利用这个特性。模板在通过 npm 包发布后会丢失 `.gitignore`，如果希望你的模板创建的工程中有一个默认的 `.gitignore`，那么需要在模板中添加 `.gitignore.tempate` 
+通常模板中的 `.gitignore` 需要利用这个特性。模板在通过 npm 包发布后会丢失 `.gitignore`，如果希望你的模板创建的工程中有一个默认的 `.gitignore`，那么需要在模板中添加 `.gitignore.template` 
 
 ### 提交到推荐列表
 如果希望将你的模板添加到「推荐模板列表」，请 fork [https://alibaba.github.io/dawn](https://alibaba.github.io/dawn) 后，编辑 `docs/template.yml`，然后，发起一个 Pull Request 就行了。
