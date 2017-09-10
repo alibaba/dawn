@@ -70,6 +70,6 @@ buid:
 
 ## Others
 
-- [CONTRIBUTING](CONTRIBUTING.md)
+- [Contributing](CONTRIBUTING.md)
 - [Changelog](CHANGELOG.md)
 - [MIT](https://tldrlegal.com/license/mit-license)
