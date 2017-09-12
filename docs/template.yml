@@ -6,6 +6,10 @@ react:
   location: dn-template-react
   summary: React project template
 
+vue:
+  location: dn-template-vue
+  summary: Vue project template
+
 node:
   location: dn-template-node
   summary: Blank node project template
