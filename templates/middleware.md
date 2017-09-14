@@ -1,7 +1,7 @@
 ---
 group: template
 name: middleware
-title: 中件间工程
+title: 中间件工程
 ---
 
 ## dn-template-middleware
