@@ -1,7 +1,7 @@
 const path = require('path');
 const configs = require('../lib/configs');
 const fetch = require('../lib/common/fetch');
-const store = require('../lib/common/store');
+const store = require('../lib/store');
 
 beforeEach(function () {
   process.chdir(path.resolve(__dirname, './demo1'));
