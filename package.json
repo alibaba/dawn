@@ -13,7 +13,7 @@
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "dnbuild": "node ./bin/cli.js build",
     "test": "npm run dnconfig && npm run dntest",
-    "gitrebase": "git pull --rebase origin master"
+    "gitrebase": "git remote remove upstream ; git remote add upstream `echo $npm_package_repository_url | cut -d \\+ -f 2` && git pull --rebase upstream master"
   },
   "pre-push": [
     "test",
