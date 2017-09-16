@@ -17,7 +17,7 @@ describe('cli', function () {
   it('#test1', function (done) {
     process.chdir(path.resolve(__dirname, './demo1'));
     cli.once('done', function (ctx) {
-      expect(ctx.opts.value).to.be.equal('mw1');
+      expect(ctx.opts && ctx.opts.value).to.be.equal('mw1');
       done();
     });
     cli.parse(['node', 'dn', 'run', 'test1']);
