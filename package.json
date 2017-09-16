@@ -1,6 +1,6 @@
 {
   "name": "dawn",
-  "version": "0.6.7beta1",
+  "version": "0.6.7beta2",
   "description": "dawn cli",
   "main": "./lib/index.js",
   "bin": {
@@ -55,7 +55,7 @@
     "cmdline": "^2.0.3",
     "cnpm": "^5.1.1",
     "confman": "^0.2.3",
-    "console3": "^1.0.4",
+    "console3": "^1.0.5",
     "debug": "^2.6.8",
     "decompress": "^4.2.0",
     "decompress-targz": "^4.1.1",
