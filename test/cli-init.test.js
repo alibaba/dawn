@@ -5,7 +5,7 @@ const fs = require('fs');
 describe('cli', function () {
 
   it('#init', function (done) {
-    this.timeout(25000);
+    this.timeout(60000);
     process.chdir(path.resolve(__dirname, './demo2'));
     let dirname = path.resolve(__dirname, './demo2/.dawn/');
     let filename = path.resolve(__dirname, './demo2/.dawn/pipe.yml');
