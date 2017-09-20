@@ -90,12 +90,12 @@ $ dn build
 $ dn publish
 ```
 
-可以通过 `dn publish` 命令发布代码和构建结果，不同的工程模板决定了最终发布位置，是否支持 `publish` 命令决于选择的「工程模板」。
+可以通过 `dn publish` 命令发布代码和构建结果，不同的工程模板决定了最终发布位置，是否支持 `publish` 命令取决于选择的「工程模板」。
 
 
 ### 执行自定义任务
 
-init/dev/build/test/publish 这几个命令可以直接作为「子命令」写在 dn 后边，对于其它名称的 `pipie` 需要使用 `run` 命令
+init/dev/build/test/publish 这几个命令可以直接作为「子命令」写在 dn 后边，对于其它名称的 `pipeline` 需要使用 `run` 命令
 
 编辑 `.dawn/pipe.yml` 或 `.dawn.yml`
 
