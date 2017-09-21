@@ -1,17 +1,120 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Dawn</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Dawn - 基于流的自动化构建工具。 | Dawn 中文网</title>
+
+  <meta name="description" content="Dawn 是一个自动化构建工具，开发者可以使用它在项目开发过程中自动执行常见任务。Dawn 是基于 Node.js 构建的，利用 Node.js 流的威力，你可以快速构建项目并减少频繁的 IO 操作。Dawn 源文件和你用来定义任务的 Dawn 文件都是通过 JavaScript（或者 CoffeeScript ）源码来实现的。">
+  <meta name="keywords" content="Dawn,Dawn,Node.js,Node,JavaScript,CoffeeScript,Grunt,Gruntjs,Stream，流,自动化,Make">
+  <meta name="author" content="Dawn 中文网">
+  <!-- <link rel="icon" href="favicon.ico"> -->
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="http://cdn.bootcss.com/highlight.js/8.4/styles/monokai_sublime.min.css">
+
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" href="assets/index.css">
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 
 <body>
+
+  <nav class="navbar navbar-inverse navbar-fixed-top site-navbar">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+          aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+        <a class="navbar-brand" href="./">Welcome to Dawn</a>
+      </div>
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="./">首页</a>
+          </li>
+          <li><a href="docs/">使用文档</a>
+          </li>
+          <li><a href="https://github.com/alibaba/dawn">GitHub</a>
+          </li>
+          <li><a href="https://github.com/alibaba/dawn/issues">问题反馈</a>
+          </li>
+        </ul>
+      </div>
+      <!--/.nav-collapse -->
+    </div>
+  </nav>
+
+  <!-- Jumbotron -->
+  <header class="jumbotron">
+    <!-- <img class="hidden" src="./assets/dawn.png" width="800" height="600"> -->
+    <h1 class="title">
+      Dawn 
+    </h1>
+    <p class="lead">A lightweight task management and build tool for front-end and nodejs. </p>
+    <p>
+      <a class="btn btn-lg btn-default btn-getting-started" href="./docs" role="button">开始使用</a>
+      <a class="btn btn-lg btn-default btn-getting-started" href="https://github.com/alibaba/dawn" role="button">GitHub</a>      
+    </p>
+  </header>
+
+  <main class="benefits container">
+    <!-- Example row of columns -->
+    <div class="row">
+      <div class="col-md-6">
+        <h2>中间件</h2>
+        <p>采用中间件技术，封装常用功能，每个中件间只做一件事，自由组合，易于扩展，方便重用。</p>
+      </div>
+      <div class="col-md-6">
+        <h2>Pipeline</h2>
+        <p>支持 pipeline 让多个 task 协同完成构建任务</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <h2>命令一致</h2>
+        <p>简单、一致的命令行接口，易于开发人员使用</p>
+      </div>
+      <div class="col-md-6">
+        <h2>中心服务</h2>
+        <p>支持基于「中心服务」管理中件间和工程模板，搭建私有中心服务，并统一下发构建规则，易于团队统一管理。</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Site footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>
+        <a href="http://alibaba.github.io/dawn" target="_blank">
+          Copyright (c) 2017 Alibaba Group Holding Limited  
+        </a>
+      </p>
+    </div>
+  </footer>
+
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <script src="./assets/ie10.js"></script>
+  <script src="http://cdn.bootcss.com/highlight.js/8.4/highlight.min.js"></script>
   <script>
-    location.href = 'https://github.com/alibaba/dawn';
+    hljs.initHighlightingOnLoad();
   </script>
+  <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+  <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="./assets/index.js"></script>
 </body>
 
 </html>
