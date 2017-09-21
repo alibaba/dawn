@@ -26,7 +26,7 @@ pre {
 .jumbotron {
   text-align: center;
   background-color: #222;
-  background-image: url('./banner.png');
+  background-image: url('./banner.jpg');
   background-size: 100%;
   background-position: 0 30%;
   color: rgba(255, 255, 255, .9);
@@ -225,11 +225,9 @@ pre {
   .jumbotron {
     text-align: center;
     background-color: #222;
-    background-image: url('./banner.png');
     background-size: auto 100%;
     background-position: 0 30%;
-    color: rgba(255, 255, 255, .9);
-    height: 550px;
-    padding-top: 200px;
+    height: 360px;
+    padding-top: 100px;
   }
 }
