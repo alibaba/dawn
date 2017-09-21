@@ -16,8 +16,8 @@
     "gitrebase": "git pull --rebase `echo $npm_package_repository_url | cut -d \\+ -f 2` master"
   },
   "pre-push": [
-    "test",
     "gitrebase",
+    "test",
     "dnbuild"
   ],
   "keywords": [
