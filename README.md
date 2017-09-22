@@ -1,4 +1,4 @@
-![Banner](docs/assets/banner.png)
+![Banner](docs/assets/banner-sm.jpg)
 
 # Dawn
 

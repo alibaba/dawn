@@ -26,7 +26,7 @@ pre {
 .jumbotron {
   text-align: center;
   background-color: #222;
-  background-image: url('./banner.jpg');
+  background-image: url('./banner-lg.jpg');
   background-size: 100%;
   background-position: 0 30%;
   color: rgba(255, 255, 255, .9);
