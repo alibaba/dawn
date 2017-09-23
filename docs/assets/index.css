@@ -18,6 +18,11 @@ a:focus {
   color: #A62C2C;
 }
 
+h2 {
+  font-weight: normal;
+  font-size: 24px;
+}
+
 pre {
   border: none;
   background-color: transparent;
@@ -135,10 +140,6 @@ pre {
   margin-top: 40px;
 }
 
-.benefits p {
-  font-size: 18px;
-}
-
 .markdown-body {
   font-size: 16px;
   line-height: 1.8;
@@ -225,7 +226,7 @@ pre {
   .jumbotron {
     text-align: center;
     background-color: #222;
-    background-size: auto 100%;
+    background-size: 100% 100%;
     background-position: 0 30%;
     height: 360px;
     padding-top: 100px;
