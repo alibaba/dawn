@@ -55,7 +55,7 @@ cmdline
     try {
       let downloadCtx = new Context(this, {
         template, cmd,
-        middlewares: [middlewares.init]
+        pipeline: [middlewares.init]
       });
       await downloadCtx.run();
       let context = new Context(this, { template, cmd });
