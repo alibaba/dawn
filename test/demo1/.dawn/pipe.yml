@@ -1,7 +1,10 @@
 test1:
   - name: dn-middleware-unit-demo
     value: mw1
+  - name: ./mw1.js
 
 test2:
   - name: dn-middleware-unit-demo
     error: mw2
+  - name: mw2
+    location: ./mw2.js
