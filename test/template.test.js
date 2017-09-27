@@ -19,11 +19,20 @@ describe('template', function () {
     expect(result2.length < 1).to.be.equal(true);
   });
 
-  it('#extract', async function () {
+  it('#init by package', async function () {
     let tmpDir = process.env.TMP || process.env.TMPDIR;
     let target = `${tmpDir}/${utils.newGuid()}`;
     await mkdirp(target);
-    await template.extract('dn-template-unit-demo', target);
+    await template.init('dn-template-unit-demo', target);
+    let isDone = fs.existsSync(`${target}/package.json`);
+    expect(isDone).to.be.equal(true);
+  });
+
+  it('#init by path', async function () {
+    let tmpDir = process.env.TMP || process.env.TMPDIR;
+    let target = `${tmpDir}/${utils.newGuid()}`;
+    await mkdirp(target);
+    await template.init(path.resolve(__dirname, './demo1'), target);
     let isDone = fs.existsSync(`${target}/package.json`);
     expect(isDone).to.be.equal(true);
   });
