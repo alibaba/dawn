@@ -1,13 +1,13 @@
 The MIT License (MIT)   
    
-Copyright (c) 2017 Houfeng (admin@xhou.net)  
+Copyright (c) 2012-present Houfeng (admin@xhou.net)  
 Copyright (c) 2012 Simon Boudrias  
 Copyright (c) Isaac Z. Schlueter and Contributors  
 Copyright (c) cnpmjs.org and other contributors.  
 Copyright (c) Kevin Mårtensson  
 Copyright (c) 2011-2015 by Vitaly Puzrin  
 Copyright (c) Sindre Sorhus   
-Copyright (c) 2017 Alibaba Group Holding Limited  
+Copyright (c) 2016-present Alibaba Group Holding Limited  
    
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

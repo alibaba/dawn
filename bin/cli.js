@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Copyright (c) 2017 Alibaba Group Holding Limited
+ * Copyright (c) 2016-present Alibaba Group Holding Limited
  * @author Houfeng <admin@xhou.net>
  */
 
