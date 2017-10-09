@@ -62,9 +62,9 @@ buid:
 
 ## Documents
 
-- Getting Started: [getting-started.md](docs/mds/getting-started.md)
-- Pipeline: [pipeline.md](docs/mds/pipeline.md)
-- Middleware: [middleware.md](docs/mds/middleware.md)
+- Getting Started: [getting-started.md](docs/markdowns/getting-started.md)
+- Pipeline: [pipeline.md](docs/markdowns/pipeline.md)
+- Middleware: [middleware.md](docs/markdowns/middleware.md)
 - More docs: [https://alibaba.github.io/dawn/docs/](https://alibaba.github.io/dawn/docs/)
 
 
