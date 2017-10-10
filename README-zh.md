@@ -62,9 +62,9 @@ buid:
 
 ## 文档
 
-- 使用入门：[getting-started.md](docs/mds/getting-started.md)
-- 配置 Pipeline：[pipeline.md](docs/mds/pipeline.md)
-- 中件间：[middleware.md](docs/mds/middleware.md)
+- 使用入门：[getting-started.md](docs/markdowns/getting-started.md)
+- 配置 Pipeline：[pipeline.md](docs/markdowns/pipeline.md)
+- 中件间：[middleware.md](docs/markdowns/middleware.md)
 - 更多文档：[https://alibaba.github.io/dawn/docs/](https://alibaba.github.io/dawn/docs/)
 
 
