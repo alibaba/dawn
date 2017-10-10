@@ -1,6 +1,6 @@
 {
   "name": "dawn",
-  "version": "0.7.8",
+  "version": "0.7.9",
   "description": "dawn cli",
   "main": "./lib/index.js",
   "bin": {
@@ -76,7 +76,8 @@
     "semver": "^5.4.1",
     "shify": "^3.0.3",
     "stp": "^0.0.4",
-    "stream-to-buffer": "^0.1.0"
+    "stream-to-buffer": "^0.1.0",
+    "update-notifier": "^2.3.0"
   },
   "devDependencies": {
     "coveralls": "^2.13.1",

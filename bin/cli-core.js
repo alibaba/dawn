@@ -13,6 +13,8 @@ const middlewares = core.middlewares;
 const debug = require('debug')('cli-core');
 const sleep = require('../lib/common/sleep');
 
+core.upgrade.check();
+
 const ALIAS = {
   i: 'init',
   d: 'dev',
