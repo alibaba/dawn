@@ -1,0 +1,21 @@
+output: ./dist/docs
+
+locales:
+
+  - name: zh
+    text: 中文
+    title: 测试文档
+    links:
+      - text: 测试链接
+        url: test-url
+    groups:
+      - name: guide
+        text: 使用指南
+      - name: components
+        text: 组件说明
+        docs:
+          - ./**/*.md
+          - '!./node_modules/**/*.md'
+    docs:
+      - ./**/*.md
+      - '!./node_modules/**/*.md'
