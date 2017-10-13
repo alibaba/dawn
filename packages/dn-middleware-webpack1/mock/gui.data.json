@@ -1,0 +1,52 @@
+[
+  {
+    "id": "$global",
+    "name": "全局数据",
+    "url": "全局数据",
+    "method": "GET",
+    "global": true,
+    "content": {
+      "message": "Hello Faked!",
+      "list": [
+        {
+          "name": "faked"
+        }
+      ]
+    },
+    "checked": true
+  },
+  {
+    "id": "c2ee82bdc7764b5e16f74bbb487c1e6e",
+    "name": "示例：静态数据",
+    "method": "GET",
+    "url": "/api/echo",
+    "content": {
+      "message": "Hello Faked!"
+    },
+    "checked": true
+  },
+  {
+    "id": "32baa1cbea4deee52ec97f73f13918fe",
+    "name": "示例：动态添加",
+    "method": "POST",
+    "url": "/api/items/{name}",
+    "content": "//!exec\n\n//通过 //!exec 声明为执行逻辑\n//通过 global 访问全局对象\n//通过 this.send 发送数据\n//通过 this.params 访问路由参数\n//通过 this.body 访问请求主体\n//通过 this.query 访问查询字符串\n\nlet item = this.body;\nitem.name = this.params.name;\nglobal.list.push(item);\nthis.send({ success: true }); ",
+    "checked": true
+  },
+  {
+    "id": "ed88f1011a47687be23bc4140b77a470",
+    "name": "示例：动态删除",
+    "method": "DELETE",
+    "url": "/api/items/{name}",
+    "content": "//!exec\n\n//通过 //!exec 声明为执行逻辑\n//通过 global 访问全局对象\n//通过 this.send 发送数据\n//通过 this.params 访问路由参数\n//通过 this.body 访问请求主体\n//通过 this.query 访问查询字符串\n\nlet index = global.list.findIndex(item => item.name == this.params.name);\nglobal.list.splice(index, 1);\nthis.send({ success: true }); ",
+    "checked": true
+  },
+  {
+    "id": "ea0a8bb3f5e93d4936ef0fa026ef91de",
+    "name": "示例：动态查询",
+    "method": "GET",
+    "url": "/api/items/{name}",
+    "content": "//!exec\n\n//通过 //!exec 声明为执行逻辑\n//通过 global 访问全局对象\n//通过 this.send 发送数据\n//通过 this.params 访问路由参数\n//通过 this.body 访问请求主体\n//通过 this.query 访问查询字符串\n\nlet item = global.list.find(item => item.name == this.params.name);\nthis.send({ success: true, item: item }); ",
+    "checked": true
+  }
+]

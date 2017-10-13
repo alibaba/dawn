@@ -1,0 +1,15 @@
+{
+  "name": "@ali/dn-middleware-mock2easy",
+  "version": "1.0.2",
+  "description": "",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "dn test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "mock2easy-middleware": "0.0.2"
+  }
+}

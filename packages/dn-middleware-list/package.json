@@ -1,0 +1,11 @@
+{
+  "name": "dn-middleware-list",
+  "version": "1.0.1",
+  "description": "",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "dn test"
+  },
+  "author": "",
+  "license": "ISC"
+}

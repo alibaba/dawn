@@ -1,0 +1,20 @@
+init:
+  - name: pkginfo
+
+dev:
+  - name: server
+    port: 8001
+  - name: $local
+    location: ./lib/index.js
+  - name: shell
+    script:
+      - echo test
+
+test:
+  - name: lint
+  
+publish:
+  - name: shell
+    script:
+      - dn test
+      - npm pu

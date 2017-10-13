@@ -1,0 +1,19 @@
+{
+  "name": "dn-middleware-lint",
+  "version": "0.1.4",
+  "description": "",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "dn test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-eslint": "^7.2.1",
+    "eslint": "^3.19.0",
+    "eslint-plugin-html": "^2.0.1",
+    "eslint-plugin-react": "^6.10.3",
+    "js-yaml": "^3.8.4",
+    "ntils": "^2.0.15"
+  }
+}

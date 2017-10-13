@@ -1,0 +1,62 @@
+{
+  "name": "dawn-vscode",
+  "displayName": "dawn-vscode",
+  "description": "",
+  "version": "0.0.1",
+  "publisher": "houfeng",
+  "engines": {
+    "vscode": "^1.17.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:extension.init",
+    "onCommand:extension.add",
+    "onCommand:extension.dev",
+    "onCommand:extension.build",
+    "onCommand:extension.test",
+    "onCommand:extension.publish"
+  ],
+  "main": "./extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.init",
+        "title": "dn init"
+      },
+      {
+        "command": "extension.add",
+        "title": "dn add"
+      },
+      {
+        "command": "extension.dev",
+        "title": "dn dev"
+      },
+      {
+        "command": "extension.build",
+        "title": "dn build"
+      },
+      {
+        "command": "extension.test",
+        "title": "dn test"
+      },
+      {
+        "command": "extension.publish",
+        "title": "dn publish"
+      }
+    ]
+  },
+  "scripts": {
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "node ./node_modules/vscode/bin/test"
+  },
+  "devDependencies": {
+    "typescript": "^2.5.2",
+    "vscode": "^1.1.5",
+    "mocha": "^3.5.0",
+    "eslint": "^4.6.1",
+    "@types/node": "^7.0.0",
+    "@types/mocha": "^2.2.42"
+  }
+}

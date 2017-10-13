@@ -1,0 +1,19 @@
+{
+  "name": "dn-template-react",
+  "version": "1.1.6",
+  "description": "React template for dawn",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "dn test && dn build -e prod"
+  },
+  "author": {
+    "name": "Houfeng",
+    "email": "admin@xhou.net",
+    "url": "http://houfeng.net"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  }
+}
