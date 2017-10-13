@@ -1,0 +1,25 @@
+init:
+  - name: pkginfo
+
+dev:
+  - name: clean
+  - name: webpack
+    watch: true
+    react: false
+  - name: server
+  - name: browser-sync
+
+build:
+  - name: clean
+  - name: webpack
+
+test:
+  - name: lint
+  - name: unit
+
+publish:
+  - name: shell
+    script:
+      - dn test
+      - dn build
+      - npm pu

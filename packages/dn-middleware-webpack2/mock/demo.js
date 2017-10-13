@@ -1,0 +1,1 @@
+faked.get('/demo.json', { demo: true });

@@ -1,0 +1,11 @@
+{
+  "name": "dn-template-node",
+  "version": "1.1.0",
+  "description": "Blank node project template",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "dn test && dn build -e prod"
+  },
+  "author": "",
+  "license": "MIT"
+}

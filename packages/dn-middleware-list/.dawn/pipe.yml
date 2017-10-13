@@ -1,0 +1,34 @@
+init:
+  - name: tnpm-install
+  - name: pkginfo
+
+dev:
+  - name: $local
+    location: ./lib/index.js
+    message: 请选择
+    list:
+      - text: 打印 1
+        action:
+          name: shell
+          script:
+            - echo 1
+      - text: 打印 2
+        action:
+          - name: shell
+            script:
+              - echo 2.1
+          - name: shell
+            script:
+              - echo 2.2
+  - name: shell
+    script:
+      - echo done
+
+test:
+  - name: lint
+
+#中间工程并非要发布到 CDN
+#不放到 aliyun group 下也不会发到 CND
+#只是中间件的版本管理是基于 tag 的，恰好使用
+publish:
+  - name: alicdn-publish

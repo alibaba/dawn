@@ -1,0 +1,35 @@
+init:
+  - name: tnpm-install
+  - name: pkginfo
+
+dev:
+  - name: $local
+    port: 6002
+    location: ./lib/index.js
+  - name: webpack2
+    entry: ./demo/*.js
+    template: ./demo/assets/index.html
+    watch: true
+    common:
+      disabled: true
+  - name: server
+    port: 6001
+
+build:
+  - name: webpack2
+    entry: ./demo/*.js
+    common:
+      disabled: true
+
+test:
+  - name: lint
+
+#中间工程并非要发布到 CDN
+#不放到 aliyun group 下也不会发到 CND
+#只是中间件的版本管理是基于 tag 的，恰好使用
+publish:
+  - name: alicdn-publish
+    build:
+      name: shell
+      script:
+        - dn build -e prod

@@ -1,0 +1,29 @@
+dev:
+  - name: clean
+  - name: $local
+    entry: ./demo/*.{js,jsx,ts,tsx}
+    template: ./demo/assets/*.html
+    watch: true
+    location: ./lib/index.js
+    cssModules: true
+    stats: true
+  - name: server
+    port: 5008
+
+build:
+  - name: clean
+  - name: $local
+    location: ./lib/index.js
+    entry: ./demo/*.{js,jsx,ts,tsx}
+    template: ./demo/assets/*.html
+    cssModules: false
+    compress: false
+    stats: true
+
+test:
+  - name: lint
+
+publish:
+  - name: shell
+    script:
+      - npm pu

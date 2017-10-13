@@ -1,0 +1,28 @@
+{
+  "name": "dn-middleware-faked",
+  "version": "0.3.1",
+  "description": "用于 mock 后端 api 的中间件",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "dn test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "codemirror": "^5.26.0",
+    "faked": "^1.0.10",
+    "fetch-polyfill": "^0.8.2",
+    "globby": "^6.1.0",
+    "keymaster": "^1.6.2",
+    "mkdirp": "^0.5.1",
+    "mock2easy": "^0.0.23",
+    "node-fetch": "^1.7.1",
+    "nokitjs": "^1.26.3",
+    "ntils": "^2.1.2"
+  },
+  "devDependencies": {
+    "bootstrap": "^3.3.7",
+    "font-awesome": "^4.7.0",
+    "mokit": "^3.1.3"
+  }
+}

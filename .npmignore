@@ -16,3 +16,4 @@ demo/
 .nyc_output/
 debug/
 coverage/
+packages/
