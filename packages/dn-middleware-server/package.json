@@ -1,6 +1,6 @@
 {
-  "name": "@ali/dn-middleware-server",
-  "version": "1.0.11",
+  "name": "dn-middleware-server",
+  "version": "1.0.12",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {

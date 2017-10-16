@@ -32,7 +32,7 @@ module.exports = function (opts) {
       }
     }, next);
 
-    this.server.use('^/', connectBrowserSync(bsInstance));
+    this.server.use('^/@browser-sync', connectBrowserSync(bsInstance));
 
   };
 

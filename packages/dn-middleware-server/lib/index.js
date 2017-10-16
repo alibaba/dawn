@@ -54,7 +54,7 @@ module.exports = function (opts) {
 
     //注册代理 filter
     let proxyFilter = new ProxyFilter(server);
-    server.filter('^/', proxyFilter);
+    server.filter('^/@server', proxyFilter);
 
     //添加 express 支持插件
     server.plugin('express', new ExpressPlugin());
