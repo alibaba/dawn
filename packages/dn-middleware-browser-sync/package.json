@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-browser-sync",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {

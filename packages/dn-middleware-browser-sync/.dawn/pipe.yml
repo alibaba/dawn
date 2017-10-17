@@ -3,7 +3,7 @@ init:
 
 dev:
   - name: server
-    port: 8001
+    port: 8009
   - name: $local
     location: ./lib/index.js
   - name: shell
