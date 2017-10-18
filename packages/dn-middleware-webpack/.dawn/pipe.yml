@@ -7,6 +7,8 @@ dev:
     location: ./lib/index.js
     cssModules: true
     stats: true
+    config:
+      path: ./demo/config
   - name: server
     port: 5008
 
@@ -19,6 +21,8 @@ build:
     cssModules: false
     compress: false
     stats: true
+    config:
+      path: ./demo/config
 
 test:
   - name: lint
