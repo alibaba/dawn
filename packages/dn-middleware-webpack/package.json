@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-webpack",
-  "version": "1.9.9",
+  "version": "1.9.10",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -27,7 +27,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "babel-runtime": "^6.23.0",
     "caniuse-db": "^1.0.30000697",
-    "confman": "^0.2.6",
+    "confman": "^0.2.7",
     "css-loader": "^0.26.1",
     "cssnano": "^3.10.0",
     "ejs-loader": "^0.3.0",

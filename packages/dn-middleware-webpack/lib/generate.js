@@ -7,7 +7,6 @@ const utils = require('ntils');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const cssnano = require('cssnano');
 const confman = require('confman');
-const VModulePlugin = require('vmodule-webpack-plugin');
 const Visualizer = require('webpack-visualizer-plugin');
 
 webpack.HtmlWebpackPlugin = HtmlWebpackPlugin;
