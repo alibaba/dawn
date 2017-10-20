@@ -1,5 +1,5 @@
-const locales = require('$locales');
-const utils = require('ntils');
+var locales = require('$locales');
+var utils = require('ntils');
 
 function i18n() {
   return i18n.get.apply(i18n, arguments);
