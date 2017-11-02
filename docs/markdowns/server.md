@@ -74,7 +74,7 @@ shell:
   summary: 可执行 shell 的中间件
 ```
 
-配置格式及各字段和 `template` 一致，添加到 `middleware.yml` 中的「中件间」，在 dawn 连接到对应的 `serveer` 后，在配置 `pipe` 时，除了可以用完整的包名、不带前缀的包名，也可用在「中件间列表」中指定的名称，如上边示例中的 `shell`。
+配置格式及各字段和 `template` 一致，添加到 `middleware.yml` 中的「中间件」，在 dawn 连接到对应的 `server` 后，在配置 `pipe` 时，除了可以用完整的包名、不带前缀的包名，也可用在「中间件列表」中指定的名称，如上边示例中的 `shell`。
 
 Dawn 在连接对应的 `server` 后，可以通过 `dn middleware [keyword]` 查询对应的模板
 

@@ -4,14 +4,14 @@ name: lint
 title: 静态检查
 ---
 
-## lint 中件间
+## lint 中间件
 
 ### 简介
-基于 eslint 的语法检查中件间
+基于 eslint 的语法检查中间件
 
 ### 用法
 
-默契配置
+默认配置
 ```yml
 test:
   - name: lint

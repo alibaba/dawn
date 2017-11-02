@@ -1,4 +1,4 @@
-# Faked 中件间用一个用于 mock 后端 API 的中间件
+# Faked 中间件用一个用于 mock 后端 API 的中间件
 
 ## 特点
 - 支持 mock 静态数据或逻辑
@@ -20,7 +20,7 @@ dev:
 
 ## 从 mock2easy 迁移到 faked
 
-在 pipe 中添加 faked 中件间，同时移除 mock2easy 的配置，将设定 m2f 选项，如下：
+在 pipe 中添加 faked 中间件，同时移除 mock2easy 的配置，将设定 m2f 选项，如下：
 ```sh
 dev:
   - name: faked
