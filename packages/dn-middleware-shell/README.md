@@ -1,4 +1,4 @@
-这是一个执行 shell 的中件间，只有一个 `script` 选项，示例
+这是一个执行 shell 的中间件，只有一个 `script` 选项，示例
 
 ```yml
 dev:

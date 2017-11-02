@@ -1,6 +1,6 @@
 # dn-template-middleware
 
-这是一个 Dawn 中件间项目模板，可以用此模板快速开发一个 Dawn 中件间。
+这是一个 Dawn 中间件项目模板，可以用此模板快速开发一个 Dawn 中间件。
 
 ## 使用
 

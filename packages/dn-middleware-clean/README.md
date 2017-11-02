@@ -1,6 +1,6 @@
 # dn-middleware-clean 
 
-清理中件间
+清理中间件
 
 示例
 ```yml

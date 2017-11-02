@@ -7,7 +7,7 @@ index: 1
 
 ## Webpack 中间件
 
-这是一个基于 `webpack3` 的构建中件间，默认能处理「js/jsx/ts/less/css/image/font」等文件
+这是一个基于 `webpack3` 的构建中间件，默认能处理「js/jsx/ts/less/css/image/font」等文件
 
 ## 特点
 - 支持多页面，可通过 glob 语法，指定多入口，可共用页面模板，也可根据名称匹配
@@ -69,7 +69,7 @@ build:
     configFile: ./wp.conf.js
  ```
 
- 如上边示例，在 dev 时 webpack 中件间将会加载名为 `wp.conf.js` 的构建配置
+ 如上边示例，在 dev 时 webpack 中间件将会加载名为 `wp.conf.js` 的构建配置
 
  ## 完全自定义 webpack 配置
 
@@ -83,4 +83,4 @@ build:
  };
  ```
 
- 当然，如果目前的 `webpack` 中件间，能满足需求时，可以通过 issue 或 pr 参与改进 webpack 中件间，甚至重新写一个新的中件间。
+ 当然，如果目前的 `webpack` 中间件，不能满足需求时，可以通过 issue 或 pr 参与改进 webpack 中间件，甚至重新写一个新的中间件。

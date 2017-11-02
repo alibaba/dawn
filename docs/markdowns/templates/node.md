@@ -8,7 +8,7 @@ title: Node 工程
 
 普通 Node 工程模板
 
-创建一个中件间
+创建一个中间件
 
 ```sh
 $ dn init -t node

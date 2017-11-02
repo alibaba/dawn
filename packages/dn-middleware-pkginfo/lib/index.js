@@ -13,7 +13,7 @@ module.exports = function () {
   return async function (next) {
 
     if (!this.inquirer) {
-      throw new Error('请升级 dbl-next 到最新版本');
+      throw new Error('请升级 dawn 到最新版本');
     }
 
     let pkgFile = `${this.cwd}/package.json`;

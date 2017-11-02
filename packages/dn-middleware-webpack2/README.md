@@ -1,5 +1,5 @@
 ## 简介
-这是一个基于 Webpack2 的构建中件间
+这是一个基于 Webpack2 的构建中间件
 
 ## 特点
 - 支持多页面，可通过 glob 语法，指定多入口，可共用页面模板，也可根据名称匹配
@@ -60,4 +60,4 @@ build:
     configFile: ./wp.conf.js
  ```
 
- 如上边的示例，在 dev 时 webpack2 中件间将会加载名为 `wp.conf.js` 的构建配置
+ 如上边的示例，在 dev 时 webpack2 中间件将会加载名为 `wp.conf.js` 的构建配置

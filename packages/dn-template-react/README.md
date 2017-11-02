@@ -27,7 +27,7 @@ dn dev
 
 ### 构建
 ```sh
-dn dev
+dn build
 ```
 
 ### 发布
