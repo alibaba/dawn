@@ -2,7 +2,7 @@
 
 # Dawn
 
-- [中文 README](README.md)
+[中文 README](README.md)
 
 Dawn is a lightweight task management and build tool for front-end and nodejs. It abstracts the development process into relatively fixed phases and limited operations through `pipeline` and `middleware`, simplifying and unifying the work related to the construction and development of developers.
 
