@@ -25,3 +25,4 @@ locales:
     docs:
       - ./**/*.md
       - '!./node_modules/**/*.md'
+      - '!./packages/**/node_modules/**/*.md'

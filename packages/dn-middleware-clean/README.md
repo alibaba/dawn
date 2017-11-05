@@ -1,6 +1,12 @@
-# dn-middleware-clean 
+---
+group: middleware
+name: clean
+title: 目录清理
+---
 
-清理中间件
+## 清理中间件
+
+一般用于清理构建结果目录
 
 示例
 ```yml
