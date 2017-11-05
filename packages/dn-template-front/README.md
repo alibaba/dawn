@@ -1,38 +1,36 @@
-# dn-template-front
+---
+group: template
+name: front
+title: 普通前端工程
+---
 
-这是一个普通前端项目模板，默认没有集成任何框架或库，但是单元测试等基础设施都已配置完成。
+## dn-template-front
 
-## 使用
+这是一个基础的前端工程模板，没有集成任何框架，但相关配置是完整的，默认已经支持：
 
-使用这个模板需要先安装好 Dawn [https://github.com/alibaba/dawn](https://github.com/alibaba/dawn)
+- 新语法，已针对 es6/7 几乎所有新语法做自动转译。
+- 单元测试，已启用 unit 中间件
 
-### 初始化
+通过 `front` 模板初始化一下工程
+
 ```sh
-mkdir demo
-cd demo
-dn init -t front
+$ dn init -t front
 ```
 
-通过如上命令便可以完成项目的初始化
+如果你的 dn 连接的是默认服务，也可以从模板列表中选择
 
-### 测试
 ```sh
-dn test
+$ dn init
 ```
 
-### 开发
+可以在类似如下的菜单中选择 `front` 模板
 ```sh
-dn dev
+? Found 3 templates (Use arrow keys)
+❯ 1. front      : Blank front end project template
+  2. node       : Blank node project template
+  3. middleware : Dawn middleware project template
 ```
 
-### 构建
-```sh
-dn dev
-```
+工程初始化完成后，就可以使用 `dn` 相关命令进行开发构建了。
 
-### 发布
-```
-dn publish
-```
-
-默认的发布配置是「发布到 npm」，请根据需要更改 `.dawn/pipe.yml` 进行 `publish` 配置
+你还可以在此工程的基础上集成相关框架、比如 react/vue 等，并发布为新的模板。
