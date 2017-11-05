@@ -62,11 +62,10 @@ buid:
 
 ## 文档
 
-- 使用入门：[getting-started.md](docs/markdowns/getting-started.md)
-- 配置 Pipeline：[pipeline.md](docs/markdowns/pipeline.md)
-- 中间件：[middleware.md](docs/markdowns/middleware.md)
+- 使用入门：[getting-started.md](https://alibaba.github.io/dawn/docs/#!/zh/guide/getting-started)
+- 配置 Pipeline：[pipeline.md](https://alibaba.github.io/dawn/docs/#!/zh/guide/pipeline)
+- 中间件：[middleware.md](https://alibaba.github.io/dawn/docs/#!/zh/guide/middleware)
 - 更多文档：[https://alibaba.github.io/dawn/docs/](https://alibaba.github.io/dawn/docs/)
-
 
 ## 其它
 
