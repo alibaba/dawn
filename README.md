@@ -2,6 +2,8 @@
 
 # Dawn
 
+- [In English the README](README-intl.md)
+
 Dawn 取「黎明、破晓」之意，原为「阿里云·业务运营团队」内部的前端构建和工程化工具，现已完全开源。它通过 `pipeline` 和 `middleware` 将开发过程抽象为相对固定的阶段和有限的操作，简化并统一了开发人员的日常构建与开发相关的工作。
 
 [![npm](https://img.shields.io/npm/l/dawn.svg)](LICENSE.md)
@@ -9,8 +11,6 @@ Dawn 取「黎明、破晓」之意，原为「阿里云·业务运营团队」�
 [![Build Status](https://www.travis-ci.org/alibaba/dawn.svg?branch=master)](https://www.travis-ci.org/alibaba/dawn)
 [![Coverage Status](https://coveralls.io/repos/github/alibaba/dawn/badge.svg?branch=dev)](https://coveralls.io/github/alibaba/dawn?branch=dev)
 [![npm](https://img.shields.io/npm/dt/dawn.svg)](https://www.npmjs.com/package/dawn)
-
-- [In English the README](README-intl.md)
 
 ## 特点
 
