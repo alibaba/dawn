@@ -72,7 +72,7 @@ rules:
   no-const-assign:
     - 2
   no-return-assign:
-    - 2
+    - 0
   no-inner-declarations:
     - 2
   no-var:
