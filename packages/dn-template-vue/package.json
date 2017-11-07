@@ -1,6 +1,6 @@
 {
   "name": "dn-template-vue",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Vue template for dawn",
   "main": "./lib/index.js",
   "scripts": {
