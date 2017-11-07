@@ -1,6 +1,6 @@
 {
   "name": "dn-template-middleware",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "Dawn middleware project template",
   "main": "./lib/index.js",
   "scripts": {
