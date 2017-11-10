@@ -11,7 +11,8 @@ i18n.get = function (key, params, defaultValue) {
   if (utils.isString(params)) {
     defaultValue = [params, params = defaultValue][0];
   }
-  var text = this.locale[key] || defaultValue || key || '';
+  var text = this.locale[key] || defaultValue;
+  text = utils.isNull(text) ? key : text;
   utils.each(params, function (name, value) {
     text = text.replace(new RegExp('\{' + name + '\}', 'gm'), value || '');
   });
