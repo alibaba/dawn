@@ -26,8 +26,9 @@ module.exports = function (opts) {
 
     //解析目标文件名
     let parseDstFile = (srcFile, dstExpr) => {
-      let srcPaths = srcFile.split('/').reverse()
-        .map(item => (path.basename(item).split('.')[0]));
+      let srcPaths = srcFile.split('/').reverse();
+      let filename = srcPaths[0];
+      srcPaths[0] = path.basename(filename, path.extname(filename));
       let dstPath = dstExpr.replace(/\((\d+)\)/g, (str, index) => {
         return srcPaths[index];
       });
