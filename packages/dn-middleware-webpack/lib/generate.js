@@ -142,9 +142,6 @@ async function handleLoaders(wpConfig, opts) {
       test: /\.json$/,
       loader: 'json-loader'
     }, {
-      test: /\.tsx?$/,
-      loader: 'awesome-typescript-loader'
-    }, {
       test: /\?raw$/,
       loader: 'raw-loader'
     }, {
@@ -347,7 +344,7 @@ async function generate(ctx, opts) {
     context: ctx.cwd,
     entry: {},
     resolve: {
-      extensions: ['.js', '.json', '.jsx', '.ts', '.tsx', 'css', 'less']
+      extensions: ['.js', '.json', '.jsx', '.css', '.less', '.scss', '.sass']
     },
     output: {
       publicPath: opts.publicPath,
