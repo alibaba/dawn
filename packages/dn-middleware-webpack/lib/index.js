@@ -25,14 +25,6 @@ module.exports = function (opts) {
 
     this.webpack = webpack;
 
-    //复制文件
-    let srcTsConfigFile = path.resolve(__dirname, '../tsconfig.json');
-    let dstTsCConfigFile = path.resolve(this.cwd, './tsconfig.json');
-    if (!fs.existsSync(dstTsCConfigFile)) {
-      await this.utils.writeFile(dstTsCConfigFile,
-        await this.utils.readFile(srcTsConfigFile));
-    }
-
     this.console.info('开始构建...');
 
     let config = await generateConfig(this, opts);
