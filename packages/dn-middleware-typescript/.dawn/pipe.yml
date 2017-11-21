@@ -1,0 +1,23 @@
+init:
+  - name: pkginfo
+
+dev:
+  - name: clean
+  - name: $local
+    location: ./lib/index.js
+  - name: webpack
+    entry: ./demo/*.ts
+    common:
+      disabled: true 
+  - name: shell
+    script:
+      - node ./build/js/index.js
+
+test:
+  - name: lint
+  
+publish:
+  - name: shell
+    script:
+      - dn test
+      - npm pu

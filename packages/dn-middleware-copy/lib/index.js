@@ -3,6 +3,7 @@ const utils = require('ntils');
 const globby = require('globby');
 const mkdirp = require('mkdirp');
 const tp = require('tpjs');
+const fs = require('fs');
 
 /**
  * 这是一个标准的中间件工程模板
@@ -53,6 +54,7 @@ module.exports = function (opts) {
     //复制一个文件
     let copyFile = async (srcFile, dstExpr) => {
       let dstFile = parseDstFile(srcFile, dstExpr);
+      if (fs.existsSync(dstFile) && opts.override === false) return;
       let dstDir = path.dirname(dstFile);
       await mkdirp(dstDir);
       let srcBuffer = await this.utils.readFile(srcFile);
