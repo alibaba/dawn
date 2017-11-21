@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-webpack",
-  "version": "1.9.11",
+  "version": "1.9.12",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "awesome-typescript-loader": "^3.2.3",
     "babel-core": "^6.26.0",
     "babel-eslint": "^7.1.1",
     "babel-loader": "^7.1.2",
