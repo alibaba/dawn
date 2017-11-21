@@ -1,0 +1,14 @@
+{
+  "name": "dn-middleware-typescript",
+  "version": "1.0.0",
+  "description": "dn 之 typescript 中间件",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "dn test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "awesome-typescript-loader": "^3.4.0"
+  }
+}
