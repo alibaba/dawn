@@ -15,6 +15,7 @@ describe('cli', function () {
   });
 
   it('#test1', function (done) {
+    this.timeout(10000);
     process.chdir(path.resolve(__dirname, './demo1'));
     cli.once('done', function (ctx) {
       expect(ctx.opts && ctx.opts.value).to.be.equal('mw1');
