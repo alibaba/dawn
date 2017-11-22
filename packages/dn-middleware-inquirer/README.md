@@ -1,32 +1,38 @@
----
-group: template
-name: middleware
-title: 中间件工程
----
+# dn-template-middleware
 
-## dn-template-middleware
+这是一个 Dawn 中间件项目模板，可以用此模板快速开发一个 Dawn 中间件。
 
-中间件模板，用于快速的创建一个 Dawn 中间件工程，和普通的 node 工程模板相比，该模板已包括一个极简的中间件示例。
+## 使用
 
+使用这个模板需要先安装好 Dawn [https://github.com/alibaba/dawn](https://github.com/alibaba/dawn)
 
-创建一个中间件
-
+### 初始化
 ```sh
-$ dn init -t middleware
+mkdir demo
+cd demo
+dn init -t middleware
 ```
 
-如果你的 dn 连接的是默认服务，也可以从模板列表中选择
+通过如上命令便可以完成项目的初始化
 
+### 测试
 ```sh
-$ dn init
+dn test
 ```
 
-可在以类似如下的菜单中选择 `middleware` 模板
+### 开发
 ```sh
-? Found 3 templates (Use arrow keys)
-  1. front      : Blank front end project template
-  2. node       : Blank node project template
-❯ 3. middleware : Dawn middleware project template
+dn dev
 ```
 
-工程初始化完成后，就可以使用 `dn` 相关命令进行开发构建了。
+### 构建
+```sh
+dn dev
+```
+
+### 发布
+```
+dn publish
+```
+
+默认的发布配置是「发布到 npm」，请根据需要更改 `.dawn/pipe.yml` 进行 `publish` 配置

@@ -7,5 +7,6 @@
     "test": "dn test"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {}
 }
