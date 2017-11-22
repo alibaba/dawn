@@ -1,1 +1,1 @@
-.<%=this.answers.name %> {}
+.<%= this.utils.toSplitCase(this.answers.name.split('/').pop()) %> {}
