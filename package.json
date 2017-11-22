@@ -1,6 +1,6 @@
 {
   "name": "dawn",
-  "version": "0.8.6",
+  "version": "0.8.7",
   "description": "dawn cli",
   "main": "./lib/index.js",
   "bin": {
@@ -53,10 +53,10 @@
   },
   "dependencies": {
     "buffer-to-stream": "^1.0.0",
-    "cmdline": "^2.0.3",
+    "cmdline": "^2.0.4",
     "cnpm": "^5.1.1",
-    "confman": "^0.2.7",
-    "console3": "^1.0.5",
+    "confman": "^0.2.8",
+    "console3": "^1.0.6",
     "copy-dir": "^0.3.0",
     "debug": "^2.6.9",
     "decompress": "^4.2.0",
@@ -68,7 +68,7 @@
     "leftpad": "0.0.0",
     "mkdirp": "^0.5.1",
     "node-fetch": "^1.7.3",
-    "ntils": "^2.1.2",
+    "ntils": "^3.1.11",
     "oneport": "^1.0.2",
     "opn": "^4.0.2",
     "require-dir": "^0.3.2",
