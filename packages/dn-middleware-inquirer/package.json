@@ -1,0 +1,11 @@
+{
+  "name": "dn-middleware-inquirer",
+  "version": "1.0.0",
+  "description": "用于收集用户输入",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "dn test"
+  },
+  "author": "",
+  "license": "ISC"
+}
