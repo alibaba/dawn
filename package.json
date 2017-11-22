@@ -1,6 +1,6 @@
 {
   "name": "dawn",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "description": "dawn cli",
   "main": "./lib/index.js",
   "bin": {

@@ -18,6 +18,24 @@ build:
       (0): ./src/assets/favicon.ico
   - name: webpack
 
+add:
+  - name: inquirer
+    questions:
+      - type: list
+        name: type
+        message: 选择文件类型
+        choices:
+          - name: React 组件
+            value: components
+      - type: input
+        name: name
+        message: 请输入组件名称
+  - name: copy
+    filter: true
+    override: false
+    files:
+      ./src/${answers.type}/${answers.name}/(0): ./.dawn/${answers.type}/*.*
+
 test:
   - name: lint
   - name: unit
