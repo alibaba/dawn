@@ -1,0 +1,8 @@
+import React, { Component } from 'react';
+import './index.less';
+
+export default class <%= this.utils.toCamelCase(this.answers.name.split('/').pop(),1) %> extends Component {
+  render() {
+    return <div><%=this.answers.name%></div>
+  }
+}
