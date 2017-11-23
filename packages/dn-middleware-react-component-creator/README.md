@@ -1,9 +1,3 @@
----
-group: template
-name: middleware
-title: 中间件工程
----
-
 ## dn-template-middleware
 
 中间件模板，用于快速的创建一个 Dawn 中间件工程，和普通的 node 工程模板相比，该模板已包括一个极简的中间件示例。
