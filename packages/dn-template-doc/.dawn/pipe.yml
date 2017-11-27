@@ -1,0 +1,14 @@
+init:
+  - name: pkginfo
+
+dev:
+  - name: clean
+    target: dist
+  - name: doc
+  - name: server
+    public: ./dist
+
+build:
+  - name: clean
+    target: dist
+  - name: doc

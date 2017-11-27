@@ -17,3 +17,7 @@ node:
 middleware:
   location: dn-template-middleware
   summary: Dawn middleware project template
+
+doc:
+  location: dn-template-doc
+  summary: Blank doc project template
