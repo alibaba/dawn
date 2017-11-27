@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-autoversion",
-  "version": "1.0.17934536",
+  "version": "1.0.3",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {

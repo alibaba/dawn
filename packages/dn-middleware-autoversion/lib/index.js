@@ -7,6 +7,7 @@ const path = require('path');
  */
 module.exports = function (opts) {
 
+  opts = Object.assign({ tag: '' }, opts);
 
   function generate() {
     let now = new Date();
@@ -25,10 +26,8 @@ module.exports = function (opts) {
     this.console.info('Auto generate version...');
     let pkgFile = path.normalize(`${this.cwd}/package.json`);
     let pkg = require(pkgFile);
-    let versionInfo = pkg.version.split('.');
-    versionInfo.length--;
-    versionInfo.push(generate());
-    pkg.version = versionInfo.join('.');
+    let mainVersion = pkg.version.match(/^\d+\.\d+\.\d+/)[0];
+    pkg.version = `${mainVersion}-${opts.tag}${generate()}`;
     await this.utils.writeFile(pkgFile, JSON.stringify(pkg, null, '  '));
     this.console.info('Done');
 
