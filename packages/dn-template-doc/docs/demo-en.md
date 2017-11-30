@@ -6,4 +6,4 @@ title: English example
 
 # English example
 
-This is an example of an English document
+This is an example of an English document.

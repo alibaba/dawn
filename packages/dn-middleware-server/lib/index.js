@@ -71,11 +71,11 @@ module.exports = function (opts) {
         this.console.error(err);
       } else {
         this.console.info(msg);
+        await next();
         await this.utils.sleep(1000);
         if (opts.autoOpen !== false) {
           this.utils.open(`${opts.host}:${opts.port}`);
         }
-        next();
       }
     });
 

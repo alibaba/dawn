@@ -5,8 +5,12 @@ dev:
   - name: clean
     target: dist
   - name: doc
+    watch: true
   - name: server
     public: ./dist
+  - name: browser-sync
+    files: 
+      - ./dist/**/*.*
 
 build:
   - name: clean
