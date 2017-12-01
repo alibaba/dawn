@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-inquirer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "用于收集用户输入",
   "main": "./lib/index.js",
   "scripts": {
