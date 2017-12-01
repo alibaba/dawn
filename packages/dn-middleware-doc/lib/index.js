@@ -14,14 +14,11 @@ module.exports = function (opts) {
     let doc = path.resolve(__dirname, '../node_modules/.bin/doczilla');
 
     //在这里处理你的逻辑
-    this.console.info('Generate docs...');
     let command = `${doc} build`;
     await this.utils.exec(command);
     if (opts.watch) {
       opts.match = opts.match || ['./**/*.md', '!node_modules/**/*.*'];
       await this.exec({ name: 'watch', match: opts.match, script: [command] });
-    } else {
-      this.console.info('Done');
     }
 
     //next 触发后续执行

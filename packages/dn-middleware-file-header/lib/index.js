@@ -26,7 +26,7 @@ module.exports = function (opts) {
 
   return async function (next) {
 
-    this.console.log('Add file header...');
+    this.console.info('Add file header...');
     let scope = {};
     let pkgFile = path.normalize(`${this.cwd}/package.json`);
     if (fs.existsSync(pkgFile)) scope = require(pkgFile);

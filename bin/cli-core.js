@@ -51,6 +51,7 @@ cmdline
 
   .root.command(['init', 'i'])
   .option(['-t', '--template'], 'string')
+  .option(['-f', '--force'], 'switch')
   .action(async function (cmd, template) {
     cmd = ALIAS[cmd] || cmd;
     this.set('command', cmd);
