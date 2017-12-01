@@ -1,1 +1,1 @@
-window.DOC_DATA={"locales":[{"name":"zh","text":"中文","title":"测试文档","links":[{"text":"测试链接","url":"test-url"}],"groups":[{"name":"guide","text":"使用指南","docs":[]},{"name":"components","text":"组件说明","docs":[{"content":"# 中间件工程模板"}]}]}]};
+window.DOC_DATA={"locales":[{"name":"zh","text":"中文","title":"测试文档","links":[{"text":"测试链接","url":"test-url"}],"groups":[{"name":"guide","text":"使用指南","docs":[]},{"name":"components","text":"组件说明","docs":[{"content":"# 文档生成中间件  \n\n开始 watch 后，文件变化可自动生成文档"}]}]}]};

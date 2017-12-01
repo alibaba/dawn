@@ -5,6 +5,11 @@ init:
 dev:
   - name: $local
     location: ./lib/index.js
+    watch: true
+
+build:
+  - name: $local
+    location: ./lib/index.js
 
 test:
   - name: lint

@@ -35,7 +35,7 @@ module.exports = function (opts) {
       });
       let extname = path.extname(srcFile).slice(1);
       dstPath = dstPath.replace(/\(ext\)/ig, extname);
-      return path.normalize(`${to}/${dstPath}`);
+      return path.resolve(to, dstPath);
     };
 
     let filterContent = async buffer => {
