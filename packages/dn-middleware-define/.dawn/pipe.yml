@@ -1,0 +1,19 @@
+init:
+  - name: pkginfo
+
+dev:
+  - name: $local
+    location: ./lib/index.js
+    message: ${Math.random()}
+  - name: shell
+    script:
+      - echo ${define.message}
+
+test:
+  - name: lint
+  
+publish:
+  - name: shell
+    script:
+      - dn test
+      - npm pu
