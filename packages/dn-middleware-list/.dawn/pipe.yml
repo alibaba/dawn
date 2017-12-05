@@ -20,9 +20,17 @@ dev:
           - name: shell
             script:
               - echo 2.2
+      - text: 打印 3
+        action: test3
+
   - name: shell
     script:
       - echo done
+
+test3:
+  - name: shell
+    script:
+      - echo 3
 
 test:
   - name: lint
