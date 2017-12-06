@@ -4,7 +4,6 @@ init:
 dev:
   - name: $local
     location: ./lib/index.js
-    pipe: test
     when:
       1>2: demo1
       2>1: demo2

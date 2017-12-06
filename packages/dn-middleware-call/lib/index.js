@@ -13,6 +13,7 @@ module.exports = function (opts) {
 
     if (!opts.pipe && !opts.when) return next();
 
+    opts.pipe = opts.pipe || [];
     if (!this.utils.isArray(opts.pipe)) {
       opts.pipe = [opts.pipe];
     }
