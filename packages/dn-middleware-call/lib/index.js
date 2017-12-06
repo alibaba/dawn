@@ -31,7 +31,7 @@ module.exports = function (opts) {
     let compileCache = {};
     let compile = function (expr) {
       if (!compileCache[expr]) {
-        compileCache[expr] = new Function(`return (${expr})`);
+        compileCache[expr] = new Function(`with(this){return (${expr})}`);
       }
       return compileCache[expr];
     };
