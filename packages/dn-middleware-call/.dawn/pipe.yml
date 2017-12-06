@@ -1,0 +1,28 @@
+init:
+  - name: pkginfo
+
+dev:
+  - name: $local
+    location: ./lib/index.js
+    when:
+      1>2: demo1
+      2>1: demo2
+
+demo1:
+  - name: shell
+    script:
+      - echo demo1
+
+demo2:
+  - name: shell
+    script:
+      - echo demo2
+
+test:
+  - name: lint
+  
+publish:
+  - name: shell
+    script:
+      - dn test
+      - npm pu

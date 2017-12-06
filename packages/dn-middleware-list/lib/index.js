@@ -16,7 +16,15 @@ module.exports = function (opts) {
         value: index
       }))
     });
-    await this.exec(opts.list[index].action);
+    let action = opts.list[index].action;
+    if (this.utils.isString(action)) {
+      await this.exec({
+        name: 'call',
+        pipe: action
+      });
+    } else {
+      await this.exec(action);
+    }
     next();
   };
 

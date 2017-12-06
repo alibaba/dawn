@@ -1,6 +1,6 @@
 {
-  "name": "dn-middleware-list",
-  "version": "1.0.3",
+  "name": "dn-middleware-call",
+  "version": "1.0.2",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
