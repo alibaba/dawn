@@ -2,11 +2,13 @@ init:
   - name: pkginfo
 
 dev:
+  - name: define
+    test: 1
   - name: $local
     location: ./lib/index.js
     when:
-      1>2: demo1
-      2>1: demo2
+      define.test>2: demo1
+      define.test<2: demo2
 
 demo1:
   - name: shell
