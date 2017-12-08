@@ -56,7 +56,7 @@ module.exports = function (opts) {
 
     //应用 faked 
     if (this.faked) this.faked.apply(config);
-    if (this.emit) this.emit('webpack.config', config);
+    if (this.emit) this.emit('webpack.config', config, webpack);
 
     await this.utils.sleep(1000);
 

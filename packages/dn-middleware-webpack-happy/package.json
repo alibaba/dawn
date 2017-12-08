@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "happypack": "^4.0.0"
+    "happypack": "^4.0.0",
+    "webpack-uglify-parallel": "^0.1.4"
   }
 }

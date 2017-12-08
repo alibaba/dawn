@@ -229,9 +229,9 @@ async function handlerPlugins(wpConfig, opts) {
     if (opts.compress !== false) {
       wpConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
         sourceMap: opts.sourceMap !== false,
-        compress: {
-          warnings: false
-        }
+        exclude: [/\.min\.js$/, /node_modules/],
+        compress: { warnings: false },
+        output: { comments: false }
       }), new OptimizeCssAssetsPlugin({
         assetNameRegExp: /\.css$/g,
         cssProcessor: cssnano({

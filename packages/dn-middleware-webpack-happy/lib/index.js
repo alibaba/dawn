@@ -1,5 +1,6 @@
-const HappyPack = require('happypack');
 const os = require('os');
+const UglifyJsParallelPlugin = require('webpack-uglify-parallel');
+const HappyPack = require('happypack');
 
 /**
  * 这是一个标准的中间件工程模板
@@ -19,21 +20,33 @@ module.exports = function (opts) {
   return async function (next) {
 
     //在这里处理你的逻辑
-    this.on('webpack.config', (conf) => {
+    this.on('webpack.config', conf => {
+      //查找 uglify 插件
+      let UglifyJsPlugin = this.webpack.optimize.UglifyJsPlugin;
+      let uglifyIndex = conf.plugins
+        .findIndex(item => item instanceof UglifyJsPlugin);
+      //替换 uglify 
+      conf.plugins[uglifyIndex] = new UglifyJsParallelPlugin({
+        workers: opts.maxThread,
+        cacheDir: '.cache/',
+        mangle: false,
+        sourceMap: false,
+        compressor: { warnings: false }
+      });
       //获取原始 babel loader 配置
       let babelLoaderIndex = conf.module.loaders
         .findIndex(item => item.loader == 'babel-loader');
       let babelLoader = conf.module.loaders[babelLoaderIndex];
-      //创建加速配置
+      //创建 babel 加速配置
       conf.plugins.push(new HappyPack({
-        id: 'babel-happy',
+        id: 'babel',
         threadPool: happyThreadPool,
         loaders: [{
           loader: 'babel-loader',
           options: babelLoader.options
         }]
       }));
-      babelLoader.loader = 'happypack/loader?id=babel-happy';
+      babelLoader.loader = 'happypack/loader?id=babel';
       delete babelLoader.options;
       //显示加速成功信息
       this.console.info('Webpack is speeding up');
