@@ -1,0 +1,15 @@
+{
+  "name": "dn-middleware-webpack-happy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "dn test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "happypack": "^4.0.0",
+    "webpack-uglify-parallel": "^0.1.4"
+  }
+}
