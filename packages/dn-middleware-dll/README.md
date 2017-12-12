@@ -18,15 +18,21 @@ dev:
 
 `dll` 中间件必须放在 `webpack` 中间件之前，并且每个 `dll` 中间件只对它后边第一个 `webpack` 中间件生效。
 
-`dll` 中间件还有两个选项，分别为：
+`dll` 中间件还有三个选项，分别为：
 - `cache` 分别用于开启或关闭缓存
-- `lib` 用于指定生成的 `库文件` 的文件名称
+- `libName` 用于指定生成的 `库文件` 的文件名称
+- `vendors` 打包为 'lib' 的依赖包名列表
 
 ```yml
 dev:
   - name: clean
   - name: dll
-    cache: false     # 默认为 true 启用缓存
-    lib: vendors     # 默认为 lib
+    cache: false  # 可省略，默认为 true 启用缓存
+    libName: xxx  # 可省略，默认为 lib
+    vendors:      # 可省略，默认将从 package 中的 dependencies 解析
+      - react
+      - react-dom
   - name: webpack
 ```
+
+注意，在 `vendors` 未指定时，将依据 `dependencies` 中的依赖配置生成 `lib`，所以此时一定要注意在 `dependencies` 不要放置项目执行无关的包，本地开发时才用到的依赖到请放到 `devDependencies`。

@@ -12,11 +12,11 @@ const fs = require('fs');
  */
 module.exports = function (opts) {
 
-  opts = Object.assign({ output: 'build/js', lib: 'lib' }, opts);
+  opts = Object.assign({ output: 'build/js', libName: 'lib' }, opts);
 
   //构建 lib
   async function buildLib(vendors, projectCacheDir) {
-    let libCacheDir = path.normalize(`${projectCacheDir}/${opts.lib}`);
+    let libCacheDir = path.normalize(`${projectCacheDir}/${opts.libName}`);
     if (opts.cache !== false && fs.existsSync(libCacheDir)) return libCacheDir;
     let plugins = [new webpack.DllPlugin({
       path: path.normalize(`${libCacheDir}/manifest.json`),
@@ -70,7 +70,7 @@ module.exports = function (opts) {
       await this.exec({
         name: 'copy',
         files: {
-          [`${output}/${opts.lib}.js`]: `${libCacheDir}/bundle.js`
+          [`${output}/${opts.libName}.js`]: `${libCacheDir}/bundle.js`
         }
       });
     }
@@ -80,10 +80,10 @@ module.exports = function (opts) {
     this.once('webpack.config', (webpackConf, webpack, webpackOpts) => {
       if (webpackOpts._isLib) return;
       let manifestFile = path.normalize(
-        `${projectCacheDir}/${opts.lib}/manifest.json`
+        `${projectCacheDir}/${opts.libName}/manifest.json`
       );
       if (!fs.existsSync(manifestFile)) {
-        throw new Error(`Cannt find lib '${opts.lib}'`);
+        throw new Error(`Cannt find lib '${opts.libName}'`);
       };
       webpackConf.plugins.push(new webpack.DllReferencePlugin({
         context: this.cwd,
