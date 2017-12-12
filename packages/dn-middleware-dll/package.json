@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-dll",
-  "version": "1.0.0",
+  "version": "1.0.8",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -9,9 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ntils": "^3.1.11"
-  },
-  "devDependencies": {
-    "webpack": "^3.10.0"
+    "md5": "^2.2.1",
+    "ntils": "^3.1.11",
+    "webpack": "^3.10.0",
+    "webpack-uglify-parallel": "^0.1.4"
   }
 }

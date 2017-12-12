@@ -1,26 +1,32 @@
-## dn-template-middleware
+---
+group: middleware
+name: dll
+title: Dll
+---
 
-中间件模板，用于快速的创建一个 Dawn 中间件工程，和普通的 node 工程模板相比，该模板已包括一个极简的中间件示例。
+## dn-middleware-dll
 
+Dll 中间件可用于将所有第三方依赖打包为独立的 `lib` 文件，以提高项目的构建速度，大多数情况能够下，对比不启用时能节省超过 `2/3` 的时间。
 
-创建一个中间件
-
-```sh
-$ dn init -t middleware
+### 使用
+```yml
+dev:
+  - name: clean
+  - name: dll
+  - name: webpack
 ```
 
-如果你的 dn 连接的是默认服务，也可以从模板列表中选择
+`dll` 中间件必须放在 `webpack` 中间件之前，并且每个 `dll` 中间件只对它后边第一个 `webpack` 中间件生效。
 
-```sh
-$ dn init
+`dll` 中间件还有两个选项，分别为：
+- `cache` 分别用于开启或关闭缓存
+- `lib` 用于指定生成的 `库文件` 的文件名称
+
+```yml
+dev:
+  - name: clean
+  - name: dll
+    cache: false     # 默认为 true 启用缓存
+    lib: vendors     # 默认为 lib
+  - name: webpack
 ```
-
-可在以类似如下的菜单中选择 `middleware` 模板
-```sh
-? Found 3 templates (Use arrow keys)
-  1. front      : Blank front end project template
-  2. node       : Blank node project template
-❯ 3. middleware : Dawn middleware project template
-```
-
-工程初始化完成后，就可以使用 `dn` 相关命令进行开发构建了。

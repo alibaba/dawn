@@ -5,6 +5,8 @@ dev:
   - name: clean
   - name: $local
     location: ./lib/index.js
+    vendors:
+      - ntils
   - name: webpack
     entry: ./demo/index.js
 
