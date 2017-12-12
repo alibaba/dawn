@@ -20,7 +20,7 @@ module.exports = function (opts) {
     if (opts.cache !== false && fs.existsSync(libCacheDir)) return libCacheDir;
     let plugins = [new webpack.DllPlugin({
       path: path.normalize(`${libCacheDir}/manifest.json`),
-      name: '[name]',
+      name: opts.libName,
       context: this.cwd,
     })];
     if (opts.compress !== false) {
@@ -41,7 +41,7 @@ module.exports = function (opts) {
         output: {
           path: libCacheDir,
           filename: '[name].js',
-          library: '[name]'
+          library: opts.libName
         },
         entry: { bundle: vendors },
         plugins: plugins
