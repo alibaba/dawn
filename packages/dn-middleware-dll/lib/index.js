@@ -22,6 +22,10 @@ module.exports = function (opts) {
       path: path.normalize(`${libCacheDir}/manifest.json`),
       name: opts.libName,
       context: this.cwd,
+    }), new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
     })];
     if (opts.compress !== false) {
       plugins.push(new UglifyJsParallelPlugin({
@@ -89,6 +93,11 @@ module.exports = function (opts) {
         context: this.cwd,
         manifest: require(manifestFile),
       }));
+    });
+
+    //处理 server 自动引入
+    this.once('server.init', server => {
+
     });
 
     next();

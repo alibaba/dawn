@@ -1,2 +1,2 @@
-webpackJsonp([0],[function(e,n,o){e.exports=o(1)},function(e,n,o){var t=o(2),r=function(e){if(e&&e.__esModule)return e;var n={};if(null!=e)for(var o in e)Object.prototype.hasOwnProperty.call(e,o)&&(n[o]=e[o]);return n.default=e,n}(t);console.log(r.toCamelCase("GetUser"))},function(e,n,o){e.exports=o(3)(1)},function(e,n){e.exports=bundle}],[0]);
+webpackJsonp([0],[function(o,e,n){o.exports=n(1)},function(o,e,n){var t=n(2),r=function(o){if(o&&o.__esModule)return o;var e={};if(null!=o)for(var n in o)Object.prototype.hasOwnProperty.call(o,n)&&(e[n]=o[n]);return e.default=o,e}(t);console.log(r.toCamelCase("GetUser"))},function(o,e,n){o.exports=n(3)(1)},function(o,e){o.exports=lib}],[0]);
 //# sourceMappingURL=index.js.map
