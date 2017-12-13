@@ -62,8 +62,9 @@ module.exports = function (opts) {
     //计算项目缓存目录
     let cacheKey = md5(JSON.stringify(this.project.dependencies) +
       JSON.stringify(this.project.devDependencies) + JSON.stringify(vendors));
+    let tempDir = process.env.TMPDIR || process.env.TEMP || process.env.TMP;
     let projectCacheDir = path.normalize(
-      `${process.env.TMPDIR}/${this.project.name}/${cacheKey}`
+      `${tempDir}/${this.project.name}/${cacheKey}`
     );
 
     //lib 生成
