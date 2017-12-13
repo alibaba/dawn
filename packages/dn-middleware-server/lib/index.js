@@ -62,6 +62,7 @@ module.exports = function (opts) {
     this.server = server;
     this.httpServer = server.httpServer;
 
+    this.emit('server.init', this.server);
 
     /**
      * 启动 server
@@ -76,6 +77,7 @@ module.exports = function (opts) {
         if (opts.autoOpen !== false) {
           this.utils.open(`${opts.host}:${opts.port}`);
         }
+        this.emit('server.start', this.server);
       }
     });
 

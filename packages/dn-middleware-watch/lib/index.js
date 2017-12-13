@@ -17,6 +17,9 @@ module.exports = function (opts) {
       if (opts.script) {
         this.exec({ name: 'shell', script: opts.script });
       }
+      if (opts.onChange) {
+        opts.onChange(this.changeInfo);
+      }
     });
 
     this.console.info('Watching...');

@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-watch",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "监听文件变化执行指定的脚本",
   "main": "./lib/index.js",
   "scripts": {
