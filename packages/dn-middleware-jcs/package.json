@@ -1,0 +1,19 @@
+{
+  "name": "dn-middleware-jcs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "dn test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-plugin-jsx-control-statements": "^3.2.8",
+    "eslint-plugin-jsx-control-statements": "^2.2.0"
+  },
+  "devDependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  }
+}

@@ -2,7 +2,8 @@
   "parser": "babel-eslint",
   "plugins": [
     "react",
-    "html"
+    "html",
+    "jsx-control-statements"
   ],
   "env": {
     "es6": true,
@@ -10,7 +11,8 @@
     "commonjs": true
   },
   "extends": [
-    "eslint:recommended"
+    "eslint:recommended",
+    "plugin:jsx-control-statements/recommended"
   ],
   "ecmaFeatures": {
     "jsx": true,

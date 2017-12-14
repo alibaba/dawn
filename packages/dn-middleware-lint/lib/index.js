@@ -9,13 +9,14 @@ const yaml = require('js-yaml');
  */
 module.exports = function (opts) {
 
-  let lint = path.resolve(__dirname, '../node_modules/.bin/eslint');
-  let configFile = path.resolve(__dirname, './.eslintrc.yml');
   opts.env = opts.env || 'browser,node';
-  opts.source = opts.source || './lib ./src ./app';
+  opts.source = opts.source || './lib ./src ./app ./demo';
   opts.ext = opts.ext || '.js,.jsx';
   opts.global = opts.global || '$,jQuery';
   opts.ignore = opts.ignore || [];
+
+  const lintBin = path.resolve(__dirname, '../node_modules/.bin/eslint');
+  const rulesFile = path.resolve(__dirname, './.eslintrc.yml');
 
   //外层函数的用于接收「参数对象」
   //必须返回一个中间件处理函数
@@ -26,22 +27,28 @@ module.exports = function (opts) {
       return;
     }
 
+    this.console.info('执行静态检查...');    
+
     let source = path.resolve(this.cwd, opts.source);
     let ignores = utils.isArray(opts.ignore) ? opts.ignore : [opts.ignore];
     let ignoreText = ignores.map(item => (`--ignore-pattern ${item}`)).join(' ');
 
-    //复制到项目根目录
+    //读取内建规则
+    let rulesText = await this.utils.readFile(rulesFile);
+    let rules = yaml.safeLoad(rulesText.toString(), 'utf8');
+    this.emit('lint.rules', rules);
+    //向项目写入 yaml 配置
     let yamlFile = path.normalize(`${this.cwd}/.eslintrc.yml`);
-    let yamlText = await this.utils.readFile(configFile);
+    let yamlText = yaml.safeDump(rules);
     await this.utils.writeFile(yamlFile, yamlText);
-    let jsonText = JSON.stringify(yaml.safeLoad(yamlText.toString(), 'utf8'), null, '  ');
+    //向项目写入 json 配置
     let jsonFile = path.normalize(`${this.cwd}/.eslintrc.json`);
+    let jsonText = JSON.stringify(rules, null, '  ');
     await this.utils.writeFile(jsonFile, jsonText);
 
-    this.console.info('执行静态检查...');
     /* eslint-disable */
     await this.utils.exec(`
-      ${lint} -c ${configFile} --global ${opts.global} ${ignoreText} --env ${opts.env} --ext ${opts.ext} ${source} --fix
+      ${lintBin} --global ${opts.global} ${ignoreText} --env ${opts.env} --ext ${opts.ext} ${source} --fix
     `);
     /* eslint-enable */
     this.console.info('完成');
