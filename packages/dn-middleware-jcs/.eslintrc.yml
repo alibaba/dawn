@@ -1,30 +1,26 @@
 parser: babel-eslint
-
 plugins:
   - react
   - html
-
+  - jsx-control-statements
 env:
   es6: true
   browser: true
   commonjs: true
-
-extends: 
+extends:
   - 'eslint:recommended'
-
+  - 'plugin:jsx-control-statements/recommended'
 ecmaFeatures:
   jsx: true
   modules: true
   experimentalObjectRestSpread: true
-
-parserOptions: 
+parserOptions:
   ecmaVersion: 6
   sourceType": module
   ecmaFeatures:
     jsx: true
     modules: true
     experimentalObjectRestSpread: true
-
 rules:
   strict:
     - 0
@@ -78,7 +74,7 @@ rules:
     - 2
   no-var:
     - 2
-  no-console: 
+  no-console:
     - 1
   no-lonely-if:
     - 2
@@ -95,10 +91,9 @@ rules:
     - never
   no-undef:
     - 2
-  react/jsx-uses-react: 
+  react/jsx-uses-react:
     - 2
-  react/jsx-uses-vars: 
+  react/jsx-uses-vars:
     - 2
   react/jsx-no-undef:
-    - 2 
-    
+    - 2
