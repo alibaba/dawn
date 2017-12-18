@@ -4,9 +4,10 @@
  * @return {AsyncFunction} 中间件函数
  */
 
-var mock2easyMiddleware = require('mock2easy-middleware');
-var _ = require('lodash');
-
+const mock2easyMiddleware = require('mock2easy-middleware');
+const _ = require('lodash');
+const path = require('path');
+const fs = require('fs');
 
 module.exports = function (opts) {
 
@@ -31,16 +32,22 @@ module.exports = function (opts) {
       preferredLanguage: opts.preferredLanguage,
       interfaceRule: opts.interfaceRule
     }, opts.config));
-    const doMiddlewware = require(`${this.cwd}/${opts.database}/do`);
+    const doFile = path.normalize(`${this.cwd}/${opts.database}/do.js`);
 
     if (this.webpack1Server) {
       this.webpack1Server.use(mainMiddleware);
-      this.webpack1Server.use(doMiddlewware);
+      if (fs.existsSync(doFile)) {
+        await this.utils.sleep(1000);
+        this.webpack1Server.use(require(doFile));
+      }
     }
 
     if (this.server) {
       this.server.use('^/@mock2easy-main', mainMiddleware);
-      this.server.use('^/@mock2easy-do', doMiddlewware);
+      if (fs.existsSync(doFile)) {
+        await this.utils.sleep(1000);
+        this.server.use('^/@mock2easy-do', require(doFile));
+      }
     }
 
     next();

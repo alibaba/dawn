@@ -1,6 +1,6 @@
 {
-  "name": "dn-middleware-mock2easy",
-  "version": "1.0.3",
+  "name": "@ali/dn-middleware-mock2easy",
+  "version": "1.0.5",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
