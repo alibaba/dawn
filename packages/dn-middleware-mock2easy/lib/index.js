@@ -4,13 +4,13 @@
  * @return {AsyncFunction} 中间件函数
  */
 
-var mock2easyMiddleware = require('mock2easy-middleware');
-var _ = require('lodash');
-
+const mock2easyMiddleware = require('mock2easy-middleware');
+const _ = require('lodash');
+const path = require('path');
+const fs = require('fs');
 
 module.exports = function (opts) {
 
-  opts.server = opts.server || 'webpack1Server';
   opts.port = opts.port || 8005;
   opts.lazyLoadTime = opts.lazyLoadTime || 3000;
   opts.database = opts.database || 'mock2easy';
@@ -22,7 +22,7 @@ module.exports = function (opts) {
   //必须返回一个中间件处理函数
   return async function (next) {
 
-    this[opts.server].use(mock2easyMiddleware(_.assignIn({
+    const mainMiddleware = mock2easyMiddleware(_.assignIn({
       port: opts.port,
       lazyLoadTime: opts.lazyLoadTime,
       database: opts.database,
@@ -31,8 +31,24 @@ module.exports = function (opts) {
       interfaceSuffix: opts.interfaceSuffix,
       preferredLanguage: opts.preferredLanguage,
       interfaceRule: opts.interfaceRule
-    }, opts.config)));
-    this.webpack1Server.use(require(`${this.cwd}/${opts.database}/do`))
+    }, opts.config));
+    const doFile = path.normalize(`${this.cwd}/${opts.database}/do.js`);
+
+    if (this.webpack1Server) {
+      this.webpack1Server.use(mainMiddleware);
+      if (fs.existsSync(doFile)) {
+        await this.utils.sleep(1000);
+        this.webpack1Server.use(require(doFile));
+      }
+    }
+
+    if (this.server) {
+      this.server.use('^/@mock2easy-main', mainMiddleware);
+      if (fs.existsSync(doFile)) {
+        await this.utils.sleep(1000);
+        this.server.use('^/@mock2easy-do', require(doFile));
+      }
+    }
 
     next();
 

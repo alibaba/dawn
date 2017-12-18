@@ -5,7 +5,6 @@ dev:
   - name: server
   - name: $local
     location: ./lib/index.js
-    server: httpServer
     port: 3005
 
 test:
