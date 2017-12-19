@@ -15,8 +15,7 @@ module.exports = function (opts) {
   opts = Object.assign({ output: 'build/js', libName: 'lib' }, opts);
 
   //构建 lib
-  async function buildLib(vendors, projectCacheDir) {
-    let libCacheDir = path.normalize(`${projectCacheDir}/${opts.libName}`);
+  async function buildLib(vendors, libCacheDir) {
     if (opts.cache !== false && fs.existsSync(libCacheDir)) return libCacheDir;
     let plugins = [new webpack.DllPlugin({
       path: path.normalize(`${libCacheDir}/manifest.json`),
@@ -60,17 +59,18 @@ module.exports = function (opts) {
     let vendors = opts.vendors || Object.keys(this.project.dependencies || {});
 
     //计算项目缓存目录
-    let cacheKey = md5(JSON.stringify(this.project.dependencies) +
-      JSON.stringify(this.project.devDependencies) + JSON.stringify(vendors));
-    let tempDir = process.env.TMPDIR || process.env.TEMP || process.env.TMP;
-    let projectCacheDir = path.normalize(
-      `${tempDir}/${this.project.name}/${cacheKey}`
-    );
+    let cacheKey = md5(this.project.name +
+      JSON.stringify(this.project.dependencies) +
+      JSON.stringify(this.project.devDependencies) +
+      JSON.stringify(vendors) + opts.libName);
+    let tempDir = process.env.TMPDIR || process.env.TEMP ||
+      process.env.TMP || `${this.cwd}/.cache`;
+    let libCacheDir = path.normalize(`${tempDir}/${cacheKey}`);
 
     //lib 生成
     this.console.info('生成 lib ...');
     if (vendors && vendors.length > 0) {
-      let libCacheDir = await buildLib.call(this, vendors, projectCacheDir);
+      libCacheDir = await buildLib.call(this, vendors, libCacheDir);
       let output = path.resolve(this.cwd, opts.output);
       await this.exec({
         name: 'copy',
@@ -84,9 +84,7 @@ module.exports = function (opts) {
     //lib 引用
     this.once('webpack.config', (webpackConf, webpack, webpackOpts) => {
       if (webpackOpts._isLib) return;
-      let manifestFile = path.normalize(
-        `${projectCacheDir}/${opts.libName}/manifest.json`
-      );
+      let manifestFile = path.normalize(`${libCacheDir}/manifest.json`);
       if (!fs.existsSync(manifestFile)) {
         throw new Error(`Cannt find lib '${opts.libName}'`);
       };
@@ -98,7 +96,6 @@ module.exports = function (opts) {
 
     //处理 server 自动引入
     this.once('server.init', server => {
-
     });
 
     next();
