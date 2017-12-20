@@ -22,29 +22,37 @@ module.exports = function (opts) {
 
     this.console.info('Copy files...');
     //初始位置
-    let from = path.resolve(this.cwd, opts.from);
-    let to = path.resolve(this.cwd, opts.to);
+    const from = path.resolve(this.cwd, path.normalize(opts.from));
+    const to = path.resolve(this.cwd, path.normalize(opts.to));
 
     //解析目标文件名
-    let parseDstFile = (srcFile, dstExpr) => {
-      let srcPaths = srcFile.split('/').reverse();
-      let filename = srcPaths[0];
-      srcPaths[0] = path.basename(filename, path.extname(filename));
-      let dstPath = dstExpr.replace(/\((\d+)\)/g, (str, index) => {
-        return srcPaths[index];
-      });
-      let extname = path.extname(srcFile).slice(1);
-      dstPath = dstPath.replace(/\(ext\)/ig, extname);
-      return path.resolve(to, dstPath);
+    const parseDstFile = (srcFile, dstExpr, srcExpr) => {
+      const pathSpliter = path.normalize('/');
+      if (dstExpr.endsWith(pathSpliter)) {
+        const srcDir = srcExpr.slice(0, srcExpr.indexOf('*'));
+        const trimedSrcFile = srcFile.replace(path.resolve(from, srcDir), '');
+        const dstFile = path.normalize(`${dstExpr}${trimedSrcFile}`);
+        return path.resolve(to, dstFile);
+      } else {
+        let srcPaths = srcFile.split(pathSpliter).reverse();
+        let filename = srcPaths[0];
+        srcPaths[0] = path.basename(filename, path.extname(filename));
+        let dstFile = dstExpr.replace(/\((\d+)\)/g, (str, index) => {
+          return srcPaths[index];
+        });
+        let extname = path.extname(srcFile).slice(1);
+        dstFile = dstFile.replace(/\(ext\)/ig, extname);
+        return path.normalize(path.resolve(to, dstFile));
+      }
     };
 
-    let filterContent = async buffer => {
+    const filterContent = async buffer => {
       if (!buffer) return buffer;
       if (utils.isString(opts.filter)) {
-        let filterFile = path.resolve(this.cwd, opts.filter);
+        const filterFile = path.resolve(this.cwd, opts.filter);
         return await require(filterFile).call(this, buffer, this);
       } else if (opts.filter) {
-        let text = buffer.toString();
+        const text = buffer.toString();
         return tp.parse(text, this);
       } else {
         return buffer;
@@ -52,15 +60,16 @@ module.exports = function (opts) {
     };
 
     //复制一个文件
-    let copyFile = async (srcFile, dstExpr) => {
-      let dstFile = parseDstFile(srcFile, dstExpr);
+    const copyFile = async (srcFile, dstExpr, srcExpr) => {
+      srcFile = path.normalize(srcFile);
+      let dstFile = parseDstFile(srcFile, dstExpr, srcExpr);
       if (fs.existsSync(dstFile) && opts.override === false) return;
       let dstDir = path.dirname(dstFile);
       await mkdirp(dstDir);
       let srcBuffer = await this.utils.readFile(srcFile);
       let dstBuffer = await filterContent(srcBuffer);
       await this.utils.writeFile(dstFile, dstBuffer);
-      let trimPath = `${this.cwd}/`;
+      let trimPath = path.normalize(`${this.cwd}/`);
       this.console.log('copy:', [
         srcFile.replace(trimPath, ''),
         dstFile.replace(trimPath, '')
@@ -68,28 +77,26 @@ module.exports = function (opts) {
     };
 
     //按单条规则 copy
-    let copyItem = async (srcExpr, dstExpr) => {
-      let srcFiles = await globby(srcExpr, { cwd: from });
+    const copyItem = async (srcExpr, dstExpr) => {
+      const srcFiles = await globby(srcExpr, { cwd: from });
       return Promise.all(srcFiles.map(srcFile => {
         srcFile = path.resolve(from, srcFile);
-        return copyFile(srcFile, dstExpr);
+        return copyFile(srcFile, dstExpr, srcExpr);
       }));
     };
 
-    //执行复制
-    let pendings = [];
+    //执行复制，因为需兼容老版本，默认方向是 <-
+    const pendings = [];
     utils.each(opts.files, (dstExpr, srcExpr) => {
-      pendings.push(copyItem(srcExpr, dstExpr));
+      if (opts.direction == '->') {
+        pendings.push(copyItem(dstExpr, srcExpr));
+      } else {
+        pendings.push(copyItem(srcExpr, dstExpr));
+      }
     });
     await Promise.all(pendings);
 
     this.console.info('Done');
-
-    //next 触发后续执行
-    //如果需要在后续中间件执行完成再做一些处理
-    //还可以 await next(); 并在之后添加逻辑
     next();
-
   };
-
 };
