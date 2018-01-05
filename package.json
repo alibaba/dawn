@@ -1,6 +1,6 @@
 {
   "name": "dawn",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "dawn cli",
   "main": "./lib/index.js",
   "bin": {
@@ -53,6 +53,7 @@
   },
   "dependencies": {
     "buffer-to-stream": "^1.0.0",
+    "bufferhelper": "^0.2.1",
     "cmdline": "^2.0.4",
     "cnpm": "^5.1.1",
     "confman": "^0.2.8",
