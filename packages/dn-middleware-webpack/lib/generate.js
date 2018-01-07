@@ -340,6 +340,7 @@ async function handleUMD(wpConfig, opts) {
 //配置生成函数
 async function generate(ctx, opts) {
   opts = await handleOpts(opts);
+  ctx.opts = opts;
   let wpConfig = {
     context: ctx.cwd,
     entry: {},
