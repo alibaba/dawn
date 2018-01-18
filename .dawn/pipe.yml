@@ -1,3 +1,6 @@
+lint:
+  - name: lint
+
 test:
   - name: lint
   - name: unit
