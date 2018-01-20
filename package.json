@@ -59,19 +59,19 @@
     "confman": "^0.2.8",
     "console3": "^1.0.6",
     "copy-dir": "^0.3.0",
-    "debug": "^2.6.9",
+    "debug": "^3.1.0",
     "decompress": "^4.2.0",
     "decompress-targz": "^4.1.1",
-    "del": "^2.2.2",
-    "globby": "^6.1.0",
-    "inquirer": "^3.3.0",
+    "del": "^3.0.0",
+    "globby": "^7.1.1",
+    "inquirer": "^5.0.1",
     "js-yaml": "^3.10.0",
-    "leftpad": "0.0.0",
+    "leftpad": "^0.0.1",
     "mkdirp": "^0.5.1",
     "node-fetch": "^1.7.3",
     "ntils": "^3.1.11",
     "oneport": "^1.0.2",
-    "opn": "^4.0.2",
+    "opn": "^5.2.0",
     "require-dir": "^0.3.2",
     "rightpad": "^1.0.1",
     "semver": "^5.4.1",
@@ -81,8 +81,7 @@
     "update-notifier": "^2.3.0"
   },
   "devDependencies": {
-    "coveralls": "^2.13.1",
-    "nyc": "^11.1.0",
-    "pre-push": "^0.1.1"
+    "coveralls": "^3.0.0",
+    "nyc": "^11.4.1"
   }
 }
