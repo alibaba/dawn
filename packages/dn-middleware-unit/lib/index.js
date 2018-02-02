@@ -30,10 +30,8 @@ module.exports = function (opts) {
       'test/**',
       'test{,-*}.js',
       '**/*.test.js',
-      '**/__tests__/**',
-      '**/node_modules/**'
-    ].map(item => `'${item}'`)
-      .join(' -x ');
+      '**/__tests__/**'
+    ].map(item => `'${item}'`).join(' -x ');
 
     this.console.info('开始执行单元测试...');
     //tnpm i babel-runtime
