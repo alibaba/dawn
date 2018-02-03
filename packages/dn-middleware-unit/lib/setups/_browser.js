@@ -1,7 +1,3 @@
-require('babel-polyfill');
-const utils = require('ntils');
-const jsdom = require('jsdom');
-
 require('babel-core/register')({
   babelrc: true,
   cache: true,
@@ -16,6 +12,10 @@ require('babel-core/register')({
     require.resolve('babel-plugin-transform-decorators-legacy')
   ]
 });
+
+require('babel-polyfill');
+const utils = require('ntils');
+const jsdom = require('jsdom');
 
 //mock brownser
 const JSDOM = jsdom.JSDOM;
