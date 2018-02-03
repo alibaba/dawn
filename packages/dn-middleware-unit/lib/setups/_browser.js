@@ -1,25 +1,27 @@
-require("babel-core/register")({
+require('babel-polyfill');
+const utils = require('ntils');
+const jsdom = require('jsdom');
+
+require('babel-core/register')({
   babelrc: true,
+  cache: true,
   presets: [
     require.resolve('babel-preset-es2015'),
     require.resolve('babel-preset-react'),
     require.resolve('babel-preset-stage-0')
   ],
   plugins: [
-    //require.resolve('babel-plugin-transform-runtime'),
-    //require.resolve('babel-plugin-webpack-alias'),
     require.resolve('babel-plugin-add-module-exports'),
     require.resolve('babel-plugin-typecheck'),
     require.resolve('babel-plugin-transform-decorators-legacy')
   ]
 });
-require('babel-polyfill');
-const utils = require('ntils');
 
 //mock brownser
-const jsdom = require('jsdom');
 const JSDOM = jsdom.JSDOM;
-const dom = new JSDOM('<!doctype html><html><body></body></html>');
+const dom = new JSDOM(
+  '<!doctype html><html><body><div class="root"></div></body></html>'
+);
 global.window = dom.window;
 global.doument = window.doument;
 global.navigator = global.navigatorf || { userAgent: 'node.js' };
