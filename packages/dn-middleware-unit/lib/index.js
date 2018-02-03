@@ -9,7 +9,7 @@ const fs = require('fs');
 module.exports = function (opts) {
 
   opts.files = opts.files || './test/unit/**/*.js';
-  opts.timeout = opts.timeout || 5000;
+  opts.timeout = opts.timeout || 10000;
   opts.env = opts.env || 'browser';
 
   //外层函数的用于接收「参数对象」
@@ -25,15 +25,14 @@ module.exports = function (opts) {
     let setup = path.resolve(__dirname, `./setups/_${opts.env}.js`);
 
     let excludes = [
-      `**/_*.js`,
+      '**/_*.js',
       'coverage/**',
       'test/**',
       'test{,-*}.js',
       '**/*.test.js',
       '**/__tests__/**',
       '**/node_modules/**'
-    ].map(item => `'${item}'`)
-      .join(' -x ');
+    ].map(item => `'${item}'`).join(' -x ');
 
     this.console.info('开始执行单元测试...');
     //tnpm i babel-runtime
