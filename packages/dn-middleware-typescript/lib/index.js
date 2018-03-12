@@ -19,7 +19,7 @@ module.exports = function (opts) {
         test: /\.(ts|tsx)$/,
         loader: 'awesome-typescript-loader'
       });
-      webpackConfig.resolve.extensions.push('.ts', '.tsx');
+      webpackConfig.resolve.extensions.unshift('.ts', '.tsx');
     });
 
     await this.exec({
