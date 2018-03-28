@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const utils = require('ntils');
 const os = require('os');
+const formatWebpackMessages = require('./formatWebpackMessages');
 
 /**
  * 这是一个标准的中间件工程模板
@@ -73,27 +74,45 @@ module.exports = function (opts) {
       });
     }
 
+    function printErrors(json) {
+      let messages = formatWebpackMessages(json);
+
+      // If errors exist, only show errors.
+      if (messages.errors.length) {
+        // Only keep the first error. Others are often indicative
+        // of the same problem, but confuse the reader with noise.
+        if (messages.errors.length > 1) {
+          messages.errors.length = 1;
+        }
+        this.console.error('Failed to compile.' + os.EOL);
+        this.console.error(messages.errors.join(os.EOL + os.EOL));
+        this.console.log('');
+      
+      // Show warnings if no errors were found.
+      } else if (messages.warnings.length) {
+        this.console.warn('Compiled with warnings.' + os.EOL);
+        this.console.warn(messages.warnings.join(os.EOL + os.EOL));
+        this.console.log('');
+      }
+    }
+
     //build
     let compiler = webpack(config);
     if (opts.watch) {
       compiler.watch(opts.watchOpts, (err, stats) => {
         if (err) return this.console.error(err);
-        let json = stats.toJson();
-        if (stats.hasErrors()) {
-          this.console.error(json.errors.join(os.EOL + os.EOL));
-        }
+        let json = stats.toJson({}, true);
+        printErrors.call(this, json);
         if (this.emit) this.emit('webpack.stats', stats);
-        printStats(json);
+        printStats.call(this, json);
         this.console.log('实时编译:', Date.now());
         next();
       });
     } else {
       compiler.run((err, stats) => {
         if (err) return this.console.error('error:', err);
-        let json = stats.toJson();
-        if (stats.hasErrors()) {
-          return this.console.error(json.errors.join(os.EOL + os.EOL));
-        }
+        let json = stats.toJson({}, true);
+        printErrors.call(this, json);
         if (this.emit) this.emit('webpack.stats', stats);
         this.console.log('');
         utils.each(json.assetsByChunkName, (chunkName, assets) => {
@@ -105,7 +124,7 @@ module.exports = function (opts) {
           }
           this.console.log('');
         });
-        printStats(json);
+        printStats.call(this, json);
         this.console.info('完成');
         next();
       });
