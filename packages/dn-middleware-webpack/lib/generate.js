@@ -131,7 +131,7 @@ function createBabelOptions(opts) {
 async function handleLoaders(wpConfig, opts) {
   wpConfig.module.loaders.push(
     {
-      test: /\.(js|jsx)$/,
+      test: /\.(js|jsx|mjs)$/,
       loader: 'babel-loader',
       options: createBabelOptions(opts),
       exclude: [/node_modules/, /\.test\.js$/]
@@ -344,7 +344,7 @@ async function generate(ctx, opts) {
     context: ctx.cwd,
     entry: {},
     resolve: {
-      extensions: ['.js', '.json', '.jsx', '.css', '.less', '.scss', '.sass']
+      extensions: ['.js', '.mjs', '.json', '.jsx', '.css', '.less', '.scss', '.sass']
     },
     output: {
       publicPath: opts.publicPath,
