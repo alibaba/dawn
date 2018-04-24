@@ -35,4 +35,4 @@ proxy:
     ^/api(.*): 'https://www.aliyun.com/'
 ```
 
-请求到 /api/xxx 现在会被代理到请求 https://www.aliyun.com/api/xxx
+请求到 /api/xxx 现在会被代理到请求 https://www.aliyun.com/xxx
