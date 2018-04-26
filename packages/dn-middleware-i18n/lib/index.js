@@ -24,7 +24,6 @@ module.exports = function (opts) {
     const localesPath = path.normalize(path.resolve(this.cwd, opts.dir) + '/');
 
     const extractBuild = () => {
-      if (!opts.extract) return {};
       const extractPath = path.resolve(this.cwd, opts.extract);
       mkdirp.sync(extractPath);
       const locales = confman.load(localesPath);
@@ -33,7 +32,7 @@ module.exports = function (opts) {
         const localeCode = `window.__locale=${JSON.stringify(locale)};`;
         fs.writeFileSync(localeFile, localeCode);
       });
-      return {};
+      return { _t: Date.now() };
     };
 
     const addLocales = (conf) => {
