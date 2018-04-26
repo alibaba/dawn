@@ -20,13 +20,12 @@ i18n.get = function (key, params, defaultValue) {
 }
 
 i18n.getLocale = function (name) {
-  if (!name) return;
+  const locale = global.__locale;
+  if (!name || locale) return locale;
   return locales[name] ||
     locales[name.split('-')[0]] ||
     utils.each(locales, function (key) {
-      if (key.split('-')[0] == name.split('-')[0]) {
-        return locales[key];
-      }
+      if (key.split('-')[0] == name.split('-')[0]) return locales[key];
     });
 }
 
