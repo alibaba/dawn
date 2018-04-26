@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-i18n",
-  "version": "0.0.13",
+  "version": "0.0.15",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
