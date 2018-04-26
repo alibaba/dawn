@@ -1,1 +1,1 @@
-window.__locale={"hello":"Hello {name}!"};
+window.__locale={"hello":"Hello {name}!qqq"};
