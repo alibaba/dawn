@@ -23,13 +23,24 @@ module.exports = function (opts) {
 
     const localesPath = path.normalize(path.resolve(this.cwd, opts.dir) + '/');
 
+    const extractBuild = () => {
+      if (!opts.extract) return {};
+      const extractPath = path.resolve(this.cwd, opts.extract);
+      mkdirp.sync(extractPath);
+      const locales = confman.load(localesPath);
+      utils.each(locales, (name, locale) => {
+        const localeFile = path.normalize(`${extractPath}/${name}.js`);
+        const localeCode = `window.__locale=${JSON.stringify(locale)};`;
+        fs.writeFileSync(localeFile, localeCode);
+      });
+      return {};
+    };
+
     const addLocales = (conf) => {
-      if (opts.extract) return conf.plugins.push(new VModule({
-        name: '$locales', content: '{}'
-      }));
       conf.plugins.push(confman.webpackPlugin({
         name: '$locales',
-        path: localesPath
+        path: localesPath,
+        content: opts.extract ? extractBuild : null
       }));
     };
 
@@ -47,18 +58,6 @@ module.exports = function (opts) {
       });
     };
 
-    const extractBuild = () => {
-      if (!opts.extract) return;
-      const extractPath = path.resolve(this.cwd, opts.extract);
-      mkdirp.sync(extractPath);
-      const locales = confman.load(localesPath);
-      utils.each(locales, (name, locale) => {
-        const localeFile = path.normalize(`${extractPath}/${name}.js`);
-        const localeCode = `window.__locale=${JSON.stringify(locale)};`;
-        fs.writeFileSync(localeFile, localeCode);
-      });
-    };
-
     const copyDefaultFiles = async () => {
       if (fs.existsSync(localesPath)) return;
       const templateFiles = path.resolve(__dirname, '../template/**/*.*');
@@ -73,7 +72,6 @@ module.exports = function (opts) {
     this.console.info('启用 i18n...');
     await copyDefaultFiles();
     await applyToWebpack();
-    await extractBuild();
     this.console.info('完成');
 
     next();
