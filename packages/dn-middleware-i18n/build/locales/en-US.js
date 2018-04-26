@@ -1,0 +1,1 @@
+window.__locale={"hello":"Hello {name}!"};

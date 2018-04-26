@@ -2,8 +2,8 @@ init:
   - name: pkginfo
 
 build:
-  - name: $local
-    location: ./lib/index.js
+  - name: ./lib/index.js
+    #extract: ./build/locales/
   - name: webpack
     entry: ./demo/index.js
     common:
@@ -15,8 +15,7 @@ build:
       - node ./build/index.js
 
 dev:
-  - name: $local
-    location: ./lib/index.js
+  - name: ./lib/index.js
   - name: webpack
     entry: ./demo/index.js
     common:
