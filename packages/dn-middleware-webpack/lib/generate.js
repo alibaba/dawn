@@ -4,19 +4,21 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 const globby = require('globby');
 const utils = require('ntils');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const cssnano = require('cssnano');
 const confman = require('confman');
-const Visualizer = require('webpack-visualizer-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 webpack.HtmlWebpackPlugin = HtmlWebpackPlugin;
 webpack.ExtractTextPlugin = ExtractTextPlugin;
-webpack.OptimizeCssAssetsPlugin = OptimizeCssAssetsPlugin;
+webpack.OptimizeCSSAssetsPlugin = OptimizeCSSAssetsPlugin;
+webpack.MiniCssExtractPlugin = MiniCssExtractPlugin;
 
 //生成排除配置
 function makeExternal(commonjs, root, amd) {
   amd = amd || commonjs;
-  let commonjs2 = commonjs;
+  const commonjs2 = commonjs;
   return { commonjs, commonjs2, root, amd };
 }
 
@@ -45,8 +47,6 @@ async function handleOpts(opts) {
   if (utils.isString(opts.template)) opts.template = [opts.template];
   opts.output = opts.output || './build/';
   opts.chunkFilename = opts.chunkFilename || 'chunks/[name]-[chunkhash].js';
-  opts.common = opts.common || {};
-  opts.common.name = opts.common.name || 'common';
   opts.folders = opts.folders || {};
   opts.folders.js = opts.folders.js || 'js';
   opts.folders.css = opts.folders.css || 'css';
@@ -55,7 +55,8 @@ async function handleOpts(opts) {
   opts.folders.html = opts.folders.html || '';
   opts.config = opts.config || {};
   opts.config.name = opts.config.name || '$config';
-  opts.config.path = opts.config.path || './src/config';
+  opts.config.path = opts.config.path || './config';
+  opts.mode || opts.env || (opts.watch ? 'development' : 'production');
   if (opts.external === false || (opts.watch && opts.external !== true)) {
     opts.externals = {};
   } else {
@@ -66,7 +67,7 @@ async function handleOpts(opts) {
 }
 
 function createBabelOptions(opts) {
-  let babel = opts.babel;
+  const babel = opts.babel;
   babel.presets = babel.presets || [];
   babel.presets.push([require.resolve('babel-preset-env'), {
     targets: babel.targets || {
@@ -90,7 +91,7 @@ function createBabelOptions(opts) {
   }
   babel.plugins = babel.plugins || [];
   if (babel.transform !== false) {
-    let transform = babel.transform || {};
+    const transform = babel.transform || {};
     babel.plugins.push([
       require.resolve('babel-plugin-transform-runtime'), {
         'helpers': utils.isNull(transform.helpers) ? true : transform.helpers, // defaults to true 
@@ -106,7 +107,7 @@ function createBabelOptions(opts) {
     babel.addExports) && babel.addExports !== false) {
     babel.plugins.push(require.resolve('babel-plugin-add-module-exports'))
   }
-  let babelOptions = {
+  const babelOptions = {
     babelrc: true,
     cacheDirectory: true,
     presets: [
@@ -127,28 +128,31 @@ function createBabelOptions(opts) {
   return babelOptions;
 }
 
-//处理常规 loaders
-async function handleLoaders(wpConfig, opts) {
-  wpConfig.module.loaders.push(
+//处理常规 rules
+async function handleRules(webpackConf, opts) {
+  webpackConf.module.rules.push(
     {
-      test: /\.(js|jsx|mjs)$/,
+      test: /\.(js|jsx|mjs)\?*.*$/,
       loader: 'babel-loader',
       options: createBabelOptions(opts),
-      exclude: [/node_modules/, /\.test\.js$/]
+      exclude: [/node_modules/, /\.test\.js\?*.*$/]
     }, {
-      test: /\.vue$/,
+      test: /\.vue\?*.*$/,
       loader: 'vue-loader'
-    }, {
-      test: /\.json$/,
-      loader: 'json-loader'
-    }, {
-      test: /\?raw$/,
+    },
+    {
+      test: /\.json\?*.*$/,
+      loader: 'json-loader',
+      type: 'javascript/auto'
+    },
+    {
+      test: /\?raw\?*.*$/,
       loader: 'raw-loader'
     }, {
-      test: /\.ejs$/,
+      test: /\.ejs\?*.*$/,
       loader: 'ejs-loader'
     }, {
-      test: /\.html$/,
+      test: /\.html\?*.*$/,
       loader: 'raw-loader'
     }, {
       test: /\.(png|jpg|gif)\?*.*$/,
@@ -158,94 +162,51 @@ async function handleLoaders(wpConfig, opts) {
       loader: `url-loader?limit=8192&name=${opts.folders.font}/[hash].[ext]`
     }
   );
-  opts.loaders = opts.loaders || [];
-  wpConfig.module.loaders.push(...opts.loaders);
+  opts.rules = opts.rules || [];
+  webpackConf.module.rules.push(...opts.rules);
 }
 
 //处理插件
-async function handlerPlugins(wpConfig, opts) {
-  let cssExtractPlugin = new ExtractTextPlugin({
+async function handlerStyles(webpackConf, opts) {
+  const cssExtractPlugin = new MiniCssExtractPlugin({
     filename: `${opts.folders.css}/[name].css`,
-    allChunks: true
   });
-  wpConfig.plugins.push(cssExtractPlugin);
-  let cssLoaderOptions = {
+  webpackConf.plugins.push(cssExtractPlugin);
+  const cssLoaderOptions = {
     modules: opts.cssModules,
     camelCase: opts.cssModules //只要启用就采用「小驼峰」
   };
-  wpConfig.module.loaders.push(
+  webpackConf.module.rules.push(
     {
       test: /\.less$/,
-      loader: cssExtractPlugin.extract({
-        use: [{
-          loader: 'css-loader', options: cssLoaderOptions
-        }, 'less-loader'],
-        publicPath: '../'
-      })
+      use: [MiniCssExtractPlugin.loader, {
+        loader: 'css-loader', options: cssLoaderOptions
+      }, 'less-loader']
     }, {
       test: /\.(scss|sass)$/,
-      loader: cssExtractPlugin.extract({
-        use: [{
-          loader: 'css-loader', options: cssLoaderOptions
-        }, 'fast-sass-loader'],
-        publicPath: '../'
-      })
+      use: [MiniCssExtractPlugin.loader, {
+        loader: 'css-loader', options: cssLoaderOptions
+      }, 'fast-sass-loader']
     }, {
       test: /\.css$/,
-      loader: cssExtractPlugin.extract({
-        use: [
-          { loader: 'css-loader', options: cssLoaderOptions }
-        ],
-        publicPath: '../'
-      })
+      use: [MiniCssExtractPlugin.loader,
+      { loader: 'css-loader', options: cssLoaderOptions }]
     }
   );
-  if (!opts.common.disabled) {
-    wpConfig.plugins.push(new webpack.optimize.CommonsChunkPlugin({
-      name: opts.common.name,
-      chunks: opts.common.chunks
-    }));
-  }
-  if (opts.stats) {
-    wpConfig.plugins.push(new Visualizer({
-      filename: './report/stats.html'
-    }));
-  }
-  if (opts.optimization) {
-    wpConfig.plugins.push(new webpack.optimize.ModuleConcatenationPlugin({
-      optimizationBailout: true
-    }));
-  }
-  if (!opts.watch) {
-    if (opts.env) {
-      wpConfig.plugins.push(new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: JSON.stringify(opts.env)//production
-        }
-      }));
-    }
-    //如果 watch 为 false 时 compress 才有效
-    //默认压缩只有明确设置为 false 时才不压缩
-    if (opts.compress !== false) {
-      wpConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
-        sourceMap: opts.sourceMap !== false,
-        exclude: [/\.min\.js$/, /node_modules/],
-        compress: { warnings: false },
-        output: { comments: false }
-      }), new OptimizeCssAssetsPlugin({
-        assetNameRegExp: /\.css$/g,
-        cssProcessor: cssnano({
-          safe: true
-        }),
-        cssProcessorOptions: {
-          discardComments: {
-            removeAll: true
-          }
-        },
-        canPrint: false
-      }))
-    }
-  }
+}
+
+async function handleOptimization(webpackConf, opts) {
+  if (opts.mode !== 'production') return;
+  // 如果 watch 为 false 时 compress 才有效
+  // 默认压缩只有明确设置为 false 时才不压缩
+  webpackConf.optimization.minimizer = [
+    new UglifyJsPlugin({
+      cache: true,
+      parallel: true,
+      sourceMap: opts.sourceMap // set to true if you want JS source maps
+    }),
+    new OptimizeCSSAssetsPlugin({})
+  ];
 }
 
 //获取所有模板
@@ -254,18 +215,18 @@ async function getTemplates(opts) {
   if (utils.isObject(opts.template) && !utils.isArray(opts.template)) {
     templates = [];
     utils.each(opts.template, (nameExpr, fileExpr) => {
-      let files = globby.sync(fileExpr);
+      const files = globby.sync(fileExpr);
       files.forEach(file => {
-        let paths = file.split('/').reverse()
+        const paths = file.split('/').reverse()
           .map(item => (path.basename(item).split('.')[0]));
-        let name = nameExpr.replace(/\((\d+)\)/g, (str, index) => {
+        const name = nameExpr.replace(/\((\d+)\)/g, (str, index) => {
           return paths[index];
         });
         templates.push({ name, file });
       });
     });
   } else {
-    let files = await globby(opts.template);
+    const files = await globby(opts.template);
     templates = files.map(file => ({
       name: path.basename(file).split('.')[0],
       file: file
@@ -280,18 +241,18 @@ async function getEntries(opts) {
   if (utils.isObject(opts.entry) && !utils.isArray(opts.entry)) {
     entries = [];
     utils.each(opts.entry, (nameExpr, fileExpr) => {
-      let files = globby.sync(fileExpr);
+      const files = globby.sync(fileExpr);
       files.forEach(file => {
-        let paths = file.split('/').reverse()
+        const paths = file.split('/').reverse()
           .map(item => (path.basename(item).split('.')[0]));
-        let name = nameExpr.replace(/\((\d+)\)/g, (str, index) => {
+        const name = nameExpr.replace(/\((\d+)\)/g, (str, index) => {
           return paths[index];
         });
         entries.push({ name, file });
       });
     });
   } else {
-    let files = await globby(opts.entry);
+    const files = await globby(opts.entry);
     entries = files.map(file => ({
       name: path.basename(file).split('.')[0],
       file: file
@@ -301,30 +262,30 @@ async function getEntries(opts) {
 }
 
 //处理入口文件
-async function handleEntry(wpConfig, opts) {
-  let entries = await getEntries(opts);
+async function handleEntry(webpackConf, opts) {
+  const entries = await getEntries(opts);
   if (entries.length < 1) throw new Error(`没有发现有效的构建入口文件`);
-  let templates = await getTemplates(opts);
+  const templates = await getTemplates(opts);
   entries.forEach(entry => {
-    wpConfig.entry[entry.name] = [...opts.inject, entry.file];
-    let template = templates.find(item => item.name == entry.name) ||
+    webpackConf.entry[entry.name] = [...opts.inject, entry.file];
+    const template = templates.find(item => item.name == entry.name) ||
       templates[0];
     if (!template) return;
-    wpConfig.plugins.push(new HtmlWebpackPlugin({
+    webpackConf.plugins.push(new HtmlWebpackPlugin({
       filename: `./${opts.folders.html}/${entry.name}.html`,
       template: template.file,
-      chunks: [opts.common.name, entry.name]
+      chunks: [entry.name]
     }));
   });
 }
 
 //处理配置
-async function handleConfig(wpConfig, opts, ctx) {
-  let configPath = path.resolve(ctx.cwd, opts.config.path);
-  let configEnv = opts.config.env || ctx.env || ctx.command;
+async function handleConfig(webpackConf, opts, ctx) {
+  const configPath = path.resolve(ctx.cwd, opts.config.path);
+  const configEnv = opts.config.env || ctx.env || ctx.command;
   confman.env = configEnv;
   ctx.$config = confman.load(configPath);
-  wpConfig.plugins.push(confman.webpackPlugin({
+  webpackConf.plugins.push(confman.webpackPlugin({
     env: opts.config.env || ctx.env || ctx.command,
     name: opts.config.name,
     path: configPath
@@ -332,15 +293,15 @@ async function handleConfig(wpConfig, opts, ctx) {
 }
 
 //处理 UMD
-async function handleUMD(wpConfig, opts) {
+async function handleUMD(webpackConf, opts) {
   if (!opts.umd) return;
-  Object.assign(wpConfig.output, opts.umd);
+  Object.assign(webpackConf.output, opts.umd);
 }
 
 //配置生成函数
 async function generate(ctx, opts) {
   opts = await handleOpts(opts);
-  let wpConfig = {
+  const webpackConf = {
     context: ctx.cwd,
     entry: {},
     resolve: {
@@ -352,19 +313,20 @@ async function generate(ctx, opts) {
       filename: `${opts.folders.js}/[name].js`,
       chunkFilename: opts.chunkFilename
     },
+    mode: opts.mode,
+    optimization: {},
     devtool: opts.sourceMap !== false ? 'source-map' : false,
-    module: {
-      loaders: []
-    },
+    module: { rules: [] },
     plugins: [],
     externals: opts.externals
   };
-  await handleUMD(wpConfig, opts);
-  await handleLoaders(wpConfig, opts);
-  await handleEntry(wpConfig, opts);
-  await handlerPlugins(wpConfig, opts);
-  await handleConfig(wpConfig, opts, ctx);
-  return wpConfig;
+  await handleUMD(webpackConf, opts);
+  await handleRules(webpackConf, opts);
+  await handleEntry(webpackConf, opts);
+  await handlerStyles(webpackConf, opts);
+  await handleConfig(webpackConf, opts, ctx);
+  await handleOptimization(webpackConf, opts);
+  return webpackConf;
 }
 
 module.exports = generate;
