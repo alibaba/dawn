@@ -20,7 +20,7 @@ i18n.get = function (key, params, defaultValue) {
 }
 
 i18n.getLocale = function (name) {
-  const locale = global.__locale;
+  var locale = global.__locale;
   if (!name || locale) return locale;
   return locales[name] ||
     locales[name.split('-')[0]] ||
