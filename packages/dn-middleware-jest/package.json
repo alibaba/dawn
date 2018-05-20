@@ -1,0 +1,17 @@
+{
+  "name": "dn-middleware-jest",
+  "version": "1.0.1",
+  "description": "Jest middleware for dawn project's unit-test.",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-jest": "^22.4.3",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "jest": "^22.4.3"
+  }
+}
