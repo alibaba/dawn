@@ -98,6 +98,12 @@ module.exports = function (opts) {
 
     //build
     let compiler = webpack(config);
+
+    // register 'webpack.compiler' event.
+    // support webpackDevServer (or other) middleware(s)
+    // to use webpack compiler instance
+    this.emit('webpack.compiler', compiler);
+
     if (opts.watch) {
       compiler.watch(opts.watchOpts, (err, stats) => {
         if (err) return this.console.error(err);
