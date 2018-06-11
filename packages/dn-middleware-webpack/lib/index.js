@@ -58,6 +58,7 @@ module.exports = function (opts) {
     //应用 faked 
     if (this.faked) this.faked.apply(config);
     if (this.emit) this.emit('webpack.config', config, webpack, opts);
+    this.webpackConfig = config;
 
     await this.utils.sleep(1000);
 
@@ -102,7 +103,7 @@ module.exports = function (opts) {
     // register 'webpack.compiler' event.
     // support webpackDevServer (or other) middleware(s)
     // to use webpack compiler instance
-    this.emit('webpack.compiler', compiler);
+    if (this.emit) this.emit('webpack.compiler', compiler);
 
     if (opts.watch) {
       compiler.watch(opts.watchOpts, (err, stats) => {
