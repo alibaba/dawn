@@ -55,10 +55,7 @@ module.exports = function (opts) {
     ]);
     config.resolveLoader = config.resolve;
 
-<<<<<<< HEAD
-=======
     //应用 faked 
->>>>>>> b63959807a1ad020014bb343f19fd4418d7c7853
     if (this.emit) {
       //兼容处理老版本 webpack
       config.module.loaders = config.module.rules;
