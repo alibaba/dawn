@@ -1,0 +1,15 @@
+init:
+  - name: pkginfo
+
+dev:
+  - name: ./lib/index.js
+    url: http://www.aliyun.com
+
+test:
+  - name: lint
+  
+publish:
+  - name: shell
+    script:
+      - dn test
+      - npm pu
