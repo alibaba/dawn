@@ -21,7 +21,7 @@ module.exports = function (opts) {
     }
 
     const bsInstance = browserSync.create().init({
-      logSnippet: false,
+      logSnippet: true,
       open: false,
       files: opts.files,
       ui: {
@@ -32,7 +32,8 @@ module.exports = function (opts) {
       }
     }, next);
 
-    this.server.use('^/@browser-sync', connectBrowserSync(bsInstance));
+    this.server.use('^/(?!(-rc-|browser-sync))@browser-sync',
+      connectBrowserSync(bsInstance));
 
   };
 

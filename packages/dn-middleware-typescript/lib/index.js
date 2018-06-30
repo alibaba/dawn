@@ -15,7 +15,8 @@ module.exports = function (opts) {
     this.console.info('Enable typescript...');
 
     this.on('webpack.config', webpackConfig => {
-      webpackConfig.module.loaders.push({
+      const rules = webpackConfig.module.rules || webpackConfig.module.loaders;
+      rules.push({
         test: /\.(ts|tsx)$/,
         loader: 'awesome-typescript-loader'
       });

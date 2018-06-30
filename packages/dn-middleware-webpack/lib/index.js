@@ -56,9 +56,12 @@ module.exports = function (opts) {
     config.resolveLoader = config.resolve;
 
     //应用 faked 
-    if (this.faked) this.faked.apply(config);
-    if (this.emit) this.emit('webpack.config', config, webpack, opts);
-    this.webpackConfig = config;
+    if (this.emit) {
+      //兼容处理老版本 webpack
+      config.module.loaders = config.module.rules;
+      this.emit('webpack.config', config, webpack, opts);
+      delete config.module.loaders;
+    }
 
     await this.utils.sleep(1000);
 
@@ -88,8 +91,8 @@ module.exports = function (opts) {
         this.console.error('Failed to compile.' + os.EOL);
         this.console.error(messages.errors.join(os.EOL + os.EOL));
         this.console.log('');
-      
-      // Show warnings if no errors were found.
+
+        // Show warnings if no errors were found.
       } else if (messages.warnings.length) {
         this.console.warn('Compiled with warnings.' + os.EOL);
         this.console.warn(messages.warnings.join(os.EOL + os.EOL));
