@@ -21,13 +21,19 @@ const jsdom = require('jsdom');
 const JSDOM = jsdom.JSDOM;
 const dom = new JSDOM(
   '<!doctype html><html><body><div class="root"></div></body></html>'
-);
+  , {
+    url: "https://test.com/",
+    referrer: "https://test.com/",
+    contentType: "text/html",
+    includeNodeLocations: true,
+  });
 global.window = dom.window;
-global.doument = window.doument;
-global.navigator = global.navigatorf || { userAgent: 'node.js' };
+global.navigator = global.navigator || { userAgent: 'node.js' };
 utils.each(window, function (name, value) {
-  if (global[name]) return;
-  global[name] = value;
+  if (name in global) return;
+  Object.defineProperty(global, name, {
+    get: function () { return value; }
+  });
 });
 
 //ignore
