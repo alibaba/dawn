@@ -90,9 +90,9 @@ rules:
         ClassDeclaration: true
   valid-jsdoc:
     - 2
-  comma-dangle:
-    - 2
-    - never
+  # comma-dangle:
+  #   - 2
+  #   - never
   no-undef:
     - 2
   react/jsx-uses-react: 
