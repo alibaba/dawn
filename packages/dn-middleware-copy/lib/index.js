@@ -79,10 +79,10 @@ module.exports = function (opts) {
     //按单条规则 copy
     const copyItem = async (srcExpr, dstExpr) => {
       const srcFiles = await globby(srcExpr, { cwd: from });
-      return Promise.all(srcFiles.map(srcFile => {
+      for (let srcFile of srcFiles) {
         srcFile = path.resolve(from, srcFile);
-        return copyFile(srcFile, dstExpr, srcExpr);
-      }));
+        await copyFile(srcFile, dstExpr, srcExpr);
+      }
     };
 
     //执行复制，因为需兼容老版本，默认方向是 <-
@@ -94,7 +94,7 @@ module.exports = function (opts) {
         pendings.push(copyItem(srcExpr, dstExpr));
       }
     });
-    await Promise.all(pendings);
+    for (let pending of pendings) await pending;
 
     this.console.info('Done');
     next();
