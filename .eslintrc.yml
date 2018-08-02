@@ -14,7 +14,7 @@ ecmaFeatures:
   experimentalObjectRestSpread: true
 parserOptions:
   ecmaVersion: 6
-  sourceType": module
+  sourceType: module
   ecmaFeatures:
     jsx: true
     modules: true
@@ -84,9 +84,6 @@ rules:
         ClassDeclaration: true
   valid-jsdoc:
     - 2
-  comma-dangle:
-    - 2
-    - never
   no-undef:
     - 2
   react/jsx-uses-react:

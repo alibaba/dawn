@@ -15,7 +15,7 @@ module.exports = function (opts) {
   opts.global = opts.global || '$,jQuery';
   opts.ignore = opts.ignore || [];
 
-  const lintBin = path.resolve(__dirname, '../node_modules/.bin/eslint');
+  const lintBin = this.utils.findCommand(__dirname, 'eslint');
   const rulesFile = path.resolve(__dirname, './.eslintrc.yml');
 
   //外层函数的用于接收「参数对象」
@@ -27,7 +27,7 @@ module.exports = function (opts) {
       return;
     }
 
-    this.console.info('执行静态检查...');    
+    this.console.info('执行静态检查...');
 
     let source = path.resolve(this.cwd, opts.source);
     let ignores = utils.isArray(opts.ignore) ? opts.ignore : [opts.ignore];
