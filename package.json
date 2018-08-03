@@ -1,6 +1,6 @@
 {
   "name": "dawn",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "description": "dawn cli",
   "main": "./lib/index.js",
   "bin": {
@@ -55,6 +55,7 @@
     "buffer-to-stream": "^1.0.0",
     "bufferhelper": "^0.2.1",
     "cmdline": "^2.0.4",
+    "cnpm": "^6.0.0",
     "confman": "^0.2.8",
     "console3": "^1.0.6",
     "copy-dir": "^0.3.0",
@@ -62,10 +63,6 @@
     "decompress": "^4.2.0",
     "decompress-targz": "^4.1.1",
     "del": "^3.0.0",
-    "dn-middleware-doc": "^1.0.6",
-    "dn-middleware-file-header": "^1.0.3",
-    "dn-middleware-lint": "^0.1.111",
-    "dn-middleware-unit": "^0.1.18",
     "globby": "^7.1.1",
     "inquirer": "^5.0.1",
     "js-yaml": "^3.10.0",
