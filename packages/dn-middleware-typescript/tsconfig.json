@@ -2,18 +2,21 @@
   "compilerOptions": {
     "outDir": "./build/",
     "sourceMap": true,
+    "declaration": true,
     "noImplicitAny": true,
     "module": "commonjs",
     "target": "es5",
     "jsx": "react",
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "lib": [
       "dom",
       "es2017"
     ]
   },
   "include": [
-    "./src/**/*.ts",
-    "./src/**/*.tsx"
+    "./demo/**/*.ts"
   ]
 }

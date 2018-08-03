@@ -3,8 +3,7 @@ init:
 
 dev:
   - name: clean
-  - name: $local
-    location: ./lib/index.js
+  - name: ./lib/index.js
   - name: webpack
     entry: ./demo/*.ts
     common:

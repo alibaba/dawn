@@ -23,13 +23,15 @@ module.exports = function (opts) {
       webpackConfig.resolve.extensions.unshift('.ts', '.tsx');
     });
 
+    const tsconfig = path.resolve(__dirname, '../files/tsconfig.json');
     await this.exec({
       name: 'copy',
-      files: {
-        './tsconfig.json': path.resolve(__dirname, '../files/tsconfig.json')
-      },
+      files: { './tsconfig.json': tsconfig },
       override: false
     });
+
+    const cmd = this.utils.findCommand(__dirname, 'tsc');
+    await this.utils.exec(`${cmd} --emitDeclarationOnly`);
 
     this.console.info('Done');
 
