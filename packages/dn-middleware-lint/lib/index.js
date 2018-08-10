@@ -1,6 +1,7 @@
 const path = require('path');
 const utils = require('ntils');
 const yaml = require('js-yaml');
+const globby = require('globby');
 
 /**
  * 这是一个标准的中间件工程模板
@@ -10,12 +11,12 @@ const yaml = require('js-yaml');
 module.exports = function (opts) {
 
   opts.env = opts.env || 'browser,node';
-  opts.source = opts.source || './src';
+  opts.source = opts.source || ['./src', './lib', './app'];
   opts.ext = opts.ext || '.js,.jsx';
   opts.global = opts.global || 'window,$,jQuery';
   opts.ignore = opts.ignore || [];
 
-  const lintBin = this.utils.findCommand(__dirname, 'eslint');
+  const eslint = this.utils.findCommand(__dirname, 'eslint');
   const rulesFile = path.resolve(__dirname, './.eslintrc.yml');
 
   //外层函数的用于接收「参数对象」
@@ -24,27 +25,34 @@ module.exports = function (opts) {
 
     this.console.info('执行静态检查...');
 
-    let source = path.resolve(this.cwd, opts.source);
-    let ignores = utils.isArray(opts.ignore) ? opts.ignore : [opts.ignore];
-    let ignoreText = ignores.map(item => (`--ignore-pattern ${item}`)).join(' ');
+    const sources = (utils.isArray(opts.source) ? opts.source : [opts.source])
+      .filter(dir => globby.sync(`${dir}/*.{js,jsx}`).length > 0);
+    if (sources.length < 1) return next();
+    this.console.log('检查目标', sources.join(', '));
+
+    const ignores = utils.isArray(opts.ignore) ? opts.ignore : [opts.ignore];
+    const ignoreText = ignores.map(item =>
+      (`--ignore-pattern ${item}`)
+    ).join(' ');
 
     //读取内建规则
-    let rulesText = await this.utils.readFile(rulesFile);
-    let rules = yaml.safeLoad(rulesText.toString(), 'utf8');
+    const rulesText = await this.utils.readFile(rulesFile);
+    const rules = yaml.safeLoad(rulesText.toString(), 'utf8');
     this.emit('lint.rules', rules);
     //向项目写入 yaml 配置
-    let yamlFile = path.normalize(`${this.cwd}/.eslintrc.yml`);
-    let yamlText = yaml.safeDump(rules);
+    const yamlFile = path.normalize(`${this.cwd}/.eslintrc.yml`);
+    const yamlText = yaml.safeDump(rules);
     await this.utils.writeFile(yamlFile, yamlText);
     //向项目写入 json 配置
-    let jsonFile = path.normalize(`${this.cwd}/.eslintrc.json`);
-    let jsonText = JSON.stringify(rules, null, '  ');
+    const jsonFile = path.normalize(`${this.cwd}/.eslintrc.json`);
+    const jsonText = JSON.stringify(rules, null, '  ');
     await this.utils.writeFile(jsonFile, jsonText);
 
     /* eslint-disable */
-    await this.utils.exec(`
-      ${lintBin} --global ${opts.global} ${ignoreText} --env ${opts.env} --ext ${opts.ext} ${source} --fix
-    `);
+    await this.utils.exec([
+      eslint, '--global', opts.global, ignoreText, '--env', opts.env,
+      '--ext', opts.ext, , sources.join(' '), '--fix'
+    ].join(' '));
     /* eslint-enable */
     this.console.info('完成');
 
