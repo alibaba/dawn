@@ -19,6 +19,13 @@ module.exports = function (opts) {
     const cmd = await this.utils.findCommand(__dirname, 'tslint');
     const rulesFile = path.resolve(__dirname, './tslint.json');
 
+    await this.exec({
+      name: 'copy',
+      files: { './tslint.json': rulesFile },
+      override: true,
+      log: false
+    });
+
     await this.utils.exec([
       cmd, '--config', rulesFile, '--project', tsconfigFile,
       '--exclude', '**/*.d.ts', '--format', 'stylish', '--fix'
