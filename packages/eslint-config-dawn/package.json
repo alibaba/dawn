@@ -1,0 +1,18 @@
+{
+  "name": "eslint-config-dawn",
+  "version": "1.0.2",
+  "description": "dawn eslint rules",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "dawn",
+    "eslint"
+  ],
+  "author": "Houfeng",
+  "license": "MIT",
+  "peerDependencies": {
+    "eslint": ">= 3"
+  }
+}

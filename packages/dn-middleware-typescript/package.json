@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-typescript",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "dn 之 typescript 中间件",
   "main": "./lib/index.js",
   "scripts": {

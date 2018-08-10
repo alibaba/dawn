@@ -10,9 +10,9 @@ const yaml = require('js-yaml');
 module.exports = function (opts) {
 
   opts.env = opts.env || 'browser,node';
-  opts.source = opts.source || './lib ./src ./app ./demo';
+  opts.source = opts.source || './src';
   opts.ext = opts.ext || '.js,.jsx';
-  opts.global = opts.global || '$,jQuery';
+  opts.global = opts.global || 'window,$,jQuery';
   opts.ignore = opts.ignore || [];
 
   const lintBin = this.utils.findCommand(__dirname, 'eslint');
@@ -21,11 +21,6 @@ module.exports = function (opts) {
   //外层函数的用于接收「参数对象」
   //必须返回一个中间件处理函数
   return async function (next) {
-
-    if (opts.disabled) {
-      next();
-      return;
-    }
 
     this.console.info('执行静态检查...');
 
