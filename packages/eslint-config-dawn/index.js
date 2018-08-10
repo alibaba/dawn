@@ -32,6 +32,7 @@ module.exports = {
         "SwitchCase": 1
       }
     ],
+    "no-useless-escape": 0,
     "quotes": [
       2,
       "single"

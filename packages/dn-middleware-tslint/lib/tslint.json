@@ -10,6 +10,8 @@
   ],
   "rules": {
     "prettier": true,
+    "jsx-no-lambda": false,
+    "no-empty": false,
     "no-unnecessary-type-assertion": true,
     "array-type": [
       true,
@@ -20,10 +22,6 @@
         [
           "Object",
           "Avoid using the `Object` type. Did you mean `object`?"
-        ],
-        [
-          "Function",
-          "Avoid using the `Function` type. Prefer a specific function type, like `() => void`, or use `ts.AnyFunction`."
         ],
         [
           "Boolean",
@@ -55,7 +53,7 @@
     ],
     "interface-name": [
       true,
-      "never-prefix"
+      "always-prefix"
     ],
     "interface-over-type-literal": true,
     "jsdoc-format": true,
@@ -65,7 +63,7 @@
     ],
     "no-inferrable-types": true,
     "no-internal-module": true,
-    "no-null-keyword": true,
+    "no-null-keyword": false,
     "no-switch-case-fall-through": true,
     "no-trailing-whitespace": [
       true,
@@ -79,10 +77,10 @@
       "check-open-brace",
       "check-whitespace"
     ],
-    "prefer-const": true,
+    "prefer-const": false,
     "quotemark": [
       true,
-      "double",
+      "single",
       "avoid-escape"
     ],
     "semicolon": [
@@ -119,7 +117,7 @@
       "check-type"
     ],
     "no-implicit-dependencies": [
-      true,
+      false,
       "dev"
     ],
     "object-literal-key-quotes": [
@@ -127,7 +125,7 @@
       "consistent-as-needed"
     ],
     "variable-name": [
-      true,
+      false,
       "ban-keywords",
       "check-format",
       "allow-leading-underscore"

@@ -11,12 +11,15 @@
     "emitDecoratorMetadata": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "maxNodeModuleJsDepth": 4,
     "lib": [
       "dom",
       "es2017"
     ]
   },
   "include": [
-    "./demo/**/*.ts"
+    "./src/**/*.ts",
+    "./src/**/*.tsx"
   ]
 }
