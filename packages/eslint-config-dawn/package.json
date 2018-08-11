@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-dawn",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "dawn eslint rules",
   "main": "index.js",
   "scripts": {
@@ -14,5 +14,11 @@
   "license": "MIT",
   "peerDependencies": {
     "eslint": ">= 3"
+  },
+  "dependencies": {
+    "babel-eslint": "^8.2.6",
+    "eslint": "^5.3.0",
+    "eslint-plugin-html": "^4.0.5",
+    "eslint-plugin-react": "^7.10.0"
   }
 }

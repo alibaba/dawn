@@ -26,7 +26,7 @@ module.exports = function (opts) {
     this.console.info('执行静态检查...');
 
     const sources = (utils.isArray(opts.source) ? opts.source : [opts.source])
-      .filter(dir => globby.sync(`${dir}/*.{js,jsx}`).length > 0);
+      .filter(dir => globby.sync(`${dir}/**/*.{js,jsx}`).length > 0);
     if (sources.length < 1) return next();
     this.console.log('检查目标', sources.join(', '));
 
