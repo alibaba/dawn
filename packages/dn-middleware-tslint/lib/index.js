@@ -30,6 +30,9 @@ module.exports = function (opts) {
       cmd, '--config', rulesFile, '--project', tsconfigFile,
       '--exclude', '**/*.d.ts', '--format', 'stylish', '--fix'
     ].join(' '));
+
+    next();
+
   };
 
 };

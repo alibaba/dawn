@@ -30,8 +30,10 @@ module.exports = function (opts) {
       override: false
     });
 
-    const cmd = this.utils.findCommand(__dirname, 'tsc');
-    await this.utils.exec(`${cmd} --emitDeclarationOnly`);
+    if (opts.declaration !== false) {
+      const cmd = this.utils.findCommand(__dirname, 'tsc');
+      await this.utils.exec(`${cmd} --emitDeclarationOnly`);
+    }
 
     this.console.info('Done');
 
