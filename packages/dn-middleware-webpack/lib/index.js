@@ -27,7 +27,7 @@ module.exports = function (opts) {
     this.webpack = webpack;
 
     this.console.info('开始构建...');
-
+    this.emit('webpack.opts', opts);
     let config = opts.configObject || await generateConfig(this, opts);
 
     //config

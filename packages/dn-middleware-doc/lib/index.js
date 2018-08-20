@@ -11,7 +11,7 @@ module.exports = function (opts) {
   //必须返回一个中间件处理函数
   return async function (next) {
 
-    let doc = path.resolve(__dirname, '../node_modules/.bin/doczilla');
+    let doc = this.utils.findCommand(__dirname, 'doczilla');
 
     //在这里处理你的逻辑
     let command = `${doc} build`;

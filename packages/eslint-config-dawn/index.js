@@ -1,4 +1,4 @@
-{
+module.exports = {
   "parser": "babel-eslint",
   "plugins": [
     "react",
@@ -12,11 +12,6 @@
   "extends": [
     "eslint:recommended"
   ],
-  "ecmaFeatures": {
-    "jsx": true,
-    "modules": true,
-    "experimentalObjectRestSpread": true
-  },
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module",
@@ -37,6 +32,7 @@
         "SwitchCase": 1
       }
     ],
+    "no-useless-escape": 0,
     "quotes": [
       2,
       "single"
@@ -121,10 +117,6 @@
     "valid-jsdoc": [
       2
     ],
-    "comma-dangle": [
-      2,
-      "never"
-    ],
     "no-undef": [
       2
     ],
@@ -138,4 +130,4 @@
       2
     ]
   }
-}
+};

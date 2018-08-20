@@ -1,6 +1,6 @@
 {
-  "name": "dn-middleware-copy",
-  "version": "0.2.2",
+  "name": "dn-middleware-tslint",
+  "version": "1.1.2",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -9,9 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "globby": "^6.1.0",
-    "mkdirp": "^0.5.1",
-    "ntils": "^2.1.2",
-    "tpjs": "^3.8.3"
+    "tslint": "^5.11.0",
+    "tslint-config-dawn": "^1.0.1",
+    "typescript": "^3.0.1"
   }
 }

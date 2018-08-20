@@ -17,11 +17,8 @@ module.exports = function (opts) {
   return async function (next) {
 
     //mocha 执行文件路径
-    // let istanbul = path.resolve(__dirname, '../node_modules/.bin/istanbul');
-    // let istanbul_mocha = path.resolve(__dirname, '../node_modules/.bin/_mocha');
-    // let command = `${istanbul} cover ${istanbul_mocha}`;
-    let nyc = path.resolve(__dirname, '../node_modules/.bin/nyc');
-    let mocha = path.resolve(__dirname, '../node_modules/.bin/mocha');
+    let nyc = this.utils.findCommand(__dirname, 'nyc');
+    let mocha = this.utils.findCommand(__dirname, 'mocha');
     let setup = path.resolve(__dirname, `./setups/_${opts.env}.js`);
 
     let excludes = [

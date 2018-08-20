@@ -13,7 +13,7 @@ module.exports = function (opts) {
 
     //在这里处理你的逻辑
     this.console.log('执行单元测试');
-    let karma = path.resolve(__dirname, '../node_modules/.bin/karma');
+    let karma = this.utils.findCommand(__dirname, 'karma');
 
     this.console.log('完成');
 
