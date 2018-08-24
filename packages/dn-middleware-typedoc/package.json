@@ -7,5 +7,8 @@
     "test": "dn test"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "typedoc": "^0.12.0"
+  }
 }
