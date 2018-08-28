@@ -1,11 +1,11 @@
 {
-  "mode": "file",
+  "mode": "modules",
   "out": "docs/api",
   "exclude": "test",
   "theme": "default",
   "ignoreCompilerErrors": true,
   "excludePrivate": true,
-  "excludeProtected": true,
+  "excludeProtected": false,
   "excludeNotExported": true,
   "excludeExternals": false,
   "target": "ES6",

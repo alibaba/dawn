@@ -1,5 +1,5 @@
 {
-  "mode": "file",
+  "mode": "modules",
   "out": "docs/api",
   "exclude": "test",
   "theme": "default",
@@ -15,6 +15,5 @@
   "suppressExcessPropertyErrors": true,
   "suppressImplicitAnyIndexErrors": true,
   "module": "commonjs",
-  "version": false,
   "hideGenerator": true
 }
