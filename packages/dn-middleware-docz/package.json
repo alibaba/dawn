@@ -1,6 +1,6 @@
 {
-  "name": "dn-middleware-copy",
-  "version": "0.2.4",
+  "name": "dn-middleware-docz",
+  "version": "1.0.0",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -9,9 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "globby": "^6.1.0",
-    "mkdirp": "^0.5.1",
-    "ntils": "^2.1.2",
-    "tpjs": "^3.8.3"
+    "docz": "^0.11.0"
   }
 }

@@ -11,10 +11,9 @@ const fs = require('fs');
  */
 module.exports = function (opts) {
 
-  opts.from = opts.from || './';
-  opts.to = opts.to || './';
-  opts.files = opts.files || {};
-  opts.log = opts.log !== false;
+  opts = Object.assign({
+    from: './from', to: './', files: {}, log: true, dot: false
+  }, opts);
 
   //外层函数的用于接收「参数对象」
   //必须返回一个中间件处理函数
@@ -78,7 +77,7 @@ module.exports = function (opts) {
 
     //按单条规则 copy
     const copyItem = async (srcExpr, dstExpr) => {
-      const srcFiles = await globby(srcExpr, { cwd: from });
+      const srcFiles = await globby(srcExpr, { cwd: from, dot: opts.dot });
       return Promise.all(srcFiles.map(srcFile => {
         srcFile = path.resolve(from, srcFile);
         return copyFile(srcFile, dstExpr, srcExpr);
