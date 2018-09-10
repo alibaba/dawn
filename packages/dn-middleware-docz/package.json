@@ -1,0 +1,14 @@
+{
+  "name": "dn-middleware-docz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "dn test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "docz": "^0.11.0"
+  }
+}
