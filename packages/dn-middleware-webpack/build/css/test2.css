@@ -1,0 +1,23 @@
+@color: red;
+body {
+  color: @color;
+}
+
+.app {
+  color: @color;
+}
+
+._1PHKS2h4Q27w3wAW0AMHGg {
+  color: #ddd;
+}
+
+.xxx {
+  color: blue;
+}.ZYcPe8xzpMIOfBWn_qQY2 {
+  color: #ddd;
+}
+
+.test2 {
+  color: blue;
+}
+/*# sourceMappingURL=test2.css.map*/

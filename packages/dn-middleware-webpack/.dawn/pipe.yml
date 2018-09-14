@@ -1,10 +1,12 @@
 dev:
   - name: clean
-  - name: ./lib/index.js
+  - name: $local
     entry: ./demo/*.{js,jsx,ts,tsx}
     template: ./demo/assets/*.html
     watch: true
+    location: ./lib/index.js
     cssModules: true
+    stats: true
     config:
       path: ./demo/config
   - name: server
@@ -12,10 +14,13 @@ dev:
 
 build:
   - name: clean
-  - name: ./lib/index.js
+  - name: $local
+    location: ./lib/index.js
     entry: ./demo/*.{js,jsx,ts,tsx}
     template: ./demo/assets/*.html
     cssModules: false
+    compress: false
+    stats: true
     config:
       path: ./demo/config
 
