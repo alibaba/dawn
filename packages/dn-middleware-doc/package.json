@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-doc",
-  "version": "1.0.6",
+  "version": "2.0.0",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "doczilla": "^1.0.1"
+    "doczilla": "^2.1.0"
   }
 }
