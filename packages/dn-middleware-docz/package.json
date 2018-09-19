@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "docz": "^0.11.0"
+    "docz": "^0.11.2",
+    "docz-theme-default": "^0.11.2"
   }
 }
