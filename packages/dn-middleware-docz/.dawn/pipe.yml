@@ -2,8 +2,8 @@ init:
   - name: pkginfo
 
 dev:
-  - name: $local
-    location: ./lib/index.js
+  - name: ./lib/index.js
+  - name: webpack
 
 test:
   - name: lint

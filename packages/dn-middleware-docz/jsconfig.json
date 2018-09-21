@@ -9,6 +9,6 @@
     "experimentalDecorators": true
   },
   "include": [
-    "./src/**/*"
+    "./lib/**/*"
   ]
 }

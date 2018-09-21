@@ -1,0 +1,12 @@
+{
+  "config": {
+    "title": "Dn Middleware Docz",
+    "description": "My awesome app using docz",
+    "themeConfig": {},
+    "ordering": "descending",
+    "version": "1.0.0",
+    "repository": null,
+    "native": false
+  },
+  "entries": {}
+}

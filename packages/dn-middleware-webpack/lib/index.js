@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const utils = require('ntils');
 const os = require('os');
-const formatWebpackMessages = require('./formatWebpackMessages');
+const formatMessages = require('./formatMessages');
 
 /**
  * 这是一个标准的中间件工程模板
@@ -27,7 +27,7 @@ module.exports = function (opts) {
     this.webpack = webpack;
 
     this.console.info('开始构建...');
-    this.emit('webpack.opts', opts);
+    if (this.emit) this.emit('webpack.opts', opts, webpack);
     let config = opts.configObject || await generateConfig(this, opts);
 
     //config
@@ -56,12 +56,9 @@ module.exports = function (opts) {
     config.resolveLoader = config.resolve;
 
     //应用 faked 
-    if (this.emit) {
-      //兼容处理老版本 webpack
-      config.module.loaders = config.module.rules;
-      this.emit('webpack.config', config, webpack, opts);
-      delete config.module.loaders;
-    }
+    if (this.faked) this.faked.apply(config);
+    if (this.emit) this.emit('webpack.config', config, webpack, opts);
+    this.webpackConfig = config;
 
     await this.utils.sleep(1000);
 
@@ -79,7 +76,7 @@ module.exports = function (opts) {
     }
 
     function printErrors(json) {
-      let messages = formatWebpackMessages(json);
+      let messages = formatMessages(json);
 
       // If errors exist, only show errors.
       if (messages.errors.length) {
@@ -106,9 +103,10 @@ module.exports = function (opts) {
     // register 'webpack.compiler' event.
     // support webpackDevServer (or other) middleware(s)
     // to use webpack compiler instance
-    if (this.emit) this.emit('webpack.compiler', compiler);
+    if (this.emit) this.emit('webpack.compiler', compiler, webpack, opts);
 
     if (opts.watch) {
+      if (this.emit) this.emit('webpack.watch', compiler, webpack, opts);
       compiler.watch(opts.watchOpts, (err, stats) => {
         if (err) return this.console.error(err);
         let json = stats.toJson({}, true);
@@ -119,6 +117,7 @@ module.exports = function (opts) {
         next();
       });
     } else {
+      if (this.emit) this.emit('webpack.run', compiler, webpack, opts);
       compiler.run((err, stats) => {
         if (err) return this.console.error('error:', err);
         let json = stats.toJson({}, true);

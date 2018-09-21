@@ -12,7 +12,7 @@ const fs = require('fs');
 module.exports = function (opts) {
 
   opts = Object.assign({
-    from: './from', to: './', files: {}, log: true, dot: false
+    from: './', to: './', files: {}, log: true, dot: false
   }, opts);
 
   //外层函数的用于接收「参数对象」
@@ -47,9 +47,11 @@ module.exports = function (opts) {
 
     const filterContent = async buffer => {
       if (!buffer) return buffer;
-      if (utils.isString(opts.filter)) {
+      if (utils.isFunction(opts.filter)) {
+        return opts.filter.call(this, buffer, this);
+      } else if (utils.isString(opts.filter)) {
         const filterFile = path.resolve(this.cwd, opts.filter);
-        return await require(filterFile).call(this, buffer, this);
+        return require(filterFile).call(this, buffer, this);
       } else if (opts.filter) {
         const text = buffer.toString();
         return tp.parse(text, this);
