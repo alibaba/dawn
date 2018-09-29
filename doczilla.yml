@@ -1,7 +1,8 @@
 output: ./docs/docs
 
-locales:
+mode: static
 
+locales:
   - name: zh
     text: 中文
     title: Dawn 
@@ -25,5 +26,4 @@ locales:
     docs:
       - ./**/*.md
       - '!./node_modules/**/*.md'
-      - '!./packages/**/node_modules/**/*.md'
-      - '!./packages/dn-template-doc/docs/*.md'
+      - '!./packages/**/*.md'
