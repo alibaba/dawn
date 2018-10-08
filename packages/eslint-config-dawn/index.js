@@ -115,7 +115,9 @@ module.exports = {
       }
     ],
     "valid-jsdoc": [
-      2
+      2, {
+        "requireReturn": false
+      }
     ],
     "no-undef": [
       2

@@ -1,7 +1,24 @@
-details.expand summary {
+.article details summary {
   cursor: pointer;
+  user-select: none;
 }
 
-details.expand summary:focus {
+.article details summary:focus {
   outline: none;
+}
+
+.article details .state-close {
+  display: none;
+}
+
+.article details .state-open {
+  display: inline-block;
+}
+
+.article details[open] .state-close {
+  display: inline-block;
+}
+
+.article details[open] .state-open {
+  display: none;
 }
