@@ -21,7 +21,7 @@ module.exports = function (opts) {
     }
 
     const bsInstance = browserSync.create().init({
-      logSnippet: true,
+      logSnippet: false,
       open: false,
       files: opts.files,
       ui: {
