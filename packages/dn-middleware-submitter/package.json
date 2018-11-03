@@ -1,6 +1,6 @@
 {
-  "name": "dn-middleware-browser-sync",
-  "version": "0.1.0",
+  "name": "dn-middleware-submitter",
+  "version": "1.0.0",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "browser-sync": "^2.24.4",
-    "connect-browser-sync": "^2.1.0"
+    "simple-git": "^1.105.0"
   }
 }

@@ -12,7 +12,7 @@ const fs = require('fs');
 module.exports = function (opts) {
 
   opts = Object.assign({
-    from: './', to: './', files: {}, log: true, dot: false
+    from: './', to: './', files: {}, log: true, dot: true
   }, opts);
 
   //外层函数的用于接收「参数对象」
