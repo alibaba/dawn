@@ -27,7 +27,7 @@ i18n.compile = function (expr) {
   if (!this.expressions[expr]) {
     this.expressions[expr] = new Function(
       '$scope',
-      `with($scope||{}){try{return(${expr})}catch(err){return ''}}`
+      'with($scope||{}){try{return(' + expr + ')}catch(err){return ""}}'
     );
   }
   return this.expressions[expr];

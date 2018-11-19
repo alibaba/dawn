@@ -117,7 +117,7 @@ i18n.get = function (key, params, defaultValue) {
 i18n.compile = function (expr) {
   if (!expr || !utils.isString(expr)) return;
   if (!this.expressions[expr]) {
-    this.expressions[expr] = new Function('$scope', 'with($scope||{}){try{return(' + expr + ')}catch(err){return \'\'}}');
+    this.expressions[expr] = new Function('$scope', 'with($scope||{}){try{return(' + expr + ')}catch(err){return ""}}');
   }
   return this.expressions[expr];
 };
