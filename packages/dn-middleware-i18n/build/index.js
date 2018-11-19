@@ -1,2 +1,1007 @@
-!function(t){function n(r){if(e[r])return e[r].exports;var o=e[r]={i:r,l:!1,exports:{}};return t[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}var e={};n.m=t,n.c=e,n.d=function(t,e,r){n.o(t,e)||Object.defineProperty(t,e,{configurable:!1,enumerable:!0,get:r})},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,n){return Object.prototype.hasOwnProperty.call(t,n)},n.p="",n(n.s=0)}([function(t,n,e){t.exports=e(1)},function(t,n,e){var r=e(2);r.init({language:"zh-CN"}),console.log(r("hello")),console.log(r("hello",{name:"i18n"})),console.log(r("test1",null,"test1-default1")),console.log(r("test2")),console.log(r("test1","test1-default2"))},function(t,n,e){(function(n){function r(){return r.get.apply(r,arguments)}var o=e(4),i=e(5);r.locale={},r.get=function(t,n,e){i.isString(n)&&(e=[n,n=e][0]);var r=this.locale[t]||e;return r=i.isNull(r)?t:r,i.each(n,function(t,n){r=r.replace(new RegExp("{"+t+"}","gm"),n||"")}),r},r.getLocale=function(t){var e=n.__locale;return!t||e?e:o[t]||o[t.split("-")[0]]||i.each(o,function(n){if(n.split("-")[0]==t.split("-")[0])return o[n]})},r.init=function(t){t=t||{};var n=t.language||"",e=t.defaultLanguage||"zh-CN";this.locale=this.getLocale(n)||this.getLocale(e)||{}},r.init(),t.exports=r}).call(n,e(3))},function(t,n){var e;e=function(){return this}();try{e=e||Function("return this")()||(0,eval)("this")}catch(t){"object"==typeof window&&(e=window)}t.exports=e},function(t,n){t.exports={_t:1525419575911}},function(t,n,e){"use strict";function r(){}function o(t){return Object.prototype.toString.call(t)}function i(t){return/^\[object (.+)\]$/i.exec(o(t))[1]}function u(t){return void 0===t||null===t}function c(t){return u(t)?t:t.trim?t.trim():t.replace(/(^[\\s]*)|([\\s]*$)/g,"")}function a(t,n,e){return u(t)?t:t.replace(new RegExp(n,"g"),e)}function f(t,n){return!u(t)&&!u(n)&&0===t.indexOf(n)}function l(t,n){return!u(t)&&!u(n)&&t.indexOf(n)>-1}function s(t,n){return!u(t)&&!u(n)&&t.indexOf(n)===t.length-n.length}function p(t,n){return!u(t)&&!u(n)&&(n in t||t.hasOwnProperty(n))}function g(t){return!u(t)&&"function"==typeof t}function h(t){return!u(t)&&"AsyncFunction"===i(t)}function y(t){return!u(t)&&"GeneratorFunction"===i(t)}function b(t){return!u(t)&&"String"===i(t)}function v(t){return!u(t)&&"Number"===i(t)}function d(t){return!u(t)&&"Boolean"===i(t)}function m(t){return!u(t)&&(win.Element?t instanceof Element:t.tagName&&t.nodeType&&t.nodeName&&t.attributes&&t.ownerDocument)}function O(t){return!u(t)&&t instanceof Text}function x(t){if(u(t))return!1;var n=i(t);return"Object"===n||"Array"===n}function w(t){if(u(t))return!1;var n="Array"===i(t),e=t instanceof Array,r=!b(t)&&v(t.length)&&g(t.splice),o=!b(t)&&v(t.length)&&t[0];return n||e||r||o}function _(t){return!u(t)&&t instanceof Date}function j(t){return t instanceof RegExp}function P(t){return u(t)?[]:Array.prototype.slice.call(t)}function E(t){return v(t)?new Date(t):b(t)?new Date(a(a(t,"-","/"),"T"," ")):_(t)?t:null}function C(t,n,e){if(!u(t)&&!u(n))if(w(t))for(var r=t.length,o=0;o<r;o++){var i=n.call(e||t[o],o,t[o]);if(!u(i))return i}else for(var c in t){var i=n.call(e||t[c],c,t[c]);if(!u(i))return i}}function M(t,n,e){if(u(n)||u(t))return t;t=E(t),e=e||{};var r={"M+":t.getMonth()+1,"d+":t.getDate(),"h+":t.getHours(),"m+":t.getMinutes(),"s+":t.getSeconds(),"w+":t.getDay(),"q+":Math.floor((t.getMonth()+3)/3),S:t.getMilliseconds()};/(y+)/.test(n)&&(n=n.replace(RegExp.$1,(t.getFullYear()+"").substr(4-RegExp.$1.length)));for(var o in r)if(new RegExp("("+o+")").test(n)){var i=r[o];i=e[i]||i,n=n.replace(RegExp.$1,1==RegExp.$1.length?i:("00"+i).substr((""+i).length))}return n}function A(t,n,e){return n=n||(w(t)?[]:{}),C(t,function(r){if(!(e&&e.indexOf(r)>-1))if(delete n[r],Object.getOwnPropertyDescriptor)try{Object.defineProperty(n,r,Object.getOwnPropertyDescriptor(t,r))}catch(e){n[r]=t[r]}else n[r]=t[r]}),n}function D(t,n){if(u(t)||b(t)||v(t)||d(t)||_(t))return t;var e=t;try{e=new t.constructor}catch(t){}return C(t,function(t,r){e[t]==r||l(n,t)||(x(r)?e[t]=D(r,n):e[t]=r)}),["toString","valueOf"].forEach(function(r){l(n,r)||$(e,r,t[r])}),e}function S(t,n,e,r,o){if(r)switch(r){case 1:return S(t.prototype,n.prototype,e,0);case 2:S(t.prototype,n.prototype,e,0);break;case 3:return S(t,n.prototype,e,0);case 4:return S(t.prototype,n,e,0)}return n=n||{},t=t||(w(n)?[]:{}),N(n).forEach(function(r){l(e,r)||o&&u(n[r])||(!x(n[r])||n[r].constructor!=Object&&n[r].constructor!=Array&&null!=n[r].constructor?t[r]=n[r]:t[r]=S(t[r],n[r],e,0,o))}),t}function $(t,n,e){if(arguments.length<1)throw new Error("Parameter missing");if(arguments.length<2)return C(t,function(n,e){$(t,n,e)});if(arguments.length<3)return $(t,n,t[n]);try{Object.defineProperty(t,n,{get:function(){return e},set:function(){throw new Error("Cannot assign to final property:"+n)},enumerable:!1,configurable:!1})}catch(r){t[n]=e}}function N(t){if(Object.keys)return Object.keys(t);var n=[];return C(t,function(t){n.push(t)}),n}function R(t,n){function e(){}if(Object.create)return Object.create(t,n);e.prototype=t;var r=new e;return n&&A(n,r),r}function F(t,n){if(Object.setPrototypeOf)return Object.setPrototypeOf(t,n||R(null));"__proto__"in Object||A(n,t),t.__proto__=n}function L(t){return t.__proto__?t.__proto__:Object.getPrototypeOf?Object.getPrototypeOf(t):t.constructor?t.constructor.prototype:void 0}function T(t,n){if(t===n)return!0;if(!x(t)||!x(n))return!1;var e=N(t),r=N(n);if(e.length!==r.length)return!1;var o=e.concat(r),i=R(null),u=!0;return C(o,function(e,r){i[r]||(T(t[r],n[r])||(u=!1),i[r]=!0)}),u}function k(t,n,e,r){if(r||(r=[e,e=r][0]),e=Math.abs(e||1),t<n)for(var o=t;o<=n;o+=e)r(o);else for(var o=t;o>=n;o-=e)r(o)}function z(){function t(){return(65536*(1+Math.random())|0).toString(16).substring(1)}return t()+t()+"-"+t()+"-"+t()+"-"+t()+"-"+t()+t()+t()}function B(t,n){var e=w(t)?[]:{};return C(t,function(t,r){e[t]=n(t,r)}),e}function U(t,n,e){u(t)||u(n)||""===n||(w(n)||(n=n.replace(/\[/,".").replace(/\]/,".").split(".")),C(n,function(r,o){u(o)||o.length<1||(r===n.length-1?t[o]=e:(t[o]=t[o]||{},t=t[o]))}))}function q(t,n){return u(t)||u(n)||""===n?t:(w(n)||(n=n.replace(/\[/,".").replace(/\]/,".").split(".")),C(n,function(n,e){u(e)||e.length<1||u(t)||(t=t[e])}),t)}function G(t){if(u(t))return t;var n=[];return C(t,function(t,e){n.indexOf(e)>-1||n.push(e)}),n}function H(t){if(!t)return[];var n=t.toString(),e=n.split(")")[0].split("=>")[0].split("(");return(e[1]||e[0]).split(",").map(function(t){return c(t)}).filter(function(t){return"function"!=t})}function W(t,n){if(!t)return t;n=n||40;var e=t.length,r=n/2;return e>n?t.substr(0,r)+"..."+t.substr(e-r):t}function Y(t){return b(t)?t.substring(0,1).toUpperCase()+t.substring(1):""}function Z(t){return b(t)?t.replace(/[-\/\\^$*+?.()|[\]{}]/g,"\\$&"):""}function I(t,n){return b(t)?(t&&(t=t.replace(/\-[a-z0-9]/g,function(t){return t.slice(1).toUpperCase()}),t=t.replace(/^[a-z]/i,function(t){return n?t.toUpperCase():t.toLowerCase()})),t):""}function J(t){return b(t)?(t&&(t=t.replace(/([A-Z])/g,"-$1"),"-"==t[0]&&(t=t.slice(1))),t.toLowerCase()):""}function K(t){var n=/<(?!area|br|col|embed|hr|img|input|link|meta|param)(([a-z][^\/\0>\x20\t\r\n\f]*)[^>]*)\/>/gi;return t.replace(n,"<$1></$2>")}function Q(t){t=t||" ";var n=document.createElement("div");n.innerHTML=K(c(t));var e=P(n.childNodes);return C(e,function(t,e){n.removeChild(e)}),e}Object.defineProperty(n,"__esModule",{value:!0});var V=p;n.noop=r,n.toString=o,n.getType=i,n.isNull=u,n.trim=c,n.replace=a,n.startWith=f,n.contains=l,n.endWith=s,n.has=p,n.hasProperty=V,n.isFunction=g,n.isAsyncFunction=h,n.isGeneratorFunction=y,n.isString=b,n.isNumber=v,n.isBoolean=d,n.isElement=m,n.isText=O,n.isObject=x,n.isArray=w,n.isDate=_,n.isRegexp=j,n.toArray=P,n.toDate=E,n.each=C,n.formatDate=M,n.copy=A,n.clone=D,n.mix=S,n.final=$,n.keys=N,n.create=R,n.setPrototypeOf=F,n.getPrototypeOf=L,n.deepEqual=T,n.fromTo=k,n.newGuid=z,n.map=B,n.setByPath=U,n.getByPath=q,n.unique=G,n.getFunctionArgumentNames=H,n.short=W,n.firstUpper=Y,n.escapeRegExp=Z,n.toCamelCase=I,n.toSplitCase=J,n.htmlPrefilter=K,n.parseHTML=Q}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(1);
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var i18n = __webpack_require__(2);
+
+i18n.init({
+  language: 'zh-CN'
+});
+
+console.log(i18n('hello'));
+console.log(i18n('hello', { name: 'i18n' }));
+console.log(i18n('test1', null, 'test1-default1'));
+console.log(i18n('test2'));
+console.log(i18n('test1', 'test1-default2'));
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {var utils = __webpack_require__(4);
+var locales = __webpack_require__(5);
+var opts = __webpack_require__(6);
+
+function i18n() {
+  return i18n.get.apply(i18n, arguments);
+}
+
+i18n.locale = {};
+i18n.expressions = {};
+
+i18n.get = function (key, params, defaultValue) {
+  if (utils.isString(params)) {
+    defaultValue = [params, params = defaultValue][0];
+  }
+  var text = this.locale[key] || defaultValue;
+  text = utils.isNull(text) ? key : text;
+  // utils.each(params, function (name, value) {
+  //   text = text.replace(new RegExp('\{' + name + '\}', 'gm'), value || '');
+  // });
+  // return text;
+  return this.parse(text, params);
+};
+
+i18n.compile = function (expr) {
+  if (!expr || !utils.isString(expr)) return;
+  if (!this.expressions[expr]) {
+    this.expressions[expr] = new Function('$scope', 'with($scope||{}){try{return(' + expr + ')}catch(err){return \'\'}}');
+  }
+  return this.expressions[expr];
+};
+
+i18n.parse = function (text, params) {
+  var info = text.split(/\{(.*?)\}/);
+  for (var i = 1; i <= info.length; i += 2) {
+    if (!info[i]) continue;
+    var func = this.compile(info[i]);
+    if (!func) continue;
+    info[i] = func(params);
+  }
+  return opts.jsx ? info : info.join('');
+};
+
+i18n.getLocale = function (name) {
+  var locale = global.__locale;
+  if (!name || locale) return locale;
+  return locales[name] || locales[name.split('-')[0]] || utils.each(locales, function (key) {
+    if (key.split('-')[0] == name.split('-')[0]) return locales[key];
+  });
+};
+
+i18n.init = function (opts) {
+  opts = opts || {};
+  var currentLang = opts.language || '';
+  var defaultLang = opts.defaultLanguage || 'zh-CN';
+  this.locale = this.getLocale(currentLang) || this.getLocale(defaultLang) || {};
+};
+
+i18n.init();
+
+module.exports = i18n;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+/**
+ * 空函数
+ */
+function noop() { }
+
+function toString(obj) {
+  return Object.prototype.toString.call(obj);
+}
+
+function getType(obj) {
+  var str = toString(obj);
+  return (/^\[object (.+)\]$/i.exec(str))[1];
+}
+
+/**
+ * 验证一个对象是否为NULL
+ * @method isNull
+ * @param  {Object}  obj 要验证的对象
+ * @return {Boolean}     结果
+ * @static
+ */
+function isNull(obj) {
+  return obj === undefined || obj === null;
+}
+
+/**
+ * 除去字符串两端的空格
+ * @method trim
+ * @param  {String} str 源字符串
+ * @return {String}     结果字符串
+ * @static
+ */
+function trim(str) {
+  if (isNull(str)) return str;
+  if (str.trim) {
+    return str.trim();
+  } else {
+    return str.replace(/(^[\\s]*)|([\\s]*$)/g, "");
+  }
+}
+
+/**
+ * 替换所有
+ * @method replace
+ * @param {String} str 源字符串
+ * @param {String} str1 要替换的字符串
+ * @param {String} str2 替换为的字符串
+ * @static
+ */
+function replace(str, str1, str2) {
+  if (isNull(str)) return str;
+  return str.replace(new RegExp(str1, 'g'), str2);
+}
+
+/**
+ * 从字符串开头匹配
+ * @method startWith
+ * @param {String} str1 源字符串
+ * @param {String} str2 要匹配的字符串
+ * @return {Boolean} 匹配结果
+ * @static
+ */
+function startWith(str1, str2) {
+  if (isNull(str1) || isNull(str2)) return false;
+  return str1.indexOf(str2) === 0;
+}
+
+/**
+ * 是否包含
+ * @method contains
+ * @param {String} str1 源字符串
+ * @param {String} str2 检查包括字符串
+ * @return {Boolean} 结果
+ * @static
+ */
+function contains(str1, str2) {
+  if (isNull(str1) || isNull(str2)) return false;
+  return str1.indexOf(str2) > -1;
+}
+
+/**
+ * 从字符串结束匹配
+ * @method endWidth
+ * @param {String} str1 源字符串
+ * @param {String} str2 匹配字符串
+ * @return {Boolean} 匹配结果
+ * @static
+ */
+function endWith(str1, str2) {
+  if (isNull(str1) || isNull(str2)) return false;
+  return str1.indexOf(str2) === (str1.length - str2.length);
+}
+
+/**
+ * 是否包含属性
+ * @method hasProperty
+ * @param  {Object}  obj  对象
+ * @param  {String}  name 属性名
+ * @return {Boolean}      结果
+ * @static
+ */
+function has(obj, name) {
+  if (isNull(obj) || isNull(name)) return false;
+  return (name in obj) || (obj.hasOwnProperty(name));
+}
+var hasProperty = has;
+
+/**
+ * 验证一个对象是否为Function
+ * @method isFunction
+ * @param  {Object}  obj 要验证的对象
+ * @return {Boolean}     结果
+ * @static
+ */
+function isFunction(obj) {
+  if (isNull(obj)) return false;
+  return typeof obj === "function";
+}
+
+/**
+ * 验证一个对象是否为 AsyncFunction
+ * @method isAsyncFunction
+ * @param  {Object}  obj 要验证的对象
+ * @return {Boolean}     结果
+ * @static
+ */
+function isAsyncFunction(obj) {
+  if (isNull(obj)) return false;
+  return getType(obj) === "AsyncFunction";
+}
+
+/**
+ * 验证一个对象是否为 GeneratorFunction
+ * @method isGeneratorFunction
+ * @param  {Object}  obj 要验证的对象
+ * @return {Boolean}     结果
+ * @static
+ */
+function isGeneratorFunction(obj) {
+  if (isNull(obj)) return false;
+  return getType(obj) === "GeneratorFunction";
+}
+
+
+/**
+ * 验证一个对象是否为String
+ * @method isString
+ * @param  {Object}  obj 要验证的对象
+ * @return {Boolean}     结果
+ * @static
+ */
+function isString(obj) {
+  if (isNull(obj)) return false;
+  return getType(obj) === 'String';
+}
+
+/**
+ * 验证一个对象是否为Number
+ * @method isNumber
+ * @param  {Object}  obj 要验证的对象
+ * @return {Boolean}     结果
+ * @static
+ */
+function isNumber(obj) {
+  if (isNull(obj)) return false;
+  return getType(obj) === 'Number';
+}
+
+/**
+ * 验证一个对象是否为Boolean
+ * @method isBoolean
+ * @param  {Object}  obj 要验证的对象
+ * @return {Boolean}     结果
+ * @static
+ */
+function isBoolean(obj) {
+  if (isNull(obj)) return false;
+  return getType(obj) === 'Boolean';
+}
+
+/**
+ * 验证一个对象是否为HTML Element
+ * @method isElement
+ * @param  {Object}  obj 要验证的对象
+ * @return {Boolean}     结果
+ * @static
+ */
+function isElement(obj) {
+  if (isNull(obj)) return false;
+  if (win.Element) {
+    return obj instanceof Element;
+  } else {
+    return (obj.tagName && obj.nodeType &&
+      obj.nodeName && obj.attributes &&
+      obj.ownerDocument);
+  }
+}
+
+/**
+ * 验证一个对象是否为HTML Text Element
+ * @method isText
+ * @param  {Object}  obj 要验证的对象
+ * @return {Boolean}     结果
+ * @static
+ */
+function isText(obj) {
+  if (isNull(obj)) return false;
+  return obj instanceof Text;
+}
+
+/**
+ * 验证一个对象是否为Object
+ * @method isObject
+ * @param  {Object}  obj 要验证的对象
+ * @return {Boolean}     结果
+ * @static
+ */
+function isObject(obj) {
+  if (isNull(obj)) return false;
+  var type = getType(obj);
+  return type === 'Object' || type === 'Array';
+}
+
+/**
+ * 验证一个对象是否为Array或伪Array
+ * @method isArray
+ * @param  {Object}  obj 要验证的对象
+ * @return {Boolean}     结果
+ * @static
+ */
+function isArray(obj) {
+  if (isNull(obj)) return false;
+  var v1 = getType(obj) === 'Array';
+  var v2 = obj instanceof Array;
+  var v3 = !isString(obj) && isNumber(obj.length) && isFunction(obj.splice);
+  var v4 = !isString(obj) && isNumber(obj.length) && obj[0];
+  return v1 || v2 || v3 || v4;
+}
+
+/**
+ * 验证是不是一个日期对象
+ * @method isDate
+ * @param {Object} val   要检查的对象
+ * @return {Boolean}           结果
+ * @static
+ */
+function isDate(val) {
+  if (isNull(val)) return false;
+  return val instanceof Date;
+}
+
+/**
+ * 验证是不是一个正则对象
+ * @method isDate
+ * @param {Object} val   要检查的对象
+ * @return {Boolean}           结果
+ * @static
+ */
+function isRegexp(val) {
+  return val instanceof RegExp;
+}
+
+/**
+ * 转换为数组
+ * @method toArray
+ * @param {Array|Object} array 伪数组
+ * @return {Array} 转换结果数组
+ * @static
+ */
+function toArray(array) {
+  if (isNull(array)) return [];
+  return Array.prototype.slice.call(array);
+}
+
+/**
+ * 转为日期格式
+ * @method toDate
+ * @param {Number|String} val 日期字符串或整型数值
+ * @return {Date} 日期对象
+ * @static
+ */
+function toDate(val) {
+  if (isNumber(val))
+    return new Date(val);
+  else if (isString(val))
+    return new Date(replace(replace(val, '-', '/'), 'T', ' '));
+  else if (isDate(val))
+    return val;
+  else
+    return null;
+}
+
+/**
+ * 遍历一个对像或数组
+ * @method each
+ * @param  {Object or Array}   obj  要遍历的数组或对象
+ * @param  {Function} fn            处理函数
+ * @return {void}                   无返回值
+ * @static
+ */
+function each(list, handler, scope) {
+  if (isNull(list) || isNull(handler)) return;
+  if (isArray(list)) {
+    var listLength = list.length;
+    for (var i = 0; i < listLength; i++) {
+      var rs = handler.call(scope || list[i], i, list[i]);
+      if (!isNull(rs)) return rs;
+    }
+  } else {
+    for (var key in list) {
+      var rs = handler.call(scope || list[key], key, list[key]);
+      if (!isNull(rs)) return rs;
+    }
+  }
+}
+
+/**
+ * 格式化日期
+ * @method formatDate
+ * @param {Date|String|Number} date 日期
+ * @param {String} format 格式化字符串
+ * @param {object} dict 反译字典
+ * @return {String} 格式化结果
+ * @static
+ */
+function formatDate(date, format, dict) {
+  if (isNull(format) || isNull(date)) return date;
+  date = toDate(date);
+  dict = dict || {};
+  var placeholder = {
+    "M+": date.getMonth() + 1, //month
+    "d+": date.getDate(), //day
+    "h+": date.getHours(), //hour
+    "m+": date.getMinutes(), //minute
+    "s+": date.getSeconds(), //second
+    "w+": date.getDay(), //week
+    "q+": Math.floor((date.getMonth() + 3) / 3), //quarter
+    "S": date.getMilliseconds() //millisecond
+  };
+  if (/(y+)/.test(format)) {
+    format = format.replace(
+      RegExp.$1,
+      (date.getFullYear() + "").substr(4 - RegExp.$1.length)
+    );
+  }
+  for (var key in placeholder) {
+    if (new RegExp("(" + key + ")").test(format)) {
+      var value = placeholder[key];
+      value = dict[value] || value;
+      format = format.replace(RegExp.$1, RegExp.$1.length == 1
+        ? value : ("00" + value).substr(("" + value).length));
+    }
+  }
+  return format;
+}
+
+/**
+ * 拷贝对象
+ * @method copy
+ * @param {Object} src 源对象
+ * @param {Object} dst 目标对象
+ * @static
+ */
+function copy(src, dst, igonres) {
+  dst = dst || (isArray(src) ? [] : {});
+  each(src, function (key) {
+    if (igonres && igonres.indexOf(key) > -1) return;
+    delete dst[key];
+    if (Object.getOwnPropertyDescriptor) {
+      try {
+        Object.defineProperty(dst, key,
+          Object.getOwnPropertyDescriptor(src, key));
+      } catch (ex) {
+        dst[key] = src[key];
+      }
+    } else {
+      dst[key] = src[key];
+    }
+  });
+  return dst;
+}
+
+/**
+ * 深度克隆对象
+ * @method clone
+ * @param {Object} src 源对象
+ * @return {Object} 新对象
+ * @static
+ */
+function clone(src, igonres) {
+  if (isNull(src) ||
+    isString(src) ||
+    isNumber(src) ||
+    isBoolean(src) ||
+    isDate(src)) {
+    return src;
+  }
+  var objClone = src;
+  try {
+    objClone = new src.constructor();
+  } catch (ex) { }
+  each(src, function (key, value) {
+    if (objClone[key] != value && !contains(igonres, key)) {
+      if (isObject(value)) {
+        objClone[key] = clone(value, igonres);
+      } else {
+        objClone[key] = value;
+      }
+    }
+  });
+  ['toString', 'valueOf'].forEach(function (key) {
+    if (contains(igonres, key)) return;
+    final(objClone, key, src[key]);
+  });
+  return objClone;
+}
+
+/**
+ * 合并对象
+ * @method mix
+ * @return 合并后的对象
+ * @param {Object} dst 目标对象
+ * @param {Object} src 源对象
+ * @param {Array} igonres 忽略的属性名,
+ * @param {Number} mode 模式
+ */
+function mix(dst, src, igonres, mode, igonreNull) {
+  //根据模式来判断，默认是Obj to Obj的  
+  if (mode) {
+    switch (mode) {
+      case 1: // proto to proto  
+        return mix(dst.prototype, src.prototype, igonres, 0);
+      case 2: // object to object and proto to proto  
+        mix(dst.prototype, src.prototype, igonres, 0);
+        break; // pass through  
+      case 3: // proto to static  
+        return mix(dst, src.prototype, igonres, 0);
+      case 4: // static to proto  
+        return mix(dst.prototype, src, igonres, 0);
+      default: // object to object is what happens below  
+    }
+  }
+  //---
+  src = src || {};
+  dst = dst || (isArray(src) ? [] : {});
+  keys(src).forEach(function (key) {
+    if (contains(igonres, key)) return;
+    if (igonreNull && isNull(src[key])) return;
+    if (isObject(src[key]) &&
+      (src[key].constructor == Object ||
+        src[key].constructor == Array ||
+        src[key].constructor == null)) {
+      dst[key] = mix(dst[key], src[key], igonres, 0, igonreNull);
+    } else {
+      dst[key] = src[key];
+    }
+  });
+  return dst;
+}
+
+/**
+ * 定义不可遍历的属性
+ **/
+function final(obj, name, value) {
+  if (arguments.length < 1) throw new Error('Parameter missing');
+  if (arguments.length < 2) {
+    return each(obj, function (name, value) {
+      final(obj, name, value);
+    });
+  }
+  if (arguments.length < 3) return final(obj, name, obj[name]);
+  try {
+    Object.defineProperty(obj, name, {
+      get: function () {
+        return value;
+      },
+      set: function () {
+        throw new Error('Cannot assign to final property:' + name);
+      },
+      enumerable: false, //不能枚举
+      configurable: false, //不能重写定义
+    });
+  } catch (err) {
+    obj[name] = value;
+  }
+}
+
+/**
+ * 获取所有 key 
+ */
+function keys(obj) {
+  if (Object.keys) return Object.keys(obj);
+  var keys = [];
+  each(obj, function (key) {
+    keys.push(key);
+  });
+  return keys;
+}
+
+/**
+ * 创建一个对象
+ */
+function create(proto, props) {
+  if (Object.create) return Object.create(proto, props);
+  function Cotr() { }
+  Cotr.prototype = proto;
+  var obj = new Cotr();
+  if (props) copy(props, obj);
+  return obj;
+}
+
+/**
+ * 设置 proto
+ * 在不支持 setPrototypeOf 也不支持 __proto__ 的浏览器
+ * 中，会采用 copy 方式
+ */
+function setPrototypeOf(obj, proto) {
+  if (Object.setPrototypeOf) {
+    return Object.setPrototypeOf(obj, proto || create(null));
+  } else {
+    if (!('__proto__' in Object)) copy(proto, obj);
+    obj.__proto__ = proto;
+  }
+}
+
+/**
+ * 获取 proto
+ */
+function getPrototypeOf(obj) {
+  if (obj.__proto__) return obj.__proto__;
+  if (Object.getPrototypeOf) return Object.getPrototypeOf(obj);
+  if (obj.constructor) return obj.constructor.prototype;
+}
+
+/**
+ * 是否深度相等
+ */
+function deepEqual(a, b) {
+  if (a === b) return true;
+  if (!isObject(a) || !isObject(b)) return false;
+  var aKeys = keys(a);
+  var bKeys = keys(b);
+  if (aKeys.length !== bKeys.length) return false;
+  var allKeys = aKeys.concat(bKeys);
+  var checkedMap = create(null);
+  var result = true;
+  each(allKeys, function (i, key) {
+    if (checkedMap[key]) return;
+    if (!deepEqual(a[key], b[key])) result = false;
+    checkedMap[key] = true;
+  });
+  return result;
+}
+
+/**
+ * 从一个数值循环到别一个数
+ * @param {number} fromNum 开始数值
+ * @param {Number} toNum 结束数值
+ * @param {Number} step 步长值
+ * @param {function} handler 执行函数
+ * @returns {void} 无返回
+ */
+function fromTo(fromNum, toNum, step, handler) {
+  if (!handler) handler = [step, step = handler][0];
+  step = Math.abs(step || 1);
+  if (fromNum < toNum) {
+    for (var i = fromNum; i <= toNum; i += step) handler(i);
+  } else {
+    for (var i = fromNum; i >= toNum; i -= step) handler(i);
+  }
+}
+
+/**
+ * 生成一个Guid
+ * @method newGuid
+ * @return {String} GUID字符串
+ * @static
+ */
+function newGuid() {
+  function s4() {
+    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+  }
+  return (s4() + s4() + "-" + s4() + "-" + s4() + "-" +
+    s4() + "-" + s4() + s4() + s4());
+}
+
+/**
+ * 对象变换
+ **/
+function map(list, fn) {
+  var buffer = isArray(list) ? [] : {};
+  each(list, function (name, value) {
+    buffer[name] = fn(name, value);
+  });
+  return buffer;
+}
+
+/**
+ * 通过路径设置属性值
+ */
+function setByPath(obj, path, value) {
+  if (isNull(obj) || isNull(path) || path === '') {
+    return;
+  }
+  if (!isArray(path)) {
+    path = path.replace(/\[/, '.').replace(/\]/, '.').split('.');
+  }
+  each(path, function (index, name) {
+    if (isNull(name) || name.length < 1) return;
+    if (index === path.length - 1) {
+      obj[name] = value;
+    } else {
+      obj[name] = obj[name] || {};
+      obj = obj[name];
+    }
+  });
+}
+
+/**
+ * 通过路径获取属性值
+ */
+function getByPath(obj, path) {
+  if (isNull(obj) || isNull(path) || path === '') {
+    return obj;
+  }
+  if (!isArray(path)) {
+    path = path.replace(/\[/, '.').replace(/\]/, '.').split('.');
+  }
+  each(path, function (index, name) {
+    if (isNull(name) || name.length < 1) return;
+    if (!isNull(obj)) obj = obj[name];
+  });
+  return obj;
+}
+
+/**
+ * 数组去重
+ **/
+function unique(array) {
+  if (isNull(array)) return array;
+  var newArray = [];
+  each(array, function (i, value) {
+    if (newArray.indexOf(value) > -1) return;
+    newArray.push(value);
+  });
+  return newArray;
+}
+
+/**
+ * 解析 function 的参数列表
+ **/
+function getFunctionArgumentNames(fn) {
+  if (!fn) return [];
+  var src = fn.toString();
+  var parts = src.split(')')[0].split('=>')[0].split('(');
+  return (parts[1] || parts[0]).split(',').map(function (name) {
+    return trim(name);
+  }).filter(function (name) {
+    return name != 'function';
+  });
+}
+
+/**
+ * 缩短字符串
+ */
+function short(str, maxLength) {
+  if (!str) return str;
+  maxLength = maxLength || 40;
+  var strLength = str.length;
+  var trimLength = maxLength / 2;
+  return strLength > maxLength ?
+    str.substr(0, trimLength) + '...' + str.substr(strLength - trimLength) :
+    str;
+}
+
+/**
+ * 首字母大写
+ */
+function firstUpper(str) {
+  if (!isString(str)) return '';
+  return str.substring(0, 1).toUpperCase() + str.substring(1);
+}
+
+/**
+ * 编码正则字符串
+ */
+function escapeRegExp(str) {
+  if (!isString(str)) return '';
+  return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+}
+
+/**
+  * 将字符串转成「驼峰」式
+  * @param {string} str 原始字符串
+  * @param {number} mode 1 大驼峰，0 小驼峰
+  * @return {string} 转换后的字符串
+  */
+function toCamelCase(str, mode) {
+  if (!isString(str)) return '';
+  if (str) {
+    str = str.replace(/\-[a-z0-9]/g, function ($1) {
+      return $1.slice(1).toUpperCase()
+    });
+    str = str.replace(/^[a-z]/i, function ($1) {
+      return mode ? $1.toUpperCase() : $1.toLowerCase();
+    });
+  }
+  return str;
+}
+
+/**
+ * 将字符串转成分隔形式
+ * @param {string} str 原始字符串
+ * @return {string} 转换后的字符串
+ */
+function toSplitCase(str) {
+  if (!isString(str)) return '';
+  if (str) {
+    str = str.replace(/([A-Z])/g, '-$1');
+    if (str[0] == '-') str = str.slice(1);
+  }
+  return str.toLowerCase();
+}
+
+function htmlPrefilter(html) {
+  var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([a-z][^\/\0>\x20\t\r\n\f]*)[^>]*)\/>/gi;
+  return html.replace(rxhtmlTag, "<$1></$2>");
+}
+
+/**
+ * 解析字符串为 dom 
+ * @param {string} str 字符串
+ * @returns {HTMLNode} 解析后的 DOM 
+ */
+function parseHTML(str) {
+  str = str || ' ';
+  var parent = document.createElement('div');
+  parent.innerHTML = htmlPrefilter(trim(str));
+  var childNodes = toArray(parent.childNodes);
+  //先 clone 一份再通过 innerHTML 清空
+  //否则 IE9 下，清空时会导不通过返回的 DOM 没有子结点
+  // if (firstNode) firstNode = firstNode.cloneNode(true);
+  // win._NPH_.innerHTML = '';
+  each(childNodes, function (index, childNode) {
+    parent.removeChild(childNode);
+  });
+  return childNodes;
+}
+
+exports.noop = noop;
+exports.toString = toString;
+exports.getType = getType;
+exports.isNull = isNull;
+exports.trim = trim;
+exports.replace = replace;
+exports.startWith = startWith;
+exports.contains = contains;
+exports.endWith = endWith;
+exports.has = has;
+exports.hasProperty = hasProperty;
+exports.isFunction = isFunction;
+exports.isAsyncFunction = isAsyncFunction;
+exports.isGeneratorFunction = isGeneratorFunction;
+exports.isString = isString;
+exports.isNumber = isNumber;
+exports.isBoolean = isBoolean;
+exports.isElement = isElement;
+exports.isText = isText;
+exports.isObject = isObject;
+exports.isArray = isArray;
+exports.isDate = isDate;
+exports.isRegexp = isRegexp;
+exports.toArray = toArray;
+exports.toDate = toDate;
+exports.each = each;
+exports.formatDate = formatDate;
+exports.copy = copy;
+exports.clone = clone;
+exports.mix = mix;
+exports.final = final;
+exports.keys = keys;
+exports.create = create;
+exports.setPrototypeOf = setPrototypeOf;
+exports.getPrototypeOf = getPrototypeOf;
+exports.deepEqual = deepEqual;
+exports.fromTo = fromTo;
+exports.newGuid = newGuid;
+exports.map = map;
+exports.setByPath = setByPath;
+exports.getByPath = getByPath;
+exports.unique = unique;
+exports.getFunctionArgumentNames = getFunctionArgumentNames;
+exports.short = short;
+exports.firstUpper = firstUpper;
+exports.escapeRegExp = escapeRegExp;
+exports.toCamelCase = toCamelCase;
+exports.toSplitCase = toSplitCase;
+exports.htmlPrefilter = htmlPrefilter;
+exports.parseHTML = parseHTML;
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+module.exports = {"en-US":{"hello":"Hello {name}!qqq"},"zh-CN":{"hello":"你好，{name}!"}}
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+module.exports = {}
+
+/***/ })
+/******/ ]);
 //# sourceMappingURL=index.js.map
