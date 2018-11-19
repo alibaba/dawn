@@ -3,20 +3,22 @@ init:
 
 build:
   - name: ./lib/index.js
-    extract: ./build/locales/
+    #extract: ./build/locales/
   - name: webpack
     entry: ./demo/index.js
     common:
       disabled: true
     folders:
       js: ./
+    compress: false
   - name: shell
     script:
       - node ./build/index.js
 
 dev:
   - name: ./lib/index.js
-    extract: ./build/locales/
+    #extract: ./build/locales/
+    jsx: false
   - name: webpack
     entry: ./demo/index.js
     common:
