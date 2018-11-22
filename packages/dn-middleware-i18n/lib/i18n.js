@@ -10,15 +10,12 @@ i18n.locale = {};
 i18n.expressions = {};
 
 i18n.get = function (key, params, defaultValue) {
+  if (!key || !utils.isString(key)) return key;
   if (utils.isString(params)) {
     defaultValue = [params, params = defaultValue][0];
   }
   var text = this.locale[key] || defaultValue;
   text = utils.isNull(text) ? key : text;
-  // utils.each(params, function (name, value) {
-  //   text = text.replace(new RegExp('\{' + name + '\}', 'gm'), value || '');
-  // });
-  // return text;
   return this.parse(text, params);
 }
 
