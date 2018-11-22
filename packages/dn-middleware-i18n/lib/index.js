@@ -14,8 +14,11 @@ module.exports = function (opts) {
 
   //初始化参数
   opts = Object.assign({
+    //语言包源文件存放目录
     dir: './locales',
+    //小包导出的目标目录
     extract: null,
+    //i18n 初始化文件
     init: null
   }, opts);
 
@@ -50,8 +53,16 @@ module.exports = function (opts) {
       }));
     };
 
+    const addOpts = (conf) => {
+      conf.plugins.push(new VModule({
+        name: '$i18n_opts',
+        content: { jsx: opts.jsx || opts.react }
+      }));
+    };
+
     const applyToWebpack = () => {
       this.on('webpack.config', conf => {
+        addOpts(conf);
         addLocales(conf);
         addI18N(conf);
       });

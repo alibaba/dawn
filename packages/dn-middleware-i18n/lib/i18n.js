@@ -1,22 +1,44 @@
-var locales = require('$locales');
 var utils = require('ntils');
+var locales = require('$locales');
+var opts = require('$i18n_opts');
 
 function i18n() {
   return i18n.get.apply(i18n, arguments);
 }
 
 i18n.locale = {};
+i18n.expressions = {};
 
 i18n.get = function (key, params, defaultValue) {
+  if (!key || !utils.isString(key)) return key;
   if (utils.isString(params)) {
     defaultValue = [params, params = defaultValue][0];
   }
   var text = this.locale[key] || defaultValue;
   text = utils.isNull(text) ? key : text;
-  utils.each(params, function (name, value) {
-    text = text.replace(new RegExp('\{' + name + '\}', 'gm'), value || '');
-  });
-  return text;
+  return this.parse(text, params);
+}
+
+i18n.compile = function (expr) {
+  if (!expr || !utils.isString(expr)) return;
+  if (!this.expressions[expr]) {
+    this.expressions[expr] = new Function(
+      '$scope',
+      'with($scope||{}){try{return(' + expr + ')}catch(err){return ""}}'
+    );
+  }
+  return this.expressions[expr];
+}
+
+i18n.parse = function (text, params) {
+  const info = text.split(/\{(.*?)\}/);
+  for (var i = 1; i <= info.length; i += 2) {
+    if (!info[i]) continue;
+    const func = this.compile(info[i]);
+    if (!func) continue;
+    info[i] = func(params);
+  }
+  return opts.jsx ? info : info.join('');
 }
 
 i18n.getLocale = function (name) {

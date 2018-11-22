@@ -71,11 +71,12 @@ module.exports = function (opts) {
       if (err) {
         this.console.error(err);
       } else {
-        this.console.info(msg);
+        const url = `${opts.host}:${opts.port}`;
+        this.console.warn('The server started:', url);
         await next();
         await this.utils.sleep(1000);
         if (opts.autoOpen !== false) {
-          this.utils.open(`${opts.host}:${opts.port}`);
+          this.utils.open(url);
         }
         this.emit('server.start', this.server);
       }
