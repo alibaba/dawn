@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-lint",
-  "version": "2.0.3",
+  "version": "2.0.6",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {

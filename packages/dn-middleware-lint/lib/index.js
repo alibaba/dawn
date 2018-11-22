@@ -25,6 +25,12 @@ module.exports = function (opts) {
 
     this.console.info('执行静态检查...');
 
+    //安装规范包
+    await this.mod.install('eslint-config-dawn');
+    await this.mod.install('eslint-plugin-react');
+    await this.mod.install('eslint-plugin-html');
+    await this.mod.install('babel-eslint');
+
     const sources = (utils.isArray(opts.source) ? opts.source : [opts.source])
       .filter(dir => globby.sync(`${dir}/**/*.{js,jsx}`).length > 0);
     if (sources.length < 1) return next();
