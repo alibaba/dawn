@@ -10,13 +10,14 @@ i18n.locale = {};
 i18n.expressions = {};
 
 i18n.get = function (key, params, defaultValue) {
-  if (!key || !utils.isString(key)) return key;
   if (utils.isString(params)) {
     defaultValue = [params, params = defaultValue][0];
   }
-  var text = this.locale[key] || defaultValue;
-  text = utils.isNull(text) ? key : text;
-  return this.parse(text, params);
+  if (utils.isNull(defaultValue)) defaultValue = key;
+  if (!key || !utils.isString(key) || utils.isNull(this.locale[key])) {
+    return defaultValue;
+  }
+  return this.parse(this.locale[key], params || {});
 }
 
 i18n.compile = function (expr) {
