@@ -15,9 +15,9 @@
 </head>
 
 <body>
-  <div id="root"><div data-reactroot=""><nav class="navbar navbar-default"><div class="container-fluid"><div class="navbar-header"><button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="./"><i class="icon fa fa-graduation-cap" aria-hidden="true"></i><span class="name">Dawn</span></a></div><div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"><form class="navbar-form navbar-left"><div class="form-group search"><span class="separator"></span><input type="text" class="form-control" placeholder="Search by keyword ..." value=""/></div></form><ul class="nav navbar-nav navbar-right"><li><a href="//alibaba.github.io/dawn/">首页</a></li><li><a href="//github.com/alibaba/dawn">GitHub</a></li><li><a href="//github.com/alibaba/dawn/issues">问题反馈</a></li><li class="dropdown locales"><a class="dropdown-toggle" data-toggle="dropdown" role="button">中文<!-- --> <span class="caret"></span></a><ul class="dropdown-menu"><li><a href="zh/guide/pipeline.html">中文</a></li></ul></li></ul></div></div></nav><div class="container"><div class="panel panel-default"><div class="panel-body"><div class="row"><div class="col-md-3 col-side"><div class="catalog"><ul class="group"><li class="group-item"><a><i class="fa fa-th-large" aria-hidden="true"></i>使用指南</a><ul class="doc"><li class="doc-item"><a class="" href="zh/guide/getting-started.html">使用入门</a></li><li class="doc-item"><a class="active" href="zh/guide/pipeline.html">配置 Pipeline</a></li><li class="doc-item"><a class="" href="zh/guide/template.html">制作模板</a></li><li class="doc-item"><a class="" href="zh/guide/middleware.html">开发中间件</a></li></ul></li><li class="group-item"><a><i class="fa fa-th-large" aria-hidden="true"></i>中心服务</a><ul class="doc"><li class="doc-item"><a class="" href="zh/service/client.html">用户配置</a></li><li class="doc-item"><a class="" href="zh/service/server.html">团队配置</a></li></ul></li><li class="group-item"><a><i class="fa fa-th-large" aria-hidden="true"></i>常用中间件</a><ul class="doc"></ul></li><li class="group-item"><a><i class="fa fa-th-large" aria-hidden="true"></i>常用模板</a><ul class="doc"></ul></li></ul></div></div><div class="col-md-9 col-main"><div class="article markdown-body"><h1>配置 Pipeline</h1>
+  <div id="root"><div data-reactroot=""><nav class="navbar navbar-default"><div class="container-fluid"><div class="navbar-header"><button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="./"><i class="icon fa fa-graduation-cap" aria-hidden="true"></i><span class="name">Dawn</span></a></div><div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"><form class="navbar-form navbar-left"><div class="form-group search"><span class="separator"></span><input type="text" class="form-control" placeholder="Search by keyword ..." value=""/></div></form><ul class="nav navbar-nav navbar-right"><li><a href="//alibaba.github.io/dawn/">首页</a></li><li><a href="//github.com/alibaba/dawn">GitHub</a></li><li><a href="//github.com/alibaba/dawn/issues">问题反馈</a></li><li class="dropdown locales"><a class="dropdown-toggle" data-toggle="dropdown" role="button">中文<!-- --> <span class="caret"></span></a><ul class="dropdown-menu"><li><a href="zh/guide/pipeline.html">中文</a></li></ul></li></ul></div></div></nav><div class="container"><div class="panel panel-default"><div class="panel-body"><div class="row"><div class="col-md-3 col-side"><div class="catalog"><ul class="group"><li class="group-item"><a><i class="fa fa-bookmark" aria-hidden="true"></i>使用指南</a><ul class="doc"><li class="doc-item"><a class="" href="zh/guide/getting-started.html">使用入门</a></li><li class="doc-item"><a class="active" href="zh/guide/pipeline.html">配置 Pipeline</a></li><li class="doc-item"><a class="" href="zh/guide/template.html">制作模板</a></li><li class="doc-item"><a class="" href="zh/guide/middleware.html">开发中间件</a></li></ul></li><li class="group-item"><a><i class="fa fa-bookmark" aria-hidden="true"></i>中心服务</a><ul class="doc"><li class="doc-item"><a class="" href="zh/service/client.html">用户配置</a></li><li class="doc-item"><a class="" href="zh/service/server.html">团队配置</a></li></ul></li><li class="group-item"><a><i class="fa fa-bookmark" aria-hidden="true"></i>常用中间件</a><ul class="doc"></ul></li><li class="group-item"><a><i class="fa fa-bookmark" aria-hidden="true"></i>常用模板</a><ul class="doc"></ul></li></ul></div></div><div class="col-md-9 col-main"><div class="article markdown-body"><h1 id="%E9%85%8D%E7%BD%AE-pipeline">配置 Pipeline</h1>
 <p>Dawn 的每个工程中都需要包含对应的 pipeline 配置，在 pipe 配置中定义了「每个命令」对应的任务，配置可以是 <code>yml/json/js</code> 格式，但是通常建议用更易于阅读的 <code>yml</code> 格式，需要放到「工程根目录」，配置的名称为 <code>.dawn</code> 可以是一个目录，也可以是一个文件。</p>
-<h3>使用单一个配置文件</h3>
+<h3 id="%E4%BD%BF%E7%94%A8%E5%8D%95%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">使用单一个配置文件</h3>
 <p>在工程根目录新建一个 <code>.dawn.yml</code> (也可以是 .dawn.json 或 .dawn.js)，下边是 <code>yml</code> 格式的配置</p>
 <pre><code class="language-yml">pipe:
   build:
@@ -26,7 +26,7 @@
       output: dist
 </code></pre>
 <p>如上配置，在执行 <code>dn build</code> 时，就会先进行语法检查，然后用 webpack 完成项目构建并将构建结果放入 dist 目录。</p>
-<h3>使用目录作为配置</h3>
+<h3 id="%E4%BD%BF%E7%94%A8%E7%9B%AE%E5%BD%95%E4%BD%9C%E4%B8%BA%E9%85%8D%E7%BD%AE">使用目录作为配置</h3>
 <p>在工程根目录新建一个 <code>.dawn</code> 的目录，然后在 <code>.dawn</code> 目录中新建一个 <code>pipe.yml</code> 的文件，如下</p>
 <pre><code>build:
   - name: lint
@@ -34,9 +34,9 @@
     output: dist
 </code></pre>
 <p>如上示例，「目录形式」的配置和之前的「文件形式」的配置一样，执行 <code>dn build</code> 就可以完成构建</p>
-<h3>Pipe 的执行</h3>
+<h3 id="pipe-%E7%9A%84%E6%89%A7%E8%A1%8C">Pipe 的执行</h3>
 <p>每个 pipe 中可以放任意多个「中间件」，在执行时会创建一个 <code>context</code> 实例，然后，依次执行每个中间件，所有中间件都能访问 <code>context</code> 实例对象。</p>
-<h4>示例</h4>
+<h4 id="%E7%A4%BA%E4%BE%8B">示例</h4>
 <pre><code>demo:
   - name: shell
     script:
@@ -54,11 +54,11 @@
 <li>location: 用于指定中间件入口文件的位置，一般用于本地调试，或内置在模板中不想独立发布的中间件</li>
 </ul>
 <p>不同的中间件通常会有对应的其他配置项，可以参考中间件自身的说明文档。</p>
-<h4>注意</h4>
+<h4 id="%E6%B3%A8%E6%84%8F">注意</h4>
 <blockquote>
 <p>name 还可以包含 <code>version</code>，例如 <code>dn-middleware-xxx@1.0.0</code>，也可以包含 <code>scope</code> 例如 <code>@scope/dn-middleware-xxx</code>，或同时包含 <code>scope</code> 和 <code>version</code>，例如 <code>@scope/dn-middleware@1.0.0</code></p>
 </blockquote>
-</div></div></div></div></div></div><footer class="footer">Powered By <!-- -->doczilla<!-- --> v<!-- -->3.2.1</footer></div></div>
+</div></div></div></div></div></div><footer class="footer">Powered By <!-- -->doczilla<!-- --> v<!-- -->3.2.2</footer></div></div>
   <script src="./data.js"></script>
   <script src="./assets/index.js"></script>
   <script src="./plugins/doczilla-highlight/index.js"></script></body>

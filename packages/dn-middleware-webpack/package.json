@@ -50,7 +50,10 @@
     "url-loader": "^0.5.8",
     "vue-loader": "^13.0.4",
     "vue-template-compiler": "^2.4.2",
-    "webpack": "^3.11.0",
+    "webpack": "^3.12.0",
     "webpack-visualizer-plugin": "^0.1.11"
+  },
+  "devDependencies": {
+    "dn-middleware-clean": "^1.0.1"
   }
 }

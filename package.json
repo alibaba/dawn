@@ -81,7 +81,15 @@
     "update-notifier": "^2.3.0"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.1",
     "coveralls": "^3.0.0",
+    "dn-middleware-doc": "^2.1.0",
+    "dn-middleware-file-header": "^1.0.3",
+    "dn-middleware-lint": "^2.1.0",
+    "dn-middleware-unit": "^0.1.18",
+    "eslint-config-dawn": "^1.0.7",
+    "eslint-plugin-html": "^5.0.0",
+    "eslint-plugin-react": "^7.11.1",
     "nyc": "^11.4.1"
   }
 }
