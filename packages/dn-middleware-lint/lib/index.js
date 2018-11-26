@@ -26,10 +26,11 @@ module.exports = function (opts) {
     this.console.info('执行静态检查...');
 
     //安装规范包
-    await this.mod.install('eslint-config-dawn');
-    await this.mod.install('eslint-plugin-react');
-    await this.mod.install('eslint-plugin-html');
-    await this.mod.install('babel-eslint');
+    const flag = { 'save-dev': true };
+    await this.mod.install('eslint-config-dawn', { flag });
+    await this.mod.install('eslint-plugin-react', { flag });
+    await this.mod.install('eslint-plugin-html', { flag });
+    await this.mod.install('babel-eslint', { flag });
 
     const sources = (utils.isArray(opts.source) ? opts.source : [opts.source])
       .filter(dir => globby.sync(`${dir}/**/*.{js,jsx}`).length > 0);
