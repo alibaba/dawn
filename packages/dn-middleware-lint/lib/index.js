@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const utils = require('ntils');
 const yaml = require('js-yaml');
 const globby = require('globby');
@@ -25,12 +26,19 @@ module.exports = function (opts) {
 
     this.console.info('执行静态检查...');
 
+    const isInstalled = (name) => {
+      return fs.existsSync(path.normalize(`${this.cwd}/node_modules/${name}`));
+    };
+
     //安装规范包
     const flag = { 'save-dev': true };
-    await this.mod.install('eslint-config-dawn', { flag });
-    await this.mod.install('eslint-plugin-react', { flag });
-    await this.mod.install('eslint-plugin-html', { flag });
-    await this.mod.install('babel-eslint', { flag });
+    const deps = [
+      'eslint-config-dawn', 'eslint-plugin-react',
+      'eslint-plugin-html', 'babel-eslint'
+    ];
+    for (let dep of deps) {
+      if (!isInstalled(dep)) await this.mod.install(dep, { flag });
+    }
 
     const sources = (utils.isArray(opts.source) ? opts.source : [opts.source])
       .filter(dir => globby.sync(`${dir}/**/*.{js,jsx}`).length > 0);
