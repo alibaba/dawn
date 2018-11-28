@@ -15,22 +15,22 @@
 </head>
 
 <body>
-  <div id="root"><div data-reactroot=""><nav class="navbar navbar-default"><div class="container-fluid"><div class="navbar-header"><button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="./"><i class="icon fa fa-graduation-cap" aria-hidden="true"></i><span class="name">Dawn</span></a></div><div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"><form class="navbar-form navbar-left"><div class="form-group search"><span class="separator"></span><input type="text" class="form-control" placeholder="Search by keyword ..." value=""/></div></form><ul class="nav navbar-nav navbar-right"><li><a href="//alibaba.github.io/dawn/">首页</a></li><li><a href="//github.com/alibaba/dawn">GitHub</a></li><li><a href="//github.com/alibaba/dawn/issues">问题反馈</a></li><li class="dropdown locales"><a class="dropdown-toggle" data-toggle="dropdown" role="button">中文<!-- --> <span class="caret"></span></a><ul class="dropdown-menu"><li><a href="zh/service/client.html">中文</a></li></ul></li></ul></div></div></nav><div class="container"><div class="panel panel-default"><div class="panel-body"><div class="row"><div class="col-md-3 col-side"><div class="catalog"><ul class="group"><li class="group-item"><a><i class="fa fa-th-large" aria-hidden="true"></i>使用指南</a><ul class="doc"><li class="doc-item"><a class="" href="zh/guide/getting-started.html">使用入门</a></li><li class="doc-item"><a class="" href="zh/guide/pipeline.html">配置 Pipeline</a></li><li class="doc-item"><a class="" href="zh/guide/template.html">制作模板</a></li><li class="doc-item"><a class="" href="zh/guide/middleware.html">开发中间件</a></li></ul></li><li class="group-item"><a><i class="fa fa-th-large" aria-hidden="true"></i>中心服务</a><ul class="doc"><li class="doc-item"><a class="active" href="zh/service/client.html">用户配置</a></li><li class="doc-item"><a class="" href="zh/service/server.html">团队配置</a></li></ul></li><li class="group-item"><a><i class="fa fa-th-large" aria-hidden="true"></i>常用中间件</a><ul class="doc"></ul></li><li class="group-item"><a><i class="fa fa-th-large" aria-hidden="true"></i>常用模板</a><ul class="doc"></ul></li></ul></div></div><div class="col-md-9 col-main"><div class="article markdown-body"><h1>用户配置</h1>
+  <div id="root"><div data-reactroot=""><nav class="navbar navbar-default"><div class="container-fluid"><div class="navbar-header"><button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="./"><i class="icon fa fa-graduation-cap" aria-hidden="true"></i><span class="name">Dawn</span></a></div><div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"><form class="navbar-form navbar-left"><div class="form-group search"><span class="separator"></span><input type="text" class="form-control" placeholder="Search by keyword ..." value=""/></div></form><ul class="nav navbar-nav navbar-right"><li><a href="//alibaba.github.io/dawn/">首页</a></li><li><a href="//github.com/alibaba/dawn">GitHub</a></li><li><a href="//github.com/alibaba/dawn/issues">问题反馈</a></li><li class="dropdown locales"><a class="dropdown-toggle" data-toggle="dropdown" role="button">中文<!-- --> <span class="caret"></span></a><ul class="dropdown-menu"><li><a href="zh/service/client.html">中文</a></li></ul></li></ul></div></div></nav><div class="container"><div class="panel panel-default"><div class="panel-body"><div class="row"><div class="col-md-3 col-side"><div class="catalog"><ul class="group"><li class="group-item"><a><i class="fa fa-bookmark" aria-hidden="true"></i>使用指南</a><ul class="doc"><li class="doc-item"><a class="" href="zh/guide/getting-started.html">使用入门</a></li><li class="doc-item"><a class="" href="zh/guide/pipeline.html">配置 Pipeline</a></li><li class="doc-item"><a class="" href="zh/guide/template.html">制作模板</a></li><li class="doc-item"><a class="" href="zh/guide/middleware.html">开发中间件</a></li></ul></li><li class="group-item"><a><i class="fa fa-bookmark" aria-hidden="true"></i>中心服务</a><ul class="doc"><li class="doc-item"><a class="active" href="zh/service/client.html">用户配置</a></li><li class="doc-item"><a class="" href="zh/service/server.html">团队配置</a></li></ul></li><li class="group-item"><a><i class="fa fa-bookmark" aria-hidden="true"></i>常用中间件</a><ul class="doc"></ul></li><li class="group-item"><a><i class="fa fa-bookmark" aria-hidden="true"></i>常用模板</a><ul class="doc"></ul></li></ul></div></div><div class="col-md-9 col-main"><div class="article markdown-body"><h1 id="%E7%94%A8%E6%88%B7%E9%85%8D%E7%BD%AE">用户配置</h1>
 <p>Dawn 目前主要有三个配置项：</p>
 <ul>
 <li><code>server</code> : 要连接的中心服务，默认连接公共服务，也可以连接「私有中心服务」</li>
 <li><code>registry</code> : npm 源，默认连接 npm 官方源</li>
 <li><code>cacheTTL</code> : 缓存时长，设定远程配置的最大缓存时长</li>
 </ul>
-<h3>通过命令更改配置</h3>
+<h3 id="%E9%80%9A%E8%BF%87%E5%91%BD%E4%BB%A4%E6%9B%B4%E6%94%B9%E9%85%8D%E7%BD%AE">通过命令更改配置</h3>
 <pre><code class="language-sh">$ dn config [name] [value]
 </code></pre>
 <p>当省略 <code>name</code> 时会让用户先选择配置项的「名称」，然后，再让用户选择或输入「值」。当省略 <code>value</code> 时，会让用户在「默认值、历史、输入值」中选择。</p>
-<h4>示例一：</h4>
+<h4 id="%E7%A4%BA%E4%BE%8B%E4%B8%80%EF%BC%9A">示例一：</h4>
 <pre><code class="language-sh">$ dn config server http://your_server_url
 </code></pre>
 <p>上边的示例，将会新「中心服务」更改为 <code>your_server_url</code></p>
-<h4>示例二：</h4>
+<h4 id="%E7%A4%BA%E4%BE%8B%E4%BA%8C%EF%BC%9A">示例二：</h4>
 <pre><code>$ dn config server
 </code></pre>
 <p>将会有如下提示</p>
@@ -39,9 +39,9 @@
   default : http://default_url/${name}.yml
 </code></pre>
 <p>会提示用户输入一个新的 URL 或选择默认的 URL，当选择输入或输入空时，将会使用默认 server 配置</p>
-<h3>通过 .dawnrc 更改配置</h3>
+<h3 id="%E9%80%9A%E8%BF%87-.dawnrc-%E6%9B%B4%E6%94%B9%E9%85%8D%E7%BD%AE">通过 .dawnrc 更改配置</h3>
 <p>除了命令方式也可以手动编辑 <code>~/.dawnrc</code> 文件更改配置</p>
-<h4>示例</h4>
+<h4 id="%E7%A4%BA%E4%BE%8B">示例</h4>
 <pre><code class="language-sh">$ vim ~/.dawnrc
 </code></pre>
 <p>.dawnrc 格式如下</p>
@@ -49,7 +49,7 @@
 registry: your_registry_url
 cacheTTL: your_ttl
 </code></pre>
-</div></div></div></div></div></div><footer class="footer">Powered By <!-- -->doczilla<!-- --> v<!-- -->3.2.1</footer></div></div>
+</div></div></div></div></div></div><footer class="footer">Powered By <!-- -->doczilla<!-- --> v<!-- -->3.2.2</footer></div></div>
   <script src="./data.js"></script>
   <script src="./assets/index.js"></script>
   <script src="./plugins/doczilla-highlight/index.js"></script></body>

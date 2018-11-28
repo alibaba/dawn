@@ -15,7 +15,7 @@
 </head>
 
 <body>
-  <div id="root"><div data-reactroot=""><nav class="navbar navbar-default"><div class="container-fluid"><div class="navbar-header"><button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="./"><i class="icon fa fa-graduation-cap" aria-hidden="true"></i><span class="name">Dawn</span></a></div><div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"><form class="navbar-form navbar-left"><div class="form-group search"><span class="separator"></span><input type="text" class="form-control" placeholder="Search by keyword ..." value=""/></div></form><ul class="nav navbar-nav navbar-right"><li><a href="//alibaba.github.io/dawn/">首页</a></li><li><a href="//github.com/alibaba/dawn">GitHub</a></li><li><a href="//github.com/alibaba/dawn/issues">问题反馈</a></li><li class="dropdown locales"><a class="dropdown-toggle" data-toggle="dropdown" role="button">中文<!-- --> <span class="caret"></span></a><ul class="dropdown-menu"><li><a href="zh/service/server.html">中文</a></li></ul></li></ul></div></div></nav><div class="container"><div class="panel panel-default"><div class="panel-body"><div class="row"><div class="col-md-3 col-side"><div class="catalog"><ul class="group"><li class="group-item"><a><i class="fa fa-th-large" aria-hidden="true"></i>使用指南</a><ul class="doc"><li class="doc-item"><a class="" href="zh/guide/getting-started.html">使用入门</a></li><li class="doc-item"><a class="" href="zh/guide/pipeline.html">配置 Pipeline</a></li><li class="doc-item"><a class="" href="zh/guide/template.html">制作模板</a></li><li class="doc-item"><a class="" href="zh/guide/middleware.html">开发中间件</a></li></ul></li><li class="group-item"><a><i class="fa fa-th-large" aria-hidden="true"></i>中心服务</a><ul class="doc"><li class="doc-item"><a class="" href="zh/service/client.html">用户配置</a></li><li class="doc-item"><a class="active" href="zh/service/server.html">团队配置</a></li></ul></li><li class="group-item"><a><i class="fa fa-th-large" aria-hidden="true"></i>常用中间件</a><ul class="doc"></ul></li><li class="group-item"><a><i class="fa fa-th-large" aria-hidden="true"></i>常用模板</a><ul class="doc"></ul></li></ul></div></div><div class="col-md-9 col-main"><div class="article markdown-body"><h1>团队配置</h1>
+  <div id="root"><div data-reactroot=""><nav class="navbar navbar-default"><div class="container-fluid"><div class="navbar-header"><button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="./"><i class="icon fa fa-graduation-cap" aria-hidden="true"></i><span class="name">Dawn</span></a></div><div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"><form class="navbar-form navbar-left"><div class="form-group search"><span class="separator"></span><input type="text" class="form-control" placeholder="Search by keyword ..." value=""/></div></form><ul class="nav navbar-nav navbar-right"><li><a href="//alibaba.github.io/dawn/">首页</a></li><li><a href="//github.com/alibaba/dawn">GitHub</a></li><li><a href="//github.com/alibaba/dawn/issues">问题反馈</a></li><li class="dropdown locales"><a class="dropdown-toggle" data-toggle="dropdown" role="button">中文<!-- --> <span class="caret"></span></a><ul class="dropdown-menu"><li><a href="zh/service/server.html">中文</a></li></ul></li></ul></div></div></nav><div class="container"><div class="panel panel-default"><div class="panel-body"><div class="row"><div class="col-md-3 col-side"><div class="catalog"><ul class="group"><li class="group-item"><a><i class="fa fa-bookmark" aria-hidden="true"></i>使用指南</a><ul class="doc"><li class="doc-item"><a class="" href="zh/guide/getting-started.html">使用入门</a></li><li class="doc-item"><a class="" href="zh/guide/pipeline.html">配置 Pipeline</a></li><li class="doc-item"><a class="" href="zh/guide/template.html">制作模板</a></li><li class="doc-item"><a class="" href="zh/guide/middleware.html">开发中间件</a></li></ul></li><li class="group-item"><a><i class="fa fa-bookmark" aria-hidden="true"></i>中心服务</a><ul class="doc"><li class="doc-item"><a class="" href="zh/service/client.html">用户配置</a></li><li class="doc-item"><a class="active" href="zh/service/server.html">团队配置</a></li></ul></li><li class="group-item"><a><i class="fa fa-bookmark" aria-hidden="true"></i>常用中间件</a><ul class="doc"></ul></li><li class="group-item"><a><i class="fa fa-bookmark" aria-hidden="true"></i>常用模板</a><ul class="doc"></ul></li></ul></div></div><div class="col-md-9 col-main"><div class="article markdown-body"><h1 id="%E5%9B%A2%E9%98%9F%E9%85%8D%E7%BD%AE">团队配置</h1>
 <p>如果你在一个团队，并希望团队成员使用 dawn 时能有一些公共配置，或下发一些统一的构建规则，那么可以搭建一个「私有的中心服务」</p>
 <p>Dawn 的私有服务端搭建成本「极低」，不需要部署任何服务端程序，只需要有一个支持静态文件的 Web Server 即可，如果没有，在 GitHub 或 GitLab 上，新建一个 repo 也行，任意只要能托管静态文件的服务器都可以，当然你也可用基于动态服务搭建 dawn 中心服务</p>
 <p>假如，你现在有一个 Web Server，并且可以过 <code>http://your_server_url/&lt;name&gt;.yml</code> 访问，比如</p>
@@ -25,7 +25,7 @@
 <li>中心 Pipe 配置： http://your_server_url/pipe.yml</li>
 <li>中心 RC 配置： http://your_server_url/rc.yml</li>
 </ul>
-<h3>template.yml</h3>
+<h3 id="template.yml">template.yml</h3>
 <p><code>template.yml</code> 用于管理中心服务上的所有「推荐的模板列表」，用户在执行 <code>dn init</code> 或 <code>dn template</code> 时列出的模板列表，就是在 <code>template.yml</code> 配置的列表，格式如下</p>
 <pre><code class="language-yml">front: 
   location: 'dn-template-front'
@@ -59,7 +59,7 @@ middleware:
 <pre><code class="language-sh">$ dn init -t <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>package_name</span><span class="token punctuation">></span></span>
 </code></pre>
 <p><code>package_name</code> 可以是完整的包名称，也可以不带默认前缀。</p>
-<h3>middleware.yml</h3>
+<h3 id="middleware.yml">middleware.yml</h3>
 <p>middleware.yml 用于管理「推荐的中间件列表」，格式如下</p>
 <pre><code class="language-yml">shell: 
   location: '@ali/dn-middleware-shell'
@@ -67,7 +67,7 @@ middleware:
 </code></pre>
 <p>配置格式及各字段和 <code>template</code> 一致，添加到 <code>middleware.yml</code> 中的「中间件」，在 dawn 连接到对应的 <code>server</code> 后，在配置 <code>pipe</code> 时，除了可以用完整的包名、不带前缀的包名，也可用在「中间件列表」中指定的名称，如上边示例中的 <code>shell</code>。</p>
 <p>Dawn 在连接对应的 <code>server</code> 后，可以通过 <code>dn middleware [keyword]</code> 查询对应的模板</p>
-<h3>pipe.yml</h3>
+<h3 id="pipe.yml">pipe.yml</h3>
 <p>pipe 是团队统一的构建配置的核心，Dawn 在连接某一个 <code>server</code> 后，在执行对应的命令时，会先合并「远程统一的 pipe 配置」，然后，再执行对应的的 <code>pipeline</code>，格式如下：</p>
 <pre><code class="language-yml"># 前置规则，会合并到工程本地配置的前边
 before:
@@ -83,9 +83,9 @@ after:
 </code></pre>
 <p>如上，中心 <code>pipe</code> 分为 <code>before</code> 和 <code>after</code> 两大部分，每部分和本地 <code>pipe</code> 格式一致，上边的示例，将强制让所有工程，在执行 <code>dn test</code> 时都会先进行 <code>lint</code> 检查语法。</p>
 <p>注意：如果本地配置中已有 <code>lint</code> 配置，不会重复执行。</p>
-<h3>rc.yml</h3>
+<h3 id="rc.yml">rc.yml</h3>
 <p>我们知道，本地 <code>.dawnrc</code> 中支持三项配置 <code>server</code>、<code>registry</code>、<code>cacheTTL</code>，但是中心服务的 <code>rc.yml</code> 只支持 <code>registry</code> 一项配置，并且是在本地 <code>.dawnrc</code> 没有指定任何值时才会有效，也就是说本地配置高于远程配置，主要用于在切换 <code>server</code> 时，也能一并把 <code>registry</code> 也进行切换。</p>
-</div></div></div></div></div></div><footer class="footer">Powered By <!-- -->doczilla<!-- --> v<!-- -->3.2.1</footer></div></div>
+</div></div></div></div></div></div><footer class="footer">Powered By <!-- -->doczilla<!-- --> v<!-- -->3.2.2</footer></div></div>
   <script src="./data.js"></script>
   <script src="./assets/index.js"></script>
   <script src="./plugins/doczilla-highlight/index.js"></script></body>
