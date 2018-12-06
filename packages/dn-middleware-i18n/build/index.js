@@ -120,6 +120,14 @@ i18n.compile = function (expr) {
   return this.expressions[expr];
 };
 
+i18n.isStrArray = function (list) {
+  for (var i in list) {
+    var item = list[i];
+    if (!utils.isString(item)) return false;
+  }
+  return true;
+};
+
 i18n.parse = function (text, params) {
   var info = text.split(/\{(.*?)\}/);
   for (var i = 1; i <= info.length; i += 2) {
@@ -128,7 +136,7 @@ i18n.parse = function (text, params) {
     if (!func) continue;
     info[i] = func(params);
   }
-  return opts.jsx ? info : info.join('');
+  return opts.jsx && !this.isStrArray(info) ? info : info.join('');
 };
 
 i18n.getLocale = function (name) {
