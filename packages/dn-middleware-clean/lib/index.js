@@ -9,10 +9,10 @@ module.exports = function (opts) {
   //必须返回一个中间件处理函数
   return async function (next) {
     this.console.info('清理文件或目录...');
-    await this.utils.del(opts.target || './build/**/*.*');
+    await this.utils.del(opts.target || ['./build/', './dist/']);
     this.console.info('完成');
     next();
 
-  };  
+  };
 
 };

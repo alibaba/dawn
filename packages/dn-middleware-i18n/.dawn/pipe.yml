@@ -18,7 +18,7 @@ build:
 dev:
   - name: ./lib/index.js
     #extract: ./build/locales/
-    jsx: false
+    jsx: true
   - name: webpack
     entry: ./demo/index.js
     common:

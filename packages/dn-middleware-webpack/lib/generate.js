@@ -177,9 +177,10 @@ async function handlerPlugins(wpConfig, opts) {
     {
       test: /\.less$/,
       loader: cssExtractPlugin.extract({
-        use: [{
-          loader: 'css-loader', options: cssLoaderOptions
-        }, 'less-loader'],
+        use: [
+          { loader: 'css-loader', options: cssLoaderOptions }, 
+          { loader: 'less-loader', options: { javascriptEnabled: true } }
+        ],
         publicPath: '../'
       })
     }, {

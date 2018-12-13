@@ -33,9 +33,9 @@ var config = __webpack_require__(6);
 
 var styles1 = __webpack_require__(1);
 var styles2 = __webpack_require__(7);
-var styles3 = __webpack_require__(8);
+//const styles3 = require('./assets/test3.scss');
 
-var test4 = __webpack_require__(9);
+var test4 = __webpack_require__(8);
 
 log('这是 test1');
 var x = { pkg: pkg };
@@ -60,7 +60,7 @@ var render = function render() {
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"dn-middleware-webpack","version":"1.10.0","description":"","main":"./lib/index.js","scripts":{"test":"dn test"},"author":"","license":"ISC","dependencies":{"babel-core":"^6.26.0","babel-eslint":"^7.1.1","babel-loader":"^7.1.2","babel-plugin-add-module-exports":"^0.2.1","babel-plugin-transform-builtin-extend":"^1.1.2","babel-plugin-transform-decorators-legacy":"^1.3.4","babel-plugin-transform-es2015-classes":"^6.24.1","babel-plugin-transform-remove-strict-mode":"^0.0.2","babel-plugin-transform-runtime":"^6.15.0","babel-plugin-typecheck":"^3.9.0","babel-polyfill":"^6.26.0","babel-preset-env":"^1.6.0","babel-preset-es2015":"^6.24.1","babel-preset-react":"^6.24.1","babel-preset-stage-0":"^6.24.1","babel-runtime":"^6.23.0","caniuse-db":"^1.0.30000697","confman":"^0.2.7","css-loader":"^0.26.1","cssnano":"^3.10.0","ejs-loader":"^0.3.0","exports-loader":"^0.6.4","extract-text-webpack-plugin":"^3.0.0","fast-sass-loader":"^1.3.0","file-loader":"^0.10.1","globby":"^6.1.0","html-webpack-plugin":"^3.2.0","json-loader":"^0.5.4","less":"^2.7.2","less-loader":"^3.0.0","nan":"^2.6.2","node-sass":"^4.5.3","ntils":"^2.0.15","optimize-css-assets-webpack-plugin":"^1.3.1","raw-loader":"^0.5.1","source-map-loader":"^0.2.1","style-loader":"^0.13.2","typescript":"^2.4.2","url-loader":"^0.5.8","vue-loader":"^13.0.4","vue-template-compiler":"^2.4.2","webpack":"^3.12.0","webpack-visualizer-plugin":"^0.1.11"},"devDependencies":{"dn-middleware-clean":"^1.0.1"}}
+module.exports = {"name":"dn-middleware-webpack","version":"1.11.0","description":"","main":"./lib/index.js","scripts":{"test":"dn test"},"author":"","license":"ISC","dependencies":{"babel-core":"^6.26.0","babel-eslint":"^7.1.1","babel-loader":"^7.1.2","babel-plugin-add-module-exports":"^0.2.1","babel-plugin-transform-builtin-extend":"^1.1.2","babel-plugin-transform-decorators-legacy":"^1.3.4","babel-plugin-transform-es2015-classes":"^6.24.1","babel-plugin-transform-remove-strict-mode":"^0.0.2","babel-plugin-transform-runtime":"^6.15.0","babel-plugin-typecheck":"^3.9.0","babel-polyfill":"^6.26.0","babel-preset-env":"^1.6.0","babel-preset-es2015":"^6.24.1","babel-preset-react":"^6.24.1","babel-preset-stage-0":"^6.24.1","babel-runtime":"^6.23.0","caniuse-db":"^1.0.30000697","confman":"^0.2.7","css-loader":"^0.26.1","cssnano":"^3.10.0","ejs-loader":"^0.3.0","exports-loader":"^0.6.4","extract-text-webpack-plugin":"^3.0.0","fast-sass-loader":"^1.3.0","file-loader":"^0.10.1","globby":"^6.1.0","html-webpack-plugin":"^3.2.0","json-loader":"^0.5.4","less":"^2.7.2","less-loader":"^4.1.0","nan":"^2.6.2","ntils":"^2.0.15","optimize-css-assets-webpack-plugin":"^1.3.1","raw-loader":"^0.5.1","source-map-loader":"^0.2.1","style-loader":"^0.13.2","typescript":"^2.4.2","url-loader":"^0.5.8","vue-loader":"^13.0.4","vue-template-compiler":"^2.4.2","webpack":"^3.12.0","webpack-visualizer-plugin":"^0.1.11"},"devDependencies":{"dn-middleware-clean":"^1.0.1"}}
 
 /***/ }),
 /* 6 */
@@ -76,25 +76,19 @@ module.exports = {"name":"default","env":"build2"}
 
 /***/ }),
 /* 8 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_test4_vue__ = __webpack_require__(2);
 /* empty harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_d110b078_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_test4_vue__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_d110b078_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_test4_vue__ = __webpack_require__(15);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(10)
+  __webpack_require__(9)
 }
-var normalizeComponent = __webpack_require__(15)
+var normalizeComponent = __webpack_require__(14)
 /* script */
 
 
@@ -138,17 +132,17 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(11);
+var content = __webpack_require__(10);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(13)("b0fae69a", content, false, {});
+var update = __webpack_require__(12)("b0fae69a", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -164,10 +158,10 @@ if(false) {
 }
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(12)();
+exports = module.exports = __webpack_require__(11)();
 // imports
 
 
@@ -178,7 +172,7 @@ exports.push([module.i, "\n#app {\n  font-family: 'Avenir', Helvetica, Arial, sa
 
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports) {
 
 /*
@@ -234,7 +228,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -253,7 +247,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(14)
+var listToStyles = __webpack_require__(13)
 
 /*
 type StyleObject = {
@@ -462,7 +456,7 @@ function applyToTag (styleElement, obj) {
 
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports) {
 
 /**
@@ -495,7 +489,7 @@ module.exports = function listToStyles (parentId, list) {
 
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -604,7 +598,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
