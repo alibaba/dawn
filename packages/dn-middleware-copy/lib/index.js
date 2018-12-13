@@ -27,7 +27,7 @@ module.exports = function (opts) {
     //解析目标文件名
     const parseDstFile = (srcFile, dstExpr, srcExpr) => {
       const pathSpliter = path.normalize('/');
-      if (dstExpr.endsWith(pathSpliter)) {
+      if (dstExpr.endsWith(pathSpliter) || dstExpr.endsWith('/')) {
         const srcDir = srcExpr.slice(0, srcExpr.indexOf('*'));
         const trimedSrcFile = srcFile.replace(path.resolve(from, srcDir), '');
         const dstFile = path.normalize(`${dstExpr}${trimedSrcFile}`);
