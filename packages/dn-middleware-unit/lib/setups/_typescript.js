@@ -1,7 +1,6 @@
 require('./_node');
 require('ts-node').register({
   compilerOptions: {
-    moduleResolution: 'node',
     allowJs: true,
     module: 'commonjs',
     target: 'es2017',
@@ -10,7 +9,18 @@ require('ts-node').register({
       'node',
       'mocha',
       'chai',
-      'supertest'
     ]
   }
 });
+
+const childProcess = require('child_process');
+const fork = childProcess.fork;
+childProcess.fork = function (modulePath, args, options) {
+  const { execArgv } = options;
+  if (modulePath.endsWith('.ts') &&
+    !execArgv.some(item => item == 'ts-node/register')) {
+    execArgv.unshift('ts-node/register');
+    execArgv.unshift('-r');
+  }
+  return fork.call(childProcess, modulePath, args, options);
+}
