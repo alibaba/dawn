@@ -8,20 +8,23 @@ const fs = require('fs');
  */
 module.exports = function (opts) {
 
-  opts.files = opts.files || './test/unit/**/*.js';
   opts.timeout = opts.timeout || 10000;
   opts.env = opts.env || 'browser';
+  if (!opts.files) {
+    opts.files = opts.env === 'typescript' ?
+      './test/unit/**/*.ts' : './test/unit/**/*.js';
+  }
 
   //外层函数的用于接收「参数对象」
   //必须返回一个中间件处理函数
   return async function (next) {
 
     //mocha 执行文件路径
-    let nyc = this.utils.findCommand(__dirname, 'nyc');
-    let mocha = this.utils.findCommand(__dirname, 'mocha');
-    let setup = path.resolve(__dirname, `./setups/_${opts.env}.js`);
+    const nyc = this.utils.findCommand(__dirname, 'nyc');
+    const mocha = this.utils.findCommand(__dirname, 'mocha');
+    const setup = path.resolve(__dirname, `./setups/_${opts.env}.js`);
 
-    let excludes = [
+    const excludes = [
       '**/_*.js',
       'coverage/**',
       'test/**',

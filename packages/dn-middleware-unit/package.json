@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-unit",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -9,6 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.12.15",
+    "@types/supertest": "^2.0.7",
     "babel-core": "^6.26.0",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
@@ -28,6 +32,7 @@
     "mocha": "^3.3.0",
     "ntils": "^2.1.2",
     "nyc": "^11.0.3",
-    "supertest": "^3.0.0"
+    "supertest": "^3.0.0",
+    "ts-node": "^7.0.1"
   }
 }
