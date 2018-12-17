@@ -1,6 +1,6 @@
 {
   "name": "tslint-config-dawn",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "dawn tslint rules",
   "main": "tslint.json",
   "scripts": {
