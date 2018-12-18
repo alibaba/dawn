@@ -72,6 +72,7 @@
     "no-unnecessary-qualifier": true,
     "no-var-keyword": true,
     "object-literal-shorthand": true,
+    "no-unused-variable": true,
     "one-line": [
       true,
       "check-open-brace",
