@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-webpack",
-  "version": "1.11.2",
+  "version": "1.11.3",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -53,6 +53,7 @@
     "webpack-visualizer-plugin": "^0.1.11"
   },
   "devDependencies": {
-    "dn-middleware-clean": "^1.0.1"
+    "dn-middleware-clean": "^1.0.1",
+    "dn-middleware-server": "^1.0.15"
   }
 }

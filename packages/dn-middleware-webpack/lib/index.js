@@ -17,7 +17,8 @@ module.exports = function (opts) {
   opts.watchOpts = opts.watchOpts || {};
   opts.watchOpts.aggregateTimeout = opts.watchOpts.aggregateTimeout || 600;
   opts.watchOpts.ignored = opts.watchOpts.ignored || /node_modules/;
-  opts.inject = opts.inject || [];
+  opts.inject = opts.inject || opts.insert || [];
+  opts.append = opts.append || [];
   opts.babel = opts.babel || {};
 
   //外层函数的用于接收「参数对象」
