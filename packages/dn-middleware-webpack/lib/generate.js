@@ -178,7 +178,7 @@ async function handlerPlugins(wpConfig, opts) {
       test: /\.less$/,
       loader: cssExtractPlugin.extract({
         use: [
-          { loader: 'css-loader', options: cssLoaderOptions }, 
+          { loader: 'css-loader', options: cssLoaderOptions },
           { loader: 'less-loader', options: { javascriptEnabled: true } }
         ],
         publicPath: '../'
@@ -307,7 +307,7 @@ async function handleEntry(wpConfig, opts) {
   if (entries.length < 1) throw new Error(`没有发现有效的构建入口文件`);
   let templates = await getTemplates(opts);
   entries.forEach(entry => {
-    wpConfig.entry[entry.name] = [...opts.inject, entry.file];
+    wpConfig.entry[entry.name] = [...opts.inject, entry.file, ...opts.append];
     let template = templates.find(item => item.name == entry.name) ||
       templates[0];
     if (!template) return;

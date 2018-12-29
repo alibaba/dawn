@@ -17,7 +17,8 @@ module.exports = function (opts) {
   opts.watchOpts = opts.watchOpts || {};
   opts.watchOpts.aggregateTimeout = opts.watchOpts.aggregateTimeout || 600;
   opts.watchOpts.ignored = opts.watchOpts.ignored || /node_modules/;
-  opts.inject = opts.inject || [];
+  opts.inject = opts.inject || opts.insert || [];
+  opts.append = opts.append || [];
   opts.babel = opts.babel || {};
 
   //外层函数的用于接收「参数对象」
@@ -119,7 +120,7 @@ module.exports = function (opts) {
     } else {
       if (this.emit) this.emit('webpack.run', compiler, webpack, opts);
       compiler.run((err, stats) => {
-        if (err) return this.console.error('error:', err);
+        if (err) throw err;
         let json = stats.toJson({}, true);
         printErrors.call(this, json);
         if (this.emit) this.emit('webpack.stats', stats);
