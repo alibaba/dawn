@@ -1,0 +1,18 @@
+{
+  "name": "dn-middleware-compress",
+  "version": "1.0.0",
+  "description": "极速压缩中间件",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "dn test"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "dn-middleware-pkginfo": "^1.1.0"
+  },
+  "dependencies": {
+    "clean-css": "^4.2.1",
+    "uglify-js": "^3.4.9"
+  }
+}

@@ -1,0 +1,15 @@
+init:
+  - name: pkginfo
+
+dev:
+  - name: $local
+    location: ./lib/index.js
+
+test:
+  - name: lint
+  
+publish:
+  - name: shell
+    script:
+      - dn test
+      - npm pu

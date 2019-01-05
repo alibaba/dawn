@@ -204,7 +204,8 @@ async function handlerPlugins(wpConfig, opts) {
   if (!opts.common.disabled) {
     wpConfig.plugins.push(new webpack.optimize.CommonsChunkPlugin({
       name: opts.common.name,
-      chunks: opts.common.chunks
+      chunks: opts.common.chunks,
+      minChunks: opts.common.minChunks ? opts.common.minChunks : 2
     }));
   }
   if (opts.stats) {
