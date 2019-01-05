@@ -1,0 +1,1 @@
+function say(o){console.log(o)}

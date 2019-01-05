@@ -163,7 +163,7 @@ async function handleLoaders(wpConfig, opts) {
 }
 
 //处理插件
-async function handlerPlugins(wpConfig, opts) {
+async function handlerPlugins(wpConfig, opts, ctx) {
   let cssExtractPlugin = new ExtractTextPlugin({
     filename: `${opts.folders.css}/[name].css`,
     allChunks: true
@@ -205,8 +205,18 @@ async function handlerPlugins(wpConfig, opts) {
     wpConfig.plugins.push(new webpack.optimize.CommonsChunkPlugin({
       name: opts.common.name,
       chunks: opts.common.chunks,
-      minChunks: opts.common.minChunks ? opts.common.minChunks : 2
+      minChunks: opts.common.minChunks ? opts.common.minChunks : 2,
+      // children: true,
+      // async: opts.common.name + '-async'
     }));
+    if (opts.common.dependencies) {
+      const dependencies = utils.isArray(opts.common.dependencies) ?
+        opts.common.dependencies : Object.keys(
+          require(path.normalize(`${ctx.cwd}/package.json`)).dependencies
+        );
+      wpConfig.entry[opts.common.name] = dependencies;
+      //console.log('自动收集 dependencies', opts.common.name, dependencies);
+    }
   }
   if (opts.stats) {
     wpConfig.plugins.push(new Visualizer({
@@ -364,7 +374,7 @@ async function generate(ctx, opts) {
   await handleUMD(wpConfig, opts);
   await handleLoaders(wpConfig, opts);
   await handleEntry(wpConfig, opts);
-  await handlerPlugins(wpConfig, opts);
+  await handlerPlugins(wpConfig, opts, ctx);
   await handleConfig(wpConfig, opts, ctx);
   return wpConfig;
 }

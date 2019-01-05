@@ -1,36 +1,22 @@
-const UglifyJS = require("uglify-js");
-const CleanCSS = require('clean-css');
+const os = require('os');
+const { Safeify } = require("safeify");
 
-async function compressJs(ctx, files) {
-  const { utils, console } = ctx;
-  const { readFile, writeFile } = utils;
+const modules = {
+  js: require.resolve('./js'),
+  css: require.resolve('./css'),
+};
+
+async function compress(ctx, pool, type, files) {
+  const { console } = ctx;
   return Promise.all(files.map(async file => {
     console.log('[start]:', file);
-    const source = (await readFile(file)).toString();
-    const { error, code } = UglifyJS.minify(source);
-    if (error) {
-      console.error(error);
+    try {
+      await pool.run(`return require('${type}')(file)`, { file });
+      console.log('[finish]:', file);
+    } catch (err) {
+      console.error('[error]:', file, err.message);
       process.exit(2);
-    };
-    await writeFile(file, code);
-    console.log('[finish]:', file);
-  }));
-}
-
-async function compressCss(ctx, files) {
-  const { utils, console } = ctx;
-  const { readFile, writeFile } = utils;
-  const cleanCss = new CleanCSS();
-  return Promise.all(files.map(async file => {
-    console.log('[start]:', file);
-    const source = (await readFile(file)).toString();
-    const { styles, errors } = cleanCss.minify(source);
-    if (errors && errors.length > 0) {
-      errors.forEach(error => console.error(error));
-      process.exit(2);
-    };
-    await writeFile(file, styles);
-    console.log('[finish]:', file);
+    }
   }));
 }
 
@@ -43,13 +29,25 @@ module.exports = function (opts) {
 
   return async function (next, ctx) {
     const { utils, console } = ctx;
-    console.info('开始压缩 CSS');
-    const cssFiles = await utils.files(opts.css);
-    await compressCss(ctx, cssFiles);
-    console.info('开始压缩 JS');
-    const jsFiles = await utils.files(opts.js);
-    await compressJs(ctx, jsFiles);
-    console.info('done')
+    console.info('[compress]:', '已启用');
+    const pool = new Safeify({
+      timeout: 1000 * 60 * 3,
+      unsafe: { modules },
+      greedy: false,
+      workers: os.cpus().length,
+      unrestricted: true,
+    });
+    await pool.init();
+    console.info('[compress]:', pool.workerTotal);
+
+    console.info('[compress]:', '开始压缩 CSS');
+    await compress(ctx, pool, 'css', await utils.files(opts.css));
+
+    console.info('[compress]:', '开始压缩 JS');
+    await compress(ctx, pool, 'js', await utils.files(opts.js));
+
+    await pool.distory();
+    console.info('[compress]:', 'done');
     next();
   };
 

@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-compress",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "极速压缩中间件",
   "main": "./lib/index.js",
   "scripts": {
@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "clean-css": "^4.2.1",
+    "mz": "^2.7.0",
+    "safeify": "^5.0.0",
     "uglify-js": "^3.4.9"
   }
 }
