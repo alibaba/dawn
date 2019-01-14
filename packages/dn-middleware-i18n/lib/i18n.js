@@ -40,10 +40,10 @@ i18n.isStrArray = function (list) {
 }
 
 i18n.parse = function (text, params) {
-  const info = text.split(/\{(.*?)\}/);
+  var info = text.split(/\{(.*?)\}/);
   for (var i = 1; i <= info.length; i += 2) {
     if (!info[i]) continue;
-    const func = this.compile(info[i]);
+    var func = this.compile(info[i]);
     if (!func) continue;
     info[i] = func(params);
   }

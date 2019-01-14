@@ -15,10 +15,9 @@ module.exports = function (opts) {
   opts = Object.assign({ output: 'build/js', libName: 'lib' }, opts);
 
   //构建 lib
-  async function buildLib(vendors, libCacheDir) {
-    if (opts.cache !== false && fs.existsSync(libCacheDir)) return libCacheDir;
-    let plugins = [new webpack.DllPlugin({
-      path: path.normalize(`${libCacheDir}/manifest.json`),
+  async function buildLib(vendors, cacheDir) {
+    const plugins = [new webpack.DllPlugin({
+      path: path.normalize(`${cacheDir}/manifest.json`),
       name: opts.libName,
       context: this.cwd,
     }), new webpack.DefinePlugin({
@@ -29,7 +28,7 @@ module.exports = function (opts) {
     if (opts.compress !== false) {
       plugins.push(new UglifyJsParallelPlugin({
         workers: opts.maxThread || os.cpus().length,
-        cacheDir: path.resolve(libCacheDir, `./.cache/`),
+        cacheDir: path.resolve(cacheDir, `./.uglify/`),
         mangle: false,
         sourceMap: false,
         compressor: { warnings: false }
@@ -42,7 +41,7 @@ module.exports = function (opts) {
       configObject: {
         context: this.cwd,
         output: {
-          path: libCacheDir,
+          path: cacheDir,
           filename: '[name].js',
           library: opts.libName
         },
@@ -50,41 +49,44 @@ module.exports = function (opts) {
         plugins: plugins
       }
     });
-    return libCacheDir;
   }
 
   return async function (next) {
 
     //计算 lib 资源
-    let vendors = opts.vendors || Object.keys(this.project.dependencies || {});
+    const vendors = opts.vendors || Object.keys(this.project.dependencies || {});
 
     //计算项目缓存目录
-    let cacheKey = md5(this.project.name +
-      JSON.stringify(this.project.dependencies) +
-      JSON.stringify(this.project.devDependencies) +
-      JSON.stringify(vendors) + opts.libName);
-    let tempDir = process.env.TMPDIR || process.env.TEMP ||
-      process.env.TMP || `${this.cwd}/.cache`;
-    let libCacheDir = path.normalize(`${tempDir}/${cacheKey}`);
+    const cacheKey = md5(JSON.stringify(vendors));
+    const cacheDir = path.normalize(`${this.cwd}/.cache`);
 
     //lib 生成
-    this.console.info('生成 lib ...');
-    if (vendors && vendors.length > 0) {
-      libCacheDir = await buildLib.call(this, vendors, libCacheDir);
-      let output = path.resolve(this.cwd, opts.output);
+    this.console.log('检查 lib 的 hash');
+    const hashFile = path.normalize(`${cacheDir}/.hash`);
+    const hash = fs.existsSync(hashFile) ?
+      (await this.utils.readFile(hashFile)).toString() : '';
+    if (vendors && vendors.length > 0 && hash !== cacheKey) {
+      this.console.log('开始生成 lib');
+      await buildLib.call(this, vendors, cacheDir);
+      const output = path.resolve(this.cwd, opts.output);
       await this.exec({
         name: 'copy',
         files: {
-          [`${output}/${opts.libName}.js`]: `${libCacheDir}/bundle.js`
+          [`${output}/${opts.libName}.js`]: `${cacheDir}/bundle.js`
         }
       });
+      this.console.info('记录 lib 的 hash');
+      await this.utils.writeFile(hashFile, cacheKey);
+      this.console.log('生成 lib 完成');
+    } else {
+      this.console.log('使用 lib 缓存');
     }
     this.console.info('Done');
 
     //lib 引用
     this.once('webpack.config', (webpackConf, webpack, webpackOpts) => {
       if (webpackOpts._isLib) return;
-      let manifestFile = path.normalize(`${libCacheDir}/manifest.json`);
+      const manifestFile = path.normalize(`${cacheDir}/manifest.json`);
       if (!fs.existsSync(manifestFile)) {
         throw new Error(`Cannt find lib '${opts.libName}'`);
       };
@@ -92,10 +94,6 @@ module.exports = function (opts) {
         context: this.cwd,
         manifest: require(manifestFile),
       }));
-    });
-
-    //处理 server 自动引入
-    this.once('server.init', server => {
     });
 
     next();
