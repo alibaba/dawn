@@ -28,7 +28,7 @@ module.exports = function (opts) {
 
     await this.utils.exec([
       cmd, '--config', rulesFile, '--project', tsconfigFile,
-      '--exclude', '**/*.d.ts', '--format', 'stylish', '--fix'
+      '--exclude', '\'**/*.d.ts\'', '--format', 'stylish', '--fix'
     ].join(' '));
 
     next();
