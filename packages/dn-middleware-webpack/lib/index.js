@@ -48,6 +48,7 @@ module.exports = function (opts) {
     config.resolve.symlinks = true;
     config.resolve.modules = config.resolve.modules || [];
     config.resolve.modules = config.resolve.modules.concat([
+      'node_modules',
       path.resolve(this.cwd, './node_modules/'),
       path.resolve(__dirname, '../node_modules/'),
       this.cwd,
