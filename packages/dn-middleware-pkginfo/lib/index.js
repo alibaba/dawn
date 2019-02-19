@@ -8,6 +8,9 @@ const path = require('path');
  */
 module.exports = function (opts) {
 
+  // 是否为静默模式
+  const silenceMode = !!opts.silence;
+
   //外层函数的用于接收「参数对象」
   //必须返回一个中间件处理函数
   return async function (next) {
@@ -42,7 +45,15 @@ module.exports = function (opts) {
     if (fs.existsSync(pkgFile)) {
       this.console.info('设定项目信息...');
       let pkg = require(pkgFile);
-      let result = await this.inquirer.prompt(opts.items);
+      let result = {};
+      if (!silenceMode) {
+        result = await this.inquirer.prompt(opts.items);
+      } else {
+        this.console.info('静默模式...')
+        opts.items.map(({ name, default: defaultValue }) => {
+          result[name] = process.env[`DN_PKGINFO_${name}`] || defaultValue || '';
+        })
+      }
       Object.assign(pkg, result);
       this.project = pkg;
       await this.utils.writeFile(pkgFile, JSON.stringify(pkg, null, '  '));
