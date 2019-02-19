@@ -33,7 +33,7 @@ module.exports = function (opts) {
     //安装规范包
     const flag = { 'save-dev': true };
     const deps = [
-      'eslint-config-dawn', 'eslint-plugin-react',
+      'eslint-config-dawn', 'eslint-plugin-react', 'eslint-plugin-react-hooks',
       'eslint-plugin-html', 'babel-eslint'
     ];
     for (let dep of deps) {

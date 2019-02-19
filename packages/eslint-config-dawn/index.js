@@ -2,6 +2,7 @@ module.exports = {
   "parser": "babel-eslint",
   "plugins": [
     "react",
+    "react-hooks",
     "html"
   ],
   "env": {
@@ -130,6 +131,7 @@ module.exports = {
     ],
     "react/jsx-no-undef": [
       2
-    ]
+    ],
+    "react-hooks/rules-of-hooks": "error",
   }
 };
