@@ -4,7 +4,6 @@ init:
 dev:
   - name: $local
     location: ./lib/index.js
-    silence: true
 
 test:
   - name: lint

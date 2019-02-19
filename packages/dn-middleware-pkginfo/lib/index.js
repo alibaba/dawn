@@ -8,8 +8,11 @@ const path = require('path');
  */
 module.exports = function (opts) {
 
+  const envOpts = JSON.parse(decodeURIComponent(process.env['DN_ARGV'] || '{}'));
+  const pkgEnv = envOpts.pkginfo || {};
+
   // 是否为静默模式
-  const silenceMode = !!opts.silence;
+  const silenceMode = !!pkgEnv.silence;
 
   //外层函数的用于接收「参数对象」
   //必须返回一个中间件处理函数
@@ -49,9 +52,9 @@ module.exports = function (opts) {
       if (!silenceMode) {
         result = await this.inquirer.prompt(opts.items);
       } else {
-        this.console.info('静默模式...')
+        this.console.info('静默模式...', JSON.stringify(pkgEnv));
         opts.items.map(({ name, default: defaultValue }) => {
-          result[name] = process.env[`DN_PKGINFO_${name}`] || defaultValue || '';
+          result[name] = pkgEnv[name] || defaultValue || '';
         })
       }
       Object.assign(pkg, result);
