@@ -3,7 +3,7 @@ const ExpressPlugin = require('nokit-plugin-express');
 const ProxyFilter = require('nokit-filter-proxy');
 const fs = require('fs');
 const path = require('path');
-const NotFoundFilter = require('./NotFoundFilter');
+const HistoryApiFallbackFilter = require('./HistoryApiFallbackFilter');
 
 /**
  * 这是一个标准的中间件工程模板
@@ -59,7 +59,8 @@ module.exports = function (opts) {
 
     if (opts.historyApiFallback) {
       //注册 404 处理 filter
-      server.filter('^/@notfound', new NotFoundFilter(server));
+      server.filter('^/@historyApiFallback',
+        new HistoryApiFallbackFilter(server));
     }
 
     //添加 express 支持插件
