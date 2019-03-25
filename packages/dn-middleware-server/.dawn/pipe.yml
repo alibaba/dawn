@@ -2,8 +2,8 @@ init:
   - name: tnpm-install
 
 dev:
-  - name: $local
-    location: ./lib/index.js
+  - name: ./lib/index.js
+    historyApiFallback: true
 
 test:
   - name: lint
