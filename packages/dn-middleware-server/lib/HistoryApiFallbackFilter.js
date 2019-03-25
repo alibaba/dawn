@@ -32,7 +32,7 @@ HistoryApiFallbackFilter.prototype.onResponse = function (ctx, next) {
   let buffer = '';
   ctx.response.contentStream.on('data', (chunk) => buffer += chunk);
   ctx.response.contentStream.on('end', () => {
-    buffer = buffer.toString().replace('</head>', '<base href="/" /></head>');
+    buffer = buffer.toString().replace('<head>', '<head><base href="/" />');
     ctx.text(buffer, 'text/html', 200);
   });
 }
