@@ -3,6 +3,7 @@ const ExpressPlugin = require('nokit-plugin-express');
 const ProxyFilter = require('nokit-filter-proxy');
 const fs = require('fs');
 const path = require('path');
+const HistoryApiFallbackFilter = require('./HistoryApiFallbackFilter');
 
 /**
  * 这是一个标准的中间件工程模板
@@ -26,10 +27,10 @@ module.exports = function (opts) {
     }
 
     //处理默认文件
-    let srcFile = path.resolve(__dirname, '../server.yml');
-    let dstFile = path.resolve(this.cwd, './server.yml');
+    const srcFile = path.resolve(__dirname, '../server.yml');
+    const dstFile = path.resolve(this.cwd, './server.yml');
     if (!fs.existsSync(dstFile)) {
-      let buffer = await this.utils.readFile(srcFile);
+      const buffer = await this.utils.readFile(srcFile);
       await this.utils.writeFile(dstFile, buffer);
     }
 
@@ -39,7 +40,7 @@ module.exports = function (opts) {
     /**
      * 创建 server 实例
      **/
-    let server = new nokit.Server({
+    const server = new nokit.Server({
       root: this.cwd,
       port: opts.port,
       config: opts.config,
@@ -53,8 +54,14 @@ module.exports = function (opts) {
     });
 
     //注册代理 filter
-    let proxyFilter = new ProxyFilter(server);
+    const proxyFilter = new ProxyFilter(server);
     server.filter('^/@server', proxyFilter);
+
+    if (opts.historyApiFallback) {
+      //注册 404 处理 filter
+      server.filter('^/@historyApiFallback',
+        new HistoryApiFallbackFilter(server));
+    }
 
     //添加 express 支持插件
     server.plugin('express', new ExpressPlugin());
