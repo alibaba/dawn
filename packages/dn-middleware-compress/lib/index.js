@@ -6,12 +6,13 @@ const modules = {
   css: require.resolve('./css'),
 };
 
-async function compress(ctx, pool, type, files) {
+async function compress(ctx, pool, type, files, opts) {
   const { console } = ctx;
+  opts = opts || {};
   return Promise.all(files.map(async file => {
     console.log('[start]:', file);
     try {
-      await pool.run(`return require('${type}')(file)`, { file });
+      await pool.run(`return require('${type}')(file, opts)`, { file, opts });
       console.log('[finish]:', file);
     } catch (err) {
       console.error('[error]:', file, err.message);
@@ -24,7 +25,8 @@ module.exports = function (opts) {
 
   opts = Object.assign({
     js: './build/**/*.js',
-    css: './build/**/*.css'
+    css: './build/**/*.css',
+    options: {},
   }, opts);
 
   return async function (next, ctx) {
@@ -40,13 +42,15 @@ module.exports = function (opts) {
     await pool.init();
     console.info('[compress]:', pool.workerTotal);
 
+    const { css, js, options } = opts;
+
     console.info('[compress]:', '开始压缩 CSS');
-    await compress(ctx, pool, 'css', await utils.files(opts.css));
+    await compress(ctx, pool, 'css', await utils.files(css), options.css);
 
     console.info('[compress]:', '开始压缩 JS');
-    await compress(ctx, pool, 'js', await utils.files(opts.js));
+    await compress(ctx, pool, 'js', await utils.files(js), options.js);
 
-    await pool.distory();
+    await pool.destroy();
     console.info('[compress]:', 'done');
     next();
   };
