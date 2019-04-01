@@ -2,8 +2,10 @@ init:
   - name: pkginfo
 
 dev:
-  - name: $local
-    location: ./lib/index.js
+  - name: ./lib/index.js
+    options:
+      css: 
+        test: true
 
 test:
   - name: lint
