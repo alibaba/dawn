@@ -40,11 +40,11 @@
  * @param {object} opts cli 传递过来的参数对象 (在 pipe 中的配置)
  * @return {AsyncFunction} 中间件函数
  */</span>
-module<span class="token punctuation">.</span><span class="token function-variable function">exports</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>opts<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+module<span class="token punctuation">.</span><span class="token function-variable function">exports</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">opts</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
 
   <span class="token comment">//外层函数的用于接收「参数对象」</span>
   <span class="token comment">//必须返回一个中间件处理函数</span>
-  <span class="token keyword">return</span> <span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>next<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">next</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
 
     <span class="token comment">//在这里处理你的逻辑</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'This is an example'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>

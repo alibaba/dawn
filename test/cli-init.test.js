@@ -7,13 +7,15 @@ describe('cli', function () {
   it('#init', function (done) {
     this.timeout(60000);
     process.chdir(path.resolve(__dirname, './demo2'));
-    let dirname = path.resolve(__dirname, './demo2/.dawn/');
-    let filename = path.resolve(__dirname, './demo2/.dawn/pipe.yml');
-    if (fs.existsSync(filename)) fs.unlinkSync(filename);
-    if (fs.existsSync(dirname)) fs.rmdirSync(dirname);
-    expect(fs.existsSync(filename)).to.be.equal(false);
+    let confDir = path.resolve(__dirname, './demo2/.dawn/');
+    let pipeFile = path.resolve(__dirname, './demo2/.dawn/pipe.yml');
+    let rcFile = path.resolve(__dirname, './demo2/.dawn/rc.yml');
+    if (fs.existsSync(pipeFile)) fs.unlinkSync(pipeFile);
+    if (fs.existsSync(rcFile)) fs.unlinkSync(rcFile);
+    if (fs.existsSync(confDir)) fs.rmdirSync(confDir);
+    expect(fs.existsSync(pipeFile)).to.be.equal(false);
     cli.once('done', function () {
-      expect(fs.existsSync(filename)).to.be.equal(true);
+      expect(fs.existsSync(pipeFile)).to.be.equal(true);
       done();
     });
     cli.parse(['node', 'dn', 'init', '-t', 'unit-demo']);
