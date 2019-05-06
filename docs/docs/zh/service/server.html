@@ -27,31 +27,31 @@
 </ul>
 <h3 id="template.yml">template.yml</h3>
 <p><code>template.yml</code> 用于管理中心服务上的所有「推荐的模板列表」，用户在执行 <code>dn init</code> 或 <code>dn template</code> 时列出的模板列表，就是在 <code>template.yml</code> 配置的列表，格式如下</p>
-<pre><code class="language-yml">front: 
-  location: 'dn-template-front'
-  summary: 'Front Project Template'
+<pre><code class="language-yml"><span class="token key atrule">front</span><span class="token punctuation">:</span> 
+  <span class="token key atrule">location</span><span class="token punctuation">:</span> <span class="token string">'dn-template-front'</span>
+  <span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">'Front Project Template'</span>
 
-node: 
-  location: 'dn-template-node'
-  summary: 'Node.js Project Template'
+<span class="token key atrule">node</span><span class="token punctuation">:</span> 
+  <span class="token key atrule">location</span><span class="token punctuation">:</span> <span class="token string">'dn-template-node'</span>
+  <span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">'Node.js Project Template'</span>
   
-middleware: 
-  location: 'dn-template-middleware'
-  summary: 'Middleware Project Template'
+<span class="token key atrule">middleware</span><span class="token punctuation">:</span> 
+  <span class="token key atrule">location</span><span class="token punctuation">:</span> <span class="token string">'dn-template-middleware'</span>
+  <span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">'Middleware Project Template'</span>
 </code></pre>
 <p>顶层的 <code>key</code> 是模板列表中的名称，在列表中唯一即可，比如上边的 <code>front</code>、<code>node</code>，通过 <code>location</code> 指定模板对应的 <code>npm package</code> 包名</p>
 <p><code>location</code> 还可以指定 <code>scope</code> 或 <code>version</code>，示例</p>
-<pre><code class="language-yml">front: 
-  location: '@scope/dn-template-front'
-  summary: 'Front Project Template'
+<pre><code class="language-yml"><span class="token key atrule">front</span><span class="token punctuation">:</span> 
+  <span class="token key atrule">location</span><span class="token punctuation">:</span> <span class="token string">'@scope/dn-template-front'</span>
+  <span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">'Front Project Template'</span>
 
-node: 
-  location: 'dn-template-node@1.0.0'
-  summary: 'Node.js Project Template'
+<span class="token key atrule">node</span><span class="token punctuation">:</span> 
+  <span class="token key atrule">location</span><span class="token punctuation">:</span> <span class="token string">'dn-template-node@1.0.0'</span>
+  <span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">'Node.js Project Template'</span>
 
-middleware: 
-  location: '@scope/dn-template-middleware@1.0.0'
-  summary: 'Middleware Project Template'
+<span class="token key atrule">middleware</span><span class="token punctuation">:</span> 
+  <span class="token key atrule">location</span><span class="token punctuation">:</span> <span class="token string">'@scope/dn-template-middleware@1.0.0'</span>
+  <span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">'Middleware Project Template'</span>
 </code></pre>
 <p>Dawn 在连接对应的 <code>server</code> 后，便可以通过 <code>dn template [keyword]</code> 查询对应的模板</p>
 <p><strong>注意</strong>
@@ -61,25 +61,25 @@ middleware:
 <p><code>package_name</code> 可以是完整的包名称，也可以不带默认前缀。</p>
 <h3 id="middleware.yml">middleware.yml</h3>
 <p>middleware.yml 用于管理「推荐的中间件列表」，格式如下</p>
-<pre><code class="language-yml">shell: 
-  location: '@ali/dn-middleware-shell'
-  summary: 可执行 shell 的中间件
+<pre><code class="language-yml"><span class="token key atrule">shell</span><span class="token punctuation">:</span> 
+  <span class="token key atrule">location</span><span class="token punctuation">:</span> <span class="token string">'@ali/dn-middleware-shell'</span>
+  <span class="token key atrule">summary</span><span class="token punctuation">:</span> 可执行 shell 的中间件
 </code></pre>
 <p>配置格式及各字段和 <code>template</code> 一致，添加到 <code>middleware.yml</code> 中的「中间件」，在 dawn 连接到对应的 <code>server</code> 后，在配置 <code>pipe</code> 时，除了可以用完整的包名、不带前缀的包名，也可用在「中间件列表」中指定的名称，如上边示例中的 <code>shell</code>。</p>
 <p>Dawn 在连接对应的 <code>server</code> 后，可以通过 <code>dn middleware [keyword]</code> 查询对应的模板</p>
 <h3 id="pipe.yml">pipe.yml</h3>
 <p>pipe 是团队统一的构建配置的核心，Dawn 在连接某一个 <code>server</code> 后，在执行对应的命令时，会先合并「远程统一的 pipe 配置」，然后，再执行对应的的 <code>pipeline</code>，格式如下：</p>
-<pre><code class="language-yml"># 前置规则，会合并到工程本地配置的前边
-before:
-  test:
-    - name: lint
+<pre><code class="language-yml"><span class="token comment"># 前置规则，会合并到工程本地配置的前边</span>
+<span class="token key atrule">before</span><span class="token punctuation">:</span>
+  <span class="token key atrule">test</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> lint
 
-# 后置规则，会合并到工程本地配置的后边
-after:
-  test:
-    - name: shell
-      script:
-        - echo done
+<span class="token comment"># 后置规则，会合并到工程本地配置的后边</span>
+<span class="token key atrule">after</span><span class="token punctuation">:</span>
+  <span class="token key atrule">test</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> shell
+      <span class="token key atrule">script</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> echo done
 </code></pre>
 <p>如上，中心 <code>pipe</code> 分为 <code>before</code> 和 <code>after</code> 两大部分，每部分和本地 <code>pipe</code> 格式一致，上边的示例，将强制让所有工程，在执行 <code>dn test</code> 时都会先进行 <code>lint</code> 检查语法。</p>
 <p>注意：如果本地配置中已有 <code>lint</code> 配置，不会重复执行。</p>
