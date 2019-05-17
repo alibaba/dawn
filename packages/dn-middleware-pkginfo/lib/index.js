@@ -21,14 +21,17 @@ module.exports = function (opts) {
     if (!this.inquirer) {
       throw new Error('请升级 dawn 到最新版本');
     }
+    const prefix = opts && opts.prefix || '';
+    const defaultPkgName = prefix + path.basename(this.cwd);
 
     opts.items = opts.items || [{
       name: 'name',
       type: 'input',
-      default: path.basename(this.cwd),
+      default: defaultPkgName,
       message: '请输入项目名称',
       validate: function (name) {
-        return !!name;
+        const reg = new RegExp('^' + prefix);
+        return reg.test(name);
       }
     }, {
       name: 'version',
