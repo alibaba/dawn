@@ -21,7 +21,8 @@ module.exports = function (opts) {
     if (!this.inquirer) {
       throw new Error('请升级 dawn 到最新版本');
     }
-    const defaultPkgName = (opts && opts.endpoint || '') + path.basename(this.cwd);
+    const prefix = opts && opts.prefix || '';
+    const defaultPkgName = prefix + path.basename(this.cwd);
 
     opts.items = opts.items || [{
       name: 'name',
@@ -50,8 +51,11 @@ module.exports = function (opts) {
       this.console.info('设定项目信息...');
       let pkg = require(pkgFile);
       let result = {};
+      const reg = new RegExp('^' + prefix);
       if (!silenceMode) {
         result = await this.inquirer.prompt(opts.items);
+        // 强制加入前缀
+        result.name = reg.test(result.name) ? result.name : (prefix + result.name);
       } else {
         this.console.info('静默模式...', JSON.stringify(pkgEnv));
         opts.items.map(({ name, default: defaultValue }) => {
