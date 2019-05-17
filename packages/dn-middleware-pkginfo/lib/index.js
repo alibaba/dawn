@@ -30,7 +30,8 @@ module.exports = function (opts) {
       default: defaultPkgName,
       message: '请输入项目名称',
       validate: function (name) {
-        return !!name;
+        const reg = new RegExp('^' + prefix);
+        return reg.test(name);
       }
     }, {
       name: 'version',
@@ -51,11 +52,8 @@ module.exports = function (opts) {
       this.console.info('设定项目信息...');
       let pkg = require(pkgFile);
       let result = {};
-      const reg = new RegExp('^' + prefix);
       if (!silenceMode) {
         result = await this.inquirer.prompt(opts.items);
-        // 强制加入前缀
-        result.name = reg.test(result.name) ? result.name : (prefix + result.name);
       } else {
         this.console.info('静默模式...', JSON.stringify(pkgEnv));
         opts.items.map(({ name, default: defaultValue }) => {

@@ -7,9 +7,5 @@
     "test": "dn test"
   },
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@ali/dn-middleware-query": "^1.2.9",
-    "@ali/dn-middleware-stats": "^1.0.9"
-  }
+  "license": "ISC"
 }
