@@ -51,7 +51,7 @@ i18n.parse = function (text, params) {
 }
 
 i18n.getLocale = function (name) {
-  var locale = global[opts.key] || global.__locale;
+  var locale = global[opts.key];
   if (!name || locale) return locale;
   return locales[name] ||
     locales[name.split('-')[0]] ||
