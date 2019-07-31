@@ -14,6 +14,7 @@ module.exports = function (opts) {
 
   //初始化参数
   opts = Object.assign({
+    key: '__locale',
     //语言包源文件存放目录
     dir: './locales',
     //小包导出的目标目录
@@ -32,7 +33,7 @@ module.exports = function (opts) {
       const locales = confman.load(localesPath);
       utils.each(locales, (name, locale) => {
         const localeFile = path.normalize(`${extractPath}/${name}.js`);
-        const localeCode = `window.__locale=${JSON.stringify(locale)};`;
+        const localeCode = `window['${opts.key}']=${JSON.stringify(locale)};`;
         fs.writeFileSync(localeFile, localeCode);
       });
       return { _t: Date.now() };
@@ -54,9 +55,11 @@ module.exports = function (opts) {
     };
 
     const addOpts = (conf) => {
+      const key = opts.key;
+      const jsx = opts.jsx || opts.react;
       conf.plugins.push(new VModule({
         name: '$i18n_opts',
-        content: { jsx: opts.jsx || opts.react }
+        content: { key, jsx }
       }));
     };
 

@@ -3,7 +3,8 @@ init:
 
 build:
   - name: ./lib/index.js
-    #extract: ./build/locales/
+    key: __demo
+    extract: ./build/locales/
   - name: webpack
     entry: ./demo/index.js
     common:
