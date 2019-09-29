@@ -30,9 +30,6 @@ dev:
   - name: shell
     script:
       - node ./build/index.js
-
-test:
-  - name: lint
   
 publish:
   - name: shell

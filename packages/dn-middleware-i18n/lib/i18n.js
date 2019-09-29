@@ -1,6 +1,6 @@
-let utils = require('ntils');
-let $locales = require('$locales');
-let $opts = require('$i18n_opts');
+var utils = require('ntils');
+var $locales = require('$locales');
+var $opts = require('$i18n_opts');
 
 function i18n() {
   return i18n.get.apply(i18n, arguments);
@@ -32,18 +32,18 @@ i18n.compile = function (expr) {
 };
 
 i18n.isStrArray = function (list) {
-  for (let i in list) {
-    let item = list[i];
+  for (var i in list) {
+    var item = list[i];
     if (!utils.isString(item)) return false;
   }
   return true;
 };
 
 i18n.parse = function (text, params) {
-  let info = text.split(/\{(.*?)\}/);
-  for (let i = 1; i <= info.length; i += 2) {
+  var info = text.split(/\{(.*?)\}/);
+  for (var i = 1; i <= info.length; i += 2) {
     if (!info[i]) continue;
-    let func = this.compile(info[i]);
+    var func = this.compile(info[i]);
     if (!func) continue;
     info[i] = func(params);
   }
@@ -52,16 +52,16 @@ i18n.parse = function (text, params) {
 
 i18n.isWhole = function (locale) {
   if (!locale || locale.__name__) return false;
-  const firstKey = Object.getOwnPropertyNames(locale)[0];
+  var firstKey = Object.getOwnPropertyNames(locale)[0];
   if (!firstKey) return false;
   return utils.isObject(locale[firstKey]);
 };
 
 i18n.getLocale = function (name) {
-  let values = global[$opts.key];
+  var values = global[$opts.key];
   if (!name) return values || {};
   if (values && !this.isWhole(values)) return values;
-  let locales = values || $locales;
+  var locales = values || $locales;
   return locales[name] ||
     locales[name.split('-')[0]] ||
     utils.each(locales, function (key) {
@@ -71,8 +71,8 @@ i18n.getLocale = function (name) {
 
 i18n.init = function (config) {
   config = config || {};
-  let currentLang = config.language || '';
-  let defaultLang = config.defaultLanguage || 'zh-CN';
+  var currentLang = config.language || '';
+  var defaultLang = config.defaultLanguage || 'zh-CN';
   this.locale = this.getLocale(currentLang) ||
     this.getLocale(defaultLang) || {};
 };
