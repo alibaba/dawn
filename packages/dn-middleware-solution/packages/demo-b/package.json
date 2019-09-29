@@ -1,0 +1,31 @@
+{
+  "name": "demo-b",
+  "version": "1.0.4",
+  "description": "",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "dn test && dn build -e prod"
+  },
+  "author": {
+    "name": "Houfeng",
+    "email": "admin@xhou.net",
+    "url": "http://houfeng.net"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "dn-middleware-browser-sync": "^0.1.0",
+    "dn-middleware-clean": "^1.0.2",
+    "dn-middleware-copy": "^0.2.7",
+    "dn-middleware-lint": "^2.1.4",
+    "dn-middleware-pkginfo": "^1.1.3",
+    "dn-middleware-server": "^1.1.3",
+    "dn-middleware-shell": "^1.1.0",
+    "dn-middleware-unit": "^0.2.1",
+    "dn-middleware-webpack": "^1.11.5",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
+  "dependencies": {
+    "mota": "^3.5.0"
+  }
+}

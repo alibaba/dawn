@@ -19,4 +19,5 @@ publish:
   - name: shell
     script:
       - dn test
-      - npm pu
+      - dn build
+  - name: publish 
