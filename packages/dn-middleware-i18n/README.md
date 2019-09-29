@@ -2,11 +2,7 @@
 
 这是一个集成了「i18n」的前端多语言 dawn 中间件。
 
-## 1. 安装 Dawn
-
-使用这个模板需要先安装好 Dawn [https://github.com/alibaba/dawn](https://github.com/alibaba/dawn)
-
-## 2. 添加 pipe 配置，启用 i18n
+## 1. 添加 pipe 配置，启用 i18n
 
 ```yml
 dev:
@@ -22,7 +18,7 @@ zh-HK.yml
 en-US.yml
 ```
 
-## 3. 在代码中使用多语言文案
+## 2. 在代码中使用多语言文案
 
 ```js
 import i18n from '$i18n';
@@ -65,7 +61,7 @@ i18n('info',{ total: 2 });
 //将显示：There are 2 records
 ```
 
-## 4. 启用 JSX 的支持
+## 3. 启用 JSX 的支持
 
 如果是 `React` 工程，还可开启 `JSX` 的支持，此时 `i18n` 返回的将不是普通字符串，而且是合法的 `ReactNode`
 
@@ -85,7 +81,7 @@ i18n('key',{
 });
 ```
 
-## 5. 如何识别对应的 language 
+## 4. 如何识别对应的 language 
 
 因为场景多变，为了更通用，`i18n` 并不会自动侦测当前应用使用语言，需要在应用启动时告知 `i18n` 当前语言。
 
@@ -102,7 +98,7 @@ i18n.init({
 
 同时，还可以通过 `defaultLanguage` 设定「默认语言」，当检查到的语言，当前应用并未支持时，会以「默认语言」显示。
 
-## 分离打语言包
+## 5. 构建单独的语言包
 
 默认情况下，语言文案将会和代码一并打在一个 bundle 中，如果想分离语言包，可通过 extract 选项，示例如下
 
@@ -120,8 +116,8 @@ dev:
 
 ```json
 {
-  "zh-CN": {...},
-  "en-US": {...}
+  "zh-CN": { },
+  "en-US": { }
 }
 ```
 
