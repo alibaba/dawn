@@ -1,0 +1,22 @@
+init:
+  - name: pkginfo
+
+dev:
+  - name: shell
+    script:
+      - node ./lib/index.js
+
+build:
+  - name: shell
+    script:
+      - dn dev
+
+test:
+  - name: lint
+  - name: unit
+
+publish:
+  - name: shell
+    script:
+      - dn test
+      - npm pu

@@ -14,7 +14,4 @@ link:
   - name: ./lib/index.js
   
 publish:
-  - name: shell
-    script:
-      - dn test
-      - npm pu
+  - name: ./lib/index.js

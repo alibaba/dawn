@@ -1,5 +1,7 @@
-root: ./packages
 packages:
-  - a
-  - b
-  - c
+  - path: demo-a
+  - path: demo-b
+  - path: demo-c
+    deps:
+      - demo-a
+      - demo-b

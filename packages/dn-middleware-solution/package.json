@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-solution",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "dn-middleware-pkginfo": "^1.1.3"
+    "dn-middleware-pkginfo": "^1.1.3",
+    "dn-middleware-shell": "^1.1.0",
+    "dn-middleware-submitter": "^1.0.0"
   }
 }

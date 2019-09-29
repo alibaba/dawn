@@ -1,0 +1,33 @@
+init:
+  - name: pkginfo
+
+dev:
+  - name: clean
+  - name: copy
+    files:
+      ./build/(0).ico: ./src/assets/favicon.ico
+  - name: webpack
+    watch: true
+  - name: server
+  - name: browser-sync
+
+build:
+  - name: clean
+  - name: copy
+    files:
+      (0): ./src/assets/favicon.ico
+  - name: webpack
+
+add:
+  - name: react-component-creator
+
+test:
+  - name: lint
+  - name: unit
+
+publish:
+  - name: shell
+    script:
+      - dn test
+      - dn build
+      - npm pu
