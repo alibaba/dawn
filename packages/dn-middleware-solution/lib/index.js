@@ -188,8 +188,9 @@ async function changeVersion(ctx) {
 
 async function publish(ctx) {
   const { mode } = await getSolutionConf(ctx);
+  let version = '';
   if (mode === 'unified') {
-    const version = await changeVersion(ctx);
+    version = await changeVersion(ctx);
   }
   await ctx.exec({ name: 'submitter' });
   await execCommand(ctx, `dn publish`, {
