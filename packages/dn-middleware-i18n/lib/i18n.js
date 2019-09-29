@@ -1,6 +1,6 @@
 var utils = require('ntils');
-var locales = require('$locales');
-var opts = require('$i18n_opts');
+var $locales = require('$locales');
+var $opts = require('$i18n_opts');
 
 function i18n() {
   return i18n.get.apply(i18n, arguments);
@@ -18,7 +18,7 @@ i18n.get = function (key, params, defaultValue) {
     return defaultValue;
   }
   return this.parse(this.locale[key], params || {});
-}
+};
 
 i18n.compile = function (expr) {
   if (!expr || !utils.isString(expr)) return;
@@ -29,7 +29,7 @@ i18n.compile = function (expr) {
     );
   }
   return this.expressions[expr];
-}
+};
 
 i18n.isStrArray = function (list) {
   for (var i in list) {
@@ -37,7 +37,7 @@ i18n.isStrArray = function (list) {
     if (!utils.isString(item)) return false;
   }
   return true;
-}
+};
 
 i18n.parse = function (text, params) {
   var info = text.split(/\{(.*?)\}/);
@@ -47,18 +47,27 @@ i18n.parse = function (text, params) {
     if (!func) continue;
     info[i] = func(params);
   }
-  return opts.jsx && !this.isStrArray(info) ? info : info.join('');
-}
+  return $opts.jsx && !this.isStrArray(info) ? info : info.join('');
+};
+
+i18n.isWhole = function (locale) {
+  if (!locale || locale.__name__) return false;
+  var firstKey = Object.getOwnPropertyNames(locale)[0];
+  if (!firstKey) return false;
+  return utils.isObject(locale[firstKey]);
+};
 
 i18n.getLocale = function (name) {
-  var locale = global[opts.key];
-  if (!name || locale) return locale;
+  var values = global[$opts.key];
+  if (!name) return values || {};
+  if (values && !this.isWhole(values)) return values;
+  var locales = values || $locales;
   return locales[name] ||
     locales[name.split('-')[0]] ||
     utils.each(locales, function (key) {
       if (key.split('-')[0] == name.split('-')[0]) return locales[key];
     });
-}
+};
 
 i18n.init = function (config) {
   config = config || {};
