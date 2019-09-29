@@ -140,17 +140,17 @@ i18n.parse = function (text, params) {
 };
 
 i18n.getLocale = function (name) {
-  var locale = global.__locale;
+  var locale = global[opts.key] || global.__locale;
   if (!name || locale) return locale;
   return locales[name] || locales[name.split('-')[0]] || utils.each(locales, function (key) {
     if (key.split('-')[0] == name.split('-')[0]) return locales[key];
   });
 };
 
-i18n.init = function (opts) {
-  opts = opts || {};
-  var currentLang = opts.language || '';
-  var defaultLang = opts.defaultLanguage || 'zh-CN';
+i18n.init = function (config) {
+  config = config || {};
+  var currentLang = config.language || '';
+  var defaultLang = config.defaultLanguage || 'zh-CN';
   this.locale = this.getLocale(currentLang) || this.getLocale(defaultLang) || {};
 };
 
@@ -1000,13 +1000,13 @@ exports.parseHTML = parseHTML;
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = {"en-US":{"hello":"Hello {name}!qqq"},"zh-CN":{"hello":"你好，{name}!"}}
+module.exports = {"_t":1564546585389}
 
 /***/ }),
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = {}
+module.exports = {"key":"__demo"}
 
 /***/ })
 /******/ ]);

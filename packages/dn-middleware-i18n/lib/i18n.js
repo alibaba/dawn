@@ -51,7 +51,7 @@ i18n.parse = function (text, params) {
 }
 
 i18n.getLocale = function (name) {
-  var locale = global.__locale;
+  var locale = global[opts.key];
   if (!name || locale) return locale;
   return locales[name] ||
     locales[name.split('-')[0]] ||
@@ -60,10 +60,10 @@ i18n.getLocale = function (name) {
     });
 }
 
-i18n.init = function (opts) {
-  opts = opts || {};
-  var currentLang = opts.language || '';
-  var defaultLang = opts.defaultLanguage || 'zh-CN';
+i18n.init = function (config) {
+  config = config || {};
+  var currentLang = config.language || '';
+  var defaultLang = config.defaultLanguage || 'zh-CN';
   this.locale = this.getLocale(currentLang) ||
     this.getLocale(defaultLang) || {};
 };

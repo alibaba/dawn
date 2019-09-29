@@ -12,7 +12,8 @@ const HistoryApiFallbackFilter = require('./HistoryApiFallbackFilter');
  */
 module.exports = function (opts) {
 
-  opts.host = opts.host || 'http://localhost';
+  opts.protocol = opts.protocol || 'http://';
+  opts.host = opts.host || 'localhost';
   opts.config = opts.config || 'server';
 
   //外层函数的用于接收「参数对象」
@@ -36,11 +37,14 @@ module.exports = function (opts) {
 
     //在这里处理你的逻辑
     this.console.log('启动开发服务器...');
+    this.emit('server.opts', opts);
+    if (opts.https) opts.https = await opts.https;
 
     /**
      * 创建 server 实例
      **/
     const server = new nokit.Server({
+      ...opts,
       root: this.cwd,
       port: opts.port,
       config: opts.config,
@@ -78,7 +82,7 @@ module.exports = function (opts) {
       if (err) {
         this.console.error(err);
       } else {
-        const url = `${opts.host}:${opts.port}`;
+        const url = `${opts.protocol}${opts.host}:${opts.port}`;
         this.console.warn('The server started:', url);
         await next();
         await this.utils.sleep(1000);
