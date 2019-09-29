@@ -6,7 +6,8 @@ async function getSolutionConf(ctx) {
   if (ctx.__solution) return ctx.__solution;
   const { solution } = await ctx.loadLocalConfigs();
   ctx.__solution = Object.assign({
-    root: './packages'
+    root: './packages',
+    unified: true,
   }, solution);
   return ctx.__solution;
 }
@@ -156,46 +157,15 @@ async function add(ctx) {
   return type === 'create' ? create(ctx) : install(ctx);
 }
 
-async function readJson(ctx, file) {
-  if (!existsSync(file)) return {};
-  const text = await ctx.utils.readFile(file);
-  return JSON.parse(text);
-}
-
-async function readSolutionPackage(ctx) {
-  const pkgFile = normalize(`${ctx.cwd}/package.json`);
-  return readJson(ctx, pkgFile);
-}
-
-async function changeVersion(ctx) {
-  const pkg = await readSolutionPackage(ctx);
-  const { version } = await ctx.inquirer.prompt([{
-    name: 'version', type: 'list',
-    message: '请确认将要发布的版本',
-    choices: [
-      { name: `使用当前版本(${pkg.version})`, value: pkg.version },
-      { name: '新的修订版本(patch)', value: 'patch' },
-      { name: '新的次要版本(minor)', value: 'minor' },
-      { name: '新的主要版本(major)', value: 'major' },
-    ]
-  }]);
-  await ctx.utils.exec([`npm version ${version}`,
-    '--allow-same-version',
-    '--no-git-tag-version',
-    '--no-commit-hooks'].join(' '));
-  return (await readSolutionPackage(ctx)).version;
-}
-
 async function publish(ctx) {
-  const { mode } = await getSolutionConf(ctx);
-  let version = '';
-  if (mode === 'unified') {
-    version = await changeVersion(ctx);
+  const { unified } = await getSolutionConf(ctx);
+  if (unified) {
+    await ctx.exec({ name: 'version' });
   }
   await ctx.exec({ name: 'submitter' });
   await execCommand(ctx, `dn publish`, {
-    all: mode === 'unified',
-    env: { ...process.env, __version__: version },
+    all: unified,
+    env: { ...process.env, __version__: ctx.version },
   });
 }
 
