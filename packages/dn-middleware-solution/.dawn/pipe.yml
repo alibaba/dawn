@@ -1,0 +1,20 @@
+dev:
+  - name: ./lib/index.js
+
+build:
+  - name: ./lib/index.js
+
+test:
+  - name: ./lib/index.js
+
+add:
+  - name: ./lib/index.js
+
+link:
+  - name: ./lib/index.js
+  
+publish:
+  - name: shell
+    script:
+      - dn test
+      - npm pu
