@@ -1,6 +1,6 @@
 {
   "name": "demo-a",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -11,8 +11,10 @@
   "devDependencies": {
     "dn-middleware-lint": "^2.1.4",
     "dn-middleware-pkginfo": "^1.1.3",
+    "dn-middleware-publish": "^1.0.1",
     "dn-middleware-shell": "^1.1.0",
-    "dn-middleware-unit": "^0.2.1"
+    "dn-middleware-unit": "^0.2.1",
+    "dn-middleware-version": "^1.0.4"
   },
   "dependencies": {
     "mota": "^3.5.0"

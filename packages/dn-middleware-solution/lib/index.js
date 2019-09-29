@@ -70,7 +70,7 @@ async function execCommand(ctx, cmd, { all, wait, npm, env } = {}) {
   return packages.reduce(async (prev, pkg) => {
     if (wait !== false) await prev;
     return npm ? npmExecInPackage(ctx, pkg, cmd) :
-      execInPackage(ctx, pkg, cmd);
+      execInPackage(ctx, pkg, cmd, env);
   }, null);
 }
 
