@@ -30,4 +30,4 @@ publish:
     script:
       - dn test
       - dn build
-      - npm pu
+  - name: publish 
