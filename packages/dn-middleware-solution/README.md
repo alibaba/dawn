@@ -75,7 +75,7 @@ dn add
 
 ### 发布 Packages
 
-如需发布能力，那么 solution 中的每个 package 都应该在 pipe 中配置 publish，当前 unified 为 true 时，在执行 dn publish 时，会为每个 package 生成统一的版本，并全部发布。而当 unified 为 false 时，将仅依次执行每个 package 自已的 publish pipeline。
+如需发布能力，那么 solution 中的每个 package 都应该在 pipe 中配置 publish，当 unified 为 true 时，在执行 dn publish 时，会为每个 package 生成统一的版本，并全部发布。而当 unified 为 false 时，将仅依次执行每个 package 自已的 publish pipeline。
 
 通常 package 的 publish 配置如下
 
