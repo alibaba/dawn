@@ -42,9 +42,9 @@ async function pickPackages(ctx) {
   return packages.filter(pkg => selected.indexOf(pkg.value) > -1);
 }
 
-async function execInPackage(ctx, pkg, cmd) {
+async function execInPackage(ctx, pkg, cmd, env) {
   ctx.console.warn(`Executing '${cmd}' in ${pkg.name}`);
-  return ctx.utils.exec(cmd, { cwd: pkg.root });
+  return ctx.utils.exec(cmd, { env, cwd: pkg.root });
 }
 
 async function npmExecInPackage(ctx, pkg, cmd) {
@@ -57,7 +57,7 @@ async function installInPackage(ctx, pkg, remote) {
   return ctx.mod.exec(`install ${remote}`, { cwd: pkg.root });
 }
 
-async function execCommand(ctx, cmd, { all, wait, npm } = {}) {
+async function execCommand(ctx, cmd, { all, wait, npm, env } = {}) {
   const packages = all ? await getAllPackages(ctx) : await pickPackages(ctx);
   if (!cmd) {
     cmd = (await ctx.inquirer.prompt([{
@@ -189,7 +189,9 @@ async function changeVersion(ctx) {
 async function publish(ctx) {
   const version = await changeVersion(ctx);
   await ctx.exec({ name: 'submitter' });
-  await execCommand(ctx, `dn publish`);
+  await execCommand(ctx, `dn publish`, {
+    env: { ...process.env, __version__: version },
+  });
 }
 
 module.exports = () => {
