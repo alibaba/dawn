@@ -161,6 +161,11 @@ async function publish(ctx) {
   const { unified } = await getSolutionConf(ctx);
   if (unified) {
     await ctx.exec({ name: 'version' });
+    const packages = await getAllPackages(ctx);
+    await Promise.all(packages.map(async item => {
+      item.package.version = ctx.version;
+      await writePackage(ctx, item);
+    }));
   }
   await ctx.exec({ name: 'submitter' });
   await execCommand(ctx, `dn publish`, {
