@@ -16,7 +16,4 @@ test:
   - name: unit
 
 publish:
-  - name: shell
-    script:
-      - dn test
-      - npm pu
+  - name: publish 
