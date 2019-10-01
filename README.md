@@ -2,7 +2,7 @@
 
 # Dawn
 
-[In English the README](README-intl.md)
+[README in English](README-intl.md)
 
 Dawn 取「黎明、破晓」之意，原为「阿里云·业务运营团队」内部的前端构建和工程化工具，现已完全开源。它通过 `pipeline` 和 `middleware` 将开发过程抽象为相对固定的阶段和有限的操作，简化并统一了开发人员的日常构建与开发相关的工作。
 
@@ -62,9 +62,9 @@ buid:
 
 ## 文档
 
-- 使用入门：[getting-started.md](https://alibaba.github.io/dawn/docs/#!/zh/guide/getting-started)
-- 配置 Pipeline：[pipeline.md](https://alibaba.github.io/dawn/docs/#!/zh/guide/pipeline)
-- 中间件：[middleware.md](https://alibaba.github.io/dawn/docs/#!/zh/guide/middleware)
+- 使用入门：[getting-started.md](docs/markdowns/getting-started.md)
+- 配置 Pipeline：[pipeline.md](docs/markdowns/pipeline.md)
+- 中间件：[middleware.md](docs/markdowns/middleware.md)
 - 更多文档：[https://alibaba.github.io/dawn/docs/](https://alibaba.github.io/dawn/docs/)
 
 ## 其它
