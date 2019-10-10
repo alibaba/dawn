@@ -24,6 +24,5 @@ locales:
         text: 常用模板
 
     docs:
-      - ./**/*.md
-      - '!./node_modules/**/*.md'
-      - '!./packages/**/*.md'
+      - ./docs/markdowns/*.md
+      - './*.md'
