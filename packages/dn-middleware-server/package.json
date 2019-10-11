@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "nokit-filter-proxy": "^0.0.8",
+    "nokit-filter-proxy": "^0.1.0",
     "nokit-plugin-express": "^0.0.5",
     "nokitjs": "^1.26.3"
   }
