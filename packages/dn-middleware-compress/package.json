@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-compress",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "极速压缩中间件",
   "main": "./lib/index.js",
   "scripts": {
