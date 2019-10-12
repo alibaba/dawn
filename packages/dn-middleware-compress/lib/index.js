@@ -45,10 +45,10 @@ module.exports = function (opts) {
     const { css, js, options } = opts;
 
     console.info('[compress]:', '开始压缩 CSS');
-    await compress(ctx, pool, 'css', await utils.files(css), options.css);
+    await compress(ctx, pool, 'css', await utils.files(css), options);
 
     console.info('[compress]:', '开始压缩 JS');
-    await compress(ctx, pool, 'js', await utils.files(js), options.js);
+    await compress(ctx, pool, 'js', await utils.files(js), options);
 
     await pool.destroy();
     console.info('[compress]:', 'done');
