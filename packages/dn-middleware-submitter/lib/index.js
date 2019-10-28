@@ -1,13 +1,15 @@
 const simpleGit = require('simple-git/promise');
 
-module.exports = function () {
+module.exports = function (opts) {
+
+  opts = Object.assign({ silence: false }, opts);
 
   async function checkChanges(ctx) {
     ctx.console.log('检查已改变未提交的文件');
     const git = simpleGit(ctx.cwd);
     const status = await git.status();
     const checked = status.files.length > 0;
-    if (checked) {
+    if (checked && !opts.silence) {
       ctx.console.info(`发现 ${status.files.length} 个文件变更:`);
       ctx.console.table(status.files.map(file => ({
         type: file.working_dir,
@@ -18,7 +20,9 @@ module.exports = function () {
   }
 
   async function commitChanges(ctx) {
-    const answer = await ctx.inquirer.prompt([{
+    const answer = opts.silence ? {
+      message: opts.message || opts.silence
+    } : await ctx.inquirer.prompt([{
       name: 'message', type: 'input',
       message: '请输入提交信息([类型] 提交信息)',
       validate: value => !!value
