@@ -6,7 +6,7 @@ const STATIC_EXT = [
   '.jsp', '.do', '.asp', '.aspx', '.php'
 ];
 
-function HistoryApiFallbackFilter() { };
+function HistoryApiFallbackFilter() { }
 
 HistoryApiFallbackFilter.prototype.onRequest = function (ctx, next) {
   const originNotFound = ctx.notFound;
@@ -35,6 +35,6 @@ HistoryApiFallbackFilter.prototype.onResponse = function (ctx, next) {
     buffer = buffer.toString().replace('<head>', '<head><base href="/" />');
     ctx.text(buffer, 'text/html', 200);
   });
-}
+};
 
 module.exports = HistoryApiFallbackFilter;

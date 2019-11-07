@@ -78,19 +78,16 @@ module.exports = function (opts) {
     /**
      * 启动 server
      **/
-    server.start(async (err, msg) => {
-      if (err) {
-        this.console.error(err);
-      } else {
-        const url = `${opts.protocol}${opts.host}:${opts.port}`;
-        this.console.warn('The server started:', url);
-        await next();
-        await this.utils.sleep(1000);
-        if (opts.autoOpen !== false) {
-          this.utils.open(url);
-        }
-        this.emit('server.start', this.server);
+    server.start(async (err) => {
+      if (err) return this.console.error(err);
+      const url = `${opts.protocol}${opts.host}:${opts.port}`;
+      this.console.warn('The server started:', url);
+      await next(); //eslint-disable-line
+      await this.utils.sleep(1000);
+      if (opts.autoOpen !== false) {
+        this.utils.open(url);
       }
+      this.emit('server.start', this.server);
     });
 
   };

@@ -4,8 +4,7 @@ init:
 dev:
   - name: ./lib/index.js
     options:
-      css: 
-        test: true
+      terser: true
 
 test:
   - name: lint

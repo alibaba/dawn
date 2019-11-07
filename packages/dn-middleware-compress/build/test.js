@@ -1,1 +1,1 @@
-function say(o){console.log(o)}
+const say=o=>{console.log(o)};
