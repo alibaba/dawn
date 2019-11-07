@@ -38,7 +38,8 @@ module.exports = function (opts) {
       if (oldContent.startsWith('/**')) {
         oldContent = oldContent.replace(/\/\*\*[\s\S]+?\*\//, '').trim();
       }
-      let newContent = [comment, oldContent].join(os.EOL + os.EOL);
+      let newContent = oldContent ?
+        [comment, oldContent].join(os.EOL + os.EOL) : comment;
       await this.utils.writeFile(file, newContent + os.EOL);
     };
     await Promise.all(files.map(file => handle(file)));
