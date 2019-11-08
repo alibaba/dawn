@@ -252,7 +252,7 @@ i18n.init = function (config) {
   config = config || {};
   var currentLang = config.language || '';
   var defaultLang = config.defaultLanguage || 'zh-CN';
-  this.locale = this.getLocale(currentLang) || this.getLocale(defaultLang) || {};
+  this.locale = currentLang && this.getLocale(currentLang) || this.getLocale(defaultLang) || {};
 };
 
 i18n.init();
@@ -1555,13 +1555,13 @@ exports.parseHTML = parseHTML;
 /* 41 */
 /***/ (function(module, exports) {
 
-module.exports = {"_t":1569733800216}
+module.exports = {"en-US":{"hello":"Hello {name}!qqq"},"zh-CN":{"hello":"你好，{name}!"}}
 
 /***/ }),
 /* 42 */
 /***/ (function(module, exports) {
 
-module.exports = {"key":"__demo"}
+module.exports = {"key":"__locale","jsx":true}
 
 /***/ })
 /******/ ]);
