@@ -73,7 +73,7 @@ i18n.init = function (config) {
   config = config || {};
   var currentLang = config.language || '';
   var defaultLang = config.defaultLanguage || 'zh-CN';
-  this.locale = this.getLocale(currentLang) ||
+  this.locale = (currentLang && this.getLocale(currentLang)) ||
     this.getLocale(defaultLang) || {};
 };
 

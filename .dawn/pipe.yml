@@ -26,4 +26,4 @@ publish:
       - dn test
       - npm run coveralls
       - dn build
-      - npm pu
+      - npm pu --registry=http://registry.npmjs.org
