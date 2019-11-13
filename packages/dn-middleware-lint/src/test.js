@@ -4,3 +4,4 @@ console.log('你好', {
 });
 const exp = 'dsaf\D\Adsaf';
 console.log(exp);
+const bar = 2;
