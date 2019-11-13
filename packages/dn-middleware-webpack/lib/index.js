@@ -90,10 +90,9 @@ module.exports = function (opts) {
         this.console.error('Failed to compile.' + os.EOL);
         this.console.error(messages.errors.join(os.EOL + os.EOL));
         this.console.log('');
-        // Show warnings if no errors were found.
-      }
 
-      if (messages.warnings.length) {
+        // Show warnings if no errors were found.
+      } else if (messages.warnings.length) {
         this.console.warn('Compiled with warnings.' + os.EOL);
         this.console.warn(messages.warnings.join(os.EOL + os.EOL));
         this.console.log('');
