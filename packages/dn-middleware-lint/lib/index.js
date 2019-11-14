@@ -83,7 +83,7 @@ module.exports = function (opts) {
     this.utils.del(path.normalize(`${this.cwd}/.eslintrc.json`));
 
     if (opts.realtime) {
-      const testStr = opts.ext.split(',').map(k => '\\\\' + k).join('|');
+      const testStr = opts.ext.split(',').map(k => '\\' + k).join('|');
       const eslintLoader = {
         test: new RegExp('(' + testStr + ')$'),
         include: path.resolve(this.cwd, 'src'),
