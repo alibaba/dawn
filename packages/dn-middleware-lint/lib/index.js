@@ -36,9 +36,9 @@ module.exports = function (opts) {
 
   // 外层函数的用于接收「参数对象」
   // 必须返回一个中间件处理函数
+  // eslint-disable-next-line max-statements
   return async function (next) {
-
-    
+    this.emit('lint.opts', opts);
 
     const isInstalled = (name) => {
       return fs.existsSync(path.normalize(`${this.cwd}/node_modules/${name}`));
@@ -54,7 +54,7 @@ module.exports = function (opts) {
     }
 
     const sources = (utils.isArray(opts.source) ? opts.source : [opts.source])
-      .filter(dir => globby.sync(`${dir}/**/*.{js,jsx}`).length > 0);
+      .filter(dir => globby.sync(`${dir}/**/*`).length > 0);
     if (sources.length < 1) return next();
     // this.console.log('检查目标', sources.join(', '));
 
@@ -79,22 +79,19 @@ module.exports = function (opts) {
     // const jsonFile = path.normalize(`${this.cwd}/.eslintrc.json`);
     // const jsonText = JSON.stringify(rules, null, '  ');
     // await this.utils.writeFile(jsonFile, jsonText);
-    
     // 删除暂时不需要的 .eslintrc.json
     this.utils.del(path.normalize(`${this.cwd}/.eslintrc.json`));
 
     if (opts.realtime) {
+      const testStr = opts.ext.split(',').map(k => '\\\\' + k).join('|');
       const eslintLoader = {
-        test: /\.(js|jsx)$/,
+        test: new RegExp('(' + testStr + ')$'),
         include: path.resolve(this.cwd, 'src'),
         exclude: /node_modules/,
         enforce: 'pre',
         loader: [{
           loader: require.resolve('eslint-loader'),
-          options: {
-            cache: true,
-            formatter: 'stylish',
-          },
+          options: { cache: true, formatter: 'stylish' },
         }],
       };
       this.on('webpack.config', (webpackConf) => {
