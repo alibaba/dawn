@@ -54,7 +54,7 @@ module.exports = function (opts) {
     }
 
     const sources = (utils.isArray(opts.source) ? opts.source : [opts.source])
-      .filter(dir => globby.sync(`${dir}/**/*`).length > 0);
+      .filter(dir => globby.sync(`${dir}/**/*{${opts.ext}}`).length > 0);
     if (sources.length < 1) return next();
     // this.console.log('检查目标', sources.join(', '));
 
