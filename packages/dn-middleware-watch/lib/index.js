@@ -12,7 +12,6 @@ module.exports = function (opts) {
     chokidar.watch(opts.match, {
       ignoreInitial: opts.ignoreInitial
     }).on(opts.event, async (event, path) => {
-      console.log(event, path);
       this.changeInfo = { event, path };
       if (opts.script) {
         this.exec({ name: 'shell', script: opts.script });
