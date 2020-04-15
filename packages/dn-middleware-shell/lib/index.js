@@ -11,7 +11,7 @@ module.exports = function (opts) {
     try {
       const env = Object.assign({}, process.env);
       const bin = path.normalize(`${this.cwd}/node_modules/.bin`);
-      env.PATH = `${env.PATH}${isWin ? ';' : ':'}${bin}`;
+      env.PATH = `${bin}${isWin ? ';' : ':'}${env.PATH}`;
       const pending = this.utils.exec(script.join(os.EOL), { env });
       if (!opts.async) await pending;
       this.console.info('Done');
