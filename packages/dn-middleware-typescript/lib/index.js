@@ -15,20 +15,25 @@ module.exports = function (opts) {
     this.console.info('Enable typescript...');
 
     this.on('webpack.config', webpackConfig => {
-      webpackConfig.module.loaders.push({
+      const rules = webpackConfig.module.rules || webpackConfig.module.loaders;
+      rules.push({
         test: /\.(ts|tsx)$/,
         loader: 'awesome-typescript-loader'
       });
       webpackConfig.resolve.extensions.unshift('.ts', '.tsx');
     });
 
+    const tsconfig = path.resolve(__dirname, '../files/tsconfig.json');
     await this.exec({
       name: 'copy',
-      files: {
-        './tsconfig.json': path.resolve(__dirname, '../files/tsconfig.json')
-      },
+      files: { './tsconfig.json': tsconfig },
       override: false
     });
+
+    if (opts.declaration !== false) {
+      const cmd = this.utils.findCommand(__dirname, 'tsc');
+      await this.utils.exec(`${cmd} --emitDeclarationOnly`);
+    }
 
     this.console.info('Done');
 

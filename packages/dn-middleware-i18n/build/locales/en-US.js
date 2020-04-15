@@ -1,0 +1,1 @@
+window['__demo']={"hello":"Hello {name}!qqq","__name__":"en-US"};

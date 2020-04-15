@@ -35,15 +35,15 @@ describe('configs', function () {
     expect(value1).to.be.equal('1');
     // 2
     fetch.filter = function (url) {
-      if (!url.endsWith('test.yml')) return;
+      if (!url.endsWith('test2.yml')) return;
       return async function () {
         let text = async () => {
           return 'test2';
         };
-        return { text };
+        return { status: 200, text };
       }
     };
-    let value2 = await configs.getRemoteConf('test', '2');
+    let value2 = await configs.getRemoteConf('test2', '2');
     expect(value2).to.be.equal('test2');
   });
 

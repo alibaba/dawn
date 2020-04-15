@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const utils = require('ntils');
 const os = require('os');
-const formatWebpackMessages = require('./formatWebpackMessages');
+const formatMessages = require('./formatMessages');
 
 /**
  * 这是一个标准的中间件工程模板
@@ -17,7 +17,8 @@ module.exports = function (opts) {
   opts.watchOpts = opts.watchOpts || {};
   opts.watchOpts.aggregateTimeout = opts.watchOpts.aggregateTimeout || 600;
   opts.watchOpts.ignored = opts.watchOpts.ignored || /node_modules/;
-  opts.inject = opts.inject || [];
+  opts.inject = opts.inject || opts.insert || [];
+  opts.append = opts.append || [];
   opts.babel = opts.babel || {};
 
   //外层函数的用于接收「参数对象」
@@ -27,7 +28,7 @@ module.exports = function (opts) {
     this.webpack = webpack;
 
     this.console.info('开始构建...');
-
+    if (this.emit) this.emit('webpack.opts', opts, webpack);
     let config = opts.configObject || await generateConfig(this, opts);
 
     //config
@@ -48,6 +49,7 @@ module.exports = function (opts) {
     config.resolve.symlinks = true;
     config.resolve.modules = config.resolve.modules || [];
     config.resolve.modules = config.resolve.modules.concat([
+      'node_modules',
       path.resolve(this.cwd, './node_modules/'),
       path.resolve(__dirname, '../node_modules/'),
       this.cwd,
@@ -76,7 +78,7 @@ module.exports = function (opts) {
     }
 
     function printErrors(json) {
-      let messages = formatWebpackMessages(json);
+      let messages = formatMessages(json);
 
       // If errors exist, only show errors.
       if (messages.errors.length) {
@@ -88,8 +90,8 @@ module.exports = function (opts) {
         this.console.error('Failed to compile.' + os.EOL);
         this.console.error(messages.errors.join(os.EOL + os.EOL));
         this.console.log('');
-      
-      // Show warnings if no errors were found.
+
+        // Show warnings if no errors were found.
       } else if (messages.warnings.length) {
         this.console.warn('Compiled with warnings.' + os.EOL);
         this.console.warn(messages.warnings.join(os.EOL + os.EOL));
@@ -103,9 +105,10 @@ module.exports = function (opts) {
     // register 'webpack.compiler' event.
     // support webpackDevServer (or other) middleware(s)
     // to use webpack compiler instance
-    if (this.emit) this.emit('webpack.compiler', compiler);
+    if (this.emit) this.emit('webpack.compiler', compiler, webpack, opts);
 
     if (opts.watch) {
+      if (this.emit) this.emit('webpack.watch', compiler, webpack, opts);
       compiler.watch(opts.watchOpts, (err, stats) => {
         if (err) return this.console.error(err);
         let json = stats.toJson({}, true);
@@ -116,8 +119,9 @@ module.exports = function (opts) {
         next();
       });
     } else {
+      if (this.emit) this.emit('webpack.run', compiler, webpack, opts);
       compiler.run((err, stats) => {
-        if (err) return this.console.error('error:', err);
+        if (err) throw err;
         let json = stats.toJson({}, true);
         printErrors.call(this, json);
         if (this.emit) this.emit('webpack.stats', stats);

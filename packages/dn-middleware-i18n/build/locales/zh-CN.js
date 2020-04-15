@@ -1,0 +1,1 @@
+window['__demo']={"hello":"你好，{name}!","__name__":"zh-CN"};

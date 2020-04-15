@@ -1,6 +1,21 @@
 const path = require('path');
+const fs = require('fs');
 const utils = require('ntils');
 const yaml = require('js-yaml');
+const globby = require('globby');
+
+function modifyRulesConfig(opts, rules) {
+  // env
+  rules.env = {};
+  opts.env.split(',').forEach(e => {
+    rules.env[e] = true;
+  });
+  // globals
+  rules.globals = {};
+  opts.global.split(',').forEach(g => {
+    rules.globals[g] = 'writable';
+  });
+}
 
 /**
  * 这是一个标准的中间件工程模板
@@ -10,51 +25,94 @@ const yaml = require('js-yaml');
 module.exports = function (opts) {
 
   opts.env = opts.env || 'browser,node';
-  opts.source = opts.source || './lib ./src ./app ./demo';
+  opts.source = opts.source || ['./src', './lib', './app'];
   opts.ext = opts.ext || '.js,.jsx';
-  opts.global = opts.global || '$,jQuery';
+  opts.global = opts.global || 'window,$,jQuery';
   opts.ignore = opts.ignore || [];
+  opts.realtime = opts.realtime || false;
 
-  const lintBin = path.resolve(__dirname, '../node_modules/.bin/eslint');
+  const eslint = this.utils.findCommand(__dirname, 'eslint');
   const rulesFile = path.resolve(__dirname, './.eslintrc.yml');
 
-  //外层函数的用于接收「参数对象」
-  //必须返回一个中间件处理函数
+  // 外层函数的用于接收「参数对象」
+  // 必须返回一个中间件处理函数
+  // eslint-disable-next-line max-statements
   return async function (next) {
+    this.emit('lint.opts', opts);
 
-    if (opts.disabled) {
-      next();
-      return;
+    const isInstalled = (name) => {
+      return fs.existsSync(path.normalize(`${this.cwd}/node_modules/${name}`));
+    };
+    // 安装规范包
+    const flag = { 'save-dev': true };
+    const deps = [
+      'eslint-config-dawn', 'eslint-plugin-react', 'eslint-plugin-react-hooks',
+      'eslint-plugin-html', 'babel-eslint'
+    ];
+    for (let dep of deps) {
+      if (!isInstalled(dep)) await this.mod.install(dep, { flag });
     }
 
-    this.console.info('执行静态检查...');    
+    const sources = (utils.isArray(opts.source) ? opts.source : [opts.source])
+      .filter(dir => globby.sync(`${dir}/**/*{${opts.ext}}`).length > 0);
+    if (sources.length < 1) return next();
+    // this.console.log('检查目标', sources.join(', '));
 
-    let source = path.resolve(this.cwd, opts.source);
-    let ignores = utils.isArray(opts.ignore) ? opts.ignore : [opts.ignore];
-    let ignoreText = ignores.map(item => (`--ignore-pattern ${item}`)).join(' ');
+    const ignores = utils.isArray(opts.ignore) ? opts.ignore : [opts.ignore];
+    const ignoreText = ignores.map(item =>
+      (`--ignore-pattern ${item}`)
+    ).join(' ');
 
-    //读取内建规则
-    let rulesText = await this.utils.readFile(rulesFile);
-    let rules = yaml.safeLoad(rulesText.toString(), 'utf8');
+    // 读取内建规则
+    const rulesText = await this.utils.readFile(rulesFile);
+    const rules = yaml.safeLoad(rulesText.toString(), 'utf8');
+
+    modifyRulesConfig(opts, rules);
     this.emit('lint.rules', rules);
-    //向项目写入 yaml 配置
-    let yamlFile = path.normalize(`${this.cwd}/.eslintrc.yml`);
-    let yamlText = yaml.safeDump(rules);
+
+    // 向项目写入 yaml 配置
+    const yamlFile = path.normalize(`${this.cwd}/.eslintrc.yml`);
+    const yamlText = yaml.safeDump(rules);
     await this.utils.writeFile(yamlFile, yamlText);
-    //向项目写入 json 配置
-    let jsonFile = path.normalize(`${this.cwd}/.eslintrc.json`);
-    let jsonText = JSON.stringify(rules, null, '  ');
-    await this.utils.writeFile(jsonFile, jsonText);
 
-    /* eslint-disable */
-    await this.utils.exec(`
-      ${lintBin} --global ${opts.global} ${ignoreText} --env ${opts.env} --ext ${opts.ext} ${source} --fix
-    `);
-    /* eslint-enable */
-    this.console.info('完成');
+    // 不再向项目写入 json 配置覆盖
+    // const jsonFile = path.normalize(`${this.cwd}/.eslintrc.json`);
+    // const jsonText = JSON.stringify(rules, null, '  ');
+    // await this.utils.writeFile(jsonFile, jsonText);
+    // 删除暂时不需要的 .eslintrc.json
+    this.utils.del(path.normalize(`${this.cwd}/.eslintrc.json`));
 
+    if (opts.realtime) {
+      const testStr = opts.ext.split(',').map(k => '\\' + k).join('|');
+      const eslintLoader = {
+        test: new RegExp('(' + testStr + ')$'),
+        include: path.resolve(this.cwd, 'src'),
+        exclude: /node_modules/,
+        enforce: 'pre',
+        loader: [{
+          loader: require.resolve('eslint-loader'),
+          options: { cache: true, formatter: 'stylish' },
+        }],
+      };
+      this.on('webpack.config', (webpackConf) => {
+        if (Array.isArray(webpackConf.module.loaders)) {
+          webpackConf.module.loaders.unshift(eslintLoader);
+        } else {
+          // eslint-disable-next-line no-param-reassign
+          webpackConf.module.loaders = [eslintLoader];
+        }
+      });
+    } else {
+      this.console.info('执行静态检查...');
+      /* eslint-disable */
+      await this.utils.exec([
+        eslint, '--global', opts.global, ignoreText, '--env', opts.env,
+        '--ext', opts.ext, , sources.join(' '), '--fix'
+      ].join(' '));
+      /* eslint-enable */
+      this.console.info('lint 检查完成');
+    }
     next();
-
   };
 
 };

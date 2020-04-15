@@ -1,0 +1,26 @@
+{
+  "name": "demo-c",
+  "version": "1.0.4",
+  "description": "",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "dn test && dn build -e prod"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "dn-middleware-clean": "^1.0.2",
+    "dn-middleware-copy": "^0.2.7",
+    "dn-middleware-lint": "^2.1.4",
+    "dn-middleware-pkginfo": "^1.1.3",
+    "dn-middleware-shell": "^1.1.0",
+    "dn-middleware-unit": "^0.2.1",
+    "dn-middleware-webpack": "^1.11.5"
+  },
+  "dependencies": {
+    "mota": "^3.5.0",
+    "demo-a": "^1.0.0",
+    "demo-b": "^1.0.0"
+  }
+}

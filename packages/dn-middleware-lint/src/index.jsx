@@ -14,3 +14,7 @@ function test(){
   return <XXX></XXX>;
 }
 test();
+console.log(1);
+
+const foo = 1;
+const bar = 2;

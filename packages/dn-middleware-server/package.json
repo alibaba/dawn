@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-server",
-  "version": "1.0.14",
+  "version": "1.1.4",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -9,8 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "nokit-filter-proxy": "^0.0.8",
+    "nokit-filter-proxy": "^0.1.0",
     "nokit-plugin-express": "^0.0.5",
     "nokitjs": "^1.26.3"
+  },
+  "devDependencies": {
+    "dn-middleware-lint": "^2.1.4"
   }
 }

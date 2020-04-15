@@ -1,0 +1,15 @@
+init:
+  - name: pkginfo
+
+dev:
+  - name: ./lib/index.js
+  - name: webpack
+
+test:
+  - name: lint
+  
+publish:
+  - name: shell
+    script:
+      - dn test
+      - npm pu

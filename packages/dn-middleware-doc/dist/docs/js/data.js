@@ -1,1 +1,1 @@
-window.DOC_DATA={"locales":[{"name":"zh","text":"中文","title":"测试文档","links":[{"text":"测试链接","url":"test-url"}],"groups":[{"name":"guide","text":"使用指南","docs":[]},{"name":"components","text":"组件说明","docs":[]}]}]};
+window.DOC_DATA={"assets":{"styles":["plugins/doczilla-details/index.css","plugins/doczilla-highlight/index.css"],"scripts":["plugins/doczilla-highlight/index.js"]},"locales":[{"name":"zh","text":"中文","title":"测试文档","links":[{"text":"测试链接","url":"test-url"}],"groups":[{"name":"guide","text":"使用指南","docs":[]},{"name":"components","text":"组件说明","docs":[]}]}]};

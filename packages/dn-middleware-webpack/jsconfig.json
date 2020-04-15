@@ -8,6 +8,6 @@
     "jsx": "react"
   },
   "include": [
-    "./lib/**/*.js"
+    "./lib/**/*"
   ]
 }

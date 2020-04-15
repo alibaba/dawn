@@ -1,7 +1,6 @@
 const path = require('path');
 const utils = require('ntils');
 const globby = require('globby');
-const mkdirp = require('mkdirp');
 const tp = require('tpjs');
 const fs = require('fs');
 
@@ -12,15 +11,15 @@ const fs = require('fs');
  */
 module.exports = function (opts) {
 
-  opts.from = opts.from || './';
-  opts.to = opts.to || './';
-  opts.files = opts.files || {};
+  opts = Object.assign({
+    from: './', to: './', files: {}, log: true, dot: true
+  }, opts);
 
   //外层函数的用于接收「参数对象」
   //必须返回一个中间件处理函数
   return async function (next) {
 
-    this.console.info('Copy files...');
+    if (opts.log) this.console.info('Copy files...');
     //初始位置
     const from = path.resolve(this.cwd, path.normalize(opts.from));
     const to = path.resolve(this.cwd, path.normalize(opts.to));
@@ -28,7 +27,7 @@ module.exports = function (opts) {
     //解析目标文件名
     const parseDstFile = (srcFile, dstExpr, srcExpr) => {
       const pathSpliter = path.normalize('/');
-      if (dstExpr.endsWith(pathSpliter)) {
+      if (dstExpr.endsWith(pathSpliter) || dstExpr.endsWith('/')) {
         const srcDir = srcExpr.slice(0, srcExpr.indexOf('*'));
         const trimedSrcFile = srcFile.replace(path.resolve(from, srcDir), '');
         const dstFile = path.normalize(`${dstExpr}${trimedSrcFile}`);
@@ -48,9 +47,11 @@ module.exports = function (opts) {
 
     const filterContent = async buffer => {
       if (!buffer) return buffer;
-      if (utils.isString(opts.filter)) {
+      if (utils.isFunction(opts.filter)) {
+        return opts.filter.call(this, buffer, this);
+      } else if (utils.isString(opts.filter)) {
         const filterFile = path.resolve(this.cwd, opts.filter);
-        return await require(filterFile).call(this, buffer, this);
+        return require(filterFile).call(this, buffer, this);
       } else if (opts.filter) {
         const text = buffer.toString();
         return tp.parse(text, this);
@@ -65,12 +66,12 @@ module.exports = function (opts) {
       let dstFile = parseDstFile(srcFile, dstExpr, srcExpr);
       if (fs.existsSync(dstFile) && opts.override === false) return;
       let dstDir = path.dirname(dstFile);
-      await mkdirp(dstDir);
+      await this.utils.mkdirp(dstDir);
       let srcBuffer = await this.utils.readFile(srcFile);
       let dstBuffer = await filterContent(srcBuffer);
       await this.utils.writeFile(dstFile, dstBuffer);
       let trimPath = path.normalize(`${this.cwd}/`);
-      this.console.log('copy:', [
+      if (opts.log) this.console.log('copy:', [
         srcFile.replace(trimPath, ''),
         dstFile.replace(trimPath, '')
       ].join(' -> '));
@@ -78,7 +79,7 @@ module.exports = function (opts) {
 
     //按单条规则 copy
     const copyItem = async (srcExpr, dstExpr) => {
-      const srcFiles = await globby(srcExpr, { cwd: from });
+      const srcFiles = await globby(srcExpr, { cwd: from, dot: opts.dot });
       return Promise.all(srcFiles.map(srcFile => {
         srcFile = path.resolve(from, srcFile);
         return copyFile(srcFile, dstExpr, srcExpr);
@@ -96,7 +97,7 @@ module.exports = function (opts) {
     });
     await Promise.all(pendings);
 
-    this.console.info('Done');
+    if (opts.log) this.console.info('Done');
     next();
   };
 };

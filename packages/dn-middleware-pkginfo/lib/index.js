@@ -8,6 +8,12 @@ const path = require('path');
  */
 module.exports = function (opts) {
 
+  const envOpts = JSON.parse(decodeURIComponent(process.env['DN_ARGV'] || '{}'));
+  const pkgEnv = envOpts.pkginfo || {};
+
+  // 是否为静默模式
+  const silenceMode = !!pkgEnv.silence;
+
   //外层函数的用于接收「参数对象」
   //必须返回一个中间件处理函数
   return async function (next) {
@@ -15,14 +21,17 @@ module.exports = function (opts) {
     if (!this.inquirer) {
       throw new Error('请升级 dawn 到最新版本');
     }
+    const prefix = opts && opts.prefix || '';
+    const defaultPkgName = prefix + path.basename(this.cwd);
 
     opts.items = opts.items || [{
       name: 'name',
       type: 'input',
-      default: path.basename(this.cwd),
+      default: defaultPkgName,
       message: '请输入项目名称',
       validate: function (name) {
-        return !!name;
+        const reg = new RegExp('^' + prefix);
+        return reg.test(name);
       }
     }, {
       name: 'version',
@@ -42,7 +51,15 @@ module.exports = function (opts) {
     if (fs.existsSync(pkgFile)) {
       this.console.info('设定项目信息...');
       let pkg = require(pkgFile);
-      let result = await this.inquirer.prompt(opts.items);
+      let result = {};
+      if (!silenceMode) {
+        result = await this.inquirer.prompt(opts.items);
+      } else {
+        this.console.info('静默模式...', JSON.stringify(pkgEnv));
+        opts.items.map(({ name, default: defaultValue }) => {
+          result[name] = pkgEnv[name] || defaultValue || '';
+        })
+      }
       Object.assign(pkg, result);
       this.project = pkg;
       await this.utils.writeFile(pkgFile, JSON.stringify(pkg, null, '  '));

@@ -4,6 +4,7 @@ init:
 dev:
   - name: $local
     location: ./lib/index.js
+    prefix: '@ali/flex-'
 
 test:
   - name: lint

@@ -32,7 +32,8 @@ module.exports = function (opts) {
       }
     }, next);
 
-    this.server.use('^/@browser-sync', connectBrowserSync(bsInstance));
+    this.server.use('^/(?!(-rc-|browser-sync))@browser-sync',
+      connectBrowserSync(bsInstance));
 
   };
 

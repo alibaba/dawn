@@ -1,0 +1,7 @@
+packages:
+  - path: demo-a
+  - path: demo-b
+  - path: demo-c
+    deps:
+      - demo-a
+      - demo-b

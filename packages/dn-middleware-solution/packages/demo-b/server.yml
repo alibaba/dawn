@@ -1,0 +1,3 @@
+proxy:
+    rules: 
+      ^/api(.*): 'https://www.aliyun.com/'

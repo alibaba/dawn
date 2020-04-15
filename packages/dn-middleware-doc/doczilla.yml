@@ -1,4 +1,4 @@
-output: ./dist/docs
+output: ./docs
 
 locales:
 

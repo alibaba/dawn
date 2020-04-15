@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-i18n",
-  "version": "0.0.11",
+  "version": "1.2.2",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -9,8 +9,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "confman": "^0.2.7",
+    "confman": "^0.2.10",
+    "mkdirp": "^0.5.1",
     "utils": "^0.3.1",
     "vmodule-webpack-plugin": "^1.0.4"
+  },
+  "devDependencies": {
+    "dn-middleware-lint": "^2.1.4",
+    "dn-middleware-shell": "^1.1.0",
+    "dn-middleware-webpack": "^1.11.5"
   }
 }

@@ -9,14 +9,14 @@ const fs = require('fs');
 module.exports = function (opts) {
 
   opts.files = opts.files || './test/e2e/**/*.js';
-  opts.timeout = opts.timeout || 5000;
+  opts.timeout = opts.timeout || 10000;
   opts.browser = opts.browser || 'none';
 
   //外层函数的用于接收「参数对象」
   //必须返回一个中间件处理函数
   return async function (next) {
 
-    let mocha = path.resolve(__dirname, '../node_modules/.bin/mocha');
+    let mocha = this.utils.findCommand(__dirname, 'mocha');
     let setup = path.resolve(__dirname, './setup.js');
 
     this.console.info('开始执行 E2E 测试...');

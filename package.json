@@ -1,6 +1,6 @@
 {
   "name": "dawn",
-  "version": "0.13.0",
+  "version": "1.8.5",
   "description": "dawn cli",
   "main": "./lib/index.js",
   "bin": {
@@ -8,11 +8,10 @@
     "dawn": "./bin/cli.js"
   },
   "scripts": {
-    "dnconfig": "node ./bin/cli.js config registry https://registry.npmjs.com/",
     "dntest": "node ./bin/cli.js test",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "dnbuild": "node ./bin/cli.js build",
-    "test": "npm run dnconfig && npm run dntest",
+    "test": "npm run dntest",
     "gitrebase": "git pull --rebase `echo $npm_package_repository_url | cut -d \\+ -f 2` master"
   },
   "pre-push": [
@@ -33,7 +32,8 @@
   "configs": {
     "server": "https://alibaba.github.io/dawn",
     "registry": "https://registry.npm.taobao.org",
-    "cacheTTL": 3600000,
+    "npm": "npm",
+    "cache": 3600000,
     "middlewarePrefix": "dn-middleware",
     "templatePrefix": "dn-template"
   },
@@ -55,7 +55,6 @@
     "buffer-to-stream": "^1.0.0",
     "bufferhelper": "^0.2.1",
     "cmdline": "^2.0.4",
-    "cnpm": "^5.1.1",
     "confman": "^0.2.8",
     "console3": "^1.0.6",
     "copy-dir": "^0.3.0",
@@ -69,6 +68,7 @@
     "leftpad": "^0.0.1",
     "mkdirp": "^0.5.1",
     "node-fetch": "^1.7.3",
+    "npm": "^6.11.3",
     "ntils": "^3.1.11",
     "oneport": "^1.0.2",
     "react-dev-utils": "^5.0.1",
@@ -81,7 +81,16 @@
     "update-notifier": "^2.3.0"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.1",
     "coveralls": "^3.0.0",
+    "dn-middleware-doc": "^2.1.0",
+    "dn-middleware-file-header": "^1.0.3",
+    "dn-middleware-lint": "^2.1.3",
+    "dn-middleware-shell": "^1.1.0",
+    "dn-middleware-unit": "^0.1.18",
+    "eslint-config-dawn": "^1.0.7",
+    "eslint-plugin-html": "^5.0.0",
+    "eslint-plugin-react": "^7.11.1",
     "nyc": "^11.4.1"
   }
 }
