@@ -1,7 +1,8 @@
 module.exports = {
   extends: [
     require.resolve('./standard'),
-    require.resolve('eslint-config-ali/react')
+    require.resolve('eslint-config-ali/react'),
+    require.resolve('eslint-config-prettier/react'),
   ],
   plugins: [
     'react',
@@ -73,7 +74,7 @@ module.exports = {
       labelAttributes: [],
       controlComponents: [],
       assert: 'both',
-      depth: 25
+      depth: 25,
     }],
 
     /**
@@ -177,7 +178,7 @@ module.exports = {
         'onKeyPress',
         'onKeyDown',
         'onKeyUp',
-      ]
+      ],
     }],
 
     /**
@@ -185,5 +186,5 @@ module.exports = {
      * https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/iframe-has-title.md
      */
     'jsx-a11y/iframe-has-title': 'warn',
-  }
+  },
 };

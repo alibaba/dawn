@@ -1,3 +1,3 @@
 module.exports = {
-  extends: 'eslint-config-ali/es5',
+  extends: require.resolve('eslint-config-ali/es5'),
 };
