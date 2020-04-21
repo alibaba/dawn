@@ -1,4 +1,4 @@
 module.exports = {
-  ...require('../.prettierrc'),
+  ...require('../../.prettierrc'),
   // You can do something else.
 };
