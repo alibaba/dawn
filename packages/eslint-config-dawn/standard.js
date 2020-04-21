@@ -3,8 +3,12 @@ module.exports = {
     require.resolve('eslint-config-ali/es6'),
     require.resolve('eslint-config-prettier/standard'),
   ],
+  env: {
+    worker: true,
+    serviceworker: true,
+  },
   // JS 项目使用 babel-eslint 做 parser
-  parser: 'babel-eslint',
+  parser: require.resolve('babel-eslint'),
   rules: {
     /**
      * 建议同一文件中最多只有一个 class
@@ -187,5 +191,51 @@ module.exports = {
         ignoreComments: false,
       },
     ],
+
+    /**
+     * 单文件建议不要超过 1200 行
+     */
+    'max-lines': [
+      'warn',
+      {
+        max: 1200,
+        skipBlankLines: true,
+        skipComments: true,
+      },
+    ],
+
+    /**
+     * 单方法建议不要超过 120 行
+     */
+    'max-lines-per-function': [
+      'warn',
+      {
+        max: 120,
+        skipBlankLines: true,
+        skipComments: true,
+        IIFEs: true,
+      },
+    ],
+
+    /**
+     * 单文件建议不要超过 120 字符（特殊情况已排除）
+     */
+    'max-len': [
+      'warn',
+      120,
+      2,
+      {
+        ignoreUrls: true,
+        ignoreComments: false,
+        ignoreRegExpLiterals: true,
+        ignoreStrings: true,
+        ignoreTemplateLiterals: true,
+      },
+    ],
+
+    /**
+     * 单函数建议不要超过 6 个参数
+     */
+    'max-params': ['warn', 6],
   },
 };
