@@ -64,6 +64,11 @@ module.exports = {
     ],
 
     /**
+     * 当模块内只有一个 export 时，使用 default export，TS 项目不推荐这样
+     */
+    'import/prefer-default-export': 'off',
+
+    /**
      * 强制不允许出现未使用的变量
      */
     '@typescript-eslint/no-array-constructor': 'error',
