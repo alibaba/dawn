@@ -84,9 +84,9 @@ module.exports = {
     '@typescript-eslint/no-namespace': 'warn',
 
     /**
-     * 不推荐有空的接口 Interface
+     * 对空的接口 Interface 不做限制
      */
-    '@typescript-eslint/no-empty-interface': 'warn',
+    '@typescript-eslint/no-empty-interface': 'off',
 
     /**
      * 强制使用双引号

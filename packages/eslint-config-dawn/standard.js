@@ -102,6 +102,9 @@ module.exports = {
       },
     ],
 
+    // 类成员之间是否保留一个空行不做建议
+    'lines-between-class-members': ['off', 'always', { exceptAfterSingleLine: false }],
+
     /**
      * 不建议 Buffer() 构造函数
      * https://eslint.org/docs/rules/no-buffer-constructor
