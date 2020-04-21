@@ -1,7 +1,7 @@
 module.exports = {
   extends: [
-    require.resolve('./standard'),
     require.resolve('eslint-config-ali/react'),
+    require.resolve('./standard'),
     require.resolve('eslint-config-prettier/react'),
   ],
   plugins: [

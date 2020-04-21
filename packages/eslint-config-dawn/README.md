@@ -15,18 +15,24 @@ extends: dawn/react
 ```
 
 ```yaml
-# Normal JavaScript
+# Pure JavaScript
 extends: dawn/standard
 ```
 
 ```yaml
 # TypeScript
 extends: dawn/typescript
+
+# Alias: ts
+extends: dawn/ts
 ```
 
 ```yaml
 # TypeScript + React
-extends: dawn/typescriptreact
+extends: dawn/typescript-react
+
+# Alias ts-react
+extends: dawn/ts-react
 ```
 
 ```yaml
