@@ -1,7 +1,7 @@
 module.exports = {
   extends: [
-    require.resolve('./standard'),
     require.resolve('eslint-config-ali/typescript'),
+    require.resolve('./standard'),
     require.resolve('eslint-config-prettier/@typescript-eslint'),
   ],
   parser: require.resolve('@typescript-eslint/parser'),
