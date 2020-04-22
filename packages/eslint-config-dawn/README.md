@@ -2,7 +2,7 @@
 
 ## Usage
 
-`eslint-config-ali` 是一个[可分享 ESLint 配置包](http://eslint.org/docs/developer-guide/shareable-configs.html)，支持 JavaScript、TypeScript、React 等项目类型。
+`eslint-config-dawn` 是一个[可分享 ESLint 配置包](http://eslint.org/docs/developer-guide/shareable-configs.html)，支持 JavaScript、TypeScript、React 等项目类型。
 
 在项目目录下添加 `.eslintrc.yml` 文件（也支持其他格式），继承对应类型的配置文件即可。
 

@@ -72,14 +72,26 @@ module.exports = {
     ],
 
     /**
-     * 建议箭头函数函数体的风格
+     * 强制箭头函数函数体的风格
      * https://eslint.org/docs/rules/arrow-body-style
      */
     'arrow-body-style': [
-      'warn',
+      'error',
       'as-needed',
       {
         requireReturnForObjectLiteral: false,
+      },
+    ],
+
+    /**
+     * 当箭头函数只有一个参数时，可以省略括号。在所有其他情况下，参数必须用括号括起来。
+     * https://eslint.org/docs/rules/arrow-parens
+     */
+    'arrow-parens': [
+      'error',
+      'as-needed',
+      {
+        requireForBlockBody: true,
       },
     ],
 
@@ -106,15 +118,18 @@ module.exports = {
     'lines-between-class-members': 'off',
 
     /**
-     * 不建议 Buffer() 构造函数
+     * 强制不能用 Buffer() 构造函数
      * https://eslint.org/docs/rules/no-buffer-constructor
      */
-    'no-buffer-constructor': 'warn',
+    'no-buffer-constructor': 'error',
 
     /**
-     * 不建议调用 require 时使用 new 操作符
+     * 强制不允许在调用 require 时使用 new 操作符
+     * https://eslint.org/docs/rules/no-new-require
+     * @example
+     * bad: new require('foo');
      */
-    'no-new-require': 'warn',
+    'no-new-require': 'error',
 
     /**
      * 不建议对 __dirname 和 __filename 进行字符串连接
@@ -145,7 +160,7 @@ module.exports = {
     /**
      * 在文件末尾保留一行空行
      */
-    'eol-last': ['warn', 'always'],
+    'eol-last': ['error', 'always'],
 
     // this option sets a specific tab width for your code
     // https://eslint.org/docs/rules/indent
@@ -156,7 +171,7 @@ module.exports = {
         SwitchCase: 1,
         VariableDeclarator: 1,
         outerIIFEBody: 1,
-        // MemberExpression: null,
+        MemberExpression: 1,
         FunctionDeclaration: {
           parameters: 1,
           body: 1,
@@ -221,7 +236,7 @@ module.exports = {
     ],
 
     /**
-     * 单文件建议不要超过 120 字符（特殊情况已排除）
+     * 单行建议不要超过 120 字符（特殊情况已排除）
      */
     'max-len': [
       'warn',

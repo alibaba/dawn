@@ -24,7 +24,7 @@ module.exports = {
         SwitchCase: 1,
         VariableDeclarator: 1,
         outerIIFEBody: 1,
-        // MemberExpression: null,
+        MemberExpression: 1,
         FunctionDeclaration: {
           parameters: 1,
           body: 1,
@@ -68,11 +68,6 @@ module.exports = {
      */
     'import/prefer-default-export': 'off',
 
-    /**
-     * 强制不允许出现未使用的变量
-     */
-    '@typescript-eslint/no-array-constructor': 'error',
-
     '@typescript-eslint/no-use-before-define': [
       'error',
       { functions: false, classes: false, variables: false },
@@ -91,14 +86,7 @@ module.exports = {
     /**
      * 强制使用双引号
      */
-    quotes: [
-      'error',
-      'double',
-      {
-        allowTemplateLiterals: true,
-        avoidEscape: true,
-      },
-    ],
+    quotes: 'off',
     '@typescript-eslint/quotes': [
       'error',
       'double',
@@ -110,9 +98,10 @@ module.exports = {
 
     /**
      * 建议类型声明周围的间距
+     * 使用规则默认的 options
      * https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/type-annotation-spacing.md
      */
-    '@typescript-eslint/type-annotation-spacing': 'warn',
+    '@typescript-eslint/type-annotation-spacing': 'error',
 
     /**
      * 建议要求与类型定义（接口或类型）一致

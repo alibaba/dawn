@@ -124,9 +124,10 @@ module.exports = {
     // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-onchange.md
     'jsx-a11y/no-onchange': 'off',
 
+    // 暂时不开启
     // Elements with an interactive role and interaction handlers must be focusable
     // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/interactive-supports-focus.md
-    'jsx-a11y/interactive-supports-focus': 'error',
+    'jsx-a11y/interactive-supports-focus': 'off',
 
     // 暂时不开启
     // Enforce that elements with ARIA roles must have all required attributes
@@ -138,7 +139,7 @@ module.exports = {
     // Enforce that elements with explicit or implicit roles defined contain
     // only aria-* properties supported by that role.
     // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/role-supports-aria-props.md
-    'jsx-a11y/role-supports-aria-props': 'error',
+    'jsx-a11y/role-supports-aria-props': 'off',
 
     // 暂时不开启
     // Enforce tabIndex value is not greater than zero.
