@@ -6,11 +6,10 @@ module.exports = {
   parser: require.resolve('@typescript-eslint/parser'),
   plugins: ['@typescript-eslint'],
   parserOptions: {
-    sourceType: 'module',
-    project: './tsconfig.json',
-    // ecmaFeatures: { jsx: true },
-    // useJSXTextNode: true,
-    // createDefaultProgram: true,
+    project: ['./tsconfig.json', './**/tsconfig.json'],
+    projectFolderIgnoreList: ['/node_modules/'], // same as default
+    warnOnUnsupportedTypeScriptVersion: true, // same as default
+    createDefaultProgram: false, // same as default
   },
   rules: {
     /**
