@@ -7,7 +7,7 @@ module.exports = {
   parser: require.resolve('@typescript-eslint/parser'),
   plugins: ['@typescript-eslint'],
   parserOptions: {
-    project: ['./tsconfig.json', './**/tsconfig.json'],
+    project: './tsconfig.json',
     projectFolderIgnoreList: ['/node_modules/'], // same as default
     warnOnUnsupportedTypeScriptVersion: true, // same as default
     createDefaultProgram: false, // same as default
