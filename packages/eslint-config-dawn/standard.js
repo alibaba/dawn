@@ -3,6 +3,7 @@ module.exports = {
     require.resolve('eslint-config-ali/es6'),
     require.resolve('eslint-config-prettier/standard'),
   ],
+  plugins: ['prettier'],
   env: {
     worker: true,
     serviceworker: true,
@@ -10,6 +11,11 @@ module.exports = {
   // JS 项目使用 babel-eslint 做 parser
   parser: require.resolve('babel-eslint'),
   rules: {
+    /**
+     * 开启 prettier 规则
+     */
+    'prettier/prettier': 'error',
+
     /**
      * 建议同一文件中最多只有一个 class
      */
