@@ -106,16 +106,21 @@ module.exports = {
     'prefer-template': 'error',
 
     /**
-     * 建议给 import 排序
+     * 建议给 import 排序，由于这个不能 autofix，所以设为 warn
      * https://eslint.org/docs/rules/sort-imports
+     * @example
+     * import 'foo';
+     * import React from 'react';
+     * import * as Bar from 'bar';
+     * import { foo, bar } from 'some';
      */
     'sort-imports': [
       'warn',
       {
-        ignoreCase: false,
-        ignoreDeclarationSort: false,
-        ignoreMemberSort: false,
-        memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
+        ignoreCase: true,
+        ignoreDeclarationSort: true,
+        ignoreMemberSort: false, // can be auto fixed
+        memberSyntaxSortOrder: ['none', 'single', 'all', 'multiple'],
       },
     ],
 
