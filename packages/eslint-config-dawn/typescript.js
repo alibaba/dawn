@@ -2,6 +2,7 @@ module.exports = {
   extends: [
     require.resolve('./standard'),
     require.resolve('eslint-config-ali/typescript'),
+    require.resolve('eslint-config-prettier/@typescript-eslint'),
   ],
   parser: require.resolve('@typescript-eslint/parser'),
   plugins: ['@typescript-eslint'],
@@ -14,63 +15,61 @@ module.exports = {
   rules: {
     /**
      * 缩进规则 follow standard
+     * follow prettierrc
      */
-    indent: 'off',
-    '@typescript-eslint/indent': [
-      'error',
-      2,
-      {
-        SwitchCase: 1,
-        VariableDeclarator: 1,
-        outerIIFEBody: 1,
-        MemberExpression: 1,
-        FunctionDeclaration: {
-          parameters: 1,
-          body: 1,
-        },
-        FunctionExpression: {
-          parameters: 1,
-          body: 1,
-        },
-        CallExpression: {
-          arguments: 1,
-        },
-        ArrayExpression: 1,
-        ObjectExpression: 1,
-        ImportDeclaration: 1,
-        flatTernaryExpressions: false,
-        // list derived from https://github.com/benjamn/ast-types/blob/HEAD/def/jsx.js
-        ignoredNodes: [
-          'JSXElement',
-          'JSXElement > *',
-          'JSXAttribute',
-          'JSXIdentifier',
-          'JSXNamespacedName',
-          'JSXMemberExpression',
-          'JSXSpreadAttribute',
-          'JSXExpressionContainer',
-          'JSXOpeningElement',
-          'JSXClosingElement',
-          'JSXFragment',
-          'JSXOpeningFragment',
-          'JSXClosingFragment',
-          'JSXText',
-          'JSXEmptyExpression',
-          'JSXSpreadChild',
-        ],
-        ignoreComments: false,
-      },
-    ],
+    // indent: 'off',
+    // '@typescript-eslint/indent': [
+    //   'error',
+    //   2,
+    //   {
+    //     SwitchCase: 1,
+    //     VariableDeclarator: 1,
+    //     outerIIFEBody: 1,
+    //     MemberExpression: 1,
+    //     FunctionDeclaration: {
+    //       parameters: 1,
+    //       body: 1,
+    //     },
+    //     FunctionExpression: {
+    //       parameters: 1,
+    //       body: 1,
+    //     },
+    //     CallExpression: {
+    //       arguments: 1,
+    //     },
+    //     ArrayExpression: 1,
+    //     ObjectExpression: 1,
+    //     ImportDeclaration: 1,
+    //     flatTernaryExpressions: false,
+    //     // list derived from https://github.com/benjamn/ast-types/blob/HEAD/def/jsx.js
+    //     ignoredNodes: [
+    //       'JSXElement',
+    //       'JSXElement > *',
+    //       'JSXAttribute',
+    //       'JSXIdentifier',
+    //       'JSXNamespacedName',
+    //       'JSXMemberExpression',
+    //       'JSXSpreadAttribute',
+    //       'JSXExpressionContainer',
+    //       'JSXOpeningElement',
+    //       'JSXClosingElement',
+    //       'JSXFragment',
+    //       'JSXOpeningFragment',
+    //       'JSXClosingFragment',
+    //       'JSXText',
+    //       'JSXEmptyExpression',
+    //       'JSXSpreadChild',
+    //     ],
+    //     ignoreComments: false,
+    //   },
+    // ],
 
     /**
      * 当模块内只有一个 export 时，使用 default export，TS 项目不推荐这样
      */
     'import/prefer-default-export': 'off',
 
-    '@typescript-eslint/no-use-before-define': [
-      'error',
-      { functions: false, classes: false, variables: false },
-    ],
+    '@typescript-eslint/no-use-before-define': ['error', { functions: false, classes: false, variables: false }],
 
     /**
      * 已经不再推荐使用 Namespace
@@ -84,23 +83,25 @@ module.exports = {
 
     /**
      * 强制使用双引号
+     * follow prettierrc
      */
-    quotes: 'off',
-    '@typescript-eslint/quotes': [
-      'error',
-      'double',
-      {
-        allowTemplateLiterals: true,
-        avoidEscape: true,
-      },
-    ],
+    // quotes: 'off',
+    // '@typescript-eslint/quotes': [
+    //   'error',
+    //   'double',
+    //   {
+    //     allowTemplateLiterals: true,
+    //     avoidEscape: true,
+    //   },
+    // ],
 
     /**
      * 建议类型声明周围的间距
      * 使用规则默认的 options
      * https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/type-annotation-spacing.md
+     * follow prettierrc
      */
-    '@typescript-eslint/type-annotation-spacing': 'error',
+    // '@typescript-eslint/type-annotation-spacing': 'error',
 
     /**
      * 建议要求与类型定义（接口或类型）一致
@@ -111,20 +112,21 @@ module.exports = {
     /**
      * 接口内成员的分隔符必须是分号
      * https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/member-delimiter-style.md
+     * follow prettierrc
      */
-    '@typescript-eslint/member-delimiter-style': [
-      'error',
-      {
-        multiline: {
-          delimiter: 'semi',
-          requireLast: true,
-        },
-        singleline: {
-          delimiter: 'semi',
-          requireLast: false,
-        },
-      },
-    ],
+    // '@typescript-eslint/member-delimiter-style': [
+    //   'error',
+    //   {
+    //     multiline: {
+    //       delimiter: 'semi',
+    //       requireLast: true,
+    //     },
+    //     singleline: {
+    //       delimiter: 'semi',
+    //       requireLast: false,
+    //     },
+    //   },
+    // ],
 
     /**
      * 强制新的和构造函数的有效定义

@@ -1,8 +1,5 @@
 module.exports = {
-  extends: [
-    require.resolve('eslint-config-ali/es6'),
-    require.resolve('eslint-config-prettier/standard'),
-  ],
+  extends: [require.resolve('eslint-config-ali/es6'), require.resolve('eslint-config-prettier')],
   plugins: ['prettier'],
   env: {
     worker: true,
@@ -80,26 +77,28 @@ module.exports = {
     /**
      * 强制箭头函数函数体的风格
      * https://eslint.org/docs/rules/arrow-body-style
+     * follow prettierrc
      */
-    'arrow-body-style': [
-      'error',
-      'as-needed',
-      {
-        requireReturnForObjectLiteral: false,
-      },
-    ],
+    // 'arrow-body-style': [
+    //   'error',
+    //   'as-needed',
+    //   {
+    //     requireReturnForObjectLiteral: false,
+    //   },
+    // ],
 
     /**
      * 当箭头函数只有一个参数时，可以省略括号。在所有其他情况下，参数必须用括号括起来。
      * https://eslint.org/docs/rules/arrow-parens
+     * follow prettierrc
      */
-    'arrow-parens': [
-      'error',
-      'as-needed',
-      {
-        requireForBlockBody: true,
-      },
-    ],
+    // 'arrow-parens': [
+    //   'error',
+    //   'as-needed',
+    //   {
+    //     requireForBlockBody: true,
+    //   },
+    // ],
 
     /**
      * 强制使用模板字符串替代字符串拼接
@@ -155,8 +154,9 @@ module.exports = {
 
     /**
      * 不强制在数组开括号后和闭括号前换行
+     * follow prettierrc
      */
-    'array-bracket-newline': ['off', 'consistent'], // object option alternative: { multiline: true, minItems: 3 }
+    // 'array-bracket-newline': ['off', 'consistent'], // object option alternative: { multiline: true, minItems: 3 }
 
     /**
      * 建议小驼峰命名
@@ -165,56 +165,58 @@ module.exports = {
 
     /**
      * 在文件末尾保留一行空行
+     * follow prettierrc
      */
-    'eol-last': ['error', 'always'],
+    // 'eol-last': ['error', 'always'],
 
     // this option sets a specific tab width for your code
     // https://eslint.org/docs/rules/indent
-    indent: [
-      'error',
-      2,
-      {
-        SwitchCase: 1,
-        VariableDeclarator: 1,
-        outerIIFEBody: 1,
-        MemberExpression: 1,
-        FunctionDeclaration: {
-          parameters: 1,
-          body: 1,
-        },
-        FunctionExpression: {
-          parameters: 1,
-          body: 1,
-        },
-        CallExpression: {
-          arguments: 1,
-        },
-        ArrayExpression: 1,
-        ObjectExpression: 1,
-        ImportDeclaration: 1,
-        flatTernaryExpressions: false,
-        // list derived from https://github.com/benjamn/ast-types/blob/HEAD/def/jsx.js
-        ignoredNodes: [
-          'JSXElement',
-          'JSXElement > *',
-          'JSXAttribute',
-          'JSXIdentifier',
-          'JSXNamespacedName',
-          'JSXMemberExpression',
-          'JSXSpreadAttribute',
-          'JSXExpressionContainer',
-          'JSXOpeningElement',
-          'JSXClosingElement',
-          'JSXFragment',
-          'JSXOpeningFragment',
-          'JSXClosingFragment',
-          'JSXText',
-          'JSXEmptyExpression',
-          'JSXSpreadChild',
-        ],
-        ignoreComments: false,
-      },
-    ],
+    // follow prettierrc
+    // indent: [
+    //   'error',
+    //   2,
+    //   {
+    //     SwitchCase: 1,
+    //     VariableDeclarator: 1,
+    //     outerIIFEBody: 1,
+    //     MemberExpression: 1,
+    //     FunctionDeclaration: {
+    //       parameters: 1,
+    //       body: 1,
+    //     },
+    //     FunctionExpression: {
+    //       parameters: 1,
+    //       body: 1,
+    //     },
+    //     CallExpression: {
+    //       arguments: 1,
+    //     },
+    //     ArrayExpression: 1,
+    //     ObjectExpression: 1,
+    //     ImportDeclaration: 1,
+    //     flatTernaryExpressions: false,
+    //     // list derived from https://github.com/benjamn/ast-types/blob/HEAD/def/jsx.js
+    //     ignoredNodes: [
+    //       'JSXElement',
+    //       'JSXElement > *',
+    //       'JSXAttribute',
+    //       'JSXIdentifier',
+    //       'JSXNamespacedName',
+    //       'JSXMemberExpression',
+    //       'JSXSpreadAttribute',
+    //       'JSXExpressionContainer',
+    //       'JSXOpeningElement',
+    //       'JSXClosingElement',
+    //       'JSXFragment',
+    //       'JSXOpeningFragment',
+    //       'JSXClosingFragment',
+    //       'JSXText',
+    //       'JSXEmptyExpression',
+    //       'JSXSpreadChild',
+    //     ],
+    //     ignoreComments: false,
+    //   },
+    // ],
 
     /**
      * 单文件建议不要超过 1200 行
@@ -243,19 +245,20 @@ module.exports = {
 
     /**
      * 单行建议不要超过 120 字符（特殊情况已排除）
+     * follow prettierrc
      */
-    'max-len': [
-      'warn',
-      120,
-      2,
-      {
-        ignoreUrls: true,
-        ignoreComments: false,
-        ignoreRegExpLiterals: true,
-        ignoreStrings: true,
-        ignoreTemplateLiterals: true,
-      },
-    ],
+    // 'max-len': [
+    //   'warn',
+    //   120,
+    //   2,
+    //   {
+    //     ignoreUrls: true,
+    //     ignoreComments: false,
+    //     ignoreRegExpLiterals: true,
+    //     ignoreStrings: true,
+    //     ignoreTemplateLiterals: true,
+    //   },
+    // ],
 
     /**
      * 单函数建议不要超过 6 个参数

@@ -4,11 +4,7 @@ module.exports = {
     require.resolve('./standard'),
     require.resolve('eslint-config-prettier/react'),
   ],
-  plugins: [
-    'react',
-    'react-hooks',
-    'jsx-a11y',
-  ],
+  plugins: ['react', 'react-hooks', 'jsx-a11y'],
   rules: {
     /**
      * 检查 effect dependencies，必须包含依赖参数
@@ -51,13 +47,16 @@ module.exports = {
      * good: <img src="" alt="foo" />
      * bad: <img src="" />
      */
-    'jsx-a11y/alt-text': ['warn', {
-      elements: ['img', 'object', 'area', 'input[type="image"]'],
-      img: [],
-      object: [],
-      area: [],
-      'input[type="image"]': [],
-    }],
+    'jsx-a11y/alt-text': [
+      'warn',
+      {
+        elements: ['img', 'object', 'area', 'input[type="image"]'],
+        img: [],
+        object: [],
+        area: [],
+        'input[type="image"]': [],
+      },
+    ],
 
     // 不做限制
     // Prevent img alt text from containing redundant words like "image", "picture", or "photo"
@@ -69,45 +68,43 @@ module.exports = {
      * Label 标签包含文本和 associated control
      * https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/label-has-associated-control.md
      */
-    'jsx-a11y/label-has-associated-control': ['off', {
-      labelComponents: [],
-      labelAttributes: [],
-      controlComponents: [],
-      assert: 'both',
-      depth: 25,
-    }],
+    'jsx-a11y/label-has-associated-control': [
+      'off',
+      {
+        labelComponents: [],
+        labelAttributes: [],
+        controlComponents: [],
+        assert: 'both',
+        depth: 25,
+      },
+    ],
 
     /**
      * 暂时不开启
      * Enforce that a control (an interactive element) has a text label.
      * https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/control-has-associated-label.md
      */
-    'jsx-a11y/control-has-associated-label': ['off', {
-      labelAttributes: ['label'],
-      controlComponents: [],
-      ignoreElements: [
-        'audio',
-        'canvas',
-        'embed',
-        'input',
-        'textarea',
-        'tr',
-        'video',
-      ],
-      ignoreRoles: [
-        'grid',
-        'listbox',
-        'menu',
-        'menubar',
-        'radiogroup',
-        'row',
-        'tablist',
-        'toolbar',
-        'tree',
-        'treegrid',
-      ],
-      depth: 5,
-    }],
+    'jsx-a11y/control-has-associated-label': [
+      'off',
+      {
+        labelAttributes: ['label'],
+        controlComponents: [],
+        ignoreElements: ['audio', 'canvas', 'embed', 'input', 'textarea', 'tr', 'video'],
+        ignoreRoles: [
+          'grid',
+          'listbox',
+          'menu',
+          'menubar',
+          'radiogroup',
+          'row',
+          'tablist',
+          'toolbar',
+          'tree',
+          'treegrid',
+        ],
+        depth: 5,
+      },
+    ],
 
     // 暂时不开启
     // require that mouseover/out come with focus/blur, for keyboard-only users
@@ -171,16 +168,12 @@ module.exports = {
     // 暂时不开启
     // Enforce that DOM elements without semantic behavior not have interaction handlers
     // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-static-element-interactions.md
-    'jsx-a11y/no-static-element-interactions': ['off', {
-      handlers: [
-        'onClick',
-        'onMouseDown',
-        'onMouseUp',
-        'onKeyPress',
-        'onKeyDown',
-        'onKeyUp',
-      ],
-    }],
+    'jsx-a11y/no-static-element-interactions': [
+      'off',
+      {
+        handlers: ['onClick', 'onMouseDown', 'onMouseUp', 'onKeyPress', 'onKeyDown', 'onKeyUp'],
+      },
+    ],
 
     /**
      * 建议 iframe 元素上有 title

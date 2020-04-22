@@ -1,6 +1,3 @@
 module.exports = {
-  extends: [
-    require.resolve('./react'),
-    require.resolve('./typescript'),
-  ],
+  extends: [require.resolve('./react'), require.resolve('./typescript')],
 };
