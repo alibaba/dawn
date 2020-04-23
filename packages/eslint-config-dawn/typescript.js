@@ -12,64 +12,25 @@ module.exports = {
     warnOnUnsupportedTypeScriptVersion: true, // same as default
     createDefaultProgram: false, // same as default
   },
+  settings: {
+    // Apply special parsing for TypeScript files
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.d.ts'],
+    },
+    // Append 'ts' extensions to 'import/resolver' setting
+    'import/resolver': {
+      node: {
+        extensions: ['.mjs', '.js', '.ts', '.json'],
+      },
+    },
+    // Append 'ts' extensions to 'import/extensions' setting
+    'import/extensions': ['.js', '.ts', '.mjs'],
+  },
   rules: {
-    /**
-     * 缩进规则 follow standard
-     * follow prettierrc
-     */
-    // indent: 'off',
-    // '@typescript-eslint/indent': [
-    //   'error',
-    //   2,
-    //   {
-    //     SwitchCase: 1,
-    //     VariableDeclarator: 1,
-    //     outerIIFEBody: 1,
-    //     MemberExpression: 1,
-    //     FunctionDeclaration: {
-    //       parameters: 1,
-    //       body: 1,
-    //     },
-    //     FunctionExpression: {
-    //       parameters: 1,
-    //       body: 1,
-    //     },
-    //     CallExpression: {
-    //       arguments: 1,
-    //     },
-    //     ArrayExpression: 1,
-    //     ObjectExpression: 1,
-    //     ImportDeclaration: 1,
-    //     flatTernaryExpressions: false,
-    //     // list derived from https://github.com/benjamn/ast-types/blob/HEAD/def/jsx.js
-    //     ignoredNodes: [
-    //       'JSXElement',
-    //       'JSXElement > *',
-    //       'JSXAttribute',
-    //       'JSXIdentifier',
-    //       'JSXNamespacedName',
-    //       'JSXMemberExpression',
-    //       'JSXSpreadAttribute',
-    //       'JSXExpressionContainer',
-    //       'JSXOpeningElement',
-    //       'JSXClosingElement',
-    //       'JSXFragment',
-    //       'JSXOpeningFragment',
-    //       'JSXClosingFragment',
-    //       'JSXText',
-    //       'JSXEmptyExpression',
-    //       'JSXSpreadChild',
-    //     ],
-    //     ignoreComments: false,
-    //   },
-    // ],
-
     /**
      * 当模块内只有一个 export 时，使用 default export，TS 项目不推荐这样
      */
     'import/prefer-default-export': 'off',
-
-    '@typescript-eslint/no-use-before-define': ['error', { functions: false, classes: false, variables: false }],
 
     /**
      * 已经不再推荐使用 Namespace
@@ -82,57 +43,17 @@ module.exports = {
     '@typescript-eslint/no-empty-interface': 'off',
 
     /**
-     * 强制使用双引号
-     * follow prettierrc
-     */
-    // quotes: 'off',
-    // '@typescript-eslint/quotes': [
-    //   'error',
-    //   'double',
-    //   {
-    //     allowTemplateLiterals: true,
-    //     avoidEscape: true,
-    //   },
-    // ],
-
-    /**
-     * 建议类型声明周围的间距
-     * 使用规则默认的 options
-     * https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/type-annotation-spacing.md
-     * follow prettierrc
-     */
-    // '@typescript-eslint/type-annotation-spacing': 'error',
-
-    /**
      * 建议要求与类型定义（接口或类型）一致
      * https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-type-definitions.md
      */
     '@typescript-eslint/consistent-type-definitions': 'warn',
 
     /**
-     * 接口内成员的分隔符必须是分号
-     * https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/member-delimiter-style.md
-     * follow prettierrc
-     */
-    // '@typescript-eslint/member-delimiter-style': [
-    //   'error',
-    //   {
-    //     multiline: {
-    //       delimiter: 'semi',
-    //       requireLast: true,
-    //     },
-    //     singleline: {
-    //       delimiter: 'semi',
-    //       requireLast: false,
-    //     },
-    //   },
-    // ],
-
-    /**
      * 强制新的和构造函数的有效定义
      * https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-misused-new.md
      */
     '@typescript-eslint/no-misused-new': 'error',
+
     /**
      * 不推荐给 this 起别名
      * https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-this-alias.md
@@ -148,5 +69,70 @@ module.exports = {
      * https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-for-of.md
      */
     '@typescript-eslint/prefer-for-of': 'warn',
+
+    // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-array-constructor.md
+    'no-array-constructor': 'off',
+    '@typescript-eslint/no-array-constructor': 'error',
+
+    // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-dupe-class-members.md
+    'no-dupe-class-members': 'off',
+    '@typescript-eslint/no-dupe-class-members': 'error',
+
+    // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-empty-function.md
+    'no-empty-function': 'off',
+    '@typescript-eslint/no-empty-function': [
+      'error',
+      {
+        allow: ['arrowFunctions', 'functions', 'methods'],
+      },
+    ],
+
+    // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-implied-eval.md
+    'no-implied-eval': 'off',
+    '@typescript-eslint/no-implied-eval': 'error',
+
+    // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-throw-literal.md
+    'no-throw-literal': 'off',
+    '@typescript-eslint/no-throw-literal': 'warn',
+
+    // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unused-expressions.md
+    'no-unused-expressions': 'off',
+    '@typescript-eslint/no-unused-expressions': [
+      'error',
+      {
+        allowShortCircuit: true,
+        allowTernary: true,
+        allowTaggedTemplates: true,
+      },
+    ],
+
+    // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unused-vars.md
+    'no-unused-vars': 'off',
+    // '@typescript-eslint/no-unused-vars': '', has been set correctly in eslint-config-ali/typescript
+
+    // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-use-before-define.md
+    'no-use-before-define': 'off',
+    '@typescript-eslint/no-use-before-define': ['error', { functions: false, classes: false, variables: false }],
+
+    // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-useless-constructor.md
+    'no-useless-constructor': 'off',
+    '@typescript-eslint/no-useless-constructor': 'error',
   },
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      rules: {
+        // Disable `no-undef` rule within TypeScript files because it incorrectly errors when exporting default interfaces
+        // https://github.com/iamturns/eslint-config-airbnb-typescript/issues/50
+        // This will be caught by TypeScript compiler if `strictNullChecks` (or `strict`) is enabled
+        'no-undef': 'off',
+
+        /* Using TypeScript makes it safe enough to disable the checks below */
+
+        // Disable ESLint-based module resolution check for improved monorepo support
+        // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-unresolved.md
+        'import/no-unresolved': 'off',
+      },
+    },
+  ],
 };

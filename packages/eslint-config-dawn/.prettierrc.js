@@ -12,6 +12,10 @@ module.exports = {
         singleQuote: false,
       },
     },
+    {
+      files: '.editorconfig',
+      options: { parser: 'yaml' },
+    },
   ],
   jsxSingleQuote: false,
   trailingComma: 'all',

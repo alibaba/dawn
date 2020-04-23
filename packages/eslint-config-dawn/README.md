@@ -8,7 +8,7 @@
 
 ## 设计理念
 
-* 可以不依赖于于 [Dawn](https://github.com/alibaba/dawn) 单独使用
+* 不依赖于 [Dawn](https://github.com/alibaba/dawn) 可单独使用
 * 严谨但不死板，规则的设置有梯度
 * 跟随业界最佳实践调整实现方式及规则细节，保持先进性
 * 部分规则交给 [Prettier](https://prettier.io/) 处理，同时在代码格式化时我们推荐使用 prettier
@@ -81,7 +81,7 @@ extends:
 extends: dawn
 env:
   # node: true
-  # jeest: true
+  # jest: true
 globals:
   # myGlobal: false
 rules:
