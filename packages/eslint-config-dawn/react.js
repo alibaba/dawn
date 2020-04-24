@@ -13,7 +13,7 @@ module.exports = {
      * good: useEffect(() => {}, []);
      * bad: useEffect(() => {});
      */
-    'react-hooks/exhaustive-deps': 'error',
+    'react-hooks/exhaustive-deps': 'off',
 
     /**
      * 锚点类标签建议包含内容
