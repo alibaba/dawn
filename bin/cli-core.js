@@ -73,10 +73,8 @@ cmdline
   }, false)
 
   .root.command(['exec', 'e'])
-  .option(['-s', '--script'], 'string')
-  .action(async function(cmd, argv1, $1) {
+  .action(async function(cmd) {
     this.set('command', 'exec');
-    console.log(cmd, argv1, $1);
     try {
       await core.commands.exec.call(this, cmd);
       cmdline.onDone(this);
@@ -84,11 +82,6 @@ cmdline
       cmdline.onFail(err);
     }
   }, false)
-  // .root.command(['exec'])
-  // .option(fakeOptionNames, new cmdline.Type({ default: '444' }))
-  // .action(async function(cmd, env, argv) {
-  //   // console.log(cmd, env, argv);
-  // }, false)
 
   .root.command([
     'dev', 'add', 'test', 'build', 'publish', 'start', 'run',
