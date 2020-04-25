@@ -1,13 +1,8 @@
-import { Command, flags } from "@oclif/command";
+import Command from "../common/command";
+import { flags } from "@oclif/command";
 
-export default class Hello extends Command {
+export default class Config extends Command {
   static description = "describe the command here";
-
-  static examples = [
-    `$ dn hello
-hello world from ./src/hello.ts!
-`,
-  ];
 
   static flags = {
     help: flags.help({ char: "h" }),
@@ -20,11 +15,11 @@ hello world from ./src/hello.ts!
   static args = [{ name: "file" }];
 
   async run() {
-    const { args, flags: myFlags } = this.parse(Hello);
+    const { args, flags } = this.parse(Config);
 
-    const name = myFlags.name || "world";
-    this.log(`hello ${name} from ./src/commands/hello.ts`);
-    if (args.file && myFlags.force) {
+    const name = flags.name || "world";
+    this.log(`hello ${name} from /Users/jeason/projects/github.com/alibaba/dawn/packages/dawn/src/commands/config.ts`);
+    if (args.file && flags.force) {
       this.log(`you input --force and --file: ${args.file}`);
     }
   }

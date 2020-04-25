@@ -1,3 +1,21 @@
 #!/usr/bin/env node
 
+const pkg = require('../package.json');
+
+require('please-upgrade-node')(pkg, {
+  // message: function (requiredVersion) {
+  //   return 'Oops this program require Node ' + requiredVersion;
+  // },
+});
+
+require('please-upgrade-npm')(pkg, {
+  message: function (requiredVersion) {
+    return 'Oops this program require npm ' + requiredVersion;
+  },
+});
+
+if (process.env.DN_DEBUG) {
+  process.env.DEBUG = process.env.DN_DEBUG === 'true' ? 'dn:*' : process.env.DN_DEBUG;
+}
+
 require('@oclif/command').run().then(require('@oclif/command/flush')).catch(require('@oclif/errors/handle'));

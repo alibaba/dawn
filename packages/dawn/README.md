@@ -22,7 +22,7 @@ $ npm install -g dawn
 $ dn COMMAND
 running command...
 $ dn (-v|--version|version)
-dawn/0.0.0 darwin-x64 node-v10.17.0
+dawn/2.0.0-alpha.0 darwin-x64 node-v10.17.0
 $ dn --help [COMMAND]
 USAGE
   $ dn COMMAND
@@ -52,7 +52,7 @@ EXAMPLE
   hello world from ./src/hello.ts!
 ```
 
-_See code: [src/commands/hello.ts](https://github.com/alibaba/dawn/blob/v0.0.0/src/commands/hello.ts)_
+_See code: [src/commands/hello.ts](https://github.com/alibaba/dawn/blob/v2.0.0-alpha.0/src/commands/hello.ts)_
 
 ## `dn help [COMMAND]`
 
