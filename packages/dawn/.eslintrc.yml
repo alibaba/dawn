@@ -1,0 +1,4 @@
+extends:
+  - dawn/typescript
+parserOptions:
+  project: ./tsconfig.eslint.json
