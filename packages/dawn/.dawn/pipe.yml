@@ -1,2 +1,8 @@
 dev:
   - name: foo
+
+init:
+  - name: pkginfo
+
+run:
+  - name: foo

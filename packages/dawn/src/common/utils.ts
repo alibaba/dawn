@@ -4,7 +4,7 @@ import * as util from "util";
 import * as jsYaml from "js-yaml";
 import * as nodeFetch from "node-fetch";
 
-import _stp from "stp";
+import * as _stp from "stp";
 
 const DEFAULT_TIMEOUT = -1;
 

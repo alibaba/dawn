@@ -18,5 +18,8 @@ hello world from ./src/hello.ts!
   async run() {
     const options = this.parse(RunCommand);
     this.trace("options", options);
+    const { cmd } = options.args;
+    this.context.cmd = cmd;
+    await this.ctx.run();
   }
 }

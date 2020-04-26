@@ -10,24 +10,29 @@ import type Command from "./command";
 
 const debug = (namespace?: string) => dnDebug(`dn:context:builtin:${namespace ?? "anonymous"}`);
 
-type MiddlewareItem = {
-  name: string;
-  [params: string]: Json;
-};
+type MiddlewareItem =
+  | Function
+  | {
+      name: string;
+      [params: string]: Json;
+    };
 
 export default class Context extends EventEmitter {
   readonly console = consola;
   readonly command: Command;
-  readonly cmd: string = "";
   readonly cwd = process.cwd();
   readonly project = this.getProjectPackageJson();
   readonly conf = config;
   readonly configName = config.configName;
   readonly configPath = config.configPath;
 
-  constructor(command: Command) {
+  public pipeline: MiddlewareItem[] = [];
+  public cmd = "";
+
+  constructor(command: Command, options?: any) {
     super();
     this.command = command;
+    this.cmd = command.id ?? "dev";
     // console.log(command, opts);
 
     // opts = opts || {};
@@ -37,7 +42,7 @@ export default class Context extends EventEmitter {
     // this.cli.pkg = pkg;
     // this.middlewareMgr = middleware;
     // this.templateMgr = template;
-    // this.pipeline = opts.pipeline || [];
+    this.pipeline = options?.pipeline || [];
     // this.command = this.cli.get("command");
     // this.cwd = process.cwd();
     // this.console = console;
@@ -47,12 +52,6 @@ export default class Context extends EventEmitter {
     // this.configPath = path.resolve(this.cwd, this.configName);
     // this.conf = configs;
     // this.mod = mod;
-  }
-  /**
-   * run command
-   */
-  public async run() {
-    // console.log("run");
   }
 
   public get cli() {
@@ -112,12 +111,46 @@ export default class Context extends EventEmitter {
 
   /**
    * exec
-   * @param {string} middlewares middleware
+   * @param {any} mw middleware
    * @param {any} initailArgs initailArgs
    */
-  public async exec(middlewares: MiddlewareItem[] | MiddlewareItem, initailArgs?: any) {
-    if (!Array.isArray(middlewares)) middlewares = [middlewares]; // eslint-disable-line no-param-reassign
-    this.console.log("exec", middleware);
+  public async exec(mw: MiddlewareItem[] | MiddlewareItem, initailArgs?: any) {
+    const middlewares = Array.isArray(mw) ? mw : [mw];
+    return new Promise((resolve, reject) => {
+      middlewares.push((_: any, __: any, args: any) => resolve(args));
+      this.execQueue(middlewares, initailArgs, reject).catch(reject);
+    });
+  }
+
+  /**
+   * run command
+   */
+  public async run() {
+    // await this._installProjectDeps();
+    if (!this?.pipeline?.length) {
+      this.pipeline = await this.loadPipeline();
+    }
+    debug("run")("pipeline", this.pipeline);
+
+    if (this.cmd === "init" && !this?.pipeline?.length) {
+      this.console.warn(`Unable to process command: ${this.cmd}`);
+    }
+    return this.exec(this.pipeline);
+  }
+
+  protected async execQueue(middlewares: MiddlewareItem[], args: any, onFail: any) {
+    const mw = middlewares.shift();
+    debug("execQueue")("middlewares", middlewares);
+    debug("execQueue")("mw", mw);
+    if (!mw) return;
+    const handler = await this.load(mw);
+    const next: any = (nextArgs: any) => {
+      if (next.__result) return next.__result;
+      next.__result = this.execQueue(middlewares, nextArgs, onFail).catch(onFail);
+      debug("execQueue")("next.__result", next.__result);
+      return next.__result;
+    };
+    return handler.call(this, next, this, args);
   }
 
   protected parseOpts(opts: MiddlewareItem) {
@@ -164,7 +197,7 @@ export default class Context extends EventEmitter {
       }
       list.push(item);
     });
-    return list;
+    return list as MiddlewareItem[];
   }
 
   protected loadLocalAllPipeline() {
