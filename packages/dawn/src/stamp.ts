@@ -14,6 +14,7 @@ export default class Stamp {
     this.name = name.replace(/\//, "-");
     debug("constructor")("name", name);
   }
+
   public getFileName() {
     debug("getFileName")("name", this.name);
     const storeDir = store.getPath("stamps");
@@ -41,7 +42,9 @@ export default class Stamp {
   public async isExpire() {
     debug("isExpire")("name", this.name);
     const stamp = await this.read();
+    debug("isExpire")("stamp", stamp);
     const ttl: number = process.env[DN_NO_CACHE] ? 0 : Number(await config.getRc("cache", { remote: false }));
+    debug("isExpire")("ttl", ttl);
     return Date.now() - stamp >= ttl;
   }
 }

@@ -1,7 +1,6 @@
 import * as dnDebug from "debug";
 import * as fs from "fs";
 import * as path from "path";
-import * as confman from "confman";
 
 import * as pkg from "pjson";
 import * as utils from "./utils";
@@ -31,10 +30,11 @@ export const paths = {
  * ./.dawn
  */
 export const configName = `./.${pkg.name}`;
+export const configPath = path.resolve(cwd, configName);
 
 export const pkgConfig = (pkg as any)[pkg.name ?? "dawn"];
 
-confman.loaders.push({
+utils.confman.loaders.push({
   // .dawnrc extname is blank: ""
   extname: "",
   loader: ".yaml",
@@ -43,7 +43,7 @@ confman.loaders.push({
 export const getProjectRc = (name?: string) => {
   const configsPath = path.resolve(cwd, configName);
   debug("getProjectRc")("configs", configsPath);
-  const configs: any = confman.load(configsPath);
+  const configs: any = utils.confman.load(configsPath);
   debug("getProjectRc")("configs", configs);
   const rcObject = configs?.rc || {};
   const value = name ? rcObject[name] || "" : rcObject;
@@ -55,7 +55,7 @@ export const getLocalRc = (name?: string) => {
   const rcFilePath = paths.rcPath;
   debug("getLocalRc")("rc", rcFilePath);
   if (!fs.existsSync(rcFilePath)) return name ? "" : {};
-  const rcObject: any = confman.load(rcFilePath);
+  const rcObject: any = utils.confman.load(rcFilePath);
   debug("getLocalRc")("rc", rcObject);
   const value = name ? rcObject[name] || "" : rcObject;
   debug("getLocalRc")(name || "all", value || "<null>");
@@ -128,7 +128,7 @@ export const getRemoteConf = async (name: string, defaultValue = {}) => {
   const serverUri = getServerUri();
   const url = `${serverUri}/${name}.yml`;
   debug("getRemoteConf")("url", url);
-  const cacheInfo = await cache.get(url);
+  const cacheInfo = await cache.get(name);
   debug("getRemoteConf")("cacheInfo", cacheInfo);
   if (cacheInfo.isExists && !cacheInfo.isExpire) {
     return utils.yaml.parse(cacheInfo.value) || defaultValue;

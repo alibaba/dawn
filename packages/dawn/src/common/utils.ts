@@ -4,6 +4,8 @@ import * as util from "util";
 import * as jsYaml from "js-yaml";
 import * as nodeFetch from "node-fetch";
 
+import _stp from "stp";
+
 const DEFAULT_TIMEOUT = -1;
 
 export function trim(str: string, char?: string) {
@@ -19,6 +21,12 @@ export function trim(str: string, char?: string) {
 
 export function isString(value: any) {
   return typeof value === "string";
+}
+export function isObject(value: any) {
+  return value !== null && typeof value === "object";
+}
+export function isFunction(value: any) {
+  return typeof value === "function";
 }
 
 export const readFile = util.promisify(fs.readFile);
@@ -50,4 +58,13 @@ export const fetch = (url: string, opts: RequestInit & { timeout?: number }): Pr
     const innerFetch = ((fetch as any).filter ? (fetch as any).filter(url, opts) : nodeFetch) || nodeFetch;
     innerFetch(url, opts).then(wrapper(resolve)).catch(wrapper(reject));
   });
+};
+
+export * as globby from "globby";
+export * as confman from "confman";
+export const stp = _stp;
+
+export const unescapeExpr = (str?: string): string => {
+  if (!str) return str ?? "";
+  return str.replace(/\\\{/, "{").replace("/\\}/", "}");
 };

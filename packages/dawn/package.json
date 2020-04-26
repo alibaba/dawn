@@ -21,6 +21,7 @@
     "please-upgrade-node": "^3.2.0",
     "please-upgrade-npm": "^3.2.3",
     "signale": "^1.4.0",
+    "stp": "0.0.4",
     "tslib": "^1.11.1"
   },
   "devDependencies": {
