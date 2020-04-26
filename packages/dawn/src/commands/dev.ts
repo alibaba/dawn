@@ -1,4 +1,4 @@
-import Command, { flags } from "../common/command";
+import Command, { flags } from "../command";
 import RunCommand from "./run";
 
 export default class Dev extends Command {

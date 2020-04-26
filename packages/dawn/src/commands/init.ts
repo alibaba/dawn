@@ -1,5 +1,5 @@
-import Command, { flags } from "../common/command";
-import RunCommand from "./run";
+import Command, { flags } from "../command";
+// import RunCommand from "./run";
 
 export default class Init extends Command {
   static description = "Initialize a dawn project";
@@ -15,6 +15,7 @@ export default class Init extends Command {
     const options = this.parse(Init);
     this.trace("options", options);
     // const { template } = options.flags;
-    await RunCommand.run(["init"]);
+    this.console.log("init", this.ctx.configName);
+    // await RunCommand.run(["init"]);
   }
 }

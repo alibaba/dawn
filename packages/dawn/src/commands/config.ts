@@ -1,4 +1,4 @@
-import Command from "../common/command";
+import Command from "../command";
 import { flags } from "@oclif/command";
 
 export default class Config extends Command {

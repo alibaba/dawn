@@ -1,25 +1,30 @@
 import { Command } from "@oclif/command";
 import * as debug from "debug";
-import consola from "../common/console";
+import consola from "./common/console";
+import Context from "./context";
 
 export * from "@oclif/command";
 
 export default abstract class extends Command {
+  protected context = new Context(this);
+  protected ctx = this.context;
+
   // this.console.log("some log");
   // this.console.info("some info");
-  console = consola;
+  protected console = consola;
+
+  async init() {
+    // do some initialization
+    // const { flags } = this.parse(this.constructor);
+    // this.flags = flags;
+    this.trace(`dn command init: ${this.id}`);
+  }
 
   // this.trace("some debug info");
-  trace(formatter: any, ...args: any[]) {
+  protected trace(formatter: any, ...args: any[]) {
     const namespace = (this.constructor as any)?.id ?? "anonymous";
     debug(`dn:command:${namespace}`)(formatter, ...args);
   }
-
-  // async init() {
-  //   // do some initialization
-  //   // const { flags } = this.parse(this.constructor);
-  //   // this.flags = flags;
-  // }
   // async catch(err: Error) {
   //   // handle any error from the command
   //   console.info("error", err);

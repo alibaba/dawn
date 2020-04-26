@@ -1,4 +1,4 @@
-import Command, { flags } from "../common/command";
+import Command, { flags } from "../command";
 
 export default class RunCommand extends Command {
   static description = "describe the command here";

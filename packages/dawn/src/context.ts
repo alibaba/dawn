@@ -1,9 +1,26 @@
+import * as fs from "fs";
+import * as path from "path";
 import * as EventEmitter from "events";
+import * as debug from "debug";
+import consola from "./common/console";
+import type Command from "./command";
+
+type PackageJson = string | number | boolean | null | { [property: string]: PackageJson } | PackageJson[];
 
 export default class Context extends EventEmitter {
-  constructor(cli: any, opts: any) {
+  readonly console = consola;
+  readonly command: Command;
+  readonly cmd: Command;
+  readonly cwd = process.cwd();
+  readonly project = this.getProjectPackageJson();
+  readonly configName = `./.${this.cmd.config.name}`;
+
+  constructor(command: Command) {
     super();
-    // console.log(cli, opts);
+    this.command = command;
+    this.cmd = command;
+    // console.log(command, opts);
+
     // opts = opts || {};
     // utils.copy(opts, this);
     // utils.copy(cli.params, this);
@@ -33,6 +50,23 @@ export default class Context extends EventEmitter {
    * @param {string} middleware middleware
    */
   public async exec(middleware: any) {
-    // console.log("exec", middleware);
+    this.console.log("exec", middleware);
+  }
+  public get cli() {
+    this.console.warn("[] this.cli/ctx.cli.");
+    this.trace("cli");
+    return this.command;
+  }
+
+  // this.trace("some debug info");
+  protected trace(formatter: any, ...args: any[]) {
+    const namespace = (this.constructor as any)?.id ?? "anonymous";
+    debug(`dn:context:${namespace}`)(formatter, ...args);
+  }
+  protected getProjectPackageJson(): PackageJson {
+    const pkgFile = path.normalize(`${this.cwd}/package.json`);
+    if (!fs.existsSync(pkgFile)) return {};
+    const text = fs.readFileSync(pkgFile).toString();
+    return JSON.parse(text);
   }
 }
