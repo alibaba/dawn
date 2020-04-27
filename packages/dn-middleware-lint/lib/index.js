@@ -13,10 +13,11 @@ module.exports = require('eslint-config-dawn/prettierrc');
 
 module.exports = opts => {
   const options = {
-    realtime: opts.realtime || false,
-    autoFix: opts.autoFix || true,
+    realtime: opts.realtime === true, // default false
+    autoFix: opts.autoFix !== false, // default true
   };
   return async (next, ctx) => {
+    ctx.emit('lint.opts', options);
     const { extend, isTypescript, ext } = await getProjectInfo(ctx);
     let eslintrc = ctx.utils.confman.load(path.join(ctx.cwd, ESLINTRC_FILE_PATH));
 
@@ -77,7 +78,7 @@ module.exports = opts => {
 
     // Sync Overwrite
     const eslintrcYaml = ctx.utils.yaml.stringify(eslintrc);
-    await ctx.utils.writeFile(path.join(ctx.cwd, ESLINTRC_FILE_PATH), eslintrcYaml);
+    await ctx.utils.writeFile(path.join(ctx.cwd, ESLINTRC_FILE_PATH), `# !!DO NOT MODIFY THIS FILE!!\n${eslintrcYaml}`);
 
     const eslint = ctx.utils.findCommand(__dirname, 'eslint');
     const prettier = ctx.utils.findCommand(__dirname, 'prettier');
@@ -85,12 +86,14 @@ module.exports = opts => {
     if (options.realtime) {
       // Do something
     } else {
-      await ctx.utils.exec([eslint, '.', '--ext', ext, options.autoFix ? '--fix' : ''].join(' '));
+      ctx.console.info(`Start linting${options.autoFix ? ' and auto fix' : ''}...`);
       if (options.autoFix) {
-        await ctx.utils.exec([prettier, '--write', '.'].join(' '));
+        await ctx.utils.exec([prettier, '--write', '.', '--loglevel', 'error'].join(' '));
       }
+      await ctx.utils.exec([eslint, '.', '--ext', ext, options.autoFix ? '--fix' : ''].join(' '));
+      ctx.console.info(`Lint completed.`);
     }
 
-    return next();
+    next();
   };
 };

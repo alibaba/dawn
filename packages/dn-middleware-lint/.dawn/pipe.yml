@@ -5,6 +5,7 @@ dev:
   - name: $local
     disabled: false
     location: ./lib/index.js
+    autoFix: false
   #   realtime: true
   # - name: webpack
   #   watch: true

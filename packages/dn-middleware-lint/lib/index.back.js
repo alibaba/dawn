@@ -23,7 +23,6 @@ function modifyRulesConfig(opts, rules) {
  * @return {AsyncFunction} 中间件函数
  */
 module.exports = function (opts) {
-
   opts.env = opts.env || 'browser,node';
   opts.source = opts.source || ['./src', './lib', './app'];
   opts.ext = opts.ext || '.js,.jsx';
@@ -40,28 +39,30 @@ module.exports = function (opts) {
   return async function (next) {
     this.emit('lint.opts', opts);
 
-    const isInstalled = (name) => {
+    const isInstalled = name => {
       return fs.existsSync(path.normalize(`${this.cwd}/node_modules/${name}`));
     };
     // 安装规范包
     const flag = { 'save-dev': true };
     const deps = [
-      'eslint-config-dawn', 'eslint-plugin-react', 'eslint-plugin-react-hooks',
-      'eslint-plugin-html', 'babel-eslint'
+      'eslint-config-dawn',
+      'eslint-plugin-react',
+      'eslint-plugin-react-hooks',
+      'eslint-plugin-html',
+      'babel-eslint',
     ];
-    for (let dep of deps) {
+    for (const dep of deps) {
       if (!isInstalled(dep)) await this.mod.install(dep, { flag });
     }
 
-    const sources = (utils.isArray(opts.source) ? opts.source : [opts.source])
-      .filter(dir => globby.sync(`${dir}/**/*{${opts.ext}}`).length > 0);
+    const sources = (utils.isArray(opts.source) ? opts.source : [opts.source]).filter(
+      dir => globby.sync(`${dir}/**/*{${opts.ext}}`).length > 0,
+    );
     if (sources.length < 1) return next();
     // this.console.log('检查目标', sources.join(', '));
 
     const ignores = utils.isArray(opts.ignore) ? opts.ignore : [opts.ignore];
-    const ignoreText = ignores.map(item =>
-      (`--ignore-pattern ${item}`)
-    ).join(' ');
+    const ignoreText = ignores.map(item => `--ignore-pattern ${item}`).join(' ');
 
     // 读取内建规则
     const rulesText = await this.utils.readFile(rulesFile);
@@ -83,18 +84,23 @@ module.exports = function (opts) {
     this.utils.del(path.normalize(`${this.cwd}/.eslintrc.json`));
 
     if (opts.realtime) {
-      const testStr = opts.ext.split(',').map(k => '\\' + k).join('|');
+      const testStr = opts.ext
+        .split(',')
+        .map(k => `\\${k}`)
+        .join('|');
       const eslintLoader = {
-        test: new RegExp('(' + testStr + ')$'),
+        test: new RegExp(`(${testStr})$`),
         include: path.resolve(this.cwd, 'src'),
         exclude: /node_modules/,
         enforce: 'pre',
-        loader: [{
-          loader: require.resolve('eslint-loader'),
-          options: { cache: true, formatter: 'stylish' },
-        }],
+        loader: [
+          {
+            loader: require.resolve('eslint-loader'),
+            options: { cache: true, formatter: 'stylish' },
+          },
+        ],
       };
-      this.on('webpack.config', (webpackConf) => {
+      this.on('webpack.config', webpackConf => {
         if (Array.isArray(webpackConf.module.loaders)) {
           webpackConf.module.loaders.unshift(eslintLoader);
         } else {
@@ -105,14 +111,24 @@ module.exports = function (opts) {
     } else {
       this.console.info('执行静态检查...');
       /* eslint-disable */
-      await this.utils.exec([
-        eslint, '--global', opts.global, ignoreText, '--env', opts.env,
-        '--ext', opts.ext, , sources.join(' '), '--fix'
-      ].join(' '));
+      await this.utils.exec(
+        [
+          eslint,
+          '--global',
+          opts.global,
+          ignoreText,
+          '--env',
+          opts.env,
+          '--ext',
+          opts.ext,
+          ,
+          sources.join(' '),
+          '--fix',
+        ].join(' '),
+      );
       /* eslint-enable */
       this.console.info('lint 检查完成');
     }
     next();
   };
-
 };
