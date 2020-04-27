@@ -1,12 +1,17 @@
 const fs = require('fs');
 const path = require('path');
 const getProjectInfo = require('./project');
+const formatOptions = require('./option');
+const defaultEditorConfig = require('./editorconfig');
 const pkg = require('../package.json');
 
+const EDITOR_CONFIG_FILE_PATH = '.editorconfig';
 const ESLINTRC_FILE_PATH = '.eslintrc.yml';
-const ESLINTRC_FILE_CLEAN_PATHS = ['.eslintrc.*', '!.eslintrc.yml'];
+const ESLINTRC_FILE_CLEAN_PATHS = ['.eslintrc', '.eslintrc.*', '!.eslintrc.yml'];
+const ESLINT_IGNORE_FILE_PATH = '.eslintignore';
+const GIT_IGNORE_FILE_PATH = '.gitignore';
 const PRETTIERRC_FILE_PATH = '.prettierrc.js';
-const PRETTIERRC_FILE_CLEAN_PATHS = ['.prettierrc.*', '!.prettierrc.js'];
+const PRETTIERRC_FILE_CLEAN_PATHS = ['.prettierrc', '.prettierrc.*', '!.prettierrc.js'];
 const PRETTIERRC_FILE_TEMPLATE = `/** !!DO NOT MODIFY THIS FILE!! */
 module.exports = require('eslint-config-dawn/prettierrc');
 `;
@@ -17,9 +22,21 @@ module.exports = opts => {
     autoFix: opts.autoFix !== false, // default true
   };
   return async (next, ctx) => {
+    formatOptions(opts, ctx);
     ctx.emit('lint.opts', options);
     const { extend, isTypescript, ext } = await getProjectInfo(ctx);
     let eslintrc = ctx.utils.confman.load(path.join(ctx.cwd, ESLINTRC_FILE_PATH));
+
+    // Async add .eslintignore file
+    if (!fs.existsSync(path.join(ctx.cwd, ESLINT_IGNORE_FILE_PATH))) {
+      const ignoreText = (await ctx.utils.readFile(path.join(ctx.cwd, GIT_IGNORE_FILE_PATH))).toString();
+      await ctx.utils.writeFile(path.join(ctx.cwd, ESLINT_IGNORE_FILE_PATH), ignoreText);
+    }
+
+    // Sync add .editorconfig file
+    if (!fs.existsSync(path.join(ctx.cwd, EDITOR_CONFIG_FILE_PATH))) {
+      ctx.utils.writeFile(path.join(ctx.cwd, EDITOR_CONFIG_FILE_PATH), defaultEditorConfig);
+    }
 
     const isInstalled = name => {
       return fs.existsSync(path.join(ctx.cwd, 'node_modules', name));
@@ -40,6 +57,7 @@ module.exports = opts => {
         eslintrcDeleteFiles.forEach(filename => ctx.console.info(' ', filename));
       }
     });
+
     // Async Remove unused .prettierrc files
     ctx.utils.del(PRETTIERRC_FILE_CLEAN_PATHS, { gitignore: true }).then(prettierrcDeleteFiles => {
       if (prettierrcDeleteFiles && prettierrcDeleteFiles.length) {
@@ -84,7 +102,42 @@ module.exports = opts => {
     const prettier = ctx.utils.findCommand(__dirname, 'prettier');
 
     if (options.realtime) {
-      // Do something
+      const testStr = ext
+        .split(',')
+        .map(k => `\\${k}`)
+        .join('|');
+      ctx.on('webpack.config', webpackConf => {
+        const webpackVersion = webpackConf.module.rules ? 4 : 3;
+        const eslintLoader = {
+          test: new RegExp(`(${testStr})$`),
+          include: path.resolve(ctx.cwd, 'src'),
+          exclude: /node_modules/,
+          enforce: 'pre',
+          loader: [
+            {
+              loader: require.resolve('eslint-loader'),
+              options: { cache: true, formatter: 'stylish' },
+            },
+          ],
+        };
+        const { module } = webpackConf;
+        if (webpackVersion >= 4) {
+          if (Array.isArray(module.rules)) {
+            module.rules.unshift(eslintLoader);
+          } else {
+            // eslint-disable-next-line no-param-reassign
+            module.rules = [eslintLoader];
+          }
+        } else {
+          // eslint-disable-next-line no-lonely-if
+          if (Array.isArray(module.loaders)) {
+            module.loaders.unshift(eslintLoader);
+          } else {
+            // eslint-disable-next-line no-param-reassign
+            module.loaders = [eslintLoader];
+          }
+        }
+      });
     } else {
       ctx.console.info(`Start linting${options.autoFix ? ' and auto fix' : ''}...`);
       if (options.autoFix) {

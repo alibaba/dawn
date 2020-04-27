@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-lint",
-  "version": "3.0.0",
+  "version": "3.0.0-alpha.2",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -16,10 +16,8 @@
   "dependencies": {
     "eslint-loader": "^3.0.2",
     "globby": "^11.0.0",
-    "js-yaml": "^3.12.0",
     "eslint": "^6.8.0",
     "eslint-config-dawn": "^2.0.0-beta.3",
-    "prettier": "^2.0.5",
-    "ntils": "^4.0.4"
+    "prettier": "^2.0.5"
   }
 }
