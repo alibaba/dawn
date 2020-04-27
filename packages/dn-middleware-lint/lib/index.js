@@ -96,7 +96,10 @@ module.exports = opts => {
 
     // Sync Overwrite
     const eslintrcYaml = ctx.utils.yaml.stringify(eslintrc);
-    await ctx.utils.writeFile(path.join(ctx.cwd, ESLINTRC_FILE_PATH), `# !!DO NOT MODIFY THIS FILE!!\n${eslintrcYaml}`);
+    await ctx.utils.writeFile(
+      path.join(ctx.cwd, ESLINTRC_FILE_PATH),
+      `# Do not modify "extends" & "rules".\n\n${eslintrcYaml}`,
+    );
 
     const eslint = ctx.utils.findCommand(__dirname, 'eslint');
     const prettier = ctx.utils.findCommand(__dirname, 'prettier');
