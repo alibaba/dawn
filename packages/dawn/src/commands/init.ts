@@ -16,7 +16,7 @@ export default class Init extends Command {
     this.trace("options", options);
     // const { template } = options.flags;
     this.console.log("init", this.ctx.configName);
-    const pipe = await this.ctx.run();
+    const pipe = await this.ctx.conf.getRc("middlewarePrefix");
     this.console.log(pipe);
     // await RunCommand.run(["init"]);
   }

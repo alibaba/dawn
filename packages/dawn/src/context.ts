@@ -43,14 +43,8 @@ export default class Context extends EventEmitter {
     // this.middlewareMgr = middleware;
     // this.templateMgr = template;
     this.pipeline = options?.pipeline || [];
-    // this.command = this.cli.get("command");
-    // this.cwd = process.cwd();
-    // this.console = console;
     // this.utils = utils;
     // this.inquirer = utils.inquirer;
-    // this.configName = `./.${pkg.name}`;
-    // this.configPath = path.resolve(this.cwd, this.configName);
-    // this.conf = configs;
     // this.mod = mod;
   }
 
