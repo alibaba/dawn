@@ -3,6 +3,7 @@ const path = require('path');
 const getProjectInfo = require('./project');
 const validateOpts = require('./option');
 const defaultEditorConfig = require('./editorconfig');
+const ruleMerge = require('./rules');
 const pkg = require('../package.json');
 
 const EDITOR_CONFIG_FILE_PATH = '.editorconfig';
@@ -74,16 +75,11 @@ module.exports = opts => {
       // Force rewrite extends
       eslintrc.extends = extend;
     }
-    ctx.emit('lint.extends', eslintrc.extends);
 
     if (eslintrc.rules) {
-      // TODO: some complex logic to merge
-      delete eslintrc.rules;
+      const mergedRule = ruleMerge(eslintrc.rules, ctx);
+      if (mergedRule) eslintrc.rules = mergedRule;
     }
-    ctx.emit('lint.rules', eslintrc.rules);
-    ctx.emit('lint.env', eslintrc.env);
-    ctx.emit('lint.globals', eslintrc.globals);
-    ctx.emit('lint.plugins', eslintrc.plugins);
     if (isTypescript && (!eslintrc.parserOptions || !eslintrc.parserOptions.project)) {
       ctx.console.info('Typescript/TypescriptReact project needs "tsconfig.json".');
       ctx.console.info('Try `npx tsc --init` to generate.');
@@ -92,7 +88,10 @@ module.exports = opts => {
         project: './tsconfig.json',
       };
     }
-    ctx.emit('lint.parserOptions', eslintrc.parserOptions);
+
+    // will be deprecated soon
+    ctx.emit('lint.rules', eslintrc.rules);
+    ctx.emit('lint.config', eslintrc);
 
     // Sync Overwrite
     const eslintrcYaml = ctx.utils.yaml.stringify(eslintrc);
