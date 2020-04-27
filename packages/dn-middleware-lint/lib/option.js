@@ -1,5 +1,5 @@
 // deprecated
-const formatOptions = (opts, ctx) => {
+const validateOpts = (opts, ctx) => {
   if (opts.env || opts.global) {
     ctx.console.warn('`opts.env` & `opts.gloabl` config is deprecated. Please set in ".eslintrc.yml" file.');
   }
@@ -11,4 +11,4 @@ const formatOptions = (opts, ctx) => {
   }
 };
 
-module.exports = formatOptions;
+module.exports = validateOpts;

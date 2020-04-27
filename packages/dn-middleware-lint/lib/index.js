@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const getProjectInfo = require('./project');
-const formatOptions = require('./option');
+const validateOpts = require('./option');
 const defaultEditorConfig = require('./editorconfig');
 const pkg = require('../package.json');
 
@@ -22,7 +22,7 @@ module.exports = opts => {
     autoFix: opts.autoFix !== false, // default true
   };
   return async (next, ctx) => {
-    formatOptions(opts, ctx);
+    validateOpts(opts, ctx);
     ctx.emit('lint.opts', options);
     const { extend, isTypescript, ext } = await getProjectInfo(ctx);
     let eslintrc = ctx.utils.confman.load(path.join(ctx.cwd, ESLINTRC_FILE_PATH));
