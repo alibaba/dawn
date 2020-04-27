@@ -27,13 +27,13 @@ module.exports = opts => {
     const { extend, isTypescript, ext } = await getProjectInfo(ctx);
     let eslintrc = ctx.utils.confman.load(path.join(ctx.cwd, ESLINTRC_FILE_PATH));
 
-    // Async add .eslintignore file
+    // Sync add .eslintignore file
     if (!fs.existsSync(path.join(ctx.cwd, ESLINT_IGNORE_FILE_PATH))) {
       const ignoreText = (await ctx.utils.readFile(path.join(ctx.cwd, GIT_IGNORE_FILE_PATH))).toString();
       await ctx.utils.writeFile(path.join(ctx.cwd, ESLINT_IGNORE_FILE_PATH), ignoreText);
     }
 
-    // Sync add .editorconfig file
+    // Async add .editorconfig file
     if (!fs.existsSync(path.join(ctx.cwd, EDITOR_CONFIG_FILE_PATH))) {
       ctx.utils.writeFile(path.join(ctx.cwd, EDITOR_CONFIG_FILE_PATH), defaultEditorConfig);
     }
