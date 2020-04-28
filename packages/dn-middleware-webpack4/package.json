@@ -2,7 +2,7 @@
   "name": "npm-dn-middleware-webpack4",
   "version": "1.0.0",
   "description": "dawn工程体系webpack4中间件",
-  "main": "index.js",
+  "main": "./lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

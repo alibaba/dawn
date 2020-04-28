@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background: #eeeeee;
+            margin: 0px;
+        }
+
+        .title {
+            font-size: 40px;
+            color: #fff;
+            background: #000000;
+            width: 100%;
+            padding-left: 20px;
+            line-height: 60px;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .folder-image {
+            margin-right: 3px;
+            color: #666;
+            width: 16px;
+            height: 16px;
+        }
+
+        .file-image {
+            margin-right: 3px;
+            color: #666;
+            width: 16px;
+            height: 16px;
+        }
+
+        a {
+          color: #333;
+        }
+    </style>
+    <title><%= title %></title>
+</head>
+<body>
+<div class="title"><%= title %></div>
+<div class="container">
+    <% for(var i in files){ %>
+        <div>
+            <% if (files[i].isDir) { %>
+                <img src="/public/images/folder.png" class="folder-image" />
+            <% } else { %>
+                <img src="/public/images/file.png" class="file-image" />
+            <% } %>
+            <a href="<%= files[i].itemLink %>"><%= files[i].file %></a>
+        </div>
+    <% } %>
+</div>
+</body>
+</html>
