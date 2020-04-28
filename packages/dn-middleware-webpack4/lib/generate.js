@@ -139,14 +139,6 @@ const createBabelOptions = (opts) => {
   // treeShakingLevel为2时，默认增加对于antd和fusion的tree-shaking
   if (opts.treeShakingLevel === 2) {
     babel.plugins.push([url_transform('babel-plugin-import'), {
-      libraryName: '@alifd/next',
-      style: true
-    }]);
-    babel.plugins.push([url_transform('babel-plugin-import'), {
-      libraryName: '@alife/next',
-      style: true
-    }]);
-    babel.plugins.push([url_transform('babel-plugin-import'), {
       libraryName: 'antd',
       style: true
     }])
