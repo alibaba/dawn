@@ -1,25 +1,40 @@
 {
   "name": "eslint-config-dawn",
-  "version": "1.0.9",
+  "version": "2.0.0",
   "description": "dawn eslint rules",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [
     "dawn",
-    "eslint"
+    "eslint",
+    "typescript-eslint"
   ],
   "author": "Houfeng",
+  "contributors": [
+    {
+      "name": "Jeason",
+      "email": "me@jeasonstudio.cn"
+    }
+  ],
   "license": "MIT",
   "peerDependencies": {
-    "eslint": ">= 3"
+    "eslint": ">= 6",
+    "prettier": ">= 2"
   },
   "dependencies": {
-    "babel-eslint": "^8.2.6",
-    "eslint": "^5.3.0",
-    "eslint-plugin-html": "^4.0.5",
-    "eslint-plugin-react": "^7.10.0",
-    "eslint-plugin-react-hooks": "^1.0.1"
+    "@typescript-eslint/eslint-plugin": "^2.29.0",
+    "@typescript-eslint/parser": "^2.29.0",
+    "babel-eslint": "^10.1.0",
+    "eslint-config-ali": "^9.0.2",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-html": "^6.0.2",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^3.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "prettier": "^2.0.5"
   }
 }
