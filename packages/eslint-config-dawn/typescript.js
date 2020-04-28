@@ -117,6 +117,13 @@ module.exports = {
     // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-useless-constructor.md
     'no-useless-constructor': 'off',
     '@typescript-eslint/no-useless-constructor': 'error',
+
+    // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/camelcase.md
+    camelcase: 'off',
+    '@typescript-eslint/camelcase': [
+      'error',
+      { properties: 'never', ignoreDestructuring: false, ignoreImports: false, genericType: 'never' },
+    ],
   },
   overrides: [
     {

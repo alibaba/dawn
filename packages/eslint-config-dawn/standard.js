@@ -132,9 +132,9 @@ module.exports = {
     strict: ['error', 'never'],
 
     /**
-     * 建议小驼峰命名
+     * 强制小驼峰命名
      */
-    camelcase: ['warn', { properties: 'never', ignoreDestructuring: false }],
+    camelcase: ['error', { properties: 'never', ignoreDestructuring: false, ignoreImports: false }],
 
     /**
      * 单文件建议不要超过 1200 行
