@@ -16,6 +16,11 @@ const PRETTIERRC_FILE_CLEAN_PATHS = ['.prettierrc', '.prettierrc.*', '!.prettier
 const PRETTIERRC_FILE_TEMPLATE = `/** !!DO NOT MODIFY THIS FILE!! */
 module.exports = require('eslint-config-dawn/prettierrc');
 `;
+const ESLINT_IGNORE_FILE_TEMPLATE = `# Feel free to change .eslintignore file
+node_modules
+build
+dist
+`;
 
 module.exports = opts => {
   const options = {
@@ -24,13 +29,16 @@ module.exports = opts => {
   };
   return async (next, ctx) => {
     validateOpts(opts, ctx);
-    ctx.emit('lint.opts', options);
+    ctx.emit('lint.opts', options); // will be deprecated soon
     const { extend, isTypescript, ext } = await getProjectInfo(ctx);
     let eslintrc = ctx.utils.confman.load(path.join(ctx.cwd, ESLINTRC_FILE_PATH));
 
     // Sync add .eslintignore file
     if (!fs.existsSync(path.join(ctx.cwd, ESLINT_IGNORE_FILE_PATH))) {
-      const ignoreText = (await ctx.utils.readFile(path.join(ctx.cwd, GIT_IGNORE_FILE_PATH))).toString();
+      let ignoreText = ESLINT_IGNORE_FILE_TEMPLATE;
+      if (fs.existsSync(path.join(ctx.cwd, GIT_IGNORE_FILE_PATH))) {
+        ignoreText = (await ctx.utils.readFile(path.join(ctx.cwd, GIT_IGNORE_FILE_PATH))).toString();
+      }
       await ctx.utils.writeFile(path.join(ctx.cwd, ESLINT_IGNORE_FILE_PATH), ignoreText);
     }
 
@@ -89,8 +97,7 @@ module.exports = opts => {
       };
     }
 
-    // will be deprecated soon
-    ctx.emit('lint.rules', eslintrc.rules);
+    ctx.emit('lint.rules', eslintrc.rules); // will be deprecated soon
     ctx.emit('lint.config', eslintrc);
 
     // Sync Overwrite

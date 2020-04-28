@@ -13,7 +13,7 @@ const getProjectInfo = async ctx => {
     isReact = true;
   }
   let isTypescript = false;
-  const tsFiles = await globby(['./**/*.ts', './**/*.tsx', '!./**/*.d.ts'], {
+  const tsFiles = await globby(['./**/*.ts', './**/*.tsx', '!./**/*.d.ts', '!node_modules'], {
     onlyFiles: true,
     gitignore: true,
   });
