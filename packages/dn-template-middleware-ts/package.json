@@ -1,0 +1,13 @@
+{
+  "name": "dn-template-middleware-ts",
+  "version": "1.0.0-beta.1",
+  "description": "Dawn middleware project template with typescript support",
+  "scripts": {
+    "test": "dn test"
+  },
+  "author": {
+    "name": "soulwu",
+    "email": "soulwuzjjx@vip.qq.com"
+  },
+  "license": "MIT"
+}

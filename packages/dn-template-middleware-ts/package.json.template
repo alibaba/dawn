@@ -1,0 +1,36 @@
+{
+  "name": "dn-middleware-xxx",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [
+    "dawn",
+    "middleware"
+  ],
+  "main": "./lib/index.js",
+  "scripts": {
+    "build": "dn build",
+    "test": "dn test"
+  },
+  "files": [
+    "src",
+    "lib"
+  ],
+  "author": "",
+  "engines": {
+    "node": ">=8"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-do-expressions": "^7.8.3",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
+    "@babel/plugin-proposal-optional-chaining": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-typescript": "^7.9.0",
+    "babel-plugin-add-module-exports": "^1.0.2",
+    "eslint": "^6.8.0",
+    "eslint-config-dawn": "^2.0.0-beta.2",
+    "prettier": "^2.0.5"
+  },
+  "license": "MIT"
+}
