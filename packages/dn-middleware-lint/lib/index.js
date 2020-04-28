@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const lintStaged = require('lint-staged');
 const getProjectInfo = require('./project');
 const validateOpts = require('./option');
 const defaultEditorConfig = require('./editorconfig');
@@ -22,14 +23,27 @@ build
 dist
 `;
 
+// eslint-disable-next-line max-lines-per-function
 module.exports = opts => {
   const options = {
     realtime: opts.realtime === true, // default false
     autoFix: opts.autoFix !== false, // default true
+    lintStaged: opts.staged === true, // default false
   };
+  // eslint-disable-next-line max-lines-per-function
   return async (next, ctx) => {
     validateOpts(opts, ctx);
     ctx.emit('lint.opts', options); // will be deprecated soon
+    if (options.lintStaged) {
+      // Support LintStaged
+      // Before all logic, simple and fast
+      await lintStaged({
+        config: {
+          '*.{js,jsx,ts,tsx}': `eslint --ignore-path ${ESLINT_IGNORE_FILE_PATH} --quiet --color`,
+        },
+      });
+      return next();
+    }
     const { extend, isTypescript, ext } = await getProjectInfo(ctx);
     let eslintrc = ctx.utils.confman.load(path.join(ctx.cwd, ESLINTRC_FILE_PATH));
 
@@ -162,6 +176,6 @@ module.exports = opts => {
       ctx.console.info(`Lint completed.`);
     }
 
-    next();
+    return next();
   };
 };

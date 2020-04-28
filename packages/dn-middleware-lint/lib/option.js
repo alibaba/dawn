@@ -1,13 +1,16 @@
 // deprecated
 const validateOpts = (opts, ctx) => {
   if (opts.env || opts.global) {
-    ctx.console.warn('`opts.env` & `opts.gloabl` config is deprecated. Please set in ".eslintrc.yml" file.');
+    ctx.console.warn('`env` & `gloabl` config is deprecated. Please set in ".eslintrc.yml" file.');
   }
   if (opts.ignore) {
-    ctx.console.warn('`opts.ignore` config is deprecated. Please set in ".eslintignore" file.');
+    ctx.console.warn('`ignore` config is deprecated. Please set in ".eslintignore" file.');
   }
   if (opts.source || opts.ext) {
-    ctx.console.warn('`opts.source` & `opts.ext` config is deprecated.');
+    ctx.console.warn('`source` & `ext` config is deprecated.');
+  }
+  if (opts.staged && opts.realtime) {
+    throw new Error('`staged` & `realtime` can not work at the same time.');
   }
 };
 
