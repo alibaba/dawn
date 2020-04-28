@@ -39,7 +39,8 @@ module.exports = opts => {
       // Before all logic, simple and fast
       await lintStaged({
         config: {
-          '*.{js,jsx,ts,tsx}': `eslint --ignore-path ${ESLINT_IGNORE_FILE_PATH} --quiet --color`,
+          '**/*.{js,jsx,ts,tsx}': `eslint --ignore-path ${ESLINT_IGNORE_FILE_PATH} --quiet --color`,
+          '**/*.{json,css,sass,scss,less,html,gql,graphql,md,yml,yaml}': 'prettier --check',
         },
       });
       return next();
