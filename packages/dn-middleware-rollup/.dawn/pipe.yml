@@ -1,0 +1,22 @@
+init:
+  - name: pkginfo
+
+dev:
+  - name: $local
+    location: ./lib/index.js
+
+test:
+  - name: shell
+    script:
+      - npx eslint src/** --fix
+
+build:
+  - name: shell
+    script:
+      - npx babel src -d lib --extensions ".ts"
+
+publish:
+  - name: shell
+    script:
+      - dn test
+      - npm pu
