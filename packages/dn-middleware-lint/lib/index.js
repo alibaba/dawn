@@ -37,12 +37,13 @@ module.exports = opts => {
     if (options.lintStaged) {
       // Support LintStaged
       // Before all logic, simple and fast
-      await lintStaged({
+      const success = await lintStaged({
         config: {
           '**/*.{js,jsx,ts,tsx}': `eslint --ignore-path ${ESLINT_IGNORE_FILE_PATH} --quiet --color`,
           '**/*.{json,css,sass,scss,less,html,gql,graphql,md,yml,yaml}': 'prettier --check',
         },
       });
+      if (!success) process.exit(1);
       return next();
     }
     const { extend, isTypescript, ext } = await getProjectInfo(ctx);
