@@ -6,8 +6,7 @@ title: 中间件模板（TS版）
 
 ## dn-template-middleware-ts
 
-中间件模板，用于快速的创建一个 Dawn 中间件工程，和普通的中间件模板相比，支持使用TS编写模板。
-
+中间件模板，用于快速的创建一个 Dawn 中间件工程，和普通的中间件模板相比，支持使用 TS 编写模板。
 
 创建一个中间件
 
@@ -22,6 +21,7 @@ $ dn init
 ```
 
 可在以类似如下的菜单中选择 `middleware` 模板
+
 ```sh
 ? Found 3 templates (Use arrow keys)
   1. front         : Blank front end project template

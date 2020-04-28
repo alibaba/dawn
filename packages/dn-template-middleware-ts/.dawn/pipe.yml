@@ -17,5 +17,4 @@ publish:
   - name: call
     pipe:
       - test
-      - build
   - name: publish

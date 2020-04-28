@@ -9,7 +9,8 @@
   "main": "./lib/index.js",
   "scripts": {
     "build": "dn build",
-    "test": "dn test"
+    "test": "dn test",
+    "prepublishOnly": "npm run build"
   },
   "files": [
     "src",
@@ -32,9 +33,11 @@
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-typescript": "^7.9.0",
     "babel-plugin-add-module-exports": "^1.0.2",
+    "dn-middleware-lint": "^3.0.0-alpha.6",
     "eslint": "^6.8.0",
-    "eslint-config-dawn": "^2.0.0-beta.2",
-    "prettier": "^2.0.5"
+    "eslint-config-dawn": "^2.0.0-beta.3",
+    "prettier": "^2.0.5",
+    "typescript": "^3.8.3"
   },
   "license": "MIT"
 }

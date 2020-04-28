@@ -1,6 +1,6 @@
 {
   "name": "dn-template-middleware-ts",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Dawn middleware project template with typescript support",
   "scripts": {
     "test": "dn test"
@@ -13,5 +13,9 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "dn-middleware-lint": "^3.0.0-alpha.6",
+    "typescript": "^3.8.3"
+  }
 }
