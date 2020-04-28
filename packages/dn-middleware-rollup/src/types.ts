@@ -16,6 +16,10 @@ interface IDawnConsole {
 export interface IDawnContext {
   console: IDawnConsole;
   emit?: (eventName: string, ...eventParams: any[]) => void;
+  utils: {
+    sleep: (ms: number) => Promise<void>;
+    stp: (strTmpl: string, data?: Record<string, any>) => (data: Record<string, any>) => string;
+  };
 }
 
 export interface IPkg {
@@ -46,6 +50,7 @@ interface IUmd extends IBundleOutput {
   name?: string;
   minFile?: boolean;
   sourcemap?: boolean;
+  template?: string;
 }
 
 export interface IBundleOptions {
@@ -77,6 +82,7 @@ export interface IBundleOptions {
   namedExports?: Record<string, string[]>;
   terser?: TerserOptions;
   nodeVersion?: number;
+  wasm?: boolean | Record<string, any>;
 }
 
 export interface IOpts {
@@ -85,6 +91,7 @@ export interface IOpts {
   bundleOpts?: IBundleOptions;
   fullCustom?: boolean;
   configFile?: string;
+  analysis?: boolean;
 }
 
 export interface IRollupOpts {
@@ -94,6 +101,7 @@ export interface IRollupOpts {
   bundleOpts: IBundleOptions;
   watch?: boolean;
   configFile?: string;
+  analysis?: boolean;
 }
 
 export interface IGetRollupConfigOpts {
@@ -101,6 +109,7 @@ export interface IGetRollupConfigOpts {
   entry: string;
   type: ModuleFormat;
   bundleOpts: IBundleOptions;
+  analysis?: boolean;
 }
 
 export interface IGetBabelConfigOpts {

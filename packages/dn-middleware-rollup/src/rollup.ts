@@ -8,7 +8,18 @@ export const start = async (entry: string, opts: IRollupOpts, rollupConfig: Roll
   if (ctx.emit) {
     ctx.emit("rollup.config", config, { ...opts, entry });
   }
+  await ctx.utils.sleep(100); // waiting for config mutation by other middlewares
+
+  ctx.console.info("Start bundle...");
+
+  const { output, ...input } = config;
+  const bundle = await rollup(input);
+  await bundle.write(output);
+
+  ctx.console.info("End bundle...");
+
   if (opts.watch) {
+    ctx.console.info("Start watching...");
     const watcher = watch([
       {
         ...config,
@@ -24,24 +35,26 @@ export const start = async (entry: string, opts: IRollupOpts, rollupConfig: Roll
     });
     process.once("SIGINT", () => {
       watcher.close();
+      ctx.console.info("End watching...");
+      process.exit(0);
     });
-  } else {
-    const { output, ...input } = config;
-    const bundle = await rollup(input);
-    await bundle.write(output);
   }
 };
 
 export const build = async (entry: string, opts: IRollupOpts, ctx: IDawnContext) => {
   const { cwd, type, bundleOpts } = opts;
-  const rollupConfigs = getRollupConfig({
-    cwd,
-    entry,
-    type,
-    bundleOpts,
-  });
+  const rollupConfigs = getRollupConfig(
+    {
+      cwd,
+      entry,
+      type,
+      bundleOpts,
+      analysis: opts.analysis,
+    },
+    ctx,
+  );
 
-  Promise.all(rollupConfigs.map(rollupConfig => start(entry, opts, rollupConfig, ctx)));
+  await Promise.all(rollupConfigs.map(rollupConfig => start(entry, opts, rollupConfig, ctx)));
 };
 
 export const run = async (opts: IRollupOpts, ctx: IDawnContext) => {

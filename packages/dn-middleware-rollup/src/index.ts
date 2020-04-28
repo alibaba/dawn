@@ -1,29 +1,33 @@
 import { getBundleOpts, validateBundleOpts } from "./getBundleOpts";
 import { run } from "./rollup";
-import { IOpts } from "./types";
+import { IDawnContext, IOpts } from "./types";
 
 export default (userOpts: IOpts) => {
-  return async function (next) {
+  return async (next, ctx: IDawnContext) => {
     const opts = {
       ...userOpts,
-      cwd: userOpts.cwd || this.cwd,
+      cwd: userOpts.cwd || ctx.cwd,
     };
-    this.console.info("Rollup starting...");
+    ctx.console.info("Rollup starting...");
 
-    if (this.emit) {
-      this.emit("rollup.opts", opts);
+    if (ctx.emit) {
+      ctx.emit("rollup.opts", opts);
     }
+
+    await ctx.utils.sleep(100);
 
     const bundleOpts = opts.fullCustom ? opts.bundleOpts : await getBundleOpts(opts);
 
-    if (this.emit) {
-      this.emit("rollup.bundleOpts", bundleOpts, opts);
+    if (ctx.emit) {
+      ctx.emit("rollup.bundleOpts", bundleOpts, opts);
     }
 
-    validateBundleOpts(bundleOpts, opts, this);
+    await ctx.utils.sleep(100);
+
+    validateBundleOpts(bundleOpts, opts, ctx);
 
     if (bundleOpts.umd) {
-      this.console.info("Building umd...");
+      ctx.console.info("Building umd...");
       await run(
         {
           cwd: opts.cwd,
@@ -32,13 +36,14 @@ export default (userOpts: IOpts) => {
           watch: opts.watch,
           bundleOpts,
           configFile: opts.configFile,
+          analysis: opts.analysis,
         },
-        this,
+        ctx,
       );
     }
 
     if (bundleOpts.cjs) {
-      this.console.info("Building cjs...");
+      ctx.console.info("Building cjs...");
       await run(
         {
           cwd: opts.cwd,
@@ -47,13 +52,14 @@ export default (userOpts: IOpts) => {
           watch: opts.watch,
           bundleOpts,
           configFile: opts.configFile,
+          analysis: opts.analysis,
         },
-        this,
+        ctx,
       );
     }
 
     if (bundleOpts.esm) {
-      this.console.info("Building esm...");
+      ctx.console.info("Building esm...");
       await run(
         {
           cwd: opts.cwd,
@@ -62,11 +68,12 @@ export default (userOpts: IOpts) => {
           watch: opts.watch,
           bundleOpts,
           configFile: opts.configFile,
+          analysis: opts.analysis,
         },
-        this,
+        ctx,
       );
     }
 
-    next();
+    await next();
   };
 };

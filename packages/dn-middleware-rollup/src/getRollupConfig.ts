@@ -1,4 +1,5 @@
-import { extname, join } from "path";
+import { dirname, extname, join, resolve } from "path";
+import { existsSync, readFileSync } from "fs";
 import { RollupOptions } from "rollup";
 import url from "@rollup/plugin-url";
 import svgr from "@svgr/rollup";
@@ -16,15 +17,17 @@ import yaml from "@rollup/plugin-yaml";
 import wasm from "@rollup/plugin-wasm";
 import commonjs from "@rollup/plugin-commonjs";
 import { terser } from "rollup-plugin-terser";
+import html, { makeHtmlAttributes } from "@rollup/plugin-html";
 import progress from "rollup-plugin-progress";
+import visualizer from "rollup-plugin-visualizer";
 import { merge } from "lodash";
 import { getBabelConfig } from "./getBabelConfig";
 import { getOutputFile, getPkgFile, testExternal } from "./utils";
-import { IGetRollupConfigOpts } from "./types";
+import { IDawnContext, IGetRollupConfigOpts } from "./types";
 
 // eslint-disable-next-line max-lines-per-function
-export const getRollupConfig = (opts: IGetRollupConfigOpts): RollupOptions[] => {
-  const { cwd, entry, type, bundleOpts } = opts;
+export const getRollupConfig = (opts: IGetRollupConfigOpts, ctx: IDawnContext): RollupOptions[] => {
+  const { cwd, entry, type, bundleOpts, analysis } = opts;
   const {
     umd,
     esm,
@@ -51,6 +54,7 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts): RollupOptions[] => 
     extraExternals = [],
     externalsExclude = [],
     terser: terserOpts = {},
+    wasm: wasmOpts,
   } = bundleOpts;
 
   const entryExt = extname(entry);
@@ -93,6 +97,49 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts): RollupOptions[] => 
     terserOpts,
   );
 
+  const template = async ({ attributes, files, publicPath, title }) => {
+    const htmlAttr = makeHtmlAttributes(attributes.html);
+    const scripts = (files.js || [])
+      .map(({ fileName }) => {
+        const attrs = makeHtmlAttributes(attributes.script);
+        return `<script src="${publicPath}${fileName}"${attrs}></script>`;
+      })
+      .join("\n");
+
+    const links = (files.css || [])
+      .map(({ fileName }) => {
+        const attrs = makeHtmlAttributes(attributes.link);
+        return `<link href="${publicPath}${fileName}" rel="stylesheet"${attrs}>`;
+      })
+      .join("\n");
+
+    const data = {
+      htmlAttr,
+      title,
+      scripts,
+      links,
+    };
+    const defaultTemplate = `
+<!doctype html>
+<html\${htmlAttr}>
+  <head>
+    <meta charset="utf-8">
+    <title>\${title}</title>
+    \${links}
+  </head>
+  <body>
+    \${scripts}
+  </body>
+</html>
+`;
+    const templateFile = resolve(cwd, umd.template);
+    if (existsSync(templateFile)) {
+      const strTmpl = readFileSync(templateFile, "utf-8");
+      return ctx.utils.stp(strTmpl, data);
+    }
+    return ctx.utils.stp(defaultTemplate, data);
+  };
+
   const getPlugins = ({ minCSS }: { minCSS?: boolean } = {}) => {
     return [
       url(),
@@ -113,6 +160,7 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts): RollupOptions[] => 
         : []),
       ...(injectOpts && Object.keys(injectOpts).length ? [inject(injectOpts)] : []),
       ...(replaceOpts && Object.keys(replaceOpts).length ? [replace(replaceOpts)] : []),
+      ...(isTypeScript ? [] : []),
       nodeResolve({
         mainFields: ["module", "jsnext:main", "main"],
         extensions,
@@ -147,7 +195,7 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts): RollupOptions[] => 
       babel(babelOpts),
       json(),
       yaml(),
-      wasm(),
+      ...(wasmOpts ? [wasm({ ...(typeof wasmOpts === "object" ? wasmOpts : {}) })] : []),
       progress(),
     ];
   };
@@ -165,9 +213,22 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts): RollupOptions[] => 
           input,
           output: {
             format,
-            file: getOutputFile({ entry, type, pkg, bundleOpts }),
+            file: getOutputFile({ entry, type: "esm", pkg, bundleOpts }),
           },
-          plugins: [...getPlugins(), ...(esm && esm.minify ? [terser(terserOptions)] : [])],
+          plugins: [
+            ...getPlugins(),
+            ...(esm && esm.minify ? [terser(terserOptions)] : []),
+            ...(analysis
+              ? [
+                  visualizer({
+                    filename: join(dirname(getOutputFile({ entry, type: "esm", pkg, bundleOpts })), "stats-esm.html"),
+                    title: "Rollup Visualizer - ESM",
+                    open: true,
+                    gzipSize: true,
+                  }),
+                ]
+              : []),
+          ],
           external: id => testExternal(external, externalsExclude, id),
         },
         ...(esm && esm.mjs
@@ -176,7 +237,7 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts): RollupOptions[] => 
                 input,
                 output: {
                   format,
-                  file: getOutputFile({ entry, type, pkg, bundleOpts, mjs: true }),
+                  file: getOutputFile({ entry, type: "esm", pkg, bundleOpts, mjs: true }),
                 },
                 plugins: [
                   ...getPlugins(),
@@ -184,6 +245,19 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts): RollupOptions[] => 
                     "process.env.NODE_ENV": JSON.stringify("production"),
                   }),
                   terser(terserOptions),
+                  ...(analysis
+                    ? [
+                        visualizer({
+                          filename: join(
+                            dirname(getOutputFile({ entry, type: "esm", pkg, bundleOpts, mjs: true })),
+                            "stats-mjs.html",
+                          ),
+                          title: "Rollup Visualizer - MJS",
+                          open: true,
+                          gzipSize: true,
+                        }),
+                      ]
+                    : []),
                 ],
                 external: id => testExternal(externalPeerDeps, externalsExclude, id),
               },
@@ -196,9 +270,22 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts): RollupOptions[] => 
           input,
           output: {
             format,
-            file: getOutputFile({ entry, type, pkg, bundleOpts }),
+            file: getOutputFile({ entry, type: "cjs", pkg, bundleOpts }),
           },
-          plugins: [...getPlugins(), ...(cjs && cjs.minify ? [terser(terserOptions)] : [])],
+          plugins: [
+            ...getPlugins(),
+            ...(cjs && cjs.minify ? [terser(terserOptions)] : []),
+            ...(analysis
+              ? [
+                  visualizer({
+                    filename: join(dirname(getOutputFile({ entry, type: "cjs", pkg, bundleOpts })), "stats-cjs.html"),
+                    title: "Rollup Visualizer - CJS",
+                    open: true,
+                    gzipSize: true,
+                  }),
+                ]
+              : []),
+          ],
           external: id => testExternal(external, externalsExclude, id),
         },
       ];
@@ -209,7 +296,7 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts): RollupOptions[] => 
           output: {
             format,
             sourcemap: umd && umd.sourcemap,
-            file: getOutputFile({ entry, type, pkg, bundleOpts }),
+            file: getOutputFile({ entry, type: "umd", pkg, bundleOpts }),
             globals: umd && umd.globals,
             name: umd && umd.name,
           },
@@ -219,6 +306,17 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts): RollupOptions[] => 
             replace({
               "process.env.NODE_ENV": JSON.stringify("development"),
             }),
+            html({ ...(umd && umd.template ? { template } : {}) }),
+            ...(analysis
+              ? [
+                  visualizer({
+                    filename: join(dirname(getOutputFile({ entry, type: "umd", pkg, bundleOpts })), "stats-umd.html"),
+                    title: "Rollup Visualizer - UMD",
+                    open: true,
+                    gzipSize: true,
+                  }),
+                ]
+              : []),
           ],
           external: id => testExternal(externalPeerDeps, externalsExclude, id),
         },
@@ -229,7 +327,7 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts): RollupOptions[] => 
                 output: {
                   format,
                   sourcemap: umd && umd.sourcemap,
-                  file: getOutputFile({ entry, type, pkg, bundleOpts, minFile: true }),
+                  file: getOutputFile({ entry, type: "umd", pkg, bundleOpts, minFile: true }),
                   globals: umd && umd.globals,
                   name: umd && umd.name,
                 },
