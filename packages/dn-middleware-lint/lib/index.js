@@ -79,7 +79,7 @@ module.exports = opts => {
     ctx.utils.writeFile(path.join(ctx.cwd, PRETTIERRC_FILE_PATH), PRETTIERRC_FILE_TEMPLATE);
 
     if (!eslintrc) eslintrc = { extends: extend };
-    if (!eslintrc.extends || eslintrc.extends !== extend) {
+    if (eslintrc.extends !== extend) {
       // Force rewrite extends
       eslintrc.extends = extend;
     }
