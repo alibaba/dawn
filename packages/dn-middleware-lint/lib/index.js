@@ -104,6 +104,8 @@ module.exports = opts => {
     const prettier = ctx.utils.findCommand(__dirname, 'prettier');
 
     if (options.realtime) {
+      // TODO: wait for webpack/rollup.. pack middleware refactor
+      // TODO: just set a symbol
       const testStr = ext
         .split(',')
         .map(k => `\\${k}`)
