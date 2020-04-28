@@ -1,7 +1,7 @@
 {
   "name": "dn-middleware-lint",
-  "version": "3.0.0-alpha.3",
-  "description": "",
+  "version": "3.0.0-alpha.4",
+  "description": "Dawn lint middleware",
   "main": "./lib/index.js",
   "scripts": {
     "test": "dn test"
@@ -11,13 +11,13 @@
   "peerDependencies": {
     "eslint": "^6",
     "prettier": "^2",
-    "eslint-config-dawn": "next"
+    "eslint-config-dawn": "latest"
   },
   "dependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-dawn": "^2.0.0",
     "eslint-loader": "^3.0.2",
     "globby": "^11.0.0",
-    "eslint": "^6.8.0",
-    "eslint-config-dawn": "^2.0.0-beta.3",
     "prettier": "^2.0.5"
   }
 }

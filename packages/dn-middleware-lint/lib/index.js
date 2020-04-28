@@ -152,9 +152,13 @@ module.exports = opts => {
     } else {
       ctx.console.info(`Start linting${options.autoFix ? ' and auto fix' : ''}...`);
       if (options.autoFix) {
-        await ctx.utils.exec([prettier, '--write', '.', '--loglevel', 'error'].join(' '));
+        await ctx.utils.exec(
+          [prettier, '--write', '.', '--loglevel', 'error', '--ignore-path', ESLINT_IGNORE_FILE_PATH].join(' '),
+        );
       }
-      await ctx.utils.exec([eslint, '.', '--ext', ext, options.autoFix ? '--fix' : ''].join(' '));
+      await ctx.utils.exec(
+        [eslint, '.', '--ext', ext, options.autoFix ? '--fix' : '', '--ignore-path', ESLINT_IGNORE_FILE_PATH].join(' '),
+      );
       ctx.console.info(`Lint completed.`);
     }
 
