@@ -1,0 +1,9 @@
+name: Continuous-Integration
+on: [push]
+jobs:
+  install:
+    name: run npm install
+    runs-on: ubuntu-latest
+    steps:
+      run: |
+        npm install
