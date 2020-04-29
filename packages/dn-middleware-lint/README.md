@@ -52,3 +52,11 @@ precommit:
   - name: lint
     staged: true
 ```
+
+## 从旧版本(1.x 2.x)迁移
+
+项目根目录下执行 (c)npm 命令，按照新的包依赖版本
+
+```bash
+$ npm uninstall eslint prettier eslint-config-dawn && npm install --save-dev dn-middleware-lint@latest
+```
