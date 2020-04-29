@@ -11,6 +11,7 @@ Dawn 取「黎明、破晓」之意，原为「阿里云·业务运营团队」�
 [![Build Status](https://www.travis-ci.org/alibaba/dawn.svg?branch=master)](https://www.travis-ci.org/alibaba/dawn)
 [![Coverage Status](https://coveralls.io/repos/github/alibaba/dawn/badge.svg?branch=dev)](https://coveralls.io/github/alibaba/dawn?branch=dev)
 [![npm](https://img.shields.io/npm/dt/dawn.svg)](https://www.npmjs.com/package/dawn)
+![](https://github.com/alibaba/dawn/workflows/CI/badge.svg)
 
 ## 特点
 
