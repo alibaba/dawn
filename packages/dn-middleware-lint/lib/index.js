@@ -9,6 +9,7 @@ module.exports = opts => {
     realtime: opts.realtime === true, // default false
     autoFix: opts.autoFix !== false, // default true
     lintStaged: opts.staged === true, // default false
+    interrupt: true, // Interrupt process
   };
   return async (next, ctx) => {
     validateOpts(opts, ctx);

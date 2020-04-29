@@ -149,6 +149,6 @@ module.exports.execLint = async (options, ctx) => {
   });
   const report = cli.executeOnFiles(['.']);
   console.log(formatter(report.results)); // eslint-disable-line no-console
-  if (report && report.errorCount && report.errorCount > 0) process.exit(1);
+  if (report && report.errorCount && report.errorCount > 0 && options.interrupt) process.exit(1);
   ctx.console.info(`Lint completed.`);
 };

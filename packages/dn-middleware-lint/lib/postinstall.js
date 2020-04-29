@@ -7,6 +7,7 @@ module.exports = () => {
     realtime: false,
     autoFix: true,
     staged: false,
+    interrupt: false, // Interrupt process
   };
   return async (next, ctx) => {
     // TODO: a little strange
