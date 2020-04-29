@@ -58,5 +58,5 @@ precommit:
 项目根目录下执行 (c)npm 命令，按照新的包依赖版本
 
 ```bash
-$ npm uninstall eslint prettier eslint-config-dawn && npm install --save-dev dn-middleware-lint@latest
+$ npm install --no-save eslint@6 prettier@2 eslint-config-dawn@latest && npm install --save-dev dn-middleware-lint@latest
 ```
