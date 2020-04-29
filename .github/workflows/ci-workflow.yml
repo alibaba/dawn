@@ -9,6 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: install
-      - uses: actions/checkout@v2
-      - run: |
+        uses: actions/checkout@v2
+        run: |
           npm install
