@@ -1,5 +1,8 @@
 name: Continuous-Integration
-on: [push]
+on:
+  push:
+    branches:
+      - chore/actions
 jobs:
   install:
     name: run npm install
