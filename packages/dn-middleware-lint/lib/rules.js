@@ -20,7 +20,7 @@ const ruleMerge = (rules, ctx) => {
       isLegalRule = isLegal(rule);
     }
     if (!isLegalRule) {
-      ctx.console.warn(`Local rule is illegal and will be removed: ${name} -> ${JSON.stringify(rule)}`);
+      ctx && ctx.console.warn(`Local rule is illegal and will be removed: ${name} -> ${JSON.stringify(rule)}`);
       return;
     }
     newRules[name] = rule;

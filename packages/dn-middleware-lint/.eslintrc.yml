@@ -1,4 +1,5 @@
-# !!DO NOT MODIFY THIS FILE!!
+# Do not modify "extends" & "rules".
+
 extends: dawn/standard
 env:
   node: true

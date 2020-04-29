@@ -3,3 +3,7 @@ dev:
     disabled: false
     location: ./lib/index.js
     autoFix: false
+
+postinstall:
+  - name: $local
+    location: ./lib/index.js

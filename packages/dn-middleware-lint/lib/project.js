@@ -1,11 +1,11 @@
 const globby = require('globby');
 
-const getProjectInfo = async ctx => {
+const getProjectInfo = async project => {
   let extend = 'dawn/standard';
   let ext = '.js,.jsx';
   let isReact = false;
-  if (ctx.project && ctx.project.version) {
-    const pkg = ctx.project;
+  if (project && project.version) {
+    const pkg = project;
     if (pkg.dependencies && pkg.dependencies.react) isReact = true;
     if (pkg.devDependencies && pkg.devDependencies.react) isReact = true;
     if (pkg.peerDependencies && pkg.peerDependencies.react) isReact = true;

@@ -1,17 +1,18 @@
 {
   "name": "dn-middleware-lint",
-  "version": "3.0.0-alpha.6",
+  "version": "3.0.0-alpha.9",
   "description": "Dawn lint middleware",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "dn test"
+    "test": "dn test",
+    "postinstall": "dn run postinstall"
   },
   "author": "Jeason",
   "license": "MIT",
   "peerDependencies": {
     "eslint": "^6",
     "prettier": "^2",
-    "eslint-config-dawn": "latest"
+    "eslint-config-dawn": "^2"
   },
   "dependencies": {
     "eslint": "^6.8.0",

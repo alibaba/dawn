@@ -8,7 +8,7 @@ title: 静态检查
 
 ## 简介
 
-基于 `eslint/prettier` 的语法检查中间件，lint 规则基于 `eslint-config-dawn`。 
+基于 `eslint/prettier` 的语法检查中间件，lint 规则基于 `eslint-config-dawn`。
 
 ## 用法
 
@@ -40,7 +40,7 @@ test:
 {
   "husky": {
     "hooks": {
-      "pre-commit": "dn run precommit",
+      "pre-commit": "dn run precommit"
     }
   }
 }
