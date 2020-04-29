@@ -1,4 +1,5 @@
 const { rmRcFiles, readAndForceWriteRc, execLint, eslintignore, editorconfig } = require('./core');
+const pkg = require('../package.json');
 
 module.exports = () => {
   const options = {
@@ -7,6 +8,8 @@ module.exports = () => {
     staged: false,
   };
   return async (next, ctx) => {
+    // TODO: a little strange
+    options.cwd = ctx.cwd.replace(new RegExp(`\\/node_modules\\/${pkg.name || 'dn-middleware-lint'}$`), '');
     // Sync add .editorconfig and .eslintignore
     // Sync rm ununsed rc files
     // Sync add .eslintrc.yml and .prettierrc.js file

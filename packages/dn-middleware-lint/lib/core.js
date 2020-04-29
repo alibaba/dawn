@@ -17,19 +17,19 @@ const {
 
 // Sync add .eslintignore file
 module.exports.eslintignore = async (options, ctx) => {
-  if (!fs.existsSync(path.join(ctx.cwd, ESLINT_IGNORE_FILE_PATH))) {
+  if (!fs.existsSync(path.join(options.cwd, ESLINT_IGNORE_FILE_PATH))) {
     let ignoreText = ESLINT_IGNORE_FILE_TEMPLATE;
-    if (fs.existsSync(path.join(ctx.cwd, GIT_IGNORE_FILE_PATH))) {
-      ignoreText = (await ctx.utils.readFile(path.join(ctx.cwd, GIT_IGNORE_FILE_PATH))).toString();
+    if (fs.existsSync(path.join(options.cwd, GIT_IGNORE_FILE_PATH))) {
+      ignoreText = (await ctx.utils.readFile(path.join(options.cwd, GIT_IGNORE_FILE_PATH))).toString();
     }
-    await ctx.utils.writeFile(path.join(ctx.cwd, ESLINT_IGNORE_FILE_PATH), ignoreText);
+    await ctx.utils.writeFile(path.join(options.cwd, ESLINT_IGNORE_FILE_PATH), ignoreText);
   }
 };
 
 // Sync add .editorconfig file
 module.exports.editorconfig = async (options, ctx) => {
-  if (!fs.existsSync(path.join(ctx.cwd, EDITOR_CONFIG_FILE_PATH))) {
-    await ctx.utils.writeFile(path.join(ctx.cwd, EDITOR_CONFIG_FILE_PATH), EDITOR_CONFIG_FILE_TEMPLATE);
+  if (!fs.existsSync(path.join(options.cwd, EDITOR_CONFIG_FILE_PATH))) {
+    await ctx.utils.writeFile(path.join(options.cwd, EDITOR_CONFIG_FILE_PATH), EDITOR_CONFIG_FILE_TEMPLATE);
   }
 };
 
@@ -50,9 +50,9 @@ module.exports.rmRcFiles = async (options, ctx) => {
 
 module.exports.readAndForceWriteRc = async (options, ctx) => {
   const { extend, isTypescript } = await getProjectInfo(ctx.project);
-  let eslintrc = ctx.utils.confman.load(path.join(ctx.cwd, ESLINTRC_FILE_PATH));
+  let eslintrc = ctx.utils.confman.load(path.join(options.cwd, ESLINTRC_FILE_PATH));
   // Async overwrite .prettierrc.js file
-  ctx.utils.writeFile(path.join(ctx.cwd, PRETTIERRC_FILE_PATH), PRETTIERRC_FILE_TEMPLATE);
+  ctx.utils.writeFile(path.join(options.cwd, PRETTIERRC_FILE_PATH), PRETTIERRC_FILE_TEMPLATE);
   if (!eslintrc) eslintrc = { extends: extend };
   if (eslintrc.extends !== extend) {
     // Force rewrite extends
@@ -78,7 +78,7 @@ module.exports.readAndForceWriteRc = async (options, ctx) => {
   // Sync Overwrite
   const eslintrcYaml = ctx.utils.yaml.stringify(eslintrc);
   await ctx.utils.writeFile(
-    path.join(ctx.cwd, ESLINTRC_FILE_PATH),
+    path.join(options.cwd, ESLINTRC_FILE_PATH),
     `# Do not modify "extends" & "rules".\n\n${eslintrcYaml}`,
   );
 };
@@ -88,13 +88,22 @@ module.exports.execLint = async (options, ctx) => {
   const eslint = ctx.utils.findCommand(__dirname, 'eslint');
   const prettier = ctx.utils.findCommand(__dirname, 'prettier');
   ctx.console.info(`Start linting${options.autoFix ? ' and auto fix' : ''}...`);
+  const ignorePath = path.join(options.cwd, ESLINT_IGNORE_FILE_PATH);
+  const prettierCmd = [prettier, '--write', options.cwd, '--loglevel', 'error', '--ignore-path', ignorePath].join(' ');
+  const eslintCmd = [
+    eslint,
+    options.cwd,
+    '--ext',
+    ext,
+    options.autoFix ? '--fix' : '',
+    '--ignore-path',
+    ignorePath,
+  ].join(' ');
+  // console.log('prettierCmd', prettierCmd);
+  // console.log('eslintCmd', eslintCmd);
   if (options.autoFix) {
-    await ctx.utils.exec(
-      [prettier, '--write', '.', '--loglevel', 'error', '--ignore-path', ESLINT_IGNORE_FILE_PATH].join(' '),
-    );
+    await ctx.utils.exec(prettierCmd);
   }
-  await ctx.utils.exec(
-    [eslint, '.', '--ext', ext, options.autoFix ? '--fix' : '', '--ignore-path', ESLINT_IGNORE_FILE_PATH].join(' '),
-  );
+  await ctx.utils.exec(eslintCmd);
   ctx.console.info(`Lint completed.`);
 };

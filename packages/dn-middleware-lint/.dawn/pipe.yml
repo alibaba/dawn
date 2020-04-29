@@ -6,4 +6,4 @@ dev:
 
 postinstall:
   - name: $local
-    location: ./lib/index.js
+    location: ./lib/postinstall.js

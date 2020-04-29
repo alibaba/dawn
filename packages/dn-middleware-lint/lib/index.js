@@ -11,9 +11,9 @@ module.exports = opts => {
     autoFix: opts.autoFix !== false, // default true
     lintStaged: opts.staged === true, // default false
   };
-  // eslint-disable-next-line max-lines-per-function
   return async (next, ctx) => {
     validateOpts(opts, ctx);
+    options.cwd = ctx.cwd;
     ctx.emit('lint.opts', options); // will be deprecated soon
     if (options.lintStaged) {
       // Support LintStaged
