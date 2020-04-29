@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const getProjectInfo = require('./project');
+const globby = require('globby');
+const { CLIEngine } = require('eslint');
+const formatter = require('eslint-formatter-pretty');
 const ruleMerge = require('./rules');
 const {
   EDITOR_CONFIG_FILE_PATH,
@@ -14,6 +16,45 @@ const {
   ESLINT_IGNORE_FILE_TEMPLATE,
   EDITOR_CONFIG_FILE_TEMPLATE,
 } = require('./constants');
+
+module.exports.getProjectInfo = async options => {
+  const { project = {} } = options;
+  let extend = 'dawn/standard';
+  let ext = '.js,.jsx';
+  let isReact = false;
+  if (project && project.version) {
+    const pkg = project;
+    if (pkg.dependencies && pkg.dependencies.react) isReact = true;
+    if (pkg.devDependencies && pkg.devDependencies.react) isReact = true;
+    if (pkg.peerDependencies && pkg.peerDependencies.react) isReact = true;
+  } else {
+    isReact = true;
+  }
+  let isTypescript = false;
+  const tsFiles = await globby(
+    [path.join(options.cwd, './**/*.ts'), path.join(options.cwd, './**/*.tsx'), '!./**/*.d.ts', '!node_modules'],
+    {
+      onlyFiles: true,
+      gitignore: true,
+      cwd: options.cwd,
+    },
+  );
+  if (tsFiles && tsFiles.length > 0) isTypescript = true; // TS Project
+
+  if (isTypescript) {
+    extend = isReact ? 'dawn/typescript-react' : 'dawn/typescript';
+    ext = '.js,.jsx,.ts,.tsx';
+  } else {
+    extend = isReact ? 'dawn' : 'dawn/standard';
+  }
+
+  return {
+    isReact,
+    isTypescript,
+    extend,
+    ext,
+  };
+};
 
 // Sync add .eslintignore file
 module.exports.eslintignore = async (options, ctx) => {
@@ -49,7 +90,7 @@ module.exports.rmRcFiles = async (options, ctx) => {
 };
 
 module.exports.readAndForceWriteRc = async (options, ctx) => {
-  const { extend, isTypescript } = await getProjectInfo(ctx.project);
+  const { extend, isTypescript } = options.info;
   let eslintrc = ctx.utils.confman.load(path.join(options.cwd, ESLINTRC_FILE_PATH));
   // Async overwrite .prettierrc.js file
   ctx.utils.writeFile(path.join(options.cwd, PRETTIERRC_FILE_PATH), PRETTIERRC_FILE_TEMPLATE);
@@ -84,26 +125,30 @@ module.exports.readAndForceWriteRc = async (options, ctx) => {
 };
 
 module.exports.execLint = async (options, ctx) => {
-  const { ext } = await getProjectInfo(ctx.project);
-  const eslint = ctx.utils.findCommand(__dirname, 'eslint');
+  const { ext } = options.info;
+  // const eslint = ctx.utils.findCommand(__dirname, 'eslint');
   const prettier = ctx.utils.findCommand(__dirname, 'prettier');
   ctx.console.info(`Start linting${options.autoFix ? ' and auto fix' : ''}...`);
   const ignorePath = path.join(options.cwd, ESLINT_IGNORE_FILE_PATH);
   const prettierCmd = [prettier, '--write', options.cwd, '--loglevel', 'error', '--ignore-path', ignorePath].join(' ');
-  const eslintCmd = [
-    eslint,
-    options.cwd,
-    '--ext',
-    ext,
-    options.autoFix ? '--fix' : '',
-    '--ignore-path',
-    ignorePath,
-  ].join(' ');
-  // console.log('prettierCmd', prettierCmd);
-  // console.log('eslintCmd', eslintCmd);
   if (options.autoFix) {
     await ctx.utils.exec(prettierCmd);
   }
-  await ctx.utils.exec(eslintCmd);
+  // await ctx.utils.exec(eslintCmd);
+  const cli = new CLIEngine({
+    cwd: options.cwd,
+    fix: options.autoFix,
+    useEslintrc: true,
+    extensions: ext.split(','),
+    baseConfig: {
+      parserOptions: {
+        // fix @typescript-eslint cwd
+        tsconfigRootDir: options.cwd,
+      },
+    },
+  });
+  const report = cli.executeOnFiles(['.']);
+  console.log(formatter(report.results)); // eslint-disable-line no-console
+  if (report && report.errorCount && report.errorCount > 0) process.exit(1);
   ctx.console.info(`Lint completed.`);
 };

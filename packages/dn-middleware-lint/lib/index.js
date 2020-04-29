@@ -1,9 +1,8 @@
 const path = require('path');
 const lintStaged = require('lint-staged');
-const getProjectInfo = require('./project');
 const validateOpts = require('./option');
 const { ESLINT_IGNORE_FILE_PATH } = require('./constants');
-const { rmRcFiles, readAndForceWriteRc, execLint } = require('./core');
+const { rmRcFiles, readAndForceWriteRc, execLint, getProjectInfo } = require('./core');
 
 module.exports = opts => {
   const options = {
@@ -14,6 +13,9 @@ module.exports = opts => {
   return async (next, ctx) => {
     validateOpts(opts, ctx);
     options.cwd = ctx.cwd;
+    options.project = ctx.project;
+    // eslint-disable-next-line require-atomic-updates
+    options.info = await getProjectInfo(options, ctx);
     ctx.emit('lint.opts', options); // will be deprecated soon
     if (options.lintStaged) {
       // Support LintStaged
@@ -36,7 +38,7 @@ module.exports = opts => {
     await readAndForceWriteRc(options, ctx);
 
     if (options.realtime) {
-      const { ext } = await getProjectInfo(ctx.project);
+      const { ext } = await getProjectInfo(options, ctx);
       // TODO: wait for webpack/rollup.. pack middleware refactor
       // TODO: just set a symbol
       const testStr = ext
