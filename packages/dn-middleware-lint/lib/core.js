@@ -131,7 +131,7 @@ module.exports.execLint = async (options, ctx) => {
   ctx.console.info(`Start linting${options.autoFix ? ' and auto fix' : ''}...`);
   const ignorePath = path.join(options.cwd, ESLINT_IGNORE_FILE_PATH);
   const prettierCmd = [prettier, '--write', options.cwd, '--loglevel', 'error', '--ignore-path', ignorePath].join(' ');
-  if (options.autoFix) {
+  if (options.autoFix && options.interrupt) {
     await ctx.utils.exec(prettierCmd);
   }
   // await ctx.utils.exec(eslintCmd);
