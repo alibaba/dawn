@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: install
-        run: npm install
+        run: npm ci
         working-directory: ./
       - name: test
         run: npm run dntest
