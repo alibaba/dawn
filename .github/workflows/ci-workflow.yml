@@ -13,4 +13,4 @@ jobs:
           npm install
       - name: test
         run: |
-          npm run test
+          npm run dntest
