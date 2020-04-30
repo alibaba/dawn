@@ -1,8 +1,5 @@
 name: CI
-on:
-  push:
-    branches:
-      - chore/actions
+on: push
 jobs:
   ci:
     name: run dawn CI
