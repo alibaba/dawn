@@ -8,6 +8,9 @@ jobs:
     name: run dawn CI
     runs-on: ubuntu-latest
     steps:
+      - name: list
+        run: |
+          ls
       - name: install
         run: |
           npm install
