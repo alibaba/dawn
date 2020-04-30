@@ -5,7 +5,8 @@
  * @author Houfeng <admin@xhou.net>
  */
 
-const pkg = require('../package.json');
+const path = require('path');
+const pkg = require(path.resolve(__dirname, '../package.json'));
 const semver = require('semver');
 const debug = require('debug')('cli');
 

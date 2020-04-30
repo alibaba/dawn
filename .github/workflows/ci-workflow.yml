@@ -4,8 +4,8 @@ on:
     branches:
       - chore/actions
 jobs:
-  install:
-    name: run npm install
+  ci:
+    name: run dawn CI
     runs-on: ubuntu-latest
     steps:
       - name: install
