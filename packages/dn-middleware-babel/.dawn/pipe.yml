@@ -1,0 +1,20 @@
+init:
+  - name: pkginfo
+
+dev:
+  - name: $local
+    location: ./lib/index.js
+
+test:
+  - name: lint@next
+
+build:
+  - name: shell
+    script:
+      - npx babel src -d lib --extensions ".ts" --copy-files
+
+publish:
+  - name: call
+    pipe:
+      - test
+  - name: publish
