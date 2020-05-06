@@ -1,5 +1,5 @@
 const path = require('path');
-const { rmRcFiles, readAndForceWriteRc, execLint, eslintignore, editorconfig, getProjectInfo } = require('./core');
+const { rmRcFiles, readAndForceWriteRc, eslintignore, editorconfig, getProjectInfo } = require('./core');
 const pkg = require('../package.json');
 
 module.exports = () => {
@@ -26,6 +26,7 @@ module.exports = () => {
     ]);
     await next();
     // Execute lint
-    await execLint(options, ctx);
+    // Never run lint when postinstall
+    // await execLint(options, ctx);
   };
 };
