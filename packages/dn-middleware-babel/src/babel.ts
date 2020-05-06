@@ -56,7 +56,7 @@ export const run = async (opts: IOpts, ctx: IDawnContext) => {
     babelOpts.presets.push(...extraPresets);
     babelOpts.plugins.push(...extraPlugins);
 
-    ctx.console.log(`Transform to ${type} for ${file.path}`);
+    ctx.console.log(`Transform to ${type} for ${relative(file.path, cwd)}`);
 
     return babel.transform(file.contents, { ...babelOpts, filename: file.path }).code;
   };
