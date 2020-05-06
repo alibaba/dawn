@@ -3,7 +3,7 @@ import { run } from "./rollup";
 import { IDawnContext, IOpts } from "./types";
 
 export default (userOpts: IOpts) => {
-  return async (next, ctx: IDawnContext) => {
+  return async (next: Function, ctx: IDawnContext) => {
     const opts = {
       ...userOpts,
       cwd: userOpts.cwd || ctx.cwd,
@@ -16,7 +16,7 @@ export default (userOpts: IOpts) => {
 
     await ctx.utils.sleep(100);
 
-    const bundleOpts = opts.fullCustom ? opts.bundleOpts : await getBundleOpts(opts);
+    const bundleOpts = opts.fullCustom ? opts.bundleOpts : getBundleOpts(opts);
 
     if (ctx.emit) {
       ctx.emit("rollup.bundleOpts", bundleOpts, opts);

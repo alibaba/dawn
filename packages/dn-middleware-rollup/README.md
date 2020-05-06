@@ -6,4 +6,4 @@ title: Rollup
 
 ## dn-middleware-rollup
 
-这是一个提供使用Rollup打包资源文件的中间件
+这是一个提供使用 Rollup 打包资源文件的中间件

@@ -8,7 +8,5 @@
     "jsx": "react",
     "experimentalDecorators": true
   },
-  "include": [
-    "./src/**/*"
-  ]
+  "include": ["./src/**/*"]
 }

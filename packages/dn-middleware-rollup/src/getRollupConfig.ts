@@ -4,14 +4,13 @@ import { RollupOptions } from "rollup";
 import url from "@rollup/plugin-url";
 import svgr from "@svgr/rollup";
 import postcss from "rollup-plugin-postcss";
-import NpmImport from "less-plugin-npm-import";
 import autoprefixer from "autoprefixer";
 import alias from "@rollup/plugin-alias";
 import inject from "@rollup/plugin-inject";
 import replace from "@rollup/plugin-replace";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import typescript2 from "rollup-plugin-typescript2";
-import babel from "rollup-plugin-babel";
+import babel from "@rollup/plugin-babel";
 import json from "@rollup/plugin-json";
 import yaml from "@rollup/plugin-yaml";
 import wasm from "@rollup/plugin-wasm";
@@ -23,7 +22,7 @@ import visualizer from "rollup-plugin-visualizer";
 import { merge } from "lodash";
 import { getBabelConfig } from "./getBabelConfig";
 import { getOutputFile, getPkgFile, testExternal } from "./utils";
-import { IDawnContext, IGetRollupConfigOpts } from "./types";
+import { IDawnContext, IGetRollupConfigOpts, IUmd } from "./types";
 
 // eslint-disable-next-line max-lines-per-function
 export const getRollupConfig = (opts: IGetRollupConfigOpts, ctx: IDawnContext): RollupOptions[] => {
@@ -97,7 +96,17 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts, ctx: IDawnContext): 
     terserOpts,
   );
 
-  const template = async ({ attributes, files, publicPath, title }) => {
+  const template = async ({
+    attributes,
+    files,
+    publicPath,
+    title,
+  }: {
+    attributes: { html: Record<string, any>; script: Record<string, any>; link: Record<string, any> };
+    files: { js: Array<{ fileName: string }>; css: Array<{ fileName: string }> };
+    publicPath: string;
+    title: string;
+  }) => {
     const htmlAttr = makeHtmlAttributes(attributes.html);
     const scripts = (files.js || [])
       .map(({ fileName }) => {
@@ -132,7 +141,7 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts, ctx: IDawnContext): 
   </body>
 </html>
 `;
-    const templateFile = resolve(cwd, umd.template);
+    const templateFile = resolve(cwd, (umd as IUmd).template);
     if (existsSync(templateFile)) {
       const strTmpl = readFileSync(templateFile, "utf-8");
       return ctx.utils.stp(strTmpl, data);
@@ -150,7 +159,7 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts, ctx: IDawnContext): 
         modules,
         minimize: !!minCSS,
         use: [
-          ["less", { plugins: [new NpmImport({ prefix: "~" })], javascriptEnabled: true, ...lessOpts }],
+          ["less", { javascriptEnabled: true, ...lessOpts }],
           ["sass", { ...sassOpts }],
         ],
         plugins: [autoprefixer(autoprefixerOpts)],
@@ -259,7 +268,7 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts, ctx: IDawnContext): 
                       ]
                     : []),
                 ],
-                external: id => testExternal(externalPeerDeps, externalsExclude, id),
+                external: (id: string) => testExternal(externalPeerDeps, externalsExclude, id),
               },
             ]
           : []),
@@ -318,7 +327,7 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts, ctx: IDawnContext): 
                 ]
               : []),
           ],
-          external: id => testExternal(externalPeerDeps, externalsExclude, id),
+          external: (id: string) => testExternal(externalPeerDeps, externalsExclude, id),
         },
         ...(umd && umd.minFile
           ? [
@@ -339,7 +348,7 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts, ctx: IDawnContext): 
                   }),
                   terser(terserOptions),
                 ],
-                external: id => testExternal(externalPeerDeps, externalsExclude, id),
+                external: (id: string) => testExternal(externalPeerDeps, externalsExclude, id),
               },
             ]
           : []),

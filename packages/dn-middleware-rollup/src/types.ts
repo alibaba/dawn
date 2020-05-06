@@ -5,7 +5,7 @@ import { Options as TerserOptions } from "rollup-plugin-terser";
 
 type LogFN = (message?: any, ...optionalParams: any[]) => void;
 
-interface IDawnConsole {
+export interface IDawnConsole {
   log: LogFN;
   info: LogFN;
   error: LogFN;
@@ -14,11 +14,12 @@ interface IDawnConsole {
 }
 
 export interface IDawnContext {
+  cwd: string;
   console: IDawnConsole;
   emit?: (eventName: string, ...eventParams: any[]) => void;
   utils: {
     sleep: (ms: number) => Promise<void>;
-    stp: (strTmpl: string, data?: Record<string, any>) => (data: Record<string, any>) => string;
+    stp: (strTmpl: string, data: Record<string, any>) => string;
   };
 }
 
@@ -32,7 +33,7 @@ export interface IPkg {
   peerDependencies?: Record<string, any>;
 }
 
-interface IBundleOutput {
+export interface IBundleOutput {
   file?: string;
 }
 
@@ -40,12 +41,12 @@ export interface ICjs extends IBundleOutput {
   minify?: boolean;
 }
 
-interface IEsm extends IBundleOutput {
+export interface IEsm extends IBundleOutput {
   mjs?: boolean;
   minify?: boolean;
 }
 
-interface IUmd extends IBundleOutput {
+export interface IUmd extends IBundleOutput {
   globals?: Record<string, string>;
   name?: string;
   minFile?: boolean;

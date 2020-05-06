@@ -5,7 +5,7 @@ import { camelCase, merge } from "lodash";
 import { getExistFile, getPkgFile } from "./utils";
 import { IBundleOptions, IDawnContext, IOpts } from "./types";
 
-export const getBundleOpts = async (opts: IOpts): IBundleOptions => {
+export const getBundleOpts = (opts: IOpts): IBundleOptions => {
   const { cwd, bundleOpts: userBundleOpts = {} } = opts;
   const entry = getExistFile({
     cwd,

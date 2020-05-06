@@ -3,12 +3,15 @@
     "outDir": "./lib/",
     "sourceMap": true,
     "noImplicitAny": true,
-    "module": "commonjs",
-    "target": "es5",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "target": "ESNext",
     "jsx": "react",
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "typeRoots": ["./typings", "./node_modules/@types"]
   },
-  "include": [
-    "./src/**/*"
-  ]
+  "include": ["src"],
+  "exclude": ["node_modules", "typings"]
 }

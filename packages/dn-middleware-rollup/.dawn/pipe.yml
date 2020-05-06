@@ -6,17 +6,19 @@ dev:
     location: ./lib/index.js
 
 test:
-  - name: shell
-    script:
-      - npx eslint src/** --fix
+  - name: lint@next
 
 build:
-  - name: shell
-    script:
-      - npx babel src -d lib --extensions ".ts"
+  - name: clean
+    target:
+      - lib
+  - name: babel
+    nodeVersion: 10
+    extraPlugins:
+      - babel-plugin-add-module-exports
 
 publish:
-  - name: shell
-    script:
-      - dn test
-      - npm pu
+  - name: call
+    pipe:
+      - test
+  - name: publish

@@ -1,4 +1,4 @@
-import { rollup, RollupOptions, watch } from "rollup";
+import { OutputOptions, rollup, RollupOptions, watch } from "rollup";
 import { getRollupConfig } from "./getRollupConfig";
 import { IDawnContext, IRollupOpts } from "./types";
 import { mergeCustomRollupConfig } from "./mergeCustomRollupConfig";
@@ -14,7 +14,7 @@ export const start = async (entry: string, opts: IRollupOpts, rollupConfig: Roll
 
   const { output, ...input } = config;
   const bundle = await rollup(input);
-  await bundle.write(output);
+  await bundle.write(output as OutputOptions);
 
   ctx.console.info("End bundle...");
 
@@ -27,7 +27,7 @@ export const start = async (entry: string, opts: IRollupOpts, rollupConfig: Roll
       },
     ]);
     watcher.on("event", event => {
-      if (event.error) {
+      if (event.code === "ERROR" && event.error) {
         ctx.console.error(event.error);
       } else if (event.code === "START") {
         ctx.console.log(`[${opts.type}] Rebuild since file changed`);

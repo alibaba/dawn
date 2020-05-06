@@ -8,7 +8,7 @@ export const mergeCustomRollupConfig = async (
   rollupConfig: RollupOptions,
   opts: Omit<IRollupOpts, "entry"> & { entry: string },
   ctx: IDawnContext,
-): RollupOptions => {
+): Promise<RollupOptions> => {
   let config = rollupConfig;
   const { cwd, configFile = "./rollup.config.js" } = opts;
   const customConfigFile = resolve(cwd, configFile);
