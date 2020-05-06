@@ -1,5 +1,5 @@
 environment:
-  nodejs_version: "10"
+  nodejs_version: '10'
 cache:
   - '%AppData%\npm-cache -> appveyor.yml'
   - node_modules -> package-lock.json
@@ -19,6 +19,4 @@ after_test:
       Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh
       bash codecov.sh
 
-
 build: off
-

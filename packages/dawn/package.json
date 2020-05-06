@@ -76,7 +76,7 @@
   },
   "dawn": {
     "server": "https://alibaba.github.io/dawn",
-    "registry": "https://registry.npm.taobao.org",
+    "registry": "https://registry.npmjs.com",
     "npm": "npm",
     "cache": 3600000,
     "middlewarePrefix": "dn-middleware",

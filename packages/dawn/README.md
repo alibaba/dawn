@@ -1,5 +1,4 @@
-dawn
-====
+# dawn
 
 Dawn framework cli
 
@@ -12,11 +11,15 @@ Dawn framework cli
 [![License](https://img.shields.io/npm/l/dawn.svg)](https://github.com/alibaba/dawn/blob/master/package.json)
 
 <!-- toc -->
-* [Usage](#usage)
-* [Commands](#commands)
+
+- [Usage](#usage)
+- [Commands](#commands)
 <!-- tocstop -->
+
 # Usage
+
 <!-- usage -->
+
 ```sh-session
 $ npm install -g dawn
 $ dn COMMAND
@@ -28,11 +31,15 @@ USAGE
   $ dn COMMAND
 ...
 ```
+
 <!-- usagestop -->
+
 # Commands
+
 <!-- commands -->
-* [`dn hello [FILE]`](#dn-hello-file)
-* [`dn help [COMMAND]`](#dn-help-command)
+
+- [`dn hello [FILE]`](#dn-hello-file)
+- [`dn help [COMMAND]`](#dn-help-command)
 
 ## `dn hello [FILE]`
 
@@ -70,4 +77,5 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.2.3/src/commands/help.ts)_
+
 <!-- commandsstop -->

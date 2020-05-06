@@ -1,8 +1,9 @@
-extends:
-  - dawn/typescript
+# Do not modify "extends" & "rules".
+
+extends: dawn/typescript
 parserOptions:
   project: ./tsconfig.eslint.json
 rules:
-  '@typescript-eslint/no-require-imports': off
-  '@typescript-eslint/no-var-requires': off
-  'import/no-cycle': off
+  '@typescript-eslint/no-require-imports': warn
+  '@typescript-eslint/no-var-requires': warn
+  import/no-cycle: warn

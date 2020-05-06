@@ -1,9 +1,9 @@
-import {expect, test} from '@oclif/test'
+import { expect, test } from "@oclif/test";
 
-describe('hooks', () => {
+describe("hooks", () => {
   test
-  .stdout()
-  .hook('init', {id: 'mycommand'})
-  .do(output => expect(output.stdout).to.contain('example hook running mycommand'))
-  .it('shows a message')
-})
+    .stdout()
+    .hook("init", { id: "mycommand" })
+    .do(output => expect(output.stdout).to.contain("example hook running mycommand"))
+    .it("shows a message");
+});

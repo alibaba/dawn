@@ -4,5 +4,8 @@ dev:
 init:
   - name: pkginfo
 
+test:
+  - name: lint
+
 run:
   - name: foo
