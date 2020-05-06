@@ -56,7 +56,7 @@ export const run = async (opts: IOpts, ctx: IDawnContext) => {
     babelOpts.presets.push(...extraPresets);
     babelOpts.plugins.push(...extraPlugins);
 
-    ctx.console.log(`Transform to ${type} for ${relative(file.path, cwd)}`);
+    ctx.console.log(`Transform to ${type} for ${relative(cwd, file.path)}`);
 
     return babel.transform(file.contents, { ...babelOpts, filename: file.path }).code;
   };
@@ -91,7 +91,7 @@ export const run = async (opts: IOpts, ctx: IDawnContext) => {
   return new Promise(resolvePromise => {
     createStream(patterns).on("end", () => {
       if (watch) {
-        ctx.console.log(`Start watching ${relative(srcPath, cwd)} directory...`);
+        ctx.console.log(`Start watching ${relative(cwd, srcPath)} directory...`);
         const watcher = chokidar.watch(patterns, { ignoreInitial: true });
         const files = [];
         const compileFiles = debounce(() => {
@@ -100,7 +100,7 @@ export const run = async (opts: IOpts, ctx: IDawnContext) => {
           }
         }, 1000);
         watcher.on("all", (event, fullPath) => {
-          ctx.console.log(`[${event}] ${relative(fullPath, cwd)}`);
+          ctx.console.log(`[${event}] ${relative(cwd, fullPath)}`);
           if (!existsSync(fullPath)) {
             return;
           }
