@@ -3,7 +3,6 @@ init:
 
 dev:
   - name: ./lib/index.js
-  - name: webpack
 
 test:
   - name: lint

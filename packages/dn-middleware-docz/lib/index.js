@@ -1,6 +1,6 @@
+/* global __dirname, process */
+
 module.exports = function (opts) {
-
-
   return async function (next, ctx) {
     opts = Object.assign({ mode: process.env.DN_CMD || 'build' }, opts);
     const { utils, console } = ctx;
