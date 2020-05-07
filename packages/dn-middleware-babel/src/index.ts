@@ -3,7 +3,7 @@ import { getOpts, validateOpts } from "./opts";
 import { run } from "./babel";
 
 export default (options: IOpts) => {
-  return async (next, ctx: IDawnContext) => {
+  return async (next: Function, ctx: IDawnContext) => {
     ctx.console.log("Babel transform starting...");
 
     const opts = getOpts(options, ctx);

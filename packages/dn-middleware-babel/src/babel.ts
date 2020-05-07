@@ -24,7 +24,7 @@ export const run = async (opts: IOpts, ctx: IDawnContext) => {
     runtimeHelpers,
     extraPresets = [],
     extraPlugins = [],
-    nodeVersion = 6,
+    nodeVersion,
     disableTypeCheck,
     lazy,
   } = opts;

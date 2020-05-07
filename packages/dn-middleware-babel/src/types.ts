@@ -37,7 +37,7 @@ export interface IOpts {
   runtimeHelpers?: boolean; // 是否添加runtimeHelpers
   extraPresets?: any[]; // 额外的presets
   extraPlugins?: any[]; // 额外的plugins
-  nodeVersion?: number; // target为node时的目标node版本
+  nodeVersion?: string | "current" | true; // target为node时的目标node版本
   disableTypeCheck?: boolean; // 是否禁用类型检查
   // less?: false | Record<string, any>; // less选项
   lazy?: boolean; // 是否为lazy模式

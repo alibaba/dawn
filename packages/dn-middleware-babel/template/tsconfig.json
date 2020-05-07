@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
     "noImplicitAny": true,
-    "module": "esnext",
-    "target": "esnext",
+    "module": "ESNext",
+    "target": "ESNext",
     "declaration": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "jsx": "react"
+    "jsx": "react",
+    "typeRoots": ["./typings", "./node_modules/@types"]
   },
-  "include": ["./src", "./typings/"],
-  "exclude": ["node_modules", "build", "lib", "dist"]
+  "include": ["src"],
+  "exclude": ["node_modules", "build", "lib", "dist", "typings"]
 }

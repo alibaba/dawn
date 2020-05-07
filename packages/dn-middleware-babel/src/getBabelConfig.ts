@@ -4,7 +4,7 @@ import { IGetBabelConfigOpts } from "./types";
 export const getBabelConfig = (opts: IGetBabelConfigOpts): Pick<TransformOptions, "presets" | "plugins"> => {
   const { target, typescript, type, runtimeHelpers, nodeVersion, lazy } = opts;
   const isBrowser = target === "browser";
-  const targets = isBrowser ? undefined : { node: nodeVersion || 8 };
+  const targets = isBrowser ? undefined : { node: nodeVersion || "10" };
 
   return {
     presets: [
