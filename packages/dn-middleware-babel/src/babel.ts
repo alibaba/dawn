@@ -34,9 +34,10 @@ export const run = async (
   } = opts;
 
   const srcPath = resolve(cwd, srcDir);
-  const outputDir = output || type === "cjs" ? "lib" : "es";
+  const outputDir = output || type === "cjs" ? "lib" : "es"; // lib for type=cjs and es for type=esm if not set output option
   const outputPath = resolve(cwd, outputDir);
   const patterns = include.map(p => join(srcPath, p)).concat(exclude.map(p => `!${join(srcPath, p)}`));
+
   const babelOpts = getBabelConfig({
     target,
     type,
@@ -53,16 +54,19 @@ export const run = async (
     await ctx.utils.sleep(100);
   }
 
+  // In noEmit mode, do not transform code and return babelOpts immediately
   if (noEmit) {
     return babelOpts;
   }
 
+  // Transform file with babel
   const transform = (file: { contents: string; path: string }): string => {
     ctx.console.log(`Transform to ${type} for ${relative(cwd, file.path)}`);
 
     return babel.transform(file.contents, { ...babelOpts, filename: file.path }).code;
   };
 
+  // Get compilerOptions from project's tsconfig.json or default template
   const getTSConfig = (): Record<string, any> => {
     const tsConfigPath = join(cwd, "tsconfig.json");
     const templateTSConfigPath = join(__dirname, "../template/tsconfig.json");
@@ -73,14 +77,15 @@ export const run = async (
     return getTSConfigCompilerOptions(templateTSConfigPath) || {};
   };
 
+  // Stream src via vinyl-fs
   const createStream = (src: string | string[]): NodeJS.ReadWriteStream => {
     const tsConfig = getTSConfig();
     const tsFileRegexp = /\.tsx?$/;
-    const babelTransformRegexp = disableTypeCheck ? /\.(t|j)sx?$/ : /\.jsx?$/;
+    const babelTransformRegexp = disableTypeCheck ? /\.(t|j)sx?$/ : /\.jsx?$/; // Transform ts file with babel if not need type check
 
     return vfs
       .src(src, { allowEmpty: true, base: srcPath })
-      .pipe(gulpIf(f => !disableTypeCheck && isTransform(f.path, tsFileRegexp), gulpTS(tsConfig)))
+      .pipe(gulpIf(f => !disableTypeCheck && isTransform(f.path, tsFileRegexp), gulpTS(tsConfig))) // Transform ts file with tsc if need type check
       .pipe(
         gulpIf(
           f => isTransform(f.path, babelTransformRegexp),
@@ -97,22 +102,25 @@ export const run = async (
           }),
         ),
       )
-      .pipe(vfs.dest(outputPath));
+      .pipe(vfs.dest(outputPath)); // Included files that not transformed by babel will output unchanged (same as copy)
   };
+
+  ctx.console.info("Babel transform starting...");
 
   return new Promise(resolvePromise => {
     createStream(patterns).on("end", () => {
       if (watch) {
-        ctx.console.log(`Start watching ${relative(cwd, srcPath)} directory...`);
+        ctx.console.info(`Start watching ${relative(cwd, srcPath)} directory...`);
         const watcher = chokidar.watch(patterns, { ignoreInitial: true });
         const files = [];
+        // Debounce file change event
         const compileFiles = debounce(() => {
-          while (files.length) {
-            createStream(files.pop());
-          }
+          createStream([...files]);
+          files.length = 0;
         }, 1000);
+
         watcher.on("all", (event, fullPath) => {
-          ctx.console.log(`[${event}] ${relative(cwd, fullPath)}`);
+          ctx.console.info(`[${event}] ${relative(cwd, fullPath)}`);
           if (!existsSync(fullPath)) {
             return;
           }
@@ -123,10 +131,14 @@ export const run = async (
             compileFiles();
           }
         });
+
         process.once("SIGINT", () => {
           watcher.close();
+          ctx.console.info("End watching...");
           process.exit(0);
         });
+      } else {
+        ctx.console.info("Babel transform finished.");
       }
       resolvePromise(babelOpts);
     });

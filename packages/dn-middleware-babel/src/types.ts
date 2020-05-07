@@ -14,6 +14,7 @@ export interface IDawnContext {
   utils: {
     sleep: (ms: number) => Promise<void>;
   };
+  project: IPkg;
 }
 
 export interface IPkg {

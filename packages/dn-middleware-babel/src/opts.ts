@@ -11,7 +11,7 @@ export const getOpts = (opts: IOpts, ctx: IDawnContext): IOpts => {
 export const validateOpts = (opts: IOpts, ctx: IDawnContext): void => {
   const { cwd, runtimeHelpers, target, noEmit, watch } = opts;
   if (runtimeHelpers) {
-    const pkg = getPkgFile({ cwd });
+    const pkg = ctx.project;
     assert.ok(
       (pkg.dependencies || {})["@babel/runtime"],
       "@babel/runtime dependency is required to use runtimeHelpers.",

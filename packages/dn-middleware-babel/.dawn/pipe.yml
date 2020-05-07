@@ -6,12 +6,12 @@ dev:
     location: ./lib/index.js
 
 test:
-  - name: lint@next
+  - name: lint
 
 build:
   - name: shell
     script:
-      - npx babel src -d lib --extensions ".ts" --copy-files
+      - babel src -d lib --extensions ".ts" --copy-files
 
 publish:
   - name: call

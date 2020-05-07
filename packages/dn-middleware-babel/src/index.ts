@@ -4,8 +4,6 @@ import { run } from "./babel";
 
 export default (options: IOpts) => {
   return async (next: Function, ctx: IDawnContext) => {
-    ctx.console.log("Babel transform starting...");
-
     const opts = getOpts(options, ctx);
     if (ctx.emit) {
       ctx.emit("babel.opts", opts);
@@ -15,8 +13,6 @@ export default (options: IOpts) => {
     validateOpts(opts, ctx);
 
     const babelOpts = await run(opts, ctx);
-
-    ctx.console.log("Babel transform finished.");
 
     await next({ babelOpts });
   };
