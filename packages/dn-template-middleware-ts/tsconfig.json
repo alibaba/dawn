@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
-    "outDir": "./lib/",
     "noImplicitAny": true,
-    "module": "CommonJS",
-    "target": "es5",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "target": "ESNext",
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "typeRoots": ["./typings", "./node_modules/@types"]
   },
-  "include": ["./src/**/*"]
+  "include": ["src"],
+  "exclude": ["node_modules", "typings"]
 }

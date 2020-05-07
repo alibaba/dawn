@@ -1,7 +1,21 @@
 init:
   - name: pkginfo
 
+clean:
+  - name: clean
+    target:
+      - lib
+
 dev:
+  - name: call
+    pipe:
+      - clean
+  - name: lint@next
+    realtime: true
+  - name: babel
+    watch: true
+    extraPlugins:
+      - babel-plugin-add-module-exports
   - name: $local
     location: ./lib/index.js
 
@@ -9,9 +23,13 @@ test:
   - name: lint@next
 
 build:
-  - name: shell
-    script:
-      - npx babel src -d lib --extensions ".ts" --copy-files
+  - name: call
+    pipe:
+      - clean
+  - name: babel
+    # nodeVersion: 8
+    extraPlugins:
+      - babel-plugin-add-module-exports
 
 publish:
   - name: call

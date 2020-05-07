@@ -15,7 +15,10 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "dn-middleware-lint": "^3.0.0-alpha.6",
+    "dn-middleware-babel": "^1.0.0-beta.3",
+    "dn-middleware-call": "^1.0.3",
+    "dn-middleware-clean": "^1.0.2",
+    "dn-middleware-lint": "^3.0.0-alpha.35",
     "typescript": "^3.8.3"
   }
 }
