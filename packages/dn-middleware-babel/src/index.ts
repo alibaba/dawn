@@ -14,8 +14,10 @@ export default (options: IOpts) => {
 
     validateOpts(opts, ctx);
 
-    await run(opts, ctx);
+    const babelOpts = await run(opts, ctx);
 
-    await next();
+    ctx.console.log("Babel transform finished.");
+
+    await next({ babelOpts });
   };
 };

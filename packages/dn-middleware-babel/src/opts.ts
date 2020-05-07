@@ -9,7 +9,7 @@ export const getOpts = (opts: IOpts, ctx: IDawnContext): IOpts => {
 };
 
 export const validateOpts = (opts: IOpts, ctx: IDawnContext): void => {
-  const { cwd, runtimeHelpers, target } = opts;
+  const { cwd, runtimeHelpers, target, noEmit, watch } = opts;
   if (runtimeHelpers) {
     const pkg = getPkgFile({ cwd });
     assert.ok(
@@ -20,6 +20,11 @@ export const validateOpts = (opts: IOpts, ctx: IDawnContext): void => {
   if (target === "browser") {
     if (!existsSync(join(cwd, ".browserslistrc"))) {
       ctx.console.warn("No .browserslistrc found for browser target.");
+    }
+  }
+  if (noEmit) {
+    if (watch) {
+      ctx.console.warn("Watch mode would not start with noEmit.");
     }
   }
 };

@@ -123,3 +123,52 @@ _说明：默认开启类型检查时，TS 文件会先经过 `gulp-typescript` 
 默认值：`false`
 
 仅在 `type` 为 `"cjs"` 并且 `target` 为 `"node"` 时有效，开启 `@babel/plugin-transform-modules-commonjs` 的 `lazy` 选项，具体解释可查看[官方文档](https://babeljs.io/docs/en/babel-plugin-transform-modules-commonjs#lazy)
+
+### `noEmit`
+
+类型：`boolean`<br>
+默认值：`false`
+
+不实际执行编译，通常用于作为其他中间件获取 `babel` 配置使用，比如 `webpack` 和 `rollup` 。有以下几种使用方式：
+
+- #### 隐式依赖（推荐）
+```ts
+const { babelOpts } = await ctx.exec({ name: "babel", noEmit: true, /* any other options */ });
+ctx.console.log(babelOpts);
+```
+
+- #### 显示依赖（方式一）
+```yml
+build:
+  - name: babel
+    noEmit: true
+  - name: rollup # 必须紧跟在babel中间件之后
+```
+
+_在rollup中间件中_
+```typescript
+export default (opts) => {
+  return async (next, ctx, args) => {
+    if (args && args.babelOpts) {
+      ctx.console.log(args.babelOpts);
+    }
+    // ...
+  };
+};
+```
+
+- #### 显示依赖（方式二）
+```yml
+build:
+  - name: babel
+    noEmit: true
+  - name: some-other-middleware
+  - name: rollup # 不需要紧跟在babel中间件之后
+```
+
+_在rollup中间件中_
+```typescript
+ctx.on("babel.config", babelOpts => {
+  ctx.console.log(babelOpts);
+});
+```

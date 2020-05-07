@@ -40,6 +40,7 @@ export interface IOpts {
   nodeVersion?: string | "current" | true;
   disableTypeCheck?: boolean;
   lazy?: boolean;
+  noEmit?: boolean;
 }
 
 export interface IGetBabelConfigOpts {

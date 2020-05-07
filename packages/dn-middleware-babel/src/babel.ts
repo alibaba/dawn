@@ -11,7 +11,10 @@ import { getTSConfigCompilerOptions, isTransform } from "./utils";
 import { IDawnContext, IOpts } from "./types";
 import { getBabelConfig } from "./getBabelConfig";
 
-export const run = async (opts: IOpts, ctx: IDawnContext) => {
+export const run = async (
+  opts: IOpts,
+  ctx: IDawnContext,
+): Promise<Pick<babel.TransformOptions, "presets" | "plugins">> => {
   const {
     cwd,
     watch,
@@ -27,12 +30,38 @@ export const run = async (opts: IOpts, ctx: IDawnContext) => {
     nodeVersion,
     disableTypeCheck,
     lazy,
+    noEmit,
   } = opts;
 
   const srcPath = resolve(cwd, srcDir);
   const outputDir = output || type === "cjs" ? "lib" : "es";
   const outputPath = resolve(cwd, outputDir);
   const patterns = include.map(p => join(srcPath, p)).concat(exclude.map(p => `!${join(srcPath, p)}`));
+  const babelOpts = getBabelConfig({
+    target,
+    type,
+    typescript: true,
+    runtimeHelpers,
+    nodeVersion,
+    lazy,
+  });
+  babelOpts.presets.push(...extraPresets);
+  babelOpts.plugins.push(...extraPlugins);
+
+  if (ctx.emit) {
+    ctx.emit("babel.config", babelOpts);
+    await ctx.utils.sleep(100);
+  }
+
+  if (noEmit) {
+    return babelOpts;
+  }
+
+  const transform = (file: { contents: string; path: string }): string => {
+    ctx.console.log(`Transform to ${type} for ${relative(cwd, file.path)}`);
+
+    return babel.transform(file.contents, { ...babelOpts, filename: file.path }).code;
+  };
 
   const getTSConfig = (): Record<string, any> => {
     const tsConfigPath = join(cwd, "tsconfig.json");
@@ -42,23 +71,6 @@ export const run = async (opts: IOpts, ctx: IDawnContext) => {
       return getTSConfigCompilerOptions(tsConfigPath) || {};
     }
     return getTSConfigCompilerOptions(templateTSConfigPath) || {};
-  };
-
-  const transform = (file: { contents: string; path: string }): string => {
-    const babelOpts = getBabelConfig({
-      target,
-      type,
-      typescript: /\.tsx?$/.test(file.path),
-      runtimeHelpers,
-      nodeVersion,
-      lazy,
-    });
-    babelOpts.presets.push(...extraPresets);
-    babelOpts.plugins.push(...extraPlugins);
-
-    ctx.console.log(`Transform to ${type} for ${relative(cwd, file.path)}`);
-
-    return babel.transform(file.contents, { ...babelOpts, filename: file.path }).code;
   };
 
   const createStream = (src: string | string[]): NodeJS.ReadWriteStream => {
@@ -116,7 +128,7 @@ export const run = async (opts: IOpts, ctx: IDawnContext) => {
           process.exit(0);
         });
       }
-      resolvePromise();
+      resolvePromise(babelOpts);
     });
   });
 };
