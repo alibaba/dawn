@@ -26,21 +26,20 @@ export interface IPkg {
 }
 
 export interface IOpts {
-  cwd?: string; // 当前目录，默认为process.cwd()
-  watch?: boolean; // 是否为watch模式
-  type?: "esm" | "cjs"; // 输出模块类型
-  srcDir?: string; // 源文件目录，默认为`${cwd}/src`
-  include: string[]; // 包含的文件列表，支持glob语法，相对于src路径
-  exclude: string[]; // 排除文件列表，支持glob语法，相对于src路径
-  output?: string; // 输出目录
-  target?: "browser" | "node"; // 环境目标
-  runtimeHelpers?: boolean; // 是否添加runtimeHelpers
-  extraPresets?: any[]; // 额外的presets
-  extraPlugins?: any[]; // 额外的plugins
-  nodeVersion?: string | "current" | true; // target为node时的目标node版本
-  disableTypeCheck?: boolean; // 是否禁用类型检查
-  // less?: false | Record<string, any>; // less选项
-  lazy?: boolean; // 是否为lazy模式
+  cwd?: string;
+  watch?: boolean;
+  type?: "esm" | "cjs";
+  srcDir?: string;
+  include: string[];
+  exclude: string[];
+  output?: string;
+  target?: "browser" | "node";
+  runtimeHelpers?: boolean;
+  extraPresets?: any[];
+  extraPlugins?: any[];
+  nodeVersion?: string | "current" | true;
+  disableTypeCheck?: boolean;
+  lazy?: boolean;
 }
 
 export interface IGetBabelConfigOpts {
