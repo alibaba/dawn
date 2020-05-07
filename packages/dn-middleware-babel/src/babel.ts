@@ -113,6 +113,7 @@ export const run = async (opts: IOpts, ctx: IDawnContext) => {
         });
         process.once("SIGINT", () => {
           watcher.close();
+          process.exit(0);
         });
       }
       resolvePromise();
