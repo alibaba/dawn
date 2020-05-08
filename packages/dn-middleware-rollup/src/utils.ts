@@ -1,7 +1,7 @@
-import { existsSync, readFileSync } from "fs";
+import { existsSync } from "fs";
 import { basename, dirname, extname, join } from "path";
-import { ModuleFormat } from "rollup";
-import { IBundleOptions, IPkg } from "./types";
+import { PackageJson } from "@dawnjs/types";
+import { IBundleOptions } from "./types";
 
 export const getExistFile = ({
   cwd,
@@ -20,15 +20,8 @@ export const getExistFile = ({
   }
 };
 
-export const getPkgFile = ({ cwd }: { cwd: string }): IPkg => {
-  let pkg = {} as IPkg;
-  try {
-    pkg = JSON.parse(readFileSync(join(cwd, "package.json"), "utf-8"));
-  } catch (e) {
-    // do nothing
-  }
-
-  return pkg;
+export const isTypescriptFile = (filePath: string): boolean => {
+  return filePath.endsWith(".ts") || filePath.endsWith(".tsx");
 };
 
 export const getFileName = (filePath: string): string => {
@@ -41,8 +34,8 @@ export const getFileName = (filePath: string): string => {
 // filename priority：specific module type file option > top level file option > pkg field value > basename of entry file
 export const getOutputFile = (opts: {
   entry: string;
-  type: ModuleFormat;
-  pkg: IPkg;
+  type: "cjs" | "esm" | "umd";
+  pkg: PackageJson;
   bundleOpts: IBundleOptions;
   minFile?: boolean;
   mjs?: boolean;
@@ -60,11 +53,12 @@ export const getOutputFile = (opts: {
       if (file) {
         return `${outDir}/${file}${mjs ? ".mjs" : ".esm.js"}`;
       }
-      if (pkg.module) {
-        return pkg.module;
-      }
-      if (pkg["jsnext:main"]) {
-        return pkg["jsnext:main"];
+      if (pkg.module || pkg["jsnext:main"]) {
+        if (mjs) {
+          return `${getFileName(pkg.module || pkg["jsnext:main"])}.mjs`;
+        } else {
+          return pkg.module || pkg["jsnext:main"];
+        }
       }
       return `${outDir}/${name}${mjs ? ".mjs" : ".esm.js"}`;
     case "cjs":

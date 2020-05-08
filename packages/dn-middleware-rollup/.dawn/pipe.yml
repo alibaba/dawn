@@ -6,14 +6,14 @@ dev:
     location: ./lib/index.js
 
 test:
-  - name: lint@next
+  - name: lint
 
 build:
   - name: clean
     target:
       - lib
   - name: babel
-    nodeVersion: 10
+    nodeVersion: "10"
     extraPlugins:
       - babel-plugin-add-module-exports
 

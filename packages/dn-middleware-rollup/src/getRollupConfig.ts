@@ -1,5 +1,5 @@
 import { dirname, extname, join, resolve } from "path";
-import { existsSync, readFileSync } from "fs";
+import { existsSync, readFileSync, statSync } from "fs";
 import { RollupOptions } from "rollup";
 import url from "@rollup/plugin-url";
 import svgr from "@svgr/rollup";
@@ -10,66 +10,77 @@ import inject from "@rollup/plugin-inject";
 import replace from "@rollup/plugin-replace";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import typescript2 from "rollup-plugin-typescript2";
-import babel from "@rollup/plugin-babel";
+import babel, { IBabelPluginOptions } from "@rollup/plugin-babel";
 import json from "@rollup/plugin-json";
 import yaml from "@rollup/plugin-yaml";
 import wasm from "@rollup/plugin-wasm";
 import commonjs from "@rollup/plugin-commonjs";
 import { terser } from "rollup-plugin-terser";
-import html, { makeHtmlAttributes } from "@rollup/plugin-html";
-import progress from "rollup-plugin-progress";
+import html, { IHtmlPluginTemplateFunctionArgument, makeHtmlAttributes } from "@rollup/plugin-html";
 import visualizer from "rollup-plugin-visualizer";
 import { merge } from "lodash";
-import { getBabelConfig } from "./getBabelConfig";
-import { getOutputFile, getPkgFile, testExternal } from "./utils";
-import { IDawnContext, IGetRollupConfigOpts, IUmd } from "./types";
+import { Context } from "@dawnjs/types";
+import { getOutputFile, testExternal } from "./utils";
+import { IGetRollupConfigOpts, IOpts, IUmd } from "./types";
 
 // eslint-disable-next-line max-lines-per-function
-export const getRollupConfig = (opts: IGetRollupConfigOpts, ctx: IDawnContext): RollupOptions[] => {
+export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: Context<IOpts>): Promise<RollupOptions[]> => {
   const { cwd, entry, type, bundleOpts, analysis } = opts;
   const {
     umd,
     esm,
     cjs,
-    extractCSS = false,
+    extractCSS = true,
     injectCSS = true,
-    cssModules: modules,
+    cssModules: modules = false,
     less: lessOpts = {},
     sass: sassOpts = {},
     autoprefixer: autoprefixerOpts,
-    include = /node_modules/,
-    namedExports,
+    commonjs: commonjsOpts = {},
     alias: aliasEntries,
     inject: injectOpts,
     replace: replaceOpts,
     nodeResolve: nodeResolveOpts = {},
-    disableTypeCheck,
-    typescript: typescriptOpts,
+    disableTypeCheck = false,
+    typescript: typescriptOpts = {},
     target = "browser",
     runtimeHelpers,
     nodeVersion,
-    extraBabelPresets = [],
-    extraBabelPlugins = [],
+    extraBabelPresets,
+    extraBabelPlugins,
     extraExternals = [],
     externalsExclude = [],
     terser: terserOpts = {},
-    wasm: wasmOpts,
+    html: htmlOpts = {},
+    json: jsonOpts = {},
+    yaml: yamlOpts = {},
+    wasm: wasmOpts = false,
   } = bundleOpts;
 
   const entryExt = extname(entry);
   const isTypeScript = entryExt === ".ts" || entryExt === ".tsx";
   const extensions = [".js", ".jsx", ".ts", ".tsx", ".es6", ".es", ".mjs"];
 
-  const pkg = getPkgFile({ cwd });
+  const pkg = ctx.project;
 
-  const babelOpts = {
-    ...getBabelConfig({ target, type, typescript: isTypeScript, runtimeHelpers, nodeVersion }),
+  const { babelOpts } = await ctx.exec({
+    name: "babel",
+    noEmit: true,
+    cwd,
+    target,
+    type,
+    runtimeHelpers,
+    nodeVersion,
+    extraPresets: extraBabelPresets,
+    extraPlugins: extraBabelPlugins,
+  });
+  const babelPluginOptions: IBabelPluginOptions = {
+    ...babelOpts,
     babelrc: false,
     exclude: "node_modules/**",
     extensions,
+    babelHelpers: "bundled",
   };
-  babelOpts.presets.push(...extraBabelPresets);
-  babelOpts.plugins.push(...extraBabelPlugins);
 
   const input = join(cwd, entry);
   const format = type;
@@ -96,17 +107,7 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts, ctx: IDawnContext): 
     terserOpts,
   );
 
-  const template = async ({
-    attributes,
-    files,
-    publicPath,
-    title,
-  }: {
-    attributes: { html: Record<string, any>; script: Record<string, any>; link: Record<string, any> };
-    files: { js: Array<{ fileName: string }>; css: Array<{ fileName: string }> };
-    publicPath: string;
-    title: string;
-  }) => {
+  const template = async ({ attributes, files, meta, publicPath, title }: IHtmlPluginTemplateFunctionArgument) => {
     const htmlAttr = makeHtmlAttributes(attributes.html);
     const scripts = (files.js || [])
       .map(({ fileName }) => {
@@ -122,8 +123,16 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts, ctx: IDawnContext): 
       })
       .join("\n");
 
+    const metas = (meta || [])
+      .map(item => {
+        const attrs = makeHtmlAttributes(item);
+        return `<meta${attrs}>`;
+      })
+      .join("\n");
+
     const data = {
       htmlAttr,
+      metas,
       title,
       scripts,
       links,
@@ -132,17 +141,21 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts, ctx: IDawnContext): 
 <!doctype html>
 <html\${htmlAttr}>
   <head>
-    <meta charset="utf-8">
+    \${metas}
     <title>\${title}</title>
     \${links}
   </head>
   <body>
+    <div id="root"></div>
+    <script>
+      var mountNode = document.getElementById('root');
+    </script>
     \${scripts}
   </body>
 </html>
 `;
     const templateFile = resolve(cwd, (umd as IUmd).template);
-    if (existsSync(templateFile)) {
+    if (existsSync(templateFile) && statSync(templateFile).isFile()) {
       const strTmpl = readFileSync(templateFile, "utf-8");
       return ctx.utils.stp(strTmpl, data);
     }
@@ -163,13 +176,15 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts, ctx: IDawnContext): 
           ["sass", { ...sassOpts }],
         ],
         plugins: [autoprefixer(autoprefixerOpts)],
+        config: {
+          ctx: opts,
+        },
       }),
       ...(aliasEntries && ((Array.isArray(aliasEntries) && aliasEntries.length) || Object.keys(aliasEntries).length)
         ? [alias({ entries: aliasEntries })]
         : []),
       ...(injectOpts && Object.keys(injectOpts).length ? [inject(injectOpts)] : []),
       ...(replaceOpts && Object.keys(replaceOpts).length ? [replace(replaceOpts)] : []),
-      ...(isTypeScript ? [] : []),
       nodeResolve({
         mainFields: ["module", "jsnext:main", "main"],
         extensions,
@@ -197,23 +212,17 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts, ctx: IDawnContext): 
                 },
               },
               check: !disableTypeCheck,
-              ...(typescriptOpts || {}),
+              ...typescriptOpts,
             }),
           ]
         : []),
-      babel(babelOpts),
-      json(),
-      yaml(),
+      babel(babelPluginOptions),
+      json(jsonOpts),
+      yaml(yamlOpts),
       ...(wasmOpts ? [wasm({ ...(typeof wasmOpts === "object" ? wasmOpts : {}) })] : []),
-      progress(),
     ];
   };
-  const extraUmdPlugins = [
-    commonjs({
-      include,
-      namedExports,
-    }),
-  ];
+  const extraUmdPlugins = [commonjs(commonjsOpts)];
 
   switch (type) {
     case "esm":
@@ -225,7 +234,7 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts, ctx: IDawnContext): 
             file: getOutputFile({ entry, type: "esm", pkg, bundleOpts }),
           },
           plugins: [
-            ...getPlugins(),
+            ...getPlugins({ minCSS: (esm && esm.minify) || false }),
             ...(esm && esm.minify ? [terser(terserOptions)] : []),
             ...(analysis
               ? [
@@ -249,7 +258,7 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts, ctx: IDawnContext): 
                   file: getOutputFile({ entry, type: "esm", pkg, bundleOpts, mjs: true }),
                 },
                 plugins: [
-                  ...getPlugins(),
+                  ...getPlugins({ minCSS: true }),
                   replace({
                     "process.env.NODE_ENV": JSON.stringify("production"),
                   }),
@@ -282,7 +291,7 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts, ctx: IDawnContext): 
             file: getOutputFile({ entry, type: "cjs", pkg, bundleOpts }),
           },
           plugins: [
-            ...getPlugins(),
+            ...getPlugins({ minCSS: (cjs && cjs.minify) || false }),
             ...(cjs && cjs.minify ? [terser(terserOptions)] : []),
             ...(analysis
               ? [
@@ -304,7 +313,7 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts, ctx: IDawnContext): 
           input,
           output: {
             format,
-            sourcemap: umd && umd.sourcemap,
+            sourcemap: (umd && umd.sourcemap) || false,
             file: getOutputFile({ entry, type: "umd", pkg, bundleOpts }),
             globals: umd && umd.globals,
             name: umd && umd.name,
@@ -315,7 +324,7 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts, ctx: IDawnContext): 
             replace({
               "process.env.NODE_ENV": JSON.stringify("development"),
             }),
-            html({ ...(umd && umd.template ? { template } : {}) }),
+            ...(target === "browser" ? [html({ title: "Dawn", ...htmlOpts, template })] : []),
             ...(analysis
               ? [
                   visualizer({
@@ -335,7 +344,7 @@ export const getRollupConfig = (opts: IGetRollupConfigOpts, ctx: IDawnContext): 
                 input,
                 output: {
                   format,
-                  sourcemap: umd && umd.sourcemap,
+                  sourcemap: (umd && umd.sourcemap) || false,
                   file: getOutputFile({ entry, type: "umd", pkg, bundleOpts, minFile: true }),
                   globals: umd && umd.globals,
                   name: umd && umd.name,

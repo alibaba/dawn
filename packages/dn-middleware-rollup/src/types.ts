@@ -1,37 +1,15 @@
-import { ModuleFormat } from "rollup";
-import { Options as IAutoprefixerOptions } from "autoprefixer";
+import { Options as AutoprefixerOptions } from "autoprefixer";
+import { RPT2Options as RollupTypescript2Options } from "rollup-plugin-typescript2";
+import { Options as RollupNodeResolveOptions } from "@rollup/plugin-node-resolve";
 import { Alias } from "@rollup/plugin-alias";
-import { Options as TerserOptions } from "rollup-plugin-terser";
-
-type LogFN = (message?: any, ...optionalParams: any[]) => void;
-
-export interface IDawnConsole {
-  log: LogFN;
-  info: LogFN;
-  error: LogFN;
-  debug: LogFN;
-  warn: LogFN;
-}
-
-export interface IDawnContext {
-  cwd: string;
-  console: IDawnConsole;
-  emit?: (eventName: string, ...eventParams: any[]) => void;
-  utils: {
-    sleep: (ms: number) => Promise<void>;
-    stp: (strTmpl: string, data: Record<string, any>) => string;
-  };
-}
-
-export interface IPkg {
-  name?: string;
-  main?: string;
-  "jsnext:main"?: string;
-  module?: string;
-  browser?: string;
-  dependencies?: Record<string, any>;
-  peerDependencies?: Record<string, any>;
-}
+import { RollupInjectOptions } from "@rollup/plugin-inject";
+import { RollupReplaceOptions } from "@rollup/plugin-replace";
+import { Options as RollupTerserOptions } from "rollup-plugin-terser";
+import { RollupCommonJSOptions } from "@rollup/plugin-commonjs";
+import { IHtmlPluginOptions } from "@rollup/plugin-html";
+import { RollupJsonOptions } from "@rollup/plugin-json";
+import { IYamlPluginOptions } from "@rollup/plugin-yaml";
+import { IWasmPluginOptions } from "@rollup/plugin-wasm";
 
 export interface IBundleOutput {
   file?: string;
@@ -50,7 +28,7 @@ export interface IUmd extends IBundleOutput {
   globals?: Record<string, string>;
   name?: string;
   minFile?: boolean;
-  sourcemap?: boolean;
+  sourcemap?: boolean | "inline" | "hidden";
   template?: string;
 }
 
@@ -62,34 +40,35 @@ export interface IBundleOptions {
   esm?: IEsm | false;
   cjs?: ICjs | false;
   umd?: IUmd | false;
-  extractCSS?: boolean;
-  injectCSS?: boolean;
+  extractCSS?: boolean | string;
+  injectCSS?: boolean | Record<string, any>;
   cssModules?: boolean | Record<string, any>;
   less?: Record<string, any>;
   sass?: Record<string, any>;
-  autoprefixer?: IAutoprefixerOptions;
+  autoprefixer?: AutoprefixerOptions;
   runtimeHelpers?: boolean;
+  nodeVersion?: string | "current" | true;
   extraBabelPresets?: any[];
   extraBabelPlugins?: any[];
   disableTypeCheck?: boolean;
-  typescript?: Record<string, any>;
-  nodeResolve?: Record<string, any>;
+  typescript?: RollupTypescript2Options;
+  nodeResolve?: RollupNodeResolveOptions;
   extraExternals?: string[];
   externalsExclude?: string[];
   alias?: Record<string, string> | Alias[];
-  inject?: Record<string, any>;
-  replace?: Record<string, any>;
-  include?: string | RegExp;
-  namedExports?: Record<string, string[]>;
-  terser?: TerserOptions;
-  nodeVersion?: number;
-  wasm?: boolean | Record<string, any>;
+  inject?: RollupInjectOptions;
+  replace?: RollupReplaceOptions;
+  commonjs?: RollupCommonJSOptions;
+  terser?: RollupTerserOptions;
+  html?: Omit<IHtmlPluginOptions, "template">;
+  json?: RollupJsonOptions;
+  yaml?: IYamlPluginOptions;
+  wasm?: boolean | IWasmPluginOptions;
 }
 
-export interface IOpts {
+export interface IOpts extends IBundleOptions {
   cwd?: string;
   watch?: boolean;
-  bundleOpts?: IBundleOptions;
   fullCustom?: boolean;
   configFile?: string;
   analysis?: boolean;
@@ -98,7 +77,7 @@ export interface IOpts {
 export interface IRollupOpts {
   cwd: string;
   entry: string | string[];
-  type: ModuleFormat;
+  type: "cjs" | "esm" | "umd";
   bundleOpts: IBundleOptions;
   watch?: boolean;
   configFile?: string;
@@ -108,14 +87,14 @@ export interface IRollupOpts {
 export interface IGetRollupConfigOpts {
   cwd: string;
   entry: string;
-  type: ModuleFormat;
+  type: "cjs" | "esm" | "umd";
   bundleOpts: IBundleOptions;
   analysis?: boolean;
 }
 
 export interface IGetBabelConfigOpts {
   target: "browser" | "node";
-  type?: ModuleFormat;
+  type?: "cjs" | "esm" | "umd";
   typescript?: boolean;
   runtimeHelpers?: boolean;
   nodeVersion?: number;

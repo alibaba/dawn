@@ -1,79 +1,79 @@
-import { getBundleOpts, validateBundleOpts } from "./getBundleOpts";
+import { Handler } from "@dawnjs/types";
+import { getOpts, validateOpts } from "./opts";
 import { run } from "./rollup";
-import { IDawnContext, IOpts } from "./types";
+import { IOpts } from "./types";
 
-export default (userOpts: IOpts) => {
-  return async (next: Function, ctx: IDawnContext) => {
-    const opts = {
-      ...userOpts,
-      cwd: userOpts.cwd || ctx.cwd,
-    };
-    ctx.console.info("Rollup starting...");
+const handler: Handler<IOpts> = options => {
+  return async (next, ctx) => {
+    const opts = getOpts(options, ctx);
 
     if (ctx.emit) {
       ctx.emit("rollup.opts", opts);
+      await ctx.utils.sleep(100); // Waiting for synchronously modification for opts
     }
 
-    await ctx.utils.sleep(100);
+    validateOpts(opts, ctx);
 
-    const bundleOpts = opts.fullCustom ? opts.bundleOpts : getBundleOpts(opts);
+    await ctx.exec({ name: "babel", noEmit: true }); // Just for trigger install babel middleware synchronously
 
-    if (ctx.emit) {
-      ctx.emit("rollup.bundleOpts", bundleOpts, opts);
-    }
+    ctx.console.info("Rollup starting...");
 
-    await ctx.utils.sleep(100);
+    const { cwd, watch, configFile, analysis, fullCustom, ...bundleOpts } = opts;
 
-    validateBundleOpts(bundleOpts, opts, ctx);
-
+    // Bundle different type parallelly
+    const tasks = [];
     if (bundleOpts.umd) {
-      ctx.console.info("Building umd...");
-      await run(
-        {
-          cwd: opts.cwd,
-          type: "umd",
-          entry: bundleOpts.entry,
-          watch: opts.watch,
-          bundleOpts,
-          configFile: opts.configFile,
-          analysis: opts.analysis,
-        },
-        ctx,
+      tasks.push(
+        run(
+          {
+            cwd,
+            type: "umd",
+            entry: bundleOpts.entry,
+            watch,
+            bundleOpts,
+            configFile,
+            analysis,
+          },
+          ctx,
+        ),
       );
     }
-
     if (bundleOpts.cjs) {
-      ctx.console.info("Building cjs...");
-      await run(
-        {
-          cwd: opts.cwd,
-          type: "cjs",
-          entry: bundleOpts.entry,
-          watch: opts.watch,
-          bundleOpts,
-          configFile: opts.configFile,
-          analysis: opts.analysis,
-        },
-        ctx,
+      tasks.push(
+        run(
+          {
+            cwd,
+            type: "cjs",
+            entry: bundleOpts.entry,
+            watch,
+            bundleOpts,
+            configFile,
+            analysis,
+          },
+          ctx,
+        ),
       );
     }
-
     if (bundleOpts.esm) {
-      ctx.console.info("Building esm...");
-      await run(
-        {
-          cwd: opts.cwd,
-          type: "esm",
-          entry: bundleOpts.entry,
-          watch: opts.watch,
-          bundleOpts,
-          configFile: opts.configFile,
-          analysis: opts.analysis,
-        },
-        ctx,
+      tasks.push(
+        run(
+          {
+            cwd,
+            type: "esm",
+            entry: bundleOpts.entry,
+            watch,
+            bundleOpts,
+            configFile,
+            analysis,
+          },
+          ctx,
+        ),
       );
     }
+    await Promise.all(tasks);
 
     await next();
   };
 };
+
+export default handler;

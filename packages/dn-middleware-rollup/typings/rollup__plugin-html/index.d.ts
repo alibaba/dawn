@@ -12,14 +12,17 @@ declare module "@rollup/plugin-html" {
       js: Array<{ fileName: string }>;
       css: Array<{ fileName: string }>;
     };
+    meta: Array<Record<string, any>>;
     publicPath: string;
     title: string;
   }
   export interface IHtmlPluginOptions {
     attributes?: IHtmlPluginAttributes;
     fileName?: string;
+    meta?: Array<Record<string, any>>;
     publicPath?: string;
     template?: (opts: IHtmlPluginTemplateFunctionArgument) => string | Promise<string>;
+    title?: string;
   }
 
   export function makeHtmlAttributes(attributes: Record<string, any>): string;

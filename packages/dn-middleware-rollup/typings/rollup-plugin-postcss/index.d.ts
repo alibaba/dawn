@@ -19,8 +19,8 @@ declare module "rollup-plugin-postcss" {
     config?:
       | boolean
       | {
-          path: string;
-          ctx: any;
+          path?: string;
+          ctx?: Record<string, any>;
         };
     name?: any[] | any[][];
     loaders?: any[];

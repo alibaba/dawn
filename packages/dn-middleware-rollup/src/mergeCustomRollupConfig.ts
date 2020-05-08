@@ -2,12 +2,13 @@ import { resolve } from "path";
 import { existsSync } from "fs";
 import { RollupOptions } from "rollup";
 import { isFunction, isNil } from "lodash";
-import { IDawnContext, IRollupOpts } from "./types";
+import { Context } from "@dawnjs/types";
+import { IOpts, IRollupOpts } from "./types";
 
 export const mergeCustomRollupConfig = async (
   rollupConfig: RollupOptions,
   opts: Omit<IRollupOpts, "entry"> & { entry: string },
-  ctx: IDawnContext,
+  ctx: Context<IOpts>,
 ): Promise<RollupOptions> => {
   let config = rollupConfig;
   const { cwd, configFile = "./rollup.config.js" } = opts;
@@ -16,7 +17,7 @@ export const mergeCustomRollupConfig = async (
     let customConfigGenerate = await import(customConfigFile);
     customConfigGenerate = customConfigGenerate.default || customConfigGenerate;
     if (isFunction(customConfigGenerate)) {
-      config = await customConfigGenerate(config, opts, ctx);
+      config = (await customConfigGenerate(config, opts, ctx)) || config;
       ctx.console.info("Custom rollup config merged.");
     } else if (!isNil(customConfigGenerate)) {
       config = customConfigGenerate;

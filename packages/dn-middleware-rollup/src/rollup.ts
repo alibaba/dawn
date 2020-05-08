@@ -1,22 +1,15 @@
 import { OutputOptions, rollup, RollupOptions, watch } from "rollup";
+import { Context } from "@dawnjs/types";
 import { getRollupConfig } from "./getRollupConfig";
-import { IDawnContext, IRollupOpts } from "./types";
+import { IOpts, IRollupOpts } from "./types";
 import { mergeCustomRollupConfig } from "./mergeCustomRollupConfig";
 
-export const start = async (entry: string, opts: IRollupOpts, rollupConfig: RollupOptions, ctx: IDawnContext) => {
+export const start = async (entry: string, opts: IRollupOpts, rollupConfig: RollupOptions, ctx: Context<IOpts>) => {
   const config = await mergeCustomRollupConfig(rollupConfig, { ...opts, entry }, ctx);
   if (ctx.emit) {
     ctx.emit("rollup.config", config, { ...opts, entry });
+    await ctx.utils.sleep(100); // Waiting for synchronously modification for config
   }
-  await ctx.utils.sleep(100); // waiting for config mutation by other middlewares
-
-  ctx.console.info("Start bundle...");
-
-  const { output, ...input } = config;
-  const bundle = await rollup(input);
-  await bundle.write(output as OutputOptions);
-
-  ctx.console.info("End bundle...");
 
   if (opts.watch) {
     ctx.console.info("Start watching...");
@@ -30,7 +23,7 @@ export const start = async (entry: string, opts: IRollupOpts, rollupConfig: Roll
       if (event.code === "ERROR" && event.error) {
         ctx.console.error(event.error);
       } else if (event.code === "START") {
-        ctx.console.log(`[${opts.type}] Rebuild since file changed`);
+        ctx.console.log(`[${opts.type}] Rebuild since file changed.`);
       }
     });
     process.once("SIGINT", () => {
@@ -38,12 +31,20 @@ export const start = async (entry: string, opts: IRollupOpts, rollupConfig: Roll
       ctx.console.info("End watching...");
       process.exit(0);
     });
+  } else {
+    ctx.console.info(`Bundle to ${opts.type} for ${entry}...`);
+
+    const { output, ...input } = config;
+    const bundle = await rollup(input);
+    await bundle.write(output as OutputOptions);
+
+    ctx.console.info(`Bundle to ${opts.type} for ${entry} finished.`);
   }
 };
 
-export const build = async (entry: string, opts: IRollupOpts, ctx: IDawnContext) => {
+export const build = async (entry: string, opts: IRollupOpts, ctx: Context<IOpts>) => {
   const { cwd, type, bundleOpts } = opts;
-  const rollupConfigs = getRollupConfig(
+  const rollupConfigs = await getRollupConfig(
     {
       cwd,
       entry,
@@ -57,7 +58,7 @@ export const build = async (entry: string, opts: IRollupOpts, ctx: IDawnContext)
   await Promise.all(rollupConfigs.map(rollupConfig => start(entry, opts, rollupConfig, ctx)));
 };
 
-export const run = async (opts: IRollupOpts, ctx: IDawnContext) => {
+export const run = async (opts: IRollupOpts, ctx: Context<IOpts>) => {
   if (Array.isArray(opts.entry)) {
     const { entry: entries } = opts;
     await Promise.all(entries.map(entry => build(entry, opts, ctx)));

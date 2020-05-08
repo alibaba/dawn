@@ -1,13 +1,9 @@
 {
   "compilerOptions": {
-    "outDir": "./lib/",
-    "sourceMap": true,
     "noImplicitAny": true,
     "module": "ESNext",
     "moduleResolution": "Node",
     "target": "ESNext",
-    "jsx": "react",
-    "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "typeRoots": ["./typings", "./node_modules/@types"]
