@@ -1,6 +1,6 @@
 {
   "name": "@dawnjs/types",
-  "version": "1.8.0",
+  "version": "1.8.5-alpha.5",
   "description": "",
   "main": "./src/index.ts",
   "publishConfig": {
@@ -17,10 +17,12 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
+    "@npm/types": "^1.0.1",
     "@types/inquirer": "^6.5.0",
     "@types/js-yaml": "^3.12.3",
     "@types/node-fetch": "^2.5.7",
     "del": "^5.1.0",
-    "globby": "^11.0.0"
+    "globby": "^11.0.0",
+    "ntils": "^5.1.2"
   }
 }

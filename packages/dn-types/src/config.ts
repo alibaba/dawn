@@ -1,4 +1,4 @@
-import type { Pipeline } from "./pipeline";
+import { Pipeline } from "./pipeline";
 
 export interface Configs {
   [property: string]: any;

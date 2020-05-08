@@ -1,4 +1,4 @@
-import type * as Dawn from "./index";
+import * as Dawn from "./index";
 
 const handler: Dawn.Handler<{ foo?: string }> = options => {
   return async (next, ctx) => {
@@ -13,6 +13,10 @@ const handler: Dawn.Handler<{ foo?: string }> = options => {
     ctx.utils.confman.load("");
 
     ctx.utils.globby([]);
+
+    ctx.console.log(ctx.project);
+
+    ctx.utils.isFunction({});
 
     return next();
   };

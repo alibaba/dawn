@@ -1,31 +1,38 @@
-import type { Inquirer } from "inquirer";
-import type * as Events from "events";
-import type { Pipeline } from "./pipeline";
-import type { Configs } from "./config";
-import type { MiddlewareUtils } from "./middleware";
-import type { ModuleUtils } from "./module";
-import type Utils from "./utils";
+import * as npm from "@npm/types";
+import { Inquirer } from "inquirer";
+import * as Events from "events";
+import { Pipeline } from "./pipeline";
+import { Configs } from "./config";
+import { MiddlewareUtils } from "./middleware";
+import { ModuleUtils } from "./module";
+import Utils from "./utils";
+
+export type PackageJson = npm.PackageJson;
 
 // TODO
 export interface CommandLineCli {
   [key: string]: any;
 }
-export type ContextOptions<Opt, Res> = Partial<Pick<Context<Opt, Res>, "template" | "pipeline" | "command" | "env">>;
+
+export type ContextOptions<Opt, NextArgs> = Partial<
+  Pick<Context<Opt, NextArgs>, "template" | "pipeline" | "command" | "env">
+>;
 
 export type DefaultMiddlewareOpts = any;
 
-export type Handler<MiddlewareOpts = DefaultMiddlewareOpts, MiddlewareRes = any> = (
+export type Handler<MiddlewareOpts = DefaultMiddlewareOpts, MiddlewareNextArgs = undefined> = (
   options: MiddlewareOpts,
-  ctx: Context<MiddlewareOpts, MiddlewareRes>,
-) => HandlerHOF<MiddlewareOpts, MiddlewareRes>;
+  ctx: Context<MiddlewareOpts, MiddlewareNextArgs>,
+) => HandlerHOF<MiddlewareOpts, MiddlewareNextArgs>;
 
-export type HandlerHOF<MiddlewareOpts = DefaultMiddlewareOpts, MiddlewareRes = any> = (
-  next: Function,
-  ctx: Context<MiddlewareOpts>,
+export type HandlerHOF<MiddlewareOpts = DefaultMiddlewareOpts, MiddlewareNextArgs = undefined> = (
+  next: (nextArgs?: MiddlewareNextArgs) => Promise<void>,
+  ctx: Context<MiddlewareOpts, MiddlewareNextArgs>,
   args?: any,
-) => Promise<MiddlewareRes | void>;
+) => Promise<void>;
 
-export interface Context<MiddlewareOpts = DefaultMiddlewareOpts, MiddlewareRes = any> extends Events.EventEmitter {
+export interface Context<MiddlewareOpts = DefaultMiddlewareOpts, MiddlewareNextArgs = undefined>
+  extends Events.EventEmitter {
   [manualProps: string]: any;
   /**
    * Cmdline cli instance
@@ -87,9 +94,9 @@ export interface Context<MiddlewareOpts = DefaultMiddlewareOpts, MiddlewareRes =
   /**
    * Current workspace `package.json` content, which based on `cwd`.
    */
-  project: { name?: string };
+  project: PackageJson;
   // eslint-disable-next-line @typescript-eslint/no-misused-new
-  new (cli: CommandLineCli, options?: ContextOptions<MiddlewareOpts, MiddlewareRes>): Context;
+  new (cli: CommandLineCli, options?: ContextOptions<MiddlewareOpts, MiddlewareNextArgs>): Context;
   /**
    * check if config exists
    */
@@ -106,16 +113,16 @@ export interface Context<MiddlewareOpts = DefaultMiddlewareOpts, MiddlewareRes =
   /**
    * load
    */
-  load(options: MiddlewareOpts): HandlerHOF<MiddlewareOpts, MiddlewareRes>;
+  load(options: MiddlewareOpts): HandlerHOF<MiddlewareOpts, MiddlewareNextArgs>;
   /**
    * exec
    */
   exec(
-    middlewares: Handler<MiddlewareOpts, MiddlewareRes> | Array<Handler<MiddlewareOpts, MiddlewareRes>>,
+    middlewares: Handler<MiddlewareOpts, MiddlewareNextArgs> | Array<Handler<MiddlewareOpts, MiddlewareNextArgs>>,
     initailArgs?: Partial<MiddlewareOpts>,
-  ): Promise<MiddlewareRes>;
+  ): Promise<MiddlewareNextArgs>;
   /**
    * run
    */
-  run(): Promise<MiddlewareRes>;
+  run(): Promise<MiddlewareNextArgs>;
 }
