@@ -117,12 +117,9 @@ export interface Context<MiddlewareOpts = DefaultMiddlewareOpts, MiddlewareNextA
   /**
    * exec
    */
-  exec(
-    middlewares: Handler<MiddlewareOpts, MiddlewareNextArgs> | Array<Handler<MiddlewareOpts, MiddlewareNextArgs>>,
-    initailArgs?: Partial<MiddlewareOpts>,
-  ): Promise<MiddlewareNextArgs>;
+  exec(middlewares: any, initailArgs?: any): Promise<any>;
   /**
    * run
    */
-  run(): Promise<MiddlewareNextArgs>;
+  run(): Promise<any>;
 }

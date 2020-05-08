@@ -6,7 +6,6 @@
 $ npm install --save-dev @dawnjs/types
 ```
 
-
 ## 使用方式
 
 ```typescript
@@ -29,5 +28,4 @@ const handler: Dawn.Handler<IOptions> = opts => {
 };
 
 export default handler;
-
 ```
