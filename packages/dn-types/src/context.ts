@@ -1,13 +1,11 @@
-import * as npm from "@npm/types";
-import { Inquirer } from "inquirer";
+import * as Inquirer from "inquirer";
 import * as Events from "events";
 import { Pipeline } from "./pipeline";
+import { PackageJson } from "./package";
 import { Configs } from "./config";
 import { MiddlewareUtils } from "./middleware";
 import { ModuleUtils } from "./module";
 import Utils from "./utils";
-
-export type PackageJson = npm.PackageJson;
 
 // TODO
 export interface CommandLineCli {
@@ -71,7 +69,7 @@ export interface Context<MiddlewareOpts = DefaultMiddlewareOpts, MiddlewareNextA
   /**
    * inquirer
    */
-  inquirer: Inquirer;
+  inquirer: Inquirer.Inquirer;
   console: typeof console;
   /**
    * @default `./.dawn`
