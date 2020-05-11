@@ -53,11 +53,11 @@ export const getOutputFile = (opts: {
       if (file) {
         return `${outDir}/${file}${mjs ? ".mjs" : ".esm.js"}`;
       }
-      if (pkg.module || pkg["jsnext:main"]) {
+      if (pkg.module) {
         if (mjs) {
-          return `${getFileName(pkg.module || pkg["jsnext:main"])}.mjs`;
+          return `${getFileName(pkg.module)}.mjs`;
         } else {
-          return pkg.module || pkg["jsnext:main"];
+          return pkg.module;
         }
       }
       return `${outDir}/${name}${mjs ? ".mjs" : ".esm.js"}`;

@@ -38,7 +38,15 @@ export const getOpts = (opts: IOpts, ctx: Context<IOpts>): IOpts => {
     },
   };
 
-  return merge({ cwd: ctx.cwd, entry }, defaultOpts, opts);
+  const watchDefaultOpts: IOpts = {
+    esm: false,
+    cjs: false,
+    umd: {
+      minFile: false,
+    },
+  };
+
+  return merge({ cwd: ctx.cwd, entry }, defaultOpts, opts.watch ? watchDefaultOpts : {}, opts);
 };
 
 export const validateOpts = (opts: IOpts, ctx: Context<IOpts>): void => {

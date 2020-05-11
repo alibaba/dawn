@@ -21,7 +21,11 @@ export const start = async (entry: string, opts: IRollupOpts, rollupConfig: Roll
     ]);
     watcher.on("event", event => {
       if (event.code === "ERROR" && event.error) {
-        ctx.console.error(event.error);
+        if (process.env.DN_DEBUG) {
+          ctx.console.error(event.error);
+        } else {
+          ctx.console.error(event.error.message);
+        }
       } else if (event.code === "START") {
         ctx.console.log(`[${opts.type}] Rebuild since file changed.`);
       }

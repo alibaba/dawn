@@ -187,7 +187,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: Context<I
       ...(injectOpts && Object.keys(injectOpts).length ? [inject(injectOpts)] : []),
       ...(replaceOpts && Object.keys(replaceOpts).length ? [replace(replaceOpts)] : []),
       nodeResolve({
-        mainFields: ["module", "jsnext:main", "main"],
+        mainFields: ["module", "main"],
         extensions,
         ...nodeResolveOpts,
       }),

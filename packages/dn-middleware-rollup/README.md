@@ -431,7 +431,7 @@ _说明：如果是已加入到 `peerDependencies` 或 `dependencies` 中的依�
 
 1. 如果配置了 `esm.file` ：`` `${outDir}/${esm.file}.js` ``<br>_对于 `mjs` 文件：`` `${outDir}/${esm.file}.mjs` ``_
 2. 如果配置了 `file` ：`` `${outDir}/${file}.esm.js` ``<br>_对于 `mjs` 文件：`` `${outDir}/${file}.mjs` ``_
-3. 如果在 `package.json` 中定义了 `module` 或者 `jsnext:main` ：`pkg.module || pkg["jsnext:main"]`<br>_对于 `mjs` 文件：`` `${getFileName(pkg.module || pkg["jsnext:main"])}.mjs` ``_
+3. 如果在 `package.json` 中定义了 `module` ：`pkg.module`<br>_对于 `mjs` 文件：`` `${getFileName(pkg.module)}.mjs` ``_
 4. 以上配置都不存在时 ：`` `${outDir}/${basename(entry, extname(entry))}.esm.js` ``<br>_对于 `mjs` 文件：`` `${outDir}/${basename(entry, extname(entry))}.mjs` ``_
 
 #### 对于 `CJS` 输出格式：
