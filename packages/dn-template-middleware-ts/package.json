@@ -1,6 +1,6 @@
 {
   "name": "dn-template-middleware-ts",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "Dawn middleware project template with typescript support",
   "scripts": {
     "test": "dn test"
@@ -15,6 +15,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@dawnjs/types": "^1.8.5-alpha.9",
     "dn-middleware-babel": "^1.0.0-beta.3",
     "dn-middleware-call": "^1.0.3",
     "dn-middleware-clean": "^1.0.2",

@@ -10,7 +10,7 @@ dev:
   - name: call
     pipe:
       - clean
-  - name: lint@next
+  - name: lint
     realtime: true
   - name: babel
     watch: true
@@ -20,14 +20,13 @@ dev:
     location: ./lib/index.js
 
 test:
-  - name: lint@next
+  - name: lint
 
 build:
   - name: call
     pipe:
       - clean
   - name: babel
-    # nodeVersion: 8
     extraPlugins:
       - babel-plugin-add-module-exports
 
