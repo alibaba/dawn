@@ -48,6 +48,8 @@ build:
 类型：`boolean`<br>
 默认值：`false`
 
+开启 `Watch Mode`
+
 ### `fullCustom`
 
 类型：`boolean`<br>
@@ -71,13 +73,29 @@ module.exports = async (config, opts, ctx) => {
   // config 为当前打包实例的rollup配置
   // opts 为中间件实际执行的配置项
   // ctx 为中间件执行上下文环境
-  return config;
+
+  // config.output.name = "foo";
+  // 直接修改config对象，无需返回值
 };
 ```
 
 #### 覆盖模式
 
-覆盖模式提供完全的自定义 `rollup` 配置，通常需要结合中间件的其他配置，使得一次执行只输出一个目标，一般不太会使用这种模式
+覆盖模式提供完全的自定义 `rollup` 配置，一般不太需要使用
+
+```js
+module.exports = async (config, opts, ctx) => {
+  // config 为当前打包实例的rollup配置
+  // opts 为中间件实际执行的配置项
+  // ctx 为中间件执行上下文环境
+
+  const newConfig = { ...config };
+
+  return newConfig;
+};
+```
+
+或
 
 ```js
 module.exports = {
@@ -133,7 +151,7 @@ _说明：输出文件的最终文件名由多个条件与配置项组合后形�
 ### `esm`
 
 类型：`false | Object`<br>
-默认值：
+默认值：在 `Watch Mode` 下默认为 `false`
 
 针对 `ESM` 输出格式的配置，如不需要 `ESM` 格式，可以配置为 `false`
 
@@ -165,7 +183,7 @@ _说明：`.mjs` 文件始终会进行混淆压缩，不受 `esm.minify` 配置�
 ### `cjs`
 
 类型：`false | Object`<br>
-默认值：
+默认值：在 `Watch Mode` 下默认为 `false`
 
 针对 `CJS` 输出格式的配置，如不需要 `CJS` 格式，可以配置为 `false`
 
@@ -227,7 +245,7 @@ _说明：默认会根据项目 `package.json` 中的 `name` 字段动态生成�
 #### `umd.minFile`
 
 类型：`boolean`<br>
-默认值：`true`
+默认值：`true`，在 `Watch Mode` 下默认为 `false`
 
 是否额外输出 `.min.js` 文件，该文件会被混淆压缩
 
