@@ -5,6 +5,7 @@ import url from "@rollup/plugin-url";
 import svgr from "@svgr/rollup";
 import postcss from "rollup-plugin-postcss";
 import autoprefixer from "autoprefixer";
+import NpmImport from "less-plugin-npm-import";
 import alias from "@rollup/plugin-alias";
 import inject from "@rollup/plugin-inject";
 import replace from "@rollup/plugin-replace";
@@ -172,7 +173,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: Context<I
         modules,
         minimize: !!minCSS,
         use: [
-          ["less", { javascriptEnabled: true, ...lessOpts }],
+          ["less", { javascriptEnabled: true, plugins: [new NpmImport({ prefix: "~" })], ...lessOpts }],
           ["sass", { ...sassOpts }],
         ],
         plugins: [autoprefixer(autoprefixerOpts)],
