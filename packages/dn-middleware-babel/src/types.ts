@@ -1,30 +1,6 @@
-type LogFN = (message?: any, ...optionalParams: any[]) => void;
+import { Context } from "@dawnjs/types";
 
-interface IDawnConsole {
-  log: LogFN;
-  info: LogFN;
-  error: LogFN;
-  warn: LogFN;
-}
-
-export interface IDawnContext {
-  cwd: string;
-  console: IDawnConsole;
-  emit?: (eventName: string, ...eventParams: any[]) => void;
-  utils: {
-    sleep: (ms: number) => Promise<void>;
-  };
-  project: IPkg;
-}
-
-export interface IPkg {
-  name?: string;
-  main?: string;
-  module?: string;
-  browser?: string;
-  dependencies?: Record<string, any>;
-  peerDependencies?: Record<string, any>;
-}
+export type IDawnContext = Context<IOpts>;
 
 export interface IOpts {
   cwd?: string;

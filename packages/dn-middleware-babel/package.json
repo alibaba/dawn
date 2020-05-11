@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-babel",
-  "version": "1.0.0-beta.8",
+  "version": "1.0.0-beta.9",
   "description": "Transform code with babel",
   "keywords": [
     "dawn",
@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
+    "@dawnjs/types": "^1.8.5-alpha.9",
     "@types/babel__core": "^7.1.7",
     "@types/gulp-if": "0.0.33",
     "@types/lodash": "^4.14.150",
@@ -39,6 +40,7 @@
     "@types/vinyl-fs": "^2.4.11",
     "babel-plugin-add-module-exports": "^1.0.2",
     "dn-middleware-call": "^1.0.3",
+    "dn-middleware-clean": "^1.0.2",
     "dn-middleware-lint": "^3.0.0-alpha.35",
     "dn-middleware-pkginfo": "^1.1.3",
     "dn-middleware-publish": "^1.0.1",

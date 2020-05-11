@@ -1,9 +1,10 @@
-import { IDawnContext, IOpts } from "./types";
+import { Handler } from "@dawnjs/types";
 import { getOpts, validateOpts } from "./opts";
 import { run } from "./babel";
+import { IOpts } from "./types";
 
-export default (options: IOpts) => {
-  return async (next: Function, ctx: IDawnContext) => {
+const handler: Handler<IOpts> = options => {
+  return async (next, ctx) => {
     const opts = getOpts(options, ctx);
     if (ctx.emit) {
       ctx.emit("babel.opts", opts);
@@ -17,3 +18,5 @@ export default (options: IOpts) => {
     await next({ babelOpts });
   };
 };
+
+export default handler;
