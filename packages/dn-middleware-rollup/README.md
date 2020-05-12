@@ -73,7 +73,6 @@ module.exports = async (config, opts, ctx) => {
   // config 为当前打包实例的rollup配置
   // opts 为中间件实际执行的配置项
   // ctx 为中间件执行上下文环境
-
   // config.output.name = "foo";
   // 直接修改config对象，无需返回值
 };
