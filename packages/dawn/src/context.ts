@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2016-present Alibaba Group Holding Limited.
+ * @license MIT found in the LICENSE file at https://github.com/alibaba/dawn/blob/master/LICENSE
+ * @author DawnTeam
+ */
+
 import * as fs from "fs";
 import * as path from "path";
 import * as EventEmitter from "events";
@@ -25,6 +31,7 @@ export default class Context extends EventEmitter {
   readonly conf = config;
   readonly configName = config.configName;
   readonly configPath = config.configPath;
+  readonly utils = utils;
 
   public pipeline: MiddlewareItem[] = [];
   public cmd = "";

@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2016-present Alibaba Group Holding Limited.
+ * @license MIT found in the LICENSE file at https://github.com/alibaba/dawn/blob/master/LICENSE
+ * @author DawnTeam
+ */
+
 import Command, { flags } from "../command";
 // import RunCommand from "./run";
 
@@ -15,9 +21,9 @@ export default class Init extends Command {
     const options = this.parse(Init);
     this.trace("options", options);
     // const { template } = options.flags;
-    this.console.log("init", this.ctx.configName);
-    const pipe = await this.ctx.conf.getRc("middlewarePrefix");
-    this.console.log(pipe);
+
+    const res = await this.ctx.utils.execWithResult("npm -v");
+    this.console.log("npm version", res);
     // await RunCommand.run(["init"]);
   }
 }

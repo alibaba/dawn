@@ -4,10 +4,8 @@
  * @author DawnTeam
  */
 
-import * as npm from "npm";
+// import * as tnpm from "cnpm";
 
-console.log(
-  npm.commands.install(["chalk", "--no-save"], () => {
-    console.log("finsish");
-  }),
-);
+const xnpm = require("cnpm");
+
+console.log(xnpm);

@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2016-present Alibaba Group Holding Limited.
+ * @license MIT found in the LICENSE file at https://github.com/alibaba/dawn/blob/master/LICENSE
+ * @author DawnTeam
+ */
+
 /* eslint-disable no-param-reassign */
 import * as fs from "fs";
 import * as util from "util";
@@ -5,6 +11,8 @@ import * as jsYaml from "js-yaml";
 import * as nodeFetch from "node-fetch";
 
 import * as _stp from "stp";
+
+import executes from "../executes";
 
 const DEFAULT_TIMEOUT = -1;
 
@@ -68,3 +76,5 @@ export const unescapeExpr = (str?: string): string => {
   if (!str) return str ?? "";
   return str.replace(/\\\{/, "{").replace("/\\}/", "}");
 };
+
+export const { exec, execWithResult, withResult } = executes;
