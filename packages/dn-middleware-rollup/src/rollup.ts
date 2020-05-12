@@ -1,10 +1,34 @@
-import { OutputOptions, rollup, RollupOptions, watch } from "rollup";
-import { Context } from "@dawnjs/types";
+import { OutputOptions, rollup, RollupError, RollupOptions, RollupWarning, watch } from "rollup";
 import { getRollupConfig } from "./getRollupConfig";
-import { IOpts, IRollupOpts } from "./types";
+import { IDawnContext, IRollupOpts } from "./types";
 import { mergeCustomRollupConfig } from "./mergeCustomRollupConfig";
 
-export const start = async (entry: string, opts: IRollupOpts, rollupConfig: RollupOptions, ctx: Context<IOpts>) => {
+const logError = (error: RollupError, ctx: IDawnContext) => {
+  if (error.loc) {
+    ctx.console.error(`${error.loc.file}(${error.loc.line},${error.loc.column}): ${error.message}`);
+  } else {
+    ctx.console.error(error.message);
+  }
+  if (error.frame) {
+    ctx.console.error(error.frame);
+  }
+};
+
+const logWarn = (warning: RollupWarning, ctx: IDawnContext) => {
+  if (warning.loc) {
+    ctx.console.warn(`${warning.loc.file}(${warning.loc.line}:${warning.loc.column}): ${warning.message}`);
+  } else {
+    ctx.console.warn(warning.message);
+  }
+  if (warning.frame) {
+    ctx.console.warn(warning.frame);
+  }
+  if (warning.guess) {
+    ctx.console.warn(warning.guess);
+  }
+};
+
+export const start = async (entry: string, opts: IRollupOpts, rollupConfig: RollupOptions, ctx: IDawnContext) => {
   const config = await mergeCustomRollupConfig(rollupConfig, { ...opts, entry }, ctx);
   if (ctx.emit) {
     ctx.emit("rollup.config", config, { ...opts, entry });
@@ -15,17 +39,18 @@ export const start = async (entry: string, opts: IRollupOpts, rollupConfig: Roll
     ctx.console.info("Start watching...");
     const watcher = watch([
       {
+        onwarn(warning) {
+          logWarn(warning, ctx);
+        },
         ...config,
-        watch: {},
+        watch: {
+          exclude: ["node_modules/**"],
+        },
       },
     ]);
     watcher.on("event", event => {
       if (event.code === "ERROR" && event.error) {
-        if (process.env.DN_DEBUG) {
-          ctx.console.error(event.error);
-        } else {
-          ctx.console.error(event.error.message);
-        }
+        logError(event.error, ctx);
       } else if (event.code === "START") {
         ctx.console.log(`[${opts.type}] Rebuild since file changed.`);
       }
@@ -39,14 +64,24 @@ export const start = async (entry: string, opts: IRollupOpts, rollupConfig: Roll
     ctx.console.info(`Bundle to ${opts.type} for ${entry}...`);
 
     const { output, ...input } = config;
-    const bundle = await rollup(input);
-    await bundle.write(output as OutputOptions);
+    try {
+      const bundle = await rollup({
+        onwarn(warning) {
+          logWarn(warning, ctx);
+        },
+        ...input,
+      });
+      await bundle.write(output as OutputOptions);
+    } catch (e) {
+      logError(e, ctx);
+      throw new Error("[rollup] bundle failed.");
+    }
 
     ctx.console.info(`Bundle to ${opts.type} for ${entry} finished.`);
   }
 };
 
-export const build = async (entry: string, opts: IRollupOpts, ctx: Context<IOpts>) => {
+export const build = async (entry: string, opts: IRollupOpts, ctx: IDawnContext) => {
   const { cwd, type, bundleOpts } = opts;
   const rollupConfigs = await getRollupConfig(
     {
@@ -62,7 +97,7 @@ export const build = async (entry: string, opts: IRollupOpts, ctx: Context<IOpts
   await Promise.all(rollupConfigs.map(rollupConfig => start(entry, opts, rollupConfig, ctx)));
 };
 
-export const run = async (opts: IRollupOpts, ctx: Context<IOpts>) => {
+export const run = async (opts: IRollupOpts, ctx: IDawnContext) => {
   if (Array.isArray(opts.entry)) {
     const { entry: entries } = opts;
     await Promise.all(entries.map(entry => build(entry, opts, ctx)));

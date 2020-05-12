@@ -2,11 +2,10 @@ import * as assert from "assert";
 import { basename, join } from "path";
 import { existsSync } from "fs";
 import { camelCase, merge } from "lodash";
-import { Context } from "@dawnjs/types";
 import { getExistFile, isTypescriptFile } from "./utils";
-import { IOpts } from "./types";
+import { IDawnContext, IOpts } from "./types";
 
-export const getOpts = (opts: IOpts, ctx: Context<IOpts>): IOpts => {
+export const getOpts = (opts: IOpts, ctx: IDawnContext): IOpts => {
   const { cwd, fullCustom } = opts;
 
   // Support custom options without any default
@@ -49,7 +48,7 @@ export const getOpts = (opts: IOpts, ctx: Context<IOpts>): IOpts => {
   return merge({ cwd: ctx.cwd, entry }, defaultOpts, opts.watch ? watchDefaultOpts : {}, opts);
 };
 
-export const validateOpts = (opts: IOpts, ctx: Context<IOpts>): void => {
+export const validateOpts = (opts: IOpts, ctx: IDawnContext): void => {
   if (opts.runtimeHelpers) {
     const pkg = ctx.project;
     assert.ok(

@@ -20,12 +20,11 @@ import { terser } from "rollup-plugin-terser";
 import html, { IHtmlPluginTemplateFunctionArgument, makeHtmlAttributes } from "@rollup/plugin-html";
 import visualizer from "rollup-plugin-visualizer";
 import { merge } from "lodash";
-import { Context } from "@dawnjs/types";
 import { getOutputFile, testExternal } from "./utils";
-import { IGetRollupConfigOpts, IOpts, IUmd } from "./types";
+import { IDawnContext, IGetRollupConfigOpts, IUmd } from "./types";
 
 // eslint-disable-next-line max-lines-per-function
-export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: Context<IOpts>): Promise<RollupOptions[]> => {
+export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnContext): Promise<RollupOptions[]> => {
   const { cwd, entry, type, bundleOpts, analysis } = opts;
   const {
     umd,

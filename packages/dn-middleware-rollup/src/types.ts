@@ -10,6 +10,7 @@ import { IHtmlPluginOptions } from "@rollup/plugin-html";
 import { RollupJsonOptions } from "@rollup/plugin-json";
 import { IYamlPluginOptions } from "@rollup/plugin-yaml";
 import { IWasmPluginOptions } from "@rollup/plugin-wasm";
+import { Context } from "@dawnjs/types";
 
 export interface IBundleOutput {
   file?: string;
@@ -73,6 +74,8 @@ export interface IOpts extends IBundleOptions {
   configFile?: string;
   analysis?: boolean;
 }
+
+export type IDawnContext = Context<IOpts>;
 
 export interface IRollupOpts {
   cwd: string;

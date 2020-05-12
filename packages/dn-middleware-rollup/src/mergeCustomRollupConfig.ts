@@ -2,13 +2,12 @@ import { resolve } from "path";
 import { existsSync } from "fs";
 import { RollupOptions } from "rollup";
 import { isFunction, isNil } from "lodash";
-import { Context } from "@dawnjs/types";
-import { IOpts, IRollupOpts } from "./types";
+import { IDawnContext, IRollupOpts } from "./types";
 
 export const mergeCustomRollupConfig = async (
   rollupConfig: RollupOptions,
   opts: Omit<IRollupOpts, "entry"> & { entry: string },
-  ctx: Context<IOpts>,
+  ctx: IDawnContext,
 ): Promise<RollupOptions> => {
   let config = rollupConfig;
   const { cwd, configFile = "./rollup.config.js" } = opts;
