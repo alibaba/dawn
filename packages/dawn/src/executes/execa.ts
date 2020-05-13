@@ -44,11 +44,11 @@ export class ExecaExecute extends AExecute {
     this.trace("getOptions")("opts", opts);
     const cwd = opts?.cwd ?? process.cwd();
     return {
-      ...opts,
-      cwd,
       // use `./node_modules/.bin/`
       preferLocal: true,
       shell: true,
+      ...opts,
+      cwd,
     };
   };
 }

@@ -13,9 +13,7 @@ export interface IExecOptions {
 }
 
 export abstract class AExecute implements IExecute {
-  /**
-   * Platform. Possible values: https://nodejs.org/api/process.html#process_process_platform
-   */
+  /** Platform. Possible values: https://nodejs.org/api/process.html#process_process_platform */
   public os = process.platform;
   /** Is current on windows */
   public isWin = this.os === "win32";

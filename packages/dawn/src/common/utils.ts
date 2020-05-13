@@ -6,6 +6,7 @@
 
 /* eslint-disable no-param-reassign */
 import * as fs from "fs";
+import * as path from "path";
 import * as util from "util";
 import * as jsYaml from "js-yaml";
 import * as nodeFetch from "node-fetch";
@@ -78,3 +79,12 @@ export const unescapeExpr = (str?: string): string => {
 };
 
 export const { exec, execWithResult, withResult } = executes;
+
+export function findCommand(dirname: string, command: string): string {
+  const commandPath = path.normalize(`${dirname}/node_modules/.bin/${command}`);
+  if (fs.existsSync(commandPath)) return commandPath;
+  if (dirname === "/" || dirname === "." || /^[a-z]:\/\/$/i.test(dirname)) {
+    return "";
+  }
+  return findCommand(path.dirname(dirname), command);
+}
