@@ -22,6 +22,10 @@ middleware:
   location: dn-template-middleware
   summary: Dawn middleware project template
 
+middleware-ts:
+  location: dn-template-middleware-ts
+  summary: Dawn middleware project template with typescript
+
 doc:
   location: dn-template-doc
   summary: Blank doc project template
