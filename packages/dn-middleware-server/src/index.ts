@@ -76,7 +76,7 @@ const handler: Dawn.Handler<IOpts> = opts => {
     const indexServe = serveIndex(path.join(ctx.cwd, options.public), {
       icons: true,
       view: "details",
-      stylesheet: path.join(__dirname, "../assets/style.css"),
+      stylesheet: path.join(__dirname, "../assets/custom.css"),
     });
 
     const app = new Koa();

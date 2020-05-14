@@ -101,7 +101,7 @@ const handler = opts => {
     const indexServe = (0, _serveIndex.default)(path.join(ctx.cwd, options.public), {
       icons: true,
       view: "details",
-      stylesheet: path.join(__dirname, "../assets/style.css")
+      stylesheet: path.join(__dirname, "../assets/custom.css")
     });
     const app = new _koa.default();
 
