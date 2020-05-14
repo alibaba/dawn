@@ -1,0 +1,37 @@
+export interface IOpts {
+  /**
+   * Server protocol
+   * @default http://
+   */
+  protocol?: string;
+  /**
+   * Server host
+   * @default 127.0.0.1
+   */
+  host?: string;
+  /**
+   * Server port
+   */
+  port?: number;
+  /**
+   * Server from path
+   * @default ./build
+   */
+  public?: string;
+  /**
+   * Auto open url
+   * @default true
+   */
+  autoOpen?: boolean;
+  /**
+   * Support HTTPs
+   * @default undefined
+   */
+  ssl?: true | { key: string; cert: string };
+  /**
+   * historyApiFallback
+   * @default false
+   */
+  historyApiFallback?: boolean;
+  https?: any;
+}

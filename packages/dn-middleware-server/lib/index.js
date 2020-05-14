@@ -1,95 +1,173 @@
-const nokit = require('nokitjs');
-const ExpressPlugin = require('nokit-plugin-express');
-const ProxyFilter = require('nokit-filter-proxy');
-const fs = require('fs');
-const path = require('path');
-const HistoryApiFallbackFilter = require('./HistoryApiFallbackFilter');
+"use strict";
 
-/**
- * 这是一个标准的中间件工程模板
- * @param {object} opts cli 传递过来的参数对象 (在 pipe 中的配置)
- * @return {AsyncFunction} 中间件函数
- */
-module.exports = function (opts) {
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
 
-  opts.protocol = opts.protocol || 'http://';
-  opts.host = opts.host || 'localhost';
-  opts.config = opts.config || 'server';
+var path = _interopRequireWildcard(require("path"));
 
-  //外层函数的用于接收「参数对象」
-  //必须返回一个中间件处理函数
-  return async function (next) {
+var fs = _interopRequireWildcard(require("fs"));
 
-    opts.public = opts.public || './build';
-    if (this.utils.oneport) {
-      opts.port = opts.port || await this.utils.oneport();
+var os = _interopRequireWildcard(require("os"));
+
+var http = _interopRequireWildcard(require("http"));
+
+var https = _interopRequireWildcard(require("https"));
+
+var clipboardy = _interopRequireWildcard(require("clipboardy"));
+
+var _chalk = _interopRequireDefault(require("chalk"));
+
+var _koa = _interopRequireDefault(require("koa"));
+
+var _koaStatic = _interopRequireDefault(require("koa-static"));
+
+var _serveIndex = _interopRequireDefault(require("serve-index"));
+
+var _koaSslify = _interopRequireDefault(require("koa-sslify"));
+
+var _historyApiFallback = require("./historyApiFallback");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+const c2k = require("koa-connect");
+
+const handler = opts => {
+  return async (next, ctx) => {
+    var _opts$port;
+
+    const options = {
+      protocol: "http://",
+      host: "127.0.0.1",
+      port: !opts.port && ctx.utils.oneport ? await ctx.utils.oneport() : (_opts$port = opts.port) !== null && _opts$port !== void 0 ? _opts$port : 8000,
+      public: "./build",
+      autoOpen: true,
+      historyApiFallback: false,
+      ...opts
+    };
+    if (options.host === "0.0.0.0") options.host = "127.0.0.1";
+    ctx.emit("server.opts", options); // Support HTTPs
+
+    let certConfig = undefined;
+    let enabledHttps = false;
+
+    try {
+      const afterEnableHttps = async () => {
+        if (options.host === "0.0.0.0" || options.host === "127.0.0.1") options.host = "localhost";
+        enabledHttps = true;
+      };
+
+      if (options.https) {
+        // Use https middleware in pipe.yml
+        certConfig = await options.https;
+        await afterEnableHttps();
+      } else if (options.ssl === true) {
+        // Add https, call from server
+        options.ssl = undefined;
+        await ctx.exec({
+          name: "https",
+          host: options.host,
+          port: options.port
+        });
+        ctx.emit("server.opts", options);
+        certConfig = await options.https;
+        await afterEnableHttps();
+      }
+    } catch (error) {
+      if (process.env.DN_DEBUG) ctx.console.error(error);
+      ctx.console.error("Enable HTTPs failed.");
+    }
+
+    process.once("SIGINT", function () {
+      ctx.console.info("Stopped dev-server.");
+      process.exit(0);
+    });
+    process.once("SIGTERM", function () {
+      ctx.console.info("Stopped dev-server.");
+      process.exit(0);
+    });
+    const staticServe = (0, _koaStatic.default)(path.join(ctx.cwd, options.public), {
+      immutable: true,
+      maxAge: 0,
+      hidden: true,
+      gzip: false,
+      brotli: true
+    });
+    const indexServe = (0, _serveIndex.default)(path.join(ctx.cwd, options.public), {
+      icons: true,
+      view: "details",
+      stylesheet: path.join(__dirname, "../assets/style.css")
+    });
+    const app = new _koa.default();
+
+    if (enabledHttps) {
+      app.use((0, _koaSslify.default)({
+        port: options.port
+      }));
+    }
+
+    if (options.historyApiFallback) {
+      app.use(_historyApiFallback.historyApiFallback);
+      app.use(staticServe);
     } else {
-      opts.port = opts.port || 8001;
+      app.use(staticServe);
+      app.use(c2k(indexServe));
     }
 
-    //处理默认文件
-    const srcFile = path.resolve(__dirname, '../server.yml');
-    const dstFile = path.resolve(this.cwd, './server.yml');
-    if (!fs.existsSync(dstFile)) {
-      const buffer = await this.utils.readFile(srcFile);
-      await this.utils.writeFile(dstFile, buffer);
-    }
+    const listenOptions = [options.port, options.host, async () => {
+      const ifaces = os.networkInterfaces();
+      ctx.console.info(`Starting up dev-server, serving ${options.public} at:`);
+      let shouldOpenUrl = `${options.protocol}${options.host}:${options.port}`;
+      const hostList = [];
+      Object.values(ifaces).forEach(item => item.forEach(h => {
+        if (h.family === "IPv4" && hostList.indexOf(h.address) < 0) hostList.push(h.address);
+      }));
+      if (hostList.indexOf(options.host) < 0) hostList.push(options.host);
 
-    //在这里处理你的逻辑
-    this.console.log('启动开发服务器...');
-    this.emit('server.opts', opts);
-    if (opts.https) opts.https = await opts.https;
+      const logUrl = address => {
+        const shouldCopytoClip = address === options.host;
+        const copyText = shouldCopytoClip ? _chalk.default.gray(" (copied to clipboard)") : "";
+        const logUrlText = `${options.protocol}${address}:${options.port}`;
 
-    /**
-     * 创建 server 实例
-     **/
-    const server = new nokit.Server({
-      ...opts,
-      root: this.cwd,
-      port: opts.port,
-      config: opts.config,
-      cache: {
-        enabled: false,
-        maxAge: 0
-      },
-      public: {
-        '*': opts.public
+        if (shouldCopytoClip) {
+          clipboardy.write(logUrlText);
+          shouldOpenUrl = logUrlText;
+        }
+
+        ctx.console.log(`- ${_chalk.default.cyan(logUrlText)}${copyText}`);
+      };
+
+      hostList === null || hostList === void 0 ? void 0 : hostList.forEach(logUrl);
+      await next();
+      await ctx.utils.sleep(1000); // Auto open browser
+
+      if (options.autoOpen && ctx.utils.open && shouldOpenUrl) {
+        ctx.utils.open(shouldOpenUrl);
       }
-    });
+    }];
 
-    //注册代理 filter
-    const proxyFilter = new ProxyFilter(server);
-    server.filter('^/@server', proxyFilter);
+    if (enabledHttps) {
+      var _certConfig, _certConfig2;
 
-    if (opts.historyApiFallback) {
-      //注册 404 处理 filter
-      server.filter('^/@historyApiFallback',
-        new HistoryApiFallbackFilter(server));
+      const httpsOptions = {
+        key: fs.readFileSync((_certConfig = certConfig) === null || _certConfig === void 0 ? void 0 : _certConfig.key),
+        cert: fs.readFileSync((_certConfig2 = certConfig) === null || _certConfig2 === void 0 ? void 0 : _certConfig2.cert)
+      };
+      ctx.httpServer = https.createServer(httpsOptions, app.callback()).listen(...listenOptions);
+    } else {
+      ctx.httpServer = http.createServer(app.callback()).listen(...listenOptions);
     }
 
-    //添加 express 支持插件
-    server.plugin('express', new ExpressPlugin());
-
-    this.server = server;
-    this.httpServer = server.httpServer;
-
-    this.emit('server.init', this.server);
-
-    /**
-     * 启动 server
-     **/
-    server.start(async (err) => {
-      if (err) return this.console.error(err);
-      const url = `${opts.protocol}${opts.host}:${opts.port}`;
-      this.console.warn('The server started:', url);
-      await next(); //eslint-disable-line
-      await this.utils.sleep(1000);
-      if (opts.autoOpen !== false) {
-        this.utils.open(url);
-      }
-      this.emit('server.start', this.server);
-    });
-
+    app.httpServer = ctx.httpServer;
+    ctx.server = app;
   };
-
 };
+
+var _default = handler;
+exports.default = _default;
+module.exports = exports.default;

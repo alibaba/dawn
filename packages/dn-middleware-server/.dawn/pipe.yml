@@ -1,15 +1,42 @@
 init:
-  - name: tnpm-install
+  - name: pkginfo
+
+clean:
+  - name: clean
+    target:
+      - lib
 
 dev:
+  - name: https
+  #   cache: 1
   - name: ./lib/index.js
-    historyApiFallback: true
+    host: localhost
+    port: 9999
+    # historyApiFallback: true
+    # ssl: true
 
 test:
   - name: lint
 
-#中间工程并非要发布到 CDN
-#不放到 aliyun group 下也不会发到 CND
-#只是中间件的版本管理是基于 tag 的，恰好使用
+build:
+  - name: call
+    pipe:
+      - clean
+  - name: babel
+    extraPlugins:
+      - babel-plugin-add-module-exports
+
+build:watch:
+  - name: call
+    pipe:
+      - clean
+  - name: babel
+    watch: true
+    extraPlugins:
+      - babel-plugin-add-module-exports
+
 publish:
-  - name: alicdn-publish
+  - name: call
+    pipe:
+      - test
+  - name: publish

@@ -2,18 +2,58 @@
   "name": "dn-middleware-server",
   "version": "1.1.4",
   "description": "",
+  "keywords": [
+    "dawn",
+    "middleware",
+    "server",
+    "https",
+    "koa"
+  ],
   "main": "./lib/index.js",
   "scripts": {
-    "test": "dn test"
+    "build": "dn build",
+    "test": "dn test",
+    "prepublishOnly": "npm run build"
   },
+  "files": [
+    "src",
+    "lib",
+    "typings"
+  ],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "nokit-filter-proxy": "^0.1.0",
-    "nokit-plugin-express": "^0.0.5",
-    "nokitjs": "^1.26.3"
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=10"
   },
   "devDependencies": {
-    "dn-middleware-lint": "^2.1.4"
+    "@dawnjs/types": "^1.8.5",
+    "@types/connect-history-api-fallback": "^1.3.3",
+    "@types/koa": "^2.11.3",
+    "@types/koa-sslify": "^4.0.1",
+    "@types/koa-static": "^4.0.1",
+    "@types/serve-index": "^1.7.30",
+    "@types/stream-to-string": "^1.1.0",
+    "babel-plugin-add-module-exports": "^1.0.2",
+    "dn-middleware-babel": "^1.0.0",
+    "dn-middleware-call": "^1.0.3",
+    "dn-middleware-clean": "^1.0.2",
+    "dn-middleware-lint": "^3.0.0-alpha.35",
+    "typescript": "^3.9.2"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.0.0",
+    "clipboardy": "^2.3.0",
+    "connect-history-api-fallback": "^1.6.0",
+    "dn-middleware-https": "^1.0.5",
+    "koa": "^2.11.0",
+    "koa-connect": "^2.0.1",
+    "koa-sslify": "^4.0.3",
+    "koa-static": "^5.0.0",
+    "serve-index": "^1.9.1",
+    "stream-to-string": "^1.2.0"
   }
 }
