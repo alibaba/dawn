@@ -1,7 +1,6 @@
 headers:
   'Access-Controll-Allow-Origin': '*'
-  # 'Set-Cookie': 'foo=asdf;path=/;secure;'
-  'Cookie': 'asdfasdf'
+  'Set-Cookie': 'foo=asdf;path=/;secure;'
 
 proxy:
   options:
