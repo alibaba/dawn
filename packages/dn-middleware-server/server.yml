@@ -1,0 +1,18 @@
+headers:
+  'Access-Controll-Allow-Origin': '*'
+  # 'Set-Cookie': 'foo=asdf;path=/;secure;'
+  'Cookie': 'asdfasdf'
+
+proxy:
+  options:
+    changeOrigin: true
+    xfwd: true
+  rules:
+    ^/api(.*): https://query.aliyun.com
+    ^/rest/.*: https://query.aliyun.com
+
+handlers:
+  '.*handler/exp(.*)': './test/all'
+  'GET /handler/get': './test/get'
+  'POST /handler/post': './test/post'
+  'GET /handler/params/:id': './test/params'

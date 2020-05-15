@@ -33,5 +33,10 @@ export interface IOpts {
    * @default false
    */
   historyApiFallback?: boolean;
+  /**
+   * Server config path
+   * @default ./server.yml
+   */
+  configPath?: string;
   https?: any;
 }

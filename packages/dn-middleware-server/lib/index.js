@@ -29,6 +29,12 @@ var _koaSslify = _interopRequireDefault(require("koa-sslify"));
 
 var _historyApiFallback = require("./historyApiFallback");
 
+var _headers = require("./headers");
+
+var _handlers = require("./handlers");
+
+var _proxies = require("./proxies");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
@@ -48,10 +54,13 @@ const handler = opts => {
       public: "./build",
       autoOpen: true,
       historyApiFallback: false,
+      configPath: "./server.yml",
       ...opts
     };
     if (options.host === "0.0.0.0") options.host = "127.0.0.1";
-    ctx.emit("server.opts", options); // Support HTTPs
+    ctx.emit("server.opts", options); // ConfigFile doesn't exist work as well.
+
+    const serverConfig = ctx.utils.confman.load(path.join(ctx.cwd, options.configPath)); // Support HTTPs
 
     let certConfig = undefined;
     let enabledHttps = false;
@@ -104,6 +113,9 @@ const handler = opts => {
       stylesheet: path.join(__dirname, "../assets/custom.css")
     });
     const app = new _koa.default();
+    app.use((0, _headers.headers)(serverConfig === null || serverConfig === void 0 ? void 0 : serverConfig.headers));
+    app.use((0, _handlers.handlers)(serverConfig === null || serverConfig === void 0 ? void 0 : serverConfig.handlers, ctx));
+    app.use((0, _proxies.proxies)(serverConfig === null || serverConfig === void 0 ? void 0 : serverConfig.proxy));
 
     if (enabledHttps) {
       app.use((0, _koaSslify.default)({

@@ -12,6 +12,9 @@ import enforceHttps from "koa-sslify";
 import * as Dawn from "@dawnjs/types";
 
 import { historyApiFallback } from "./historyApiFallback";
+import { headers } from "./headers";
+import { handlers } from "./handlers";
+import { proxies } from "./proxies";
 import { IOpts } from "./types";
 
 const c2k = require("koa-connect");
@@ -25,11 +28,15 @@ const handler: Dawn.Handler<IOpts> = opts => {
       public: "./build",
       autoOpen: true,
       historyApiFallback: false,
+      configPath: "./server.yml",
       ...opts,
     };
     if (options.host === "0.0.0.0") options.host = "127.0.0.1";
 
     ctx.emit("server.opts", options);
+
+    // ConfigFile doesn't exist work as well.
+    const serverConfig = ctx.utils.confman.load(path.join(ctx.cwd, options.configPath));
 
     // Support HTTPs
     let certConfig: any = undefined;
@@ -80,6 +87,9 @@ const handler: Dawn.Handler<IOpts> = opts => {
     });
 
     const app = new Koa();
+    app.use(headers(serverConfig?.headers));
+    app.use(handlers(serverConfig?.handlers, ctx));
+    app.use(proxies(serverConfig?.proxy));
     if (enabledHttps) {
       app.use(enforceHttps({ port: options.port }));
     }
