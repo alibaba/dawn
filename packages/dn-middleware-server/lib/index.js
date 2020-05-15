@@ -115,7 +115,7 @@ const handler = opts => {
     const app = new _koa.default();
     app.use((0, _headers.headers)(serverConfig === null || serverConfig === void 0 ? void 0 : serverConfig.headers));
     app.use((0, _handlers.handlers)(serverConfig === null || serverConfig === void 0 ? void 0 : serverConfig.handlers, ctx));
-    app.use((0, _proxies.proxies)(serverConfig === null || serverConfig === void 0 ? void 0 : serverConfig.proxy));
+    app.use((0, _proxies.proxies)(serverConfig === null || serverConfig === void 0 ? void 0 : serverConfig.proxy, ctx));
 
     if (enabledHttps) {
       app.use((0, _koaSslify.default)({

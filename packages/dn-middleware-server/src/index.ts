@@ -89,7 +89,7 @@ const handler: Dawn.Handler<IOpts> = opts => {
     const app = new Koa();
     app.use(headers(serverConfig?.headers));
     app.use(handlers(serverConfig?.handlers, ctx));
-    app.use(proxies(serverConfig?.proxy));
+    app.use(proxies(serverConfig?.proxy, ctx));
     if (enabledHttps) {
       app.use(enforceHttps({ port: options.port }));
     }

@@ -7,7 +7,7 @@ clean:
       - lib
 
 dev:
-  - name: https
+  # - name: https
   #   cache: 1
   - name: ./lib/index.js
     host: localhost
