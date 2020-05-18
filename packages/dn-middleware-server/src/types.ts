@@ -6,7 +6,7 @@ export interface IOpts {
   protocol?: string;
   /**
    * Server host
-   * @default 127.0.0.1
+   * @default 0.0.0.0
    */
   host?: string;
   /**

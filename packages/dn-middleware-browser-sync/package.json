@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-browser-sync",
-  "version": "0.1.0",
+  "version": "2.0.0-alpha.1",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -9,9 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "browser-sync": "^2.24.4",
+    "browser-sync": "^2.26.7",
     "connect-browser-sync": "^2.1.0",
-    "koa-connect": "^2.0.1",
-    "stream-to-string": "^1.2.0"
+    "koa-connect": "^2.0.1"
   }
 }

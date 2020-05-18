@@ -23,7 +23,7 @@ const handler: Dawn.Handler<IOpts> = opts => {
   return async (next, ctx) => {
     const options: IOpts = {
       protocol: "http://",
-      host: "127.0.0.1",
+      host: "0.0.0.0",
       port: !opts.port && ctx.utils.oneport ? await ctx.utils.oneport() : opts.port ?? 8000,
       public: "./build",
       autoOpen: true,
@@ -106,7 +106,7 @@ const handler: Dawn.Handler<IOpts> = opts => {
 
     const listenOptions: any = [
       options.port,
-      options.host,
+      '0.0.0.0', // TODO: make server access by public ips
       async () => {
         const ifaces = os.networkInterfaces();
         ctx.console.info(`Starting up dev-server, serving ${chalk.underline.bold(options.public)} at:`);
@@ -136,6 +136,7 @@ const handler: Dawn.Handler<IOpts> = opts => {
           await ctx.utils.sleep(1000);
           ctx.utils.open(shouldOpenUrl);
         }
+        ctx.emit("server.start", ctx.server);
       },
     ];
     if (enabledHttps) {
@@ -148,6 +149,7 @@ const handler: Dawn.Handler<IOpts> = opts => {
       ctx.httpServer = http.createServer(app.callback()).listen(...listenOptions);
     }
     (ctx.server as any).httpServer = ctx.httpServer;
+    ctx.emit("server.init", ctx.server);
   };
 };
 
