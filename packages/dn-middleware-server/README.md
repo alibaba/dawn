@@ -77,19 +77,19 @@ server:
 
 1. 配置 [https 中间件](https://www.npmjs.com/package/dn-middleware-https)
 
-```yaml
-dev:
-  - name: https
-  - name: server
-```
+  ```yaml
+  dev:
+    - name: https
+    - name: server
+  ```
 
 2. `ssl: true`
 
-效果与使用 https 中间件相同
+  效果与使用 https 中间件相同
 
-3. `ssl: { key: [path_to_key], cert: [path_to_cert] }`
+3.  `ssl: { key: [path_to_key], cert: [path_to_cert] }`
 
-配置 ssl 所需的 key/cert 文件目录地址
+  配置 ssl 所需的 key/cert 文件目录地址
 
 _说明：任何开启 HTTPs 的方式，都建议配置一个 host，直接用 IP 会导致证书不匹配，浏览器提示「非安全链接」_
 
@@ -100,7 +100,7 @@ _说明：任何开启 HTTPs 的方式，都建议配置一个 host，直接用 
 
 配合 `BrowserHistory`，所有「非资源的」的请求都会返回 `/` 的结果
 
-_说明：开启后将会为所有 HTML 的 <head /> 标签内添加 <base href="/" />_
+_说明：开启后将会为所有 HTML 的 `<head />` 标签内添加 `<base href="/" />`_
 
 ### `configPath`
 
