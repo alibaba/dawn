@@ -22,29 +22,34 @@ module.exports = function (opts) {
     }
 
     const bsInstance = browserSync.create().init({
-      logSnippet: false,
+      logSnippet: true,
       open: false,
-      files: [
-        {
-          match: opts.files,
-          fn: () => {
-            this.console.log('Reloading browsers...');
-          }
-        }
-      ],
+      files: opts.files,
+      // files: [
+      //   {
+      //     match: opts.files,
+      //     fn: (event, file) => {
+      //       this.console.log('Reloading browsers...');
+      //       this.console.log(event, file);
+      //     }
+      //   }
+      // ],
       logLevel: 'silent',
       logFileChanges: true,
       reloadThrottle: 1000,
+      callbacks: {
+        ready: (err) => {
+          if (err) throw err;
+          this.console.info(`Browser-sync start watching ${opts.files.join(',')} at port ${opts.port}`);
+        }
+      },
       ui: {
         port: opts.port,
         weinre: {
           port: opts.port + 1
         }
       }
-    }, (...args) => {
-      this.console.info(`Browser-sync start watching ${opts.files.join(',')} at port ${opts.port}`);
-      return next(...args);
-    });
+    }, next);
 
     this.server.use(c2k(connectBrowserSync(bsInstance)));
 

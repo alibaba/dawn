@@ -15,8 +15,8 @@ export interface IProxy {
   };
 }
 
-export function proxies(proxies?: IProxy, dnCtx?: Dawn.Context) {
-  if (!proxies?.rules || !Object.keys(proxies?.rules).length) return;
+export default function proxies(proxies?: IProxy, dnCtx?: Dawn.Context) {
+  if (!proxies?.rules || !Object.keys(proxies?.rules).length) return (_: Koa.Context, next: Koa.Next) => next();
   const rules = Object.entries(proxies?.rules).map(([exp, target]) => {
     return { regexp: new RegExp(exp), target };
   });

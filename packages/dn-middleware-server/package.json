@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-server",
-  "version": "2.0.0-alpha.3",
+  "version": "2.0.0-alpha.6",
   "description": "",
   "keywords": [
     "dawn",
@@ -18,7 +18,8 @@
   "files": [
     "src",
     "lib",
-    "typings"
+    "typings",
+    "assets"
   ],
   "author": "",
   "publishConfig": {

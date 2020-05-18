@@ -5,7 +5,7 @@ import streamToString from "stream-to-string";
 
 const c2k = require("koa-connect");
 
-export async function historyApiFallback(ctx: Koa.Context, next: Koa.Next) {
+export default async function historyApiFallback(ctx: Koa.Context, next: Koa.Next) {
   await c2k(connectHistoryApiFallback({ verbose: process.env.DN_DEBUG ? true : undefined }))(ctx, next);
   if (ctx.response.is("html")) {
     const bodyHtml = await streamToString(ctx.body);

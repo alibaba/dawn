@@ -1,6 +1,6 @@
 import Koa from "koa";
 
-export function headers(headers?: Record<string, string>) {
+export default function headers(headers?: Record<string, string>) {
   return async (ctx: Koa.Context, next: Koa.Next) => {
     await next();
     ctx.response.set({

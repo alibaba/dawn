@@ -2,7 +2,7 @@ init:
   - name: pkginfo
 
 dev:
-  - name: server
+  - name: ../dn-middleware-server
     port: 8009
   - name: ./lib/index.js
 

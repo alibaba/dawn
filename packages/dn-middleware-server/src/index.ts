@@ -11,10 +11,10 @@ import serveIndex from "serve-index";
 import enforceHttps from "koa-sslify";
 import * as Dawn from "@dawnjs/types";
 
-import { historyApiFallback } from "./historyApiFallback";
-import { headers } from "./headers";
-import { handlers } from "./handlers";
-import { proxies } from "./proxies";
+import historyApiFallback from "./historyApiFallback";
+import headers from "./headers";
+import handlers from "./handlers";
+import proxies from "./proxies";
 import { IOpts } from "./types";
 
 const c2k = require("koa-connect");
@@ -106,7 +106,7 @@ const handler: Dawn.Handler<IOpts> = opts => {
 
     const listenOptions: any = [
       options.port,
-      '0.0.0.0', // TODO: make server access by public ips
+      "0.0.0.0", // TODO: make server access by public ips
       async () => {
         const ifaces = os.networkInterfaces();
         ctx.console.info(`Starting up dev-server, serving ${chalk.underline.bold(options.public)} at:`);

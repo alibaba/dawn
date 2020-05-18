@@ -6,8 +6,8 @@ import koaBody from "koa-body";
 
 const router = new Router();
 
-export function handlers(handlerConfig?: Record<string, string>, dnCtx?: Dawn.Context) {
-  if (!handlerConfig) return;
+export default function handlers(handlerConfig?: Record<string, string>, dnCtx?: Dawn.Context) {
+  if (!handlerConfig) return (_: Koa.Context, next: Koa.Next) => next();
   const routers = Object.entries(handlerConfig).map(([key, hpath]) => {
     let [method, route] = key.split(" ");
     if (!route) {
