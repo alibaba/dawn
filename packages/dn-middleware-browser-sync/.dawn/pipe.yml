@@ -4,11 +4,7 @@ init:
 dev:
   - name: server
     port: 8009
-  - name: $local
-    location: ./lib/index.js
-  - name: shell
-    script:
-      - echo test
+  - name: ./lib/index.js
 
 test:
   - name: lint

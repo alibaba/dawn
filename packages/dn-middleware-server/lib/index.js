@@ -56,8 +56,8 @@ const handler = opts => {
       historyApiFallback: false,
       configPath: "./server.yml",
       ...opts
-    };
-    if (options.host === "0.0.0.0") options.host = "127.0.0.1";
+    }; // if (options.host === "0.0.0.0") options.host = "127.0.0.1";
+
     ctx.emit("server.opts", options); // ConfigFile doesn't exist work as well.
 
     const serverConfig = ctx.utils.confman.load(path.join(ctx.cwd, options.configPath)); // Support HTTPs
@@ -113,6 +113,8 @@ const handler = opts => {
       stylesheet: path.join(__dirname, "../assets/custom.css")
     });
     const app = new _koa.default();
+    ctx.server = app;
+    await next();
     app.use((0, _headers.headers)(serverConfig === null || serverConfig === void 0 ? void 0 : serverConfig.headers));
     app.use((0, _handlers.handlers)(serverConfig === null || serverConfig === void 0 ? void 0 : serverConfig.handlers, ctx));
     app.use((0, _proxies.proxies)(serverConfig === null || serverConfig === void 0 ? void 0 : serverConfig.proxy, ctx));
@@ -133,7 +135,7 @@ const handler = opts => {
 
     const listenOptions = [options.port, options.host, async () => {
       const ifaces = os.networkInterfaces();
-      ctx.console.info(`Starting up dev-server, serving ${options.public} at:`);
+      ctx.console.info(`Starting up dev-server, serving ${_chalk.default.underline.bold(options.public)} at:`);
       let shouldOpenUrl = `${options.protocol}${options.host}:${options.port}`;
       const hostList = [];
       Object.values(ifaces).forEach(item => item.forEach(h => {
@@ -154,11 +156,10 @@ const handler = opts => {
         ctx.console.log(`- ${_chalk.default.cyan(logUrlText)}${copyText}`);
       };
 
-      hostList === null || hostList === void 0 ? void 0 : hostList.forEach(logUrl);
-      await next();
-      await ctx.utils.sleep(1000); // Auto open browser
+      hostList === null || hostList === void 0 ? void 0 : hostList.forEach(logUrl); // Auto open browser
 
       if (options.autoOpen && ctx.utils.open && shouldOpenUrl) {
+        await ctx.utils.sleep(1000);
         ctx.utils.open(shouldOpenUrl);
       }
     }];
@@ -175,8 +176,7 @@ const handler = opts => {
       ctx.httpServer = http.createServer(app.callback()).listen(...listenOptions);
     }
 
-    app.httpServer = ctx.httpServer;
-    ctx.server = app;
+    ctx.server.httpServer = ctx.httpServer;
   };
 };
 

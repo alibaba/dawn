@@ -10,6 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "browser-sync": "^2.24.4",
-    "connect-browser-sync": "^2.1.0"
+    "connect-browser-sync": "^2.1.0",
+    "koa-connect": "^2.0.1",
+    "stream-to-string": "^1.2.0"
   }
 }

@@ -31,7 +31,7 @@ const handler: Dawn.Handler<IOpts> = opts => {
       configPath: "./server.yml",
       ...opts,
     };
-    if (options.host === "0.0.0.0") options.host = "127.0.0.1";
+    // if (options.host === "0.0.0.0") options.host = "127.0.0.1";
 
     ctx.emit("server.opts", options);
 
@@ -87,6 +87,9 @@ const handler: Dawn.Handler<IOpts> = opts => {
     });
 
     const app = new Koa();
+    ctx.server = app;
+    await next();
+
     app.use(headers(serverConfig?.headers));
     app.use(handlers(serverConfig?.handlers, ctx));
     app.use(proxies(serverConfig?.proxy, ctx));
@@ -106,7 +109,7 @@ const handler: Dawn.Handler<IOpts> = opts => {
       options.host,
       async () => {
         const ifaces = os.networkInterfaces();
-        ctx.console.info(`Starting up dev-server, serving ${options.public} at:`);
+        ctx.console.info(`Starting up dev-server, serving ${chalk.underline.bold(options.public)} at:`);
         let shouldOpenUrl = `${options.protocol}${options.host}:${options.port}`;
 
         const hostList: string[] = [];
@@ -128,11 +131,9 @@ const handler: Dawn.Handler<IOpts> = opts => {
         };
         hostList?.forEach(logUrl);
 
-        await next();
-        await ctx.utils.sleep(1000);
-
         // Auto open browser
         if (options.autoOpen && ctx.utils.open && shouldOpenUrl) {
+          await ctx.utils.sleep(1000);
           ctx.utils.open(shouldOpenUrl);
         }
       },
@@ -146,8 +147,7 @@ const handler: Dawn.Handler<IOpts> = opts => {
     } else {
       ctx.httpServer = http.createServer(app.callback()).listen(...listenOptions);
     }
-    (app as any).httpServer = ctx.httpServer;
-    ctx.server = app;
+    (ctx.server as any).httpServer = ctx.httpServer;
   };
 };
 
