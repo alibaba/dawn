@@ -13,6 +13,7 @@ import * as utils from "./common/utils";
 import * as config from "./common/config";
 import * as middleware from "./common/middleware";
 import type Command from "./command";
+import ModuleFactory from "./modules";
 
 const debug = (namespace?: string) => dnDebug(`dn:context:builtin:${namespace ?? "anonymous"}`);
 
@@ -32,6 +33,7 @@ export default class Context extends EventEmitter {
   readonly configName = config.configName;
   readonly configPath = config.configPath;
   readonly utils = utils;
+  readonly module = ModuleFactory.getClient("yarn");
 
   public pipeline: MiddlewareItem[] = [];
   public cmd = "";

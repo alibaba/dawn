@@ -4,8 +4,11 @@
  * @author DawnTeam
  */
 
-// import * as tnpm from "cnpm";
+import { NpmModules } from "./npm";
+import { IModuleOptions, IModules } from "./abstract";
 
-const xnpm = require("cnpm");
-
-console.log(xnpm);
+export class XNpmModules extends NpmModules implements IModules {
+  constructor(options: Required<Pick<IModuleOptions, "client">>) {
+    super(options.client);
+  }
+}

@@ -4,7 +4,12 @@
  * @author DawnTeam
  */
 
-import * as configs from "../common/config";
+import * as dnDebug from "debug";
+import shell from "../executes";
+import consola from "../common/console";
+import * as utils from "../common/utils";
+
+const debugFn = (namespace?: string) => dnDebug(`dn:module:${namespace ?? "anonymous"}`);
 
 export interface IModuleOptions {
   /** Npm client name, such as: npm/cnpm/yarn etc. */
@@ -38,25 +43,20 @@ export interface IAddParams {
   lock?: boolean;
   /**
    * Checks for known security issues with the installed packages.
-   * @default false
+   * @default true
    */
   audit?: boolean;
+  /**
+   * Add package(s) with fewer logs.
+   * @default false
+   */
+  silent?: boolean;
 }
 
-export interface IUpgradeParams {
-  packages?: string | string[];
-  /**
-   * This command removes “extraneous” packages. If a package name is provided, then only packages matching one of the supplied names are removed.
-   * @description npm prune/yarn autoclean
-   * @default false
-   */
-  prune?: boolean;
-  /**
-   * Force upgrade will rm `node_modules` folder and `*lock*` file
-   * @default false
-   */
-  force?: boolean;
-}
+/**
+ * Upgrade local package(s).
+ */
+export type IUpgradeParams = string | string[] | undefined;
 
 export type ModuleVersion = string | "major" | "minor" | "patch" | "premajor" | "preminor" | "prepatch" | "prerelease";
 export interface ModuleVersionOpts {
@@ -67,9 +67,24 @@ export interface IModules extends IModuleOptions {
   // new (options?: IModuleOptions): IModules;
   /** Deprecated: Use `add` instead. */
   install(name?: string | string[], options?: any): Promise<void>;
-  /** Deprecated: We no longer support `exec` */
+  /**
+   * Execute npm/yarn/... command.
+   * For developers with dawn middleware, we do not recommend that you use
+   * the exec method to execute commands. Unless you can ensure that the command
+   * will work well under multiple clients.
+   *
+   * @deprecated We no longer support `exec`
+   */
   exec(cmd: string, opts?: any): Promise<void>;
-  /** Deprecated: We no longer support `download` */
+  /**
+   * Deprecated: We no longer support `download`
+   *
+   * Execute npm/yarn/... command.
+   * For developers with dawn middleware, we do not recommend that you use
+   * the exec method to execute commands. Unless you can ensure that the command
+   * will work well under multiple clients.
+   * @deprecated We no longer support `download`
+   */
   download(name: string, prefix?: any): Promise<void>;
 }
 
@@ -77,13 +92,34 @@ export abstract class AModules implements IModules {
   public client = "npm"; // npm by default
   public registry = "https://registry.npmjs.org/";
 
+  protected trace = debugFn;
+  protected shell = shell;
+  protected utils = utils;
+  protected console = consola;
+
   constructor(options?: IModuleOptions) {
     Object.assign(this, options);
+    const debug = this.trace("constructor");
+    debug("client", this.client);
+    debug("registry", this.registry);
   }
-  async install() {
+  public stringify = (argvObj?: Record<string, string | number | boolean>): string[] => {
+    if (!argvObj) return [];
+    return Object.entries(argvObj)
+      .map(([name, value]) => {
+        if (value === false) return "";
+        const flagName = (name.length > 1 ? "--" : "-") + name;
+        const flagValue = typeof value !== "boolean" ? `=${value}` : "";
+        return `${flagName}${flagValue}`;
+      })
+      .filter(flag => !!flag);
+  };
+  install = async () => {
     this.notImplemented("Install");
-  }
+  };
+
   async exec(cmd: string, opts?: any) {
+    const debug = this.trace("exec");
     const options = {
       cwd: process.cwd(),
       ...opts,
@@ -92,23 +128,28 @@ export abstract class AModules implements IModules {
         ...opts?.flag,
       },
     };
-    const flags = Object.entries(options?.flag).map(([name, value]) => {
-      const flagName = (name.length > 1 ? "--" : "-") + name;
-      const flagValue = typeof value === "string" ? `=${value}` : "";
-      return `${flagName}${flagValue}`;
-    });
-    const npmBin = (await configs.getRc("npm")) || this.client;
-    const script = `${npmBin} ${cmd || ""} ${flags.join(" ")}`;
-    // debug("exec script", script);
-    // TODO:
-    // await exec(script, { cwd: opts.cwd });
+    debug("options:", JSON.stringify(options));
+    const flags = this.stringify(options?.flag);
+    debug("flags:", flags.join());
+    const script = `${this.client} ${cmd || ""} ${flags.join(" ")}`;
+    debug("script:", script);
+    await this.shell.exec(script, options);
+    debug("finish costs");
   }
-  async download() {
+  download = async () => {
     this.notImplemented("Download");
-  }
+  };
+  /**
+   * Validate client is ok for binName, version, etc.
+   */
+  validate = async () => {
+    this.notImplemented("Validate");
+  };
 
   private notImplemented(funcName?: string) {
-    throw new Error(funcName ? `${funcName} not implemented.` : "Not implemented.");
+    throw new Error(
+      funcName ? `${funcName} is not implemented or no longger support.` : "Not implemented or no longger support..",
+    );
   }
 
   /**

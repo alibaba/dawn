@@ -10,12 +10,14 @@ import * as path from "path";
 import * as util from "util";
 import * as jsYaml from "js-yaml";
 import * as nodeFetch from "node-fetch";
-
+import * as _del from "del";
 import * as _stp from "stp";
 
 import executes from "../executes";
 
 const DEFAULT_TIMEOUT = -1;
+
+export const del = _del;
 
 export function trim(str: string, char?: string) {
   if (!str) return str;
