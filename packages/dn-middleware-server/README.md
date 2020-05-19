@@ -36,9 +36,9 @@ server:
 ### `host`
 
 类型：`string`<br>
-默认值：`0.0.0.0`
+默认值：`localhost`
 
-开发服务的 HOST，默认为本机 `127.0.0.1`，对开发域名有要求的可以绑定 hosts 后在这里配置
+开发服务的 HOST，默认为 `localhost`，对开发域名有要求的可以绑定 hosts 后在这里配置
 
 ### `port`
 

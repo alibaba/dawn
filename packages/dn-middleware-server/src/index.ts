@@ -23,7 +23,7 @@ const handler: Dawn.Handler<IOpts> = opts => {
   return async (next, ctx) => {
     const options: IOpts = {
       protocol: "http://",
-      host: "0.0.0.0",
+      host: "localhost",
       port: !opts.port && ctx.utils.oneport ? await ctx.utils.oneport() : opts.port ?? 8000,
       public: "./build",
       autoOpen: true,
