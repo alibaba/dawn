@@ -1,6 +1,7 @@
 const isObject = value => value !== null && typeof value === 'object';
 
 const ruleMerge = (rules, ctx) => {
+  const logger = ctx && ctx.console ? ctx.console : console;
   if (!isObject(rules)) return null;
   const newRules = {};
   // Only allow warn or error in local .eslintrc.yml file
@@ -20,7 +21,7 @@ const ruleMerge = (rules, ctx) => {
       isLegalRule = isLegal(rule);
     }
     if (!isLegalRule) {
-      ctx && ctx.console.warn(`Local rule is illegal and will be removed: ${name} -> ${JSON.stringify(rule)}`);
+      logger.warn(`Local rule is illegal and will be removed: ${name} -> ${JSON.stringify(rule)}`);
       return;
     }
     newRules[name] = rule;
