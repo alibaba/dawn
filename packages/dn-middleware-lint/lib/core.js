@@ -158,6 +158,11 @@ module.exports.execLint = async (options, ctx) => {
       },
     },
   });
+  if (CLIEngine.version) {
+    const [major] = CLIEngine.version.split('.');
+    if (Number(major) < 6) throw new Error(`ESLint version not supported(${CLIEngine.version}), need >=6.`);
+  }
+  console.log();
   const report = cli.executeOnFiles([options.cwd]);
   console.log(formatter(report.results)); // eslint-disable-line no-console
   if (report && report.errorCount && report.errorCount > 0) process.exit(1);
