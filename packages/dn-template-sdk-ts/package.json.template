@@ -1,0 +1,19 @@
+{
+  "name": "@ali/my-library",
+  "version": "1.0.0",
+  "description": "SDK 描述",
+  "scripts": {
+    "start": "dn d",
+    "build": "dn b"
+  },
+  "main": "./lib/index.js",
+  "module": "./es/index.js",
+  "files": [
+    "es",
+    "lib",
+    "src"
+  ],
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {}
+}

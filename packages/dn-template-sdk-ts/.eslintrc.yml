@@ -1,0 +1,5 @@
+# Do not modify "extends" & "rules".
+
+extends: dawn/typescript
+parserOptions:
+  project: ./tsconfig.json

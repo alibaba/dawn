@@ -1,0 +1,16 @@
+{
+  "name": "@ali/dn-template-sdk-ts",
+  "version": "1.3.3",
+  "description": "单SDK项目TS模板",
+  "scripts": {},
+  "license": "MIT",
+  "devDependencies": {
+    "dn-middleware-babel": "^1.0.0",
+    "dn-middleware-browser-sync": "^0.1.0",
+    "dn-middleware-clean": "^1.0.2",
+    "dn-middleware-lint": "^3.0.0-alpha.37",
+    "dn-middleware-rollup": "^1.0.0-beta.6",
+    "dn-middleware-server": "^1.1.4",
+    "dn-middleware-unit": "^0.2.1"
+  }
+}

@@ -1,0 +1,27 @@
+init:
+  - name: pkginfo
+
+dev:
+  - name: clean
+  - name: lint@next
+    realtime: true
+  - name: rollup
+    watch: true
+  - name: server
+  - name: browser-sync
+
+build:
+  - name: rollup
+
+test:
+  - name: lint@next
+  - name: unit
+
+publish:
+  - name: call
+    pipe:
+      - test
+      - build
+  - name: shell
+    script:
+      - npm pu
