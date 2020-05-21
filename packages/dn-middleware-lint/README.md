@@ -29,6 +29,8 @@ test:
     autoFix: true # 默认是 true，开启 prettier 和 eslint 的自动修复
     realtime: false # 默认是 false，可结合 webpack 等中间件实现开发时实时 lint
     staged: false # 默认是 false，可结合 husky 等修改 precommit hook
+    prettier: false # 默认是 false，开启后会执行 prettier --write，可能会导致 lint 执行时间加长
+    cache: false # 默认是 false，开启后会缓存未修改过文件的上一次 Lint 结果，缓存路径为 `${cwd}/node_modules/.cache/.eslintcache`
 ```
 
 ### 配合 Git Hook
@@ -58,5 +60,5 @@ precommit:
 项目根目录下执行 (c)npm 命令，按照新的包依赖版本
 
 ```bash
-$ npm install --save-dev eslint@6 prettier@2 eslint-config-dawn@latest dn-middleware-lint@latest
+$ npm install --save-dev eslint@latest prettier@latest eslint-config-dawn@latest dn-middleware-lint@latest
 ```

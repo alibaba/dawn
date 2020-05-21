@@ -139,7 +139,7 @@ module.exports.execLint = async (options, ctx) => {
   const { ext } = options.info;
   const eslint = ctx.utils.findCommand(__dirname, 'eslint');
   const prettier = ctx.utils.findCommand(__dirname, 'prettier');
-  ctx.console.info(`Start linting${options.autoFix ? ' and auto fix' : ''}...`);
+  ctx.console.info(`Start linting${options.autoFix ? ' and auto fix' : ''}${options.cache ? ' with cache' : ''}...`);
   const ignorePath = path.join(options.cwd, ESLINT_IGNORE_FILE_PATH);
   const prettierCmd = [prettier, '--write', options.cwd, '--loglevel', 'error', '--ignore-path', ignorePath].join(' ');
   if (options.autoFix && options.prettier) {

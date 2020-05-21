@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-lint",
-  "version": "3.0.0-alpha.38",
+  "version": "3.0.1",
   "description": "Dawn lint middleware",
   "main": "./lib/index.js",
   "scripts": {
