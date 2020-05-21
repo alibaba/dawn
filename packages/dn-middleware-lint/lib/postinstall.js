@@ -1,6 +1,5 @@
 const path = require('path');
 const { rmRcFiles, readAndForceWriteRc, eslintignore, editorconfig, getProjectInfo } = require('./core');
-const pkg = require('../package.json');
 
 // Change post-install hook CWD to project.
 // May not work in some cases.

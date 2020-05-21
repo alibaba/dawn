@@ -6,7 +6,7 @@ const yaml = require('js-yaml');
 const del = require('del');
 const confman = require('confman');
 const { CLIEngine } = require('eslint');
-const formatter = require('eslint-formatter-pretty');
+// const formatter = require('eslint-formatter-pretty');
 const ruleMerge = require('./rules');
 const {
   EDITOR_CONFIG_FILE_PATH,
@@ -137,7 +137,7 @@ module.exports.readAndForceWriteRc = async (options, ctx) => {
 
 module.exports.execLint = async (options, ctx) => {
   const { ext } = options.info;
-  // const eslint = ctx.utils.findCommand(__dirname, 'eslint');
+  const eslint = ctx.utils.findCommand(__dirname, 'eslint');
   const prettier = ctx.utils.findCommand(__dirname, 'prettier');
   ctx.console.info(`Start linting${options.autoFix ? ' and auto fix' : ''}...`);
   const ignorePath = path.join(options.cwd, ESLINT_IGNORE_FILE_PATH);
@@ -145,26 +145,39 @@ module.exports.execLint = async (options, ctx) => {
   if (options.autoFix && options.prettier) {
     await ctx.utils.exec(prettierCmd);
   }
+  const eslintCmd = [
+    eslint,
+    options.cwd,
+    '--ext',
+    ext,
+    options.autoFix ? '--fix' : '',
+    '--ignore-path',
+    ignorePath,
+    '--format',
+    require.resolve('eslint-formatter-pretty'),
+    `--cache-location ${path.join(options.cwd, 'node_modules/.cache/.eslintcache')}`,
+    options.cache ? '--cache' : '',
+  ].join(' ');
   // await ctx.utils.exec(eslintCmd);
-  const cli = new CLIEngine({
-    cwd: options.cwd,
-    fix: options.autoFix,
-    useEslintrc: true,
-    extensions: ext.split(','),
-    baseConfig: {
-      parserOptions: {
-        // fix @typescript-eslint cwd
-        tsconfigRootDir: options.cwd,
-      },
-    },
-  });
+  // const cli = new CLIEngine({
+  //   cwd: options.cwd,
+  //   fix: options.autoFix,
+  //   useEslintrc: true,
+  //   extensions: ext.split(','),
+  //   baseConfig: {
+  //     parserOptions: {
+  //       // fix @typescript-eslint cwd
+  //       tsconfigRootDir: options.cwd,
+  //     },
+  //   },
+  // });
   if (CLIEngine.version) {
     const [major] = CLIEngine.version.split('.');
     if (Number(major) < 6) throw new Error(`ESLint version not supported(${CLIEngine.version}), need >=6.`);
   }
-  console.log();
-  const report = cli.executeOnFiles([options.cwd]);
-  console.log(formatter(report.results)); // eslint-disable-line no-console
-  if (report && report.errorCount && report.errorCount > 0) process.exit(1);
+  await ctx.utils.exec(eslintCmd);
+  // const report = cli.executeOnFiles([options.cwd]);
+  // console.log(formatter(report.results)); // eslint-disable-line no-console
+  // if (report && report.errorCount && report.errorCount > 0) process.exit(1);
   ctx.console.info(`Lint completed.`);
 };

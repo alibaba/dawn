@@ -2,6 +2,7 @@ dev:
   - name: $local
     disabled: false
     location: ./lib/index.js
+    cache: true
 
 postinstall:
   - name: $local
