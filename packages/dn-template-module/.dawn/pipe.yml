@@ -7,8 +7,8 @@ dev:
     realtime: true
   - name: rollup
     watch: true
-  - name: server
-  - name: browser-sync
+  - name: server@next
+  - name: browser-sync@next
 
 build:
   - name: rollup

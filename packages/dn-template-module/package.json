@@ -1,16 +1,18 @@
 {
-  "name": "dn-template-sdk-ts",
+  "name": "dn-template-module",
   "version": "1.0.0",
   "description": "单SDK项目TS模板",
   "scripts": {},
   "license": "MIT",
   "devDependencies": {
     "dn-middleware-babel": "^1.0.0",
-    "dn-middleware-browser-sync": "^0.1.0",
+    "dn-middleware-browser-sync": "^2.0.0-alpha.3",
+    "dn-middleware-call": "^1.0.3",
     "dn-middleware-clean": "^1.0.2",
     "dn-middleware-lint": "^3.0.0-alpha.37",
     "dn-middleware-rollup": "^1.0.0-beta.6",
-    "dn-middleware-server": "^1.1.4",
+    "dn-middleware-server": "^2.0.0-alpha.7",
+    "dn-middleware-shell": "^1.1.1",
     "dn-middleware-unit": "^0.2.1"
   }
 }
