@@ -49,6 +49,7 @@ export class YarnModules extends AModules implements IModules {
       [this.installFlagMap[params?.save ?? "prod"]]: !!packages.length,
       silent: params?.silent ?? false,
       "no-progress": params?.silent ?? false,
+      "non-interactive": true, // Disable interactive prompts, like when there’s an invalid version of a dependency.
     };
     await this.exec(`${cmdBase} ${packages.join(" ")}`, { flag });
     debug("finish costs");
