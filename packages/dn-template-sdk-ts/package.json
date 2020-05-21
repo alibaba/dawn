@@ -1,6 +1,6 @@
 {
-  "name": "@ali/dn-template-sdk-ts",
-  "version": "1.3.3",
+  "name": "dn-template-sdk-ts",
+  "version": "1.0.0",
   "description": "单SDK项目TS模板",
   "scripts": {},
   "license": "MIT",

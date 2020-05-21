@@ -1,5 +1,5 @@
 {
-  "name": "@ali/my-library",
+  "name": "my-library",
   "version": "1.0.0",
   "description": "SDK 描述",
   "scripts": {

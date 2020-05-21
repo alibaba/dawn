@@ -1,8 +1,0 @@
-{
-  "assets": {
-    "type": "builder",
-    "builder": {
-      "name": "@ali/builder-dawn"
-    }
-  }
-}
