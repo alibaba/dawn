@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-dawn",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "dawn eslint rules",
   "main": "index.js",
   "keywords": [

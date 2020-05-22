@@ -118,12 +118,12 @@ module.exports = {
     'no-useless-constructor': 'off',
     '@typescript-eslint/no-useless-constructor': 'error',
 
-    // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/camelcase.md
-    camelcase: 'off',
-    '@typescript-eslint/camelcase': [
-      'error',
-      { properties: 'never', ignoreDestructuring: false, ignoreImports: false, genericType: 'never' },
-    ],
+    // TODO: use https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/naming-convention.md
+    // camelcase: 'off',
+    // '@typescript-eslint/camelcase': [
+    //   'error',
+    //   { properties: 'never', ignoreDestructuring: false, ignoreImports: false, genericType: 'never' },
+    // ],
   },
   overrides: [
     {
