@@ -25,7 +25,7 @@ module.exports.getProjectInfo = async options => {
   const { project = {} } = options;
   let extend = 'dawn/standard';
   let ext = '.js,.jsx';
-  let isReact = false;
+  let isReact = true; // TODO: find out how to judge a project is using React/Rax/JSX.
   if (project && project.name) {
     const pkg = project;
     if (pkg.dependencies && pkg.dependencies.react) isReact = true;
