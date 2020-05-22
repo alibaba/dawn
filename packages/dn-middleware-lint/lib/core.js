@@ -122,7 +122,7 @@ module.exports.readAndForceWriteRc = async (options, ctx) => {
   }
 
   if (ctx && ctx.emit) {
-    ctx.emit('lint.rules', eslintrc.rules); // will be deprecated soon
+    ctx.emit('lint.rules', { extends: [] }); // deprecated: this event
     ctx.emit('lint.config', eslintrc);
   }
 
