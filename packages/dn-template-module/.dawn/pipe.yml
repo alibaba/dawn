@@ -3,8 +3,6 @@ init:
 
 dev:
   - name: clean
-  - name: lint@next
-    realtime: true
   - name: rollup
     watch: true
   - name: server@next
