@@ -8,6 +8,7 @@ import chalk from "chalk";
 import Koa from "koa";
 import serve from "koa-static";
 import serveIndex from "serve-index";
+import serveFavicon from "koa-favicon";
 import enforceHttps from "koa-sslify";
 import * as Dawn from "@dawnjs/types";
 
@@ -90,6 +91,7 @@ const handler: Dawn.Handler<IOpts> = opts => {
     ctx.server = app;
     await next();
 
+    app.use(serveFavicon(path.join(__dirname, "../assets/favicon.ico")));
     app.use(headers(serverConfig?.headers));
     app.use(handlers(serverConfig?.handlers, ctx));
     app.use(proxies(serverConfig?.proxy, ctx));
