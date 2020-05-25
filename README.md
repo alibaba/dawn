@@ -1,16 +1,30 @@
-![Banner](docs/assets/banner-sm.jpg)
+<h1 align="center">
+  <img src="https://img.alicdn.com/tfs/TB1OjR6HQL0gK0jSZFAXXcA9pXa-1360-1360.png" alt="Dawn" width="200">
+  <br>Dawn<br>
+</h1>
 
-# Dawn
+<h4 align="center">Lightweight task management and build tool.</h4>
+
+<p align="center">
+  <a href="https://github.com/alibaba/dawn/blob/master/LICENSE">
+    <img src="https://img.shields.io/npm/l/dawn.svg" alt="LICENSE">
+  </a>
+  <a href="https://www.npmjs.com/package/dawn">
+    <img src="https://img.shields.io/npm/v/dawn.svg" alt="npm version">
+  </a>
+  <a href="https://www.travis-ci.org/alibaba/dawn">
+    <img src="https://coveralls.io/repos/github/alibaba/dawn/badge.svg?branch=dev" alt="Coverage Status">
+  </a>
+  <a href="https://www.npmjs.com/package/dawn">
+    <img src="https://img.shields.io/npm/dt/dawn.svg" alt="npm downloads">
+  </a>
+</p>
+
+<pre align="center">npm i <a href="https://www.npmjs.com/package/dawn">dawn</a> -g</pre>
 
 [README in English](README-intl.md)
 
 Dawn 取「黎明、破晓」之意，原为「阿里云·业务运营团队」内部的前端构建和工程化工具，现已完全开源。它通过 `pipeline` 和 `middleware` 将开发过程抽象为相对固定的阶段和有限的操作，简化并统一了开发人员的日常构建与开发相关的工作。
-
-[![npm](https://img.shields.io/npm/l/dawn.svg)](LICENSE.md)
-[![NPM Version](https://img.shields.io/npm/v/dawn.svg)](https://www.npmjs.com/package/dawn)
-[![Build Status](https://www.travis-ci.org/alibaba/dawn.svg?branch=master)](https://www.travis-ci.org/alibaba/dawn)
-[![Coverage Status](https://coveralls.io/repos/github/alibaba/dawn/badge.svg?branch=dev)](https://coveralls.io/github/alibaba/dawn?branch=dev)
-[![npm](https://img.shields.io/npm/dt/dawn.svg)](https://www.npmjs.com/package/dawn)
 
 ## 特点
 
