@@ -3,8 +3,16 @@ const lintStaged = require('lint-staged');
 const validateOpts = require('./option');
 const { ESLINT_IGNORE_FILE_PATH } = require('./constants');
 const { rmRcFiles, readAndForceWriteRc, execLint, getProjectInfo } = require('./core');
+const debug = require('debug')('dn:middleware:lint');
+// const heapdump = require('heapdump');
+
+// heapdump.writeSnapshot('/var/local/' + Date.now() + '.heapsnapshot');
+// heapdump.writeSnapshot(function (err, filename) {
+//   console.log('dump written to', filename);
+// });
 
 module.exports = opts => {
+  debug('opts', opts);
   const options = {
     realtime: opts.realtime === true, // default false
     autoFix: opts.autoFix !== false, // default true
@@ -12,12 +20,14 @@ module.exports = opts => {
     prettier: opts.staged === true, // default false
     cache: opts.cache === true, // default false
   };
+  debug('options', options);
   return async (next, ctx) => {
     validateOpts(opts, ctx);
     options.cwd = ctx.cwd;
     options.project = ctx.project;
     // eslint-disable-next-line require-atomic-updates
-    options.info = await getProjectInfo(options, ctx);
+    options.info = await getProjectInfo({ ...options });
+    debug('options.info', options.info);
     ctx.emit('lint.opts', options); // will be deprecated soon
     if (options.lintStaged) {
       // Support LintStaged
@@ -34,7 +44,7 @@ module.exports = opts => {
 
     // Async Remove unused .eslintrc files
     // Async Remove unused .prettierrc files
-    rmRcFiles(options, ctx);
+    await rmRcFiles(options, ctx);
 
     // Async overwrite .prettierrc.js file
     await readAndForceWriteRc(options, ctx);
@@ -61,6 +71,8 @@ module.exports = opts => {
             },
           ],
         };
+        debug('realtime.eslintLoader', eslintLoader);
+        debug('webpackVersion', webpackVersion);
         const { module } = webpackConf;
         if (webpackVersion >= 4) {
           if (Array.isArray(module.rules)) {

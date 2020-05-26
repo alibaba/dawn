@@ -1,13 +1,13 @@
 const fs = require('fs');
 const util = require('util');
 const path = require('path');
-const globby = require('globby');
 const yaml = require('js-yaml');
 const del = require('del');
 const confman = require('confman');
 const { CLIEngine } = require('eslint');
 // const formatter = require('eslint-formatter-pretty');
 const ruleMerge = require('./rules');
+const debug = require('debug')('dn:middleware:lint');
 const {
   EDITOR_CONFIG_FILE_PATH,
   ESLINTRC_FILE_PATH,
@@ -22,32 +22,30 @@ const {
 } = require('./constants');
 
 module.exports.getProjectInfo = async options => {
-  const { project = {} } = options;
+  // const { project = {} } = options;
   let extend = 'dawn/standard';
   let ext = '.js,.jsx';
-  let isReact = true; // TODO: find out how to judge a project is using React/Rax/JSX.
-  if (project && project.name) {
-    const pkg = project;
-    if (pkg.dependencies && pkg.dependencies.react) isReact = true;
-    if (pkg.devDependencies && pkg.devDependencies.react) isReact = true;
-    if (pkg.peerDependencies && pkg.peerDependencies.react) isReact = true;
-  } else {
-    isReact = true;
-  }
-  let isTypescript = false;
-  const tsFiles = await globby(['./**/*.ts', './**/*.tsx', '!./**/*.d.ts', '!**/node_modules'], {
-    onlyFiles: true,
-    gitignore: true,
-    cwd: options.cwd,
-  });
-  if (tsFiles && tsFiles.length > 0) isTypescript = true; // TS Project
-
+  const isTypescript = !!fs.existsSync(path.join(options.cwd, 'tsconfig.json'));
+  debug('getProjectInfo.isTypescript', isTypescript);
+  const isReact = true;
+  // TODO: find out how to judge a project is using React/Rax/JSX.
+  // if (project && project.name) {
+  //   const pkg = project;
+  //   if (pkg.dependencies && pkg.dependencies.react) isReact = true;
+  //   if (pkg.devDependencies && pkg.devDependencies.react) isReact = true;
+  //   if (pkg.peerDependencies && pkg.peerDependencies.react) isReact = true;
+  // } else {
+  //   isReact = true;
+  // }
+  debug('getProjectInfo.isReact', isReact);
   if (isTypescript) {
     extend = isReact ? 'dawn/typescript-react' : 'dawn/typescript';
     ext = '.js,.jsx,.ts,.tsx';
   } else {
     extend = isReact ? 'dawn' : 'dawn/standard';
   }
+  debug('getProjectInfo.extend', extend);
+  debug('getProjectInfo.ext', ext);
 
   return {
     isReact,
@@ -62,8 +60,10 @@ module.exports.eslintignore = async options => {
   if (!fs.existsSync(path.join(options.cwd, ESLINT_IGNORE_FILE_PATH))) {
     let ignoreText = ESLINT_IGNORE_FILE_TEMPLATE;
     if (fs.existsSync(path.join(options.cwd, GIT_IGNORE_FILE_PATH))) {
+      debug('eslintignore.useGitIgnore');
       ignoreText = (await util.promisify(fs.readFile)(path.join(options.cwd, GIT_IGNORE_FILE_PATH), 'utf8')).toString();
     }
+    debug('eslintignore.ignoreText', ignoreText);
     await util.promisify(fs.writeFile)(path.join(options.cwd, ESLINT_IGNORE_FILE_PATH), ignoreText, 'utf8');
   }
 };
@@ -82,14 +82,20 @@ module.exports.editorconfig = async options => {
 // ctx is not reqired
 module.exports.rmRcFiles = async (options, ctx) => {
   const logger = ctx && ctx.console ? ctx.console : console;
-  const opts = { gitignore: true, cwd: options.cwd };
-  await del(ESLINTRC_FILE_CLEAN_PATHS, opts).then(eslintrcDeleteFiles => {
+  // const opts = { gitignore: true, cwd: options.cwd };
+  await del(
+    ESLINTRC_FILE_CLEAN_PATHS.map(p => path.join(options.cwd, p)),
+    // opts,
+  ).then(eslintrcDeleteFiles => {
     if (eslintrcDeleteFiles && eslintrcDeleteFiles.length) {
       logger.info(`Deleted ".eslintrc.*" files:`);
       eslintrcDeleteFiles.forEach(filename => logger.info(' ', filename));
     }
   });
-  await del(PRETTIERRC_FILE_CLEAN_PATHS, opts).then(prettierrcDeleteFiles => {
+  await del(
+    PRETTIERRC_FILE_CLEAN_PATHS.map(p => path.join(options.cwd, p)),
+    // opts,
+  ).then(prettierrcDeleteFiles => {
     if (prettierrcDeleteFiles && prettierrcDeleteFiles.length) {
       logger.info(`Deleted ".prettierrc.*" files:`);
       prettierrcDeleteFiles.forEach(filename => logger.info(' ', filename));
@@ -101,6 +107,7 @@ module.exports.readAndForceWriteRc = async (options, ctx) => {
   const { extend, isTypescript } = options.info;
   const logger = ctx && ctx.console ? ctx.console : console;
   let eslintrc = await confman.load(path.join(options.cwd, ESLINTRC_FILE_PATH));
+  debug('readAndForceWriteRc.eslintrc.source', eslintrc);
   // Async overwrite .prettierrc.js file
   util.promisify(fs.writeFile)(path.join(options.cwd, PRETTIERRC_FILE_PATH), PRETTIERRC_FILE_TEMPLATE, 'utf8');
   if (!eslintrc) eslintrc = { extends: extend };
@@ -120,11 +127,13 @@ module.exports.readAndForceWriteRc = async (options, ctx) => {
       project: './tsconfig.json',
     };
   }
+  debug('readAndForceWriteRc.eslintrc.modify', eslintrc);
 
   if (ctx && ctx.emit) {
     ctx.emit('lint.rules', { extends: [] }); // deprecated: this event
     ctx.emit('lint.config', eslintrc);
   }
+  debug('readAndForceWriteRc.eslintrc.event', eslintrc);
 
   // Sync Overwrite
   const eslintrcYaml = await yaml.safeDump(eslintrc);
@@ -139,10 +148,13 @@ module.exports.execLint = async (options, ctx) => {
   const { ext } = options.info;
   const eslint = ctx.utils.findCommand(__dirname, 'eslint');
   const prettier = ctx.utils.findCommand(__dirname, 'prettier');
+  debug('execLint.cmd.eslint', eslint);
+  debug('execLint.cmd.prettier', prettier);
   ctx.console.info(`Start linting${options.autoFix ? ' and auto fix' : ''}${options.cache ? ' with cache' : ''}...`);
   const ignorePath = path.join(options.cwd, ESLINT_IGNORE_FILE_PATH);
   const prettierCmd = [prettier, '--write', options.cwd, '--loglevel', 'error', '--ignore-path', ignorePath].join(' ');
   if (options.autoFix && options.prettier) {
+    debug('execLint.prettier', prettierCmd);
     await ctx.utils.exec(prettierCmd);
   }
   const eslintCmd = [
@@ -158,7 +170,7 @@ module.exports.execLint = async (options, ctx) => {
     `--cache-location ${path.join(options.cwd, 'node_modules/.cache/.eslintcache')}`,
     options.cache ? '--cache' : '',
   ].join(' ');
-  // await ctx.utils.exec(eslintCmd);
+  debug('execLint.eslint', eslintCmd);
   // const cli = new CLIEngine({
   //   cwd: options.cwd,
   //   fix: options.autoFix,
@@ -171,6 +183,7 @@ module.exports.execLint = async (options, ctx) => {
   //     },
   //   },
   // });
+  debug('execLint.eslint.version', CLIEngine.version);
   if (CLIEngine.version) {
     const [major] = CLIEngine.version.split('.');
     if (Number(major) < 6) throw new Error(`ESLint version not supported(${CLIEngine.version}), need >=6.`);
@@ -180,4 +193,5 @@ module.exports.execLint = async (options, ctx) => {
   // console.log(formatter(report.results)); // eslint-disable-line no-console
   // if (report && report.errorCount && report.errorCount > 0) process.exit(1);
   ctx.console.info(`Lint completed.`);
+  debug('execLint.finish');
 };

@@ -1,10 +1,16 @@
 module.exports.EDITOR_CONFIG_FILE_PATH = '.editorconfig';
 module.exports.ESLINTRC_FILE_PATH = '.eslintrc.yml';
-module.exports.ESLINTRC_FILE_CLEAN_PATHS = ['.eslintrc', '.eslintrc.*', '!.eslintrc.yml'];
+module.exports.ESLINTRC_FILE_CLEAN_PATHS = [
+  '.eslintrc',
+  '.eslintrc.js',
+  '.eslintrc.cjs',
+  '.eslintrc.json',
+  '.eslintrc.yaml',
+];
 module.exports.ESLINT_IGNORE_FILE_PATH = '.eslintignore';
 module.exports.GIT_IGNORE_FILE_PATH = '.gitignore';
 module.exports.PRETTIERRC_FILE_PATH = '.prettierrc.js';
-module.exports.PRETTIERRC_FILE_CLEAN_PATHS = ['.prettierrc', '.prettierrc.*', '!.prettierrc.js'];
+module.exports.PRETTIERRC_FILE_CLEAN_PATHS = ['.prettierrc', '.prettierrc.yaml', '.prettierrc.yml', '.prettierrc.json'];
 module.exports.PRETTIERRC_FILE_TEMPLATE = `/** !!DO NOT MODIFY THIS FILE!! */
 module.exports = require('eslint-config-dawn/prettierrc');
 `;

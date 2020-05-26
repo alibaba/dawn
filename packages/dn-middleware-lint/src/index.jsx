@@ -11,7 +11,7 @@ function test() {
     case 'b':
       break;
   }
-  return <XXX></XXX>;
+  return <XXX />;
 }
 test();
 console.log(1);

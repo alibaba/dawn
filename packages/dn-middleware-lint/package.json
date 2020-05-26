@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-lint",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "description": "Dawn lint middleware",
   "main": "./lib/index.js",
   "scripts": {
@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "confman": "^0.2.10",
+    "debug": "^4.1.1",
     "del": "^5.1.0",
     "eslint": "^6.8.0",
     "eslint-config-dawn": "^2.0.1",

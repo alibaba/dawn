@@ -1,6 +1,9 @@
+const debug = require('debug')('dn:middleware:lint');
+
 const isObject = value => value !== null && typeof value === 'object';
 
 const ruleMerge = (rules, ctx) => {
+  debug('ruleMerge.rules', rules);
   const logger = ctx && ctx.console ? ctx.console : console;
   if (!isObject(rules)) return null;
   const newRules = {};
@@ -26,7 +29,7 @@ const ruleMerge = (rules, ctx) => {
     }
     newRules[name] = rule;
   });
-
+  debug('ruleMerge.newRules', newRules);
   return Object.keys(newRules).length ? newRules : null;
 };
 
