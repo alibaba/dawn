@@ -1,6 +1,6 @@
 import { Options as AutoprefixerOptions } from "autoprefixer";
 import { RPT2Options as RollupTypescript2Options } from "rollup-plugin-typescript2";
-import { Options as RollupNodeResolveOptions } from "@rollup/plugin-node-resolve";
+import { RollupNodeResolveOptions } from "@rollup/plugin-node-resolve";
 import { Alias } from "@rollup/plugin-alias";
 import { RollupInjectOptions } from "@rollup/plugin-inject";
 import { RollupReplaceOptions } from "@rollup/plugin-replace";
@@ -9,7 +9,7 @@ import { RollupCommonJSOptions } from "@rollup/plugin-commonjs";
 import { IHtmlPluginOptions } from "@rollup/plugin-html";
 import { RollupJsonOptions } from "@rollup/plugin-json";
 import { IYamlPluginOptions } from "@rollup/plugin-yaml";
-import { IWasmPluginOptions } from "@rollup/plugin-wasm";
+import { RollupWasmOptions } from "@rollup/plugin-wasm";
 import { Context } from "@dawnjs/types";
 
 export interface IBundleOutput {
@@ -66,7 +66,7 @@ export interface IBundleOptions {
   html?: Omit<IHtmlPluginOptions, "template">;
   json?: RollupJsonOptions;
   yaml?: IYamlPluginOptions;
-  wasm?: boolean | IWasmPluginOptions;
+  wasm?: boolean | RollupWasmOptions;
 }
 
 export interface IOpts extends IBundleOptions {

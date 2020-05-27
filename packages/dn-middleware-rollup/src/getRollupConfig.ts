@@ -99,10 +99,13 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
   const terserOptions = merge(
     {
       compress: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         pure_getters: true,
         unsafe: true,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         unsafe_comps: true,
         warnings: false,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         global_defs: {
           module: false,
         },
@@ -264,6 +267,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
                 plugins: [
                   ...getPlugins({ minCSS: true }),
                   replace({
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
                     "process.env.NODE_ENV": JSON.stringify("production"),
                   }),
                   terser(terserOptions),
@@ -326,6 +330,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
             ...getPlugins(),
             ...extraUmdPlugins,
             replace({
+              // eslint-disable-next-line @typescript-eslint/naming-convention
               "process.env.NODE_ENV": JSON.stringify("development"),
             }),
             ...(target === "browser" ? [html({ title: "Dawn", ...htmlOpts, template })] : []),
@@ -357,6 +362,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
                   ...getPlugins({ minCSS: true }),
                   ...extraUmdPlugins,
                   replace({
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
                     "process.env.NODE_ENV": JSON.stringify("production"),
                   }),
                   terser(terserOptions),

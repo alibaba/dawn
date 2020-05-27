@@ -13,7 +13,7 @@ build:
     target:
       - lib
   - name: babel
-    useBuiltins: false
+    useBuiltIns: false
     nodeVersion: '10'
     extraPlugins:
       - babel-plugin-add-module-exports
