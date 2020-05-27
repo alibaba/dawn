@@ -83,7 +83,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
     babelrc: false,
     exclude: "node_modules/**",
     extensions,
-    babelHelpers: runtimeHelpers ? "runtime" : "bundled",
+    babelHelpers: runtimeHelpers && useBuiltIns === false ? "runtime" : "bundled",
   };
 
   const input = join(cwd, entry);
