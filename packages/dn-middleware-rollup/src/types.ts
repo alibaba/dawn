@@ -48,8 +48,8 @@ export interface IBundleOptions {
   sass?: Record<string, any>;
   autoprefixer?: AutoprefixerOptions;
   useBuiltIns?: "usage" | "entry" | false;
-  corejs?: 2 | 3 | { version: 2 | 3; proposals: boolean };
   runtimeHelpers?: boolean;
+  corejs?: false | 2 | 3 | { version: 2 | 3; proposals: boolean };
   nodeVersion?: string | "current" | true;
   extraBabelPresets?: any[];
   extraBabelPlugins?: any[];

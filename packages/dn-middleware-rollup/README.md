@@ -280,19 +280,19 @@ _说明：该配置项主要是为了老的历史项目可以快速接入，过�
 
 透传给 `dn-middleware-babel` 的 `useBuiltIns` 配置项，详细说明请查看[相关文档](https://www.npmjs.com/package/dn-middleware-babel#usebuiltins)
 
-### `corejs`
-
-类型：`2 | 3 | { version: 2 | 3; proposals: boolean }`<br>
-默认值：
-
-透传给 `dn-middleware-babel` 的 `corejs` 配置项，详细说明请查看[相关文档](https://www.npmjs.com/package/dn-middleware-babel#corejs)
-
 ### `runtimeHelpers`
 
 类型：`boolean`<br>
 默认值：
 
 透传给 `dn-middleware-babel` 的 `runtimeHelpers` 配置项，详细说明请查看[相关文档](https://www.npmjs.com/package/dn-middleware-babel#runtimehelpers)
+
+### `corejs`
+
+类型：`2 | 3 | { version: 2 | 3; proposals: boolean }`<br>
+默认值：
+
+透传给 `dn-middleware-babel` 的 `corejs` 配置项，详细说明请查看[相关文档](https://www.npmjs.com/package/dn-middleware-babel#corejs)
 
 ### `extraBabelPresets`
 

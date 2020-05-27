@@ -76,11 +76,4 @@ export const validateOpts = async (opts: IOpts, ctx: IDawnContext): Promise<void
       );
     }
   }
-
-  // if (opts.runtimeHelpers) {
-  //   const pkg = ctx.project;
-  //   if (!pkg.dependencies?.["@babel/runtime"]) {
-  //     await ctx.mod.install("@babel/runtime");
-  //   }
-  // }
 };
