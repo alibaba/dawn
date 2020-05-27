@@ -110,7 +110,7 @@ _说明：当配置为 `"browser"` 时，可通过 `.browserslistrc` 指定目�
 > `useBuiltIns`, `runtimeHelpers`, `corejs` 三个配置项通常需要配合使用，具体说明如下
 >
 > 1. `useBuiltIns` 优先于 `runtimeHelpers`，只有设置 `useBuiltIns` 为 `false` 时，`runtimeHelpers` 配置才有效，否则会被忽略。
-> 2. 当使用 `useBuiltIns` 时，`corejs` 配置项作用于 `@babel/preset-env` ，并且项目中如果未在 `pkg.dependencies` 中申明 `corejs` 依赖，会根据 `corejs` 配置项指定的版本，在项目中安装对应的 `corejs` 依赖。
+> 2. 当使用 `useBuiltIns` 时，`corejs` 配置项作用于 `@babel/preset-env` ，并且项目中如果未在 `pkg.dependencies` 中申明 `core-js` 依赖，会根据 `corejs` 配置项指定的版本，在项目中安装对应的 `core-js` 依赖。
 > 3. 当使用 `runtimeHelpers` ，并且关闭 `useBuiltIns` 时，`corejs` 配置项作用于 `@babel/plugin-transform-runtime`
 >    - 当 `corejs` 为 `false` 时，如果项目中未申明 `@babel/runtime` 依赖，会根据 `runtimeHelpers` 指定的版本号（未指定时安装最新版本）安装对应的 `@babel/runtime` 依赖
 >    - 当 `corejs` 指定的版本号为 `2` 时，如果项目中未申明 `@babel/runtime-corejs2` 依赖，会根据 `runtimeHelpers` 指定的版本号（未指定时安装最新版本）安装对应的 `@babel/runtime-corejs2` 依赖
