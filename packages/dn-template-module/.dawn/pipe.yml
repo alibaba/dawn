@@ -5,8 +5,8 @@ dev:
   - name: clean
   - name: rollup
     watch: true
-  - name: server@next
-  - name: browser-sync@next
+  - name: server
+  - name: browser-sync
 
 build:
   - name: rollup
