@@ -58,7 +58,7 @@ i18n.isWhole = function (locale) {
 };
 
 i18n.getLocale = function (name) {
-  var values = global[$opts.key];
+  var values = window[$opts.key];
   if (!name) return values || {};
   if (values && !this.isWhole(values)) return values;
   var locales = values || $locales;
