@@ -4,23 +4,23 @@ import { merge } from "lodash";
 import { IDawnContext, IOpts } from "./types";
 
 export const getOpts = (opts: IOpts, ctx: IDawnContext): IOpts => {
-  return merge({ cwd: ctx.cwd, useBuiltins: "usage", corejs: { version: 3, proposals: true } } as IOpts, opts);
+  return merge({ cwd: ctx.cwd, useBuiltIns: "usage", corejs: { version: 3, proposals: true } } as IOpts, opts);
 };
 
 export const validateOpts = async (opts: IOpts, ctx: IDawnContext): Promise<void> => {
-  const { cwd, useBuiltins, runtimeHelpers, corejs, target, noEmit, watch } = opts;
+  const { cwd, useBuiltIns, runtimeHelpers, corejs, target, noEmit, watch } = opts;
   const pkg = ctx.project;
 
-  if (useBuiltins && runtimeHelpers) {
+  if (useBuiltIns && runtimeHelpers) {
     ctx.console.warn(
-      "Do not use @babel/preset-env's useBuiltins option together with @babel/plugin-transform-runtime. runtimeHelpers ignored",
+      "Do not use @babel/preset-env's useBuiltIns option together with @babel/plugin-transform-runtime. runtimeHelpers ignored",
     );
   }
 
-  if (useBuiltins) {
+  if (useBuiltIns) {
     if (!pkg.dependencies?.["core-js"]) {
       ctx.console.warn(
-        `Enable @babel/preset-env's useBuiltins options but core-js is not installed. Installing it with version ${
+        `Enable @babel/preset-env's useBuiltIns options but core-js is not installed. Installing it with version ${
           corejs?.version || corejs || 3
         }...`,
       );
