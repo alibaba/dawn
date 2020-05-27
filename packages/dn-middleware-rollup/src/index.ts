@@ -12,7 +12,7 @@ const handler: Handler<IOpts> = options => {
       await ctx.utils.sleep(100); // Waiting for synchronously modification for opts
     }
 
-    validateOpts(opts, ctx);
+    await validateOpts(opts, ctx);
 
     await ctx.exec({ name: "babel", noEmit: true }); // Just for trigger install babel middleware synchronously
 

@@ -17,7 +17,8 @@
   },
   "files": [
     "src",
-    "lib"
+    "lib",
+    "template"
   ],
   "author": {
     "name": "soulwu",
@@ -41,13 +42,13 @@
     "node": ">=10.0.0"
   },
   "devDependencies": {
-    "@dawnjs/types": "^1.8.5-alpha.9",
+    "@dawnjs/types": "^1.8.5",
     "@types/autoprefixer": "^9.7.2",
     "@types/babel__core": "^7.1.7",
     "@types/cssnano": "^4.0.0",
     "@types/lodash": "^4.14.150",
     "babel-plugin-add-module-exports": "^1.0.2",
-    "dn-middleware-babel": "^1.0.0-beta.8",
+    "dn-middleware-babel": "^1.0.0",
     "dn-middleware-call": "^1.0.3",
     "dn-middleware-clean": "^1.0.2",
     "dn-middleware-lint": "^3.0.0-alpha.35",
@@ -90,7 +91,7 @@
     "rollup-plugin-terser": "^5.3.0",
     "rollup-plugin-typescript2": "^0.27.0",
     "rollup-plugin-visualizer": "^4.0.4",
-    "tslib": "^1.11.1",
-    "typescript": "^3.8.3"
+    "tslib": "^1.12.0",
+    "typescript": "^3.9.2"
   }
 }

@@ -48,15 +48,7 @@ export const getOpts = (opts: IOpts, ctx: IDawnContext): IOpts => {
   return merge({ cwd: ctx.cwd, entry }, defaultOpts, opts.watch ? watchDefaultOpts : {}, opts);
 };
 
-export const validateOpts = (opts: IOpts, ctx: IDawnContext): void => {
-  if (opts.runtimeHelpers) {
-    const pkg = ctx.project;
-    assert.ok(
-      (pkg.dependencies || {})["@babel/runtime"],
-      "@babel/runtime dependency is required to use runtimeHelpers.",
-    );
-  }
-
+export const validateOpts = async (opts: IOpts, ctx: IDawnContext): Promise<void> => {
   assert.ok(
     opts.esm || opts.cjs || opts.umd,
     "None format of cjs | esm | umd is configured, checkout guide for usage details.",
@@ -66,12 +58,29 @@ export const validateOpts = (opts: IOpts, ctx: IDawnContext): void => {
 
   const hasTypescript = Array.isArray(opts.entry) ? opts.entry.some(isTypescriptFile) : isTypescriptFile(opts.entry);
   if (hasTypescript) {
-    assert.ok(existsSync(join(opts.cwd, "tsconfig.json")), "Project using typescript but tsconfig.json not exists.");
+    if (!existsSync(join(opts.cwd, "tsconfig.json"))) {
+      ctx.console.warn("Project using typescript but tsconfig.json not exists. Using default...");
+      await ctx.utils.writeFile(
+        join(opts.cwd, "tsconfig.json"),
+        await ctx.utils.readFile(join(__dirname, "../template/tsconfig.json")),
+      );
+    }
   }
 
   if (opts.target === "browser") {
     if (!existsSync(join(opts.cwd, ".browserslistrc"))) {
-      ctx.console.warn("No .browserslistrc found for browser target.");
+      ctx.console.warn("No .browserslistrc found for browser target. Using default...");
+      await ctx.utils.writeFile(
+        join(opts.cwd, ".browserslistrc"),
+        await ctx.utils.readFile(join(__dirname, "../template/.browserslistrc")),
+      );
     }
   }
+
+  // if (opts.runtimeHelpers) {
+  //   const pkg = ctx.project;
+  //   if (!pkg.dependencies?.["@babel/runtime"]) {
+  //     await ctx.mod.install("@babel/runtime");
+  //   }
+  // }
 };
