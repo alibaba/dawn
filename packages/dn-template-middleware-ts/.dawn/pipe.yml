@@ -27,6 +27,7 @@ build:
     pipe:
       - clean
   - name: babel
+    useBuiltIns: false
     extraPlugins:
       - babel-plugin-add-module-exports
 

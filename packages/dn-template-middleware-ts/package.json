@@ -1,6 +1,6 @@
 {
   "name": "dn-template-middleware-ts",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Dawn middleware project template with typescript support",
   "scripts": {
     "test": "dn test"
@@ -16,12 +16,12 @@
   "license": "MIT",
   "devDependencies": {
     "@dawnjs/types": "^1.8.5",
-    "dn-middleware-babel": "^1.0.0",
+    "dn-middleware-babel": "^1.1.2",
     "dn-middleware-call": "^1.0.3",
     "dn-middleware-clean": "^1.0.2",
-    "dn-middleware-lint": "^3.0.0-alpha.35",
+    "dn-middleware-lint": "^3.0.5",
     "dn-middleware-publish": "^1.0.1",
     "dn-middleware-version": "^1.0.4",
-    "typescript": "^3.9.2"
+    "typescript": "^3.9.3"
   }
 }
