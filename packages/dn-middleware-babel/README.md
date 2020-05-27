@@ -86,12 +86,22 @@ _说明：当配置为 `"browser"` 时，可通过 `.browserslistrc` 指定目�
 
 目标输入目录，如果不配置，会根据 `type` 不同，分别设置不同的目录
 
+### `useBuiltins`
+
+类型：`"usage" | "entry" | false`<br>
+默认值：`"usage"`
+
 ### `runtimeHelpers`
 
 类型：`boolean`<br>
 默认值：`false`
 
 配置是否加入 `@babel/plugin-transform-runtime` 支持
+
+### `corejs`
+
+类型：`false | 2 | 3 | { version: 2 | 3; proposals: boolean }`<br>
+默认值：`{ version: 3, proposals: true }`
 
 ### `extraPresets`
 

@@ -11,7 +11,9 @@ export interface IOpts {
   exclude: string[];
   output?: string;
   target?: "browser" | "node";
-  runtimeHelpers?: boolean;
+  useBuiltins?: "usage" | "entry" | false;
+  runtimeHelpers?: boolean | string;
+  corejs?: false | 2 | 3 | { version: 2 | 3; proposals: boolean };
   extraPresets?: any[];
   extraPlugins?: any[];
   nodeVersion?: string | "current" | true;
@@ -24,7 +26,9 @@ export interface IGetBabelConfigOpts {
   target: "browser" | "node";
   type?: "esm" | "cjs";
   typescript?: boolean;
-  runtimeHelpers?: boolean;
+  useBuiltins?: "usage" | "entry" | false;
+  runtimeHelpers?: boolean | string;
+  corejs?: false | 2 | 3 | { version: 2 | 3; proposals: boolean };
   nodeVersion?: number;
   lazy?: boolean;
 }
