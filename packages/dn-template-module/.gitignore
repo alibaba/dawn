@@ -6,3 +6,4 @@ coverage/
 build/
 es/
 lib/
+.dawn/rc.yml
