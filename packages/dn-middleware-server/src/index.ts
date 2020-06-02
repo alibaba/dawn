@@ -89,6 +89,7 @@ const handler: Dawn.Handler<IOpts> = opts => {
 
     const app = new Koa();
     ctx.server = app;
+    ctx.emit("server.init", ctx.server);
     await next();
 
     app.use(serveFavicon(path.join(__dirname, "../assets/favicon.ico")));
@@ -151,7 +152,6 @@ const handler: Dawn.Handler<IOpts> = opts => {
       ctx.httpServer = http.createServer(app.callback()).listen(...listenOptions);
     }
     (ctx.server as any).httpServer = ctx.httpServer;
-    ctx.emit("server.init", ctx.server);
   };
 };
 
