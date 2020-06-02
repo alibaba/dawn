@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-lint",
-  "version": "3.0.5",
+  "version": "3.0.8",
   "description": "Dawn lint middleware",
   "main": "./lib/index.js",
   "scripts": {
@@ -24,6 +24,7 @@
     "globby": "^11.0.0",
     "js-yaml": "^3.13.1",
     "lint-staged": "^10.2.4",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "rollup-plugin-eslint": "^7.0.0"
   }
 }

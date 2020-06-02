@@ -1,5 +1,6 @@
 const path = require('path');
 const lintStaged = require('lint-staged');
+const eslintRollup = require('rollup-plugin-eslint').eslint;
 const validateOpts = require('./option');
 const { ESLINT_IGNORE_FILE_PATH } = require('./constants');
 const { rmRcFiles, readAndForceWriteRc, execLint, getProjectInfo } = require('./core');
@@ -50,13 +51,14 @@ module.exports = opts => {
     await readAndForceWriteRc(options, ctx);
 
     if (options.realtime) {
-      const { ext } = await getProjectInfo(options, ctx);
+      const { ext } = options.info || {};
       // TODO: wait for webpack/rollup.. pack middleware refactor
       // TODO: just set a symbol
       const testStr = ext
         .split(',')
         .map(k => `\\${k}`)
         .join('|');
+      const formatter = require.resolve('eslint-formatter-pretty');
       ctx.on('webpack.config', webpackConf => {
         const webpackVersion = webpackConf.module.rules ? 4 : 3;
         const eslintLoader = {
@@ -67,7 +69,7 @@ module.exports = opts => {
           loader: [
             {
               loader: require.resolve('eslint-loader'),
-              options: { cache: true, formatter: 'stylish' },
+              options: { cache: true, formatter },
             },
           ],
         };
@@ -90,6 +92,18 @@ module.exports = opts => {
             module.loaders = [eslintLoader];
           }
         }
+      });
+      ctx.on('rollup.config', rollupConfig => {
+        if (!Array.isArray(rollupConfig.plugins)) return;
+        rollupConfig.plugins.unshift(
+          eslintRollup({
+            fix: options.autoFix,
+            throwOnError: false,
+            throwOnWarning: false,
+            include: ext.split(',').map(suffix => path.resolve(ctx.cwd, 'src', `**/*${suffix}`)),
+            formatter,
+          }),
+        );
       });
     } else {
       // Sync exec lint
