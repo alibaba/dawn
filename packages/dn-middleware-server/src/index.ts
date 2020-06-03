@@ -16,6 +16,7 @@ import historyApiFallback from "./historyApiFallback";
 import headers from "./headers";
 import handlers from "./handlers";
 import proxies from "./proxies";
+import webpackDev from "./webpackDev";
 import { IOpts } from "./types";
 
 const c2k = require("koa-connect");
@@ -107,11 +108,13 @@ const handler: Dawn.Handler<IOpts> = opts => {
       app.use(c2k(indexServe));
     }
 
+    app.use(await webpackDev(ctx, { enabledHttps, options }));
     const listenOptions: any = [
       options.port,
       "0.0.0.0", // TODO: make server access by public ips
       async () => {
         const ifaces = os.networkInterfaces();
+        console.log();
         ctx.console.info(`Starting up dev-server, serving ${chalk.underline.bold(options.public)} at:`);
         let shouldOpenUrl = `${options.protocol}${options.host}:${options.port}`;
 
