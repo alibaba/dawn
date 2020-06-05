@@ -18,7 +18,7 @@ module.exports = opts => {
     realtime: opts.realtime === true, // default false
     autoFix: opts.autoFix !== false, // default true
     lintStaged: opts.staged === true, // default false
-    prettier: opts.staged === true, // default false
+    prettier: opts.prettier === true, // default false
     cache: opts.cache === true, // default false
   };
   debug('options', options);
