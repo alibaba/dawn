@@ -120,7 +120,7 @@ module.exports = {
 
 打包入口，如果未配置，默认会按优先级自动查找
 
-_说明：优化级顺序 `src/index.tsx` > `src/index.ts` > `src/index.jsx` > `src/index.js`_
+_说明：优先级顺序 `src/index.tsx` > `src/index.ts` > `src/index.jsx` > `src/index.js`_
 
 ### `target`
 
@@ -250,10 +250,10 @@ _说明：默认会根据项目 `package.json` 中的 `name` 字段动态生成�
 
 #### `umd.template`
 
-类型：`string`<br>
+类型：`false | string`<br>
 默认值：`"./src/assets/index.html"`
 
-当 `target` 为 `"browser"` 时，`UMD` 输出格式会同时输出一份 `index.html` 入口文件，该配置项用于指定自定义模板文件
+当 `target` 为 `"browser"` 时，`UMD` 输出格式会同时输出一份 `index.html` 入口文件，该配置项用于指定自定义模板文件。设置为`false`时，会关闭入口文件的输出
 
 _说明：如果自定义模板文件不存在，会使用内置的模板进行输出。对于模板编写的详细说明，请查看[入口模板文件编写说明](#入口模板文件编写说明)了解更多_
 

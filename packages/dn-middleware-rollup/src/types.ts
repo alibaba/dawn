@@ -30,7 +30,7 @@ export interface IUmd extends IBundleOutput {
   name?: string;
   minFile?: boolean;
   sourcemap?: boolean | "inline" | "hidden";
-  template?: string;
+  template?: false | string;
 }
 
 export interface IBundleOptions {

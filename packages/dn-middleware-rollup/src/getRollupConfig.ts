@@ -159,7 +159,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
   </body>
 </html>
 `;
-    const templateFile = resolve(cwd, (umd as IUmd).template);
+    const templateFile = resolve(cwd, (umd as IUmd).template as string);
     if (existsSync(templateFile) && statSync(templateFile).isFile()) {
       const strTmpl = readFileSync(templateFile, "utf-8");
       return ctx.utils.stp(strTmpl, data);
@@ -331,7 +331,9 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
               // eslint-disable-next-line @typescript-eslint/naming-convention
               "process.env.NODE_ENV": JSON.stringify("development"),
             }),
-            ...(target === "browser" ? [html({ title: "Dawn", ...htmlOpts, template })] : []),
+            ...(target === "browser" && umd && umd.template !== false
+              ? [html({ title: "Dawn", ...htmlOpts, template })]
+              : []),
             ...(analysis
               ? [
                   visualizer({
