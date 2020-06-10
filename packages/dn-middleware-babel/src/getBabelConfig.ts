@@ -2,7 +2,7 @@ import { TransformOptions } from "@babel/core";
 import { IGetBabelConfigOpts } from "./types";
 
 export const getBabelConfig = (opts: IGetBabelConfigOpts): Pick<TransformOptions, "presets" | "plugins"> => {
-  const { target, typescript, type, runtimeHelpers, nodeVersion, lazy } = opts;
+  const { target, typescript, type, runtimeHelpers, corejs, nodeVersion, lazy } = opts;
   const isBrowser = target === "browser";
   const targets = isBrowser ? undefined : { node: nodeVersion || "10" };
 
@@ -39,7 +39,16 @@ export const getBabelConfig = (opts: IGetBabelConfigOpts): Pick<TransformOptions
       [require.resolve("@babel/plugin-proposal-decorators"), { legacy: true }],
       [require.resolve("@babel/plugin-proposal-class-properties"), { loose: true }],
       ...(runtimeHelpers
-        ? [[require.resolve("@babel/plugin-transform-runtime"), { useESModules: isBrowser && type === "esm" }]]
+        ? [
+            [
+              require.resolve("@babel/plugin-transform-runtime"),
+              {
+                useESModules: isBrowser && type === "esm",
+                corejs,
+                ...(typeof runtimeHelpers === "string" ? { version: runtimeHelpers } : {}),
+              },
+            ],
+          ]
         : []),
     ],
   };

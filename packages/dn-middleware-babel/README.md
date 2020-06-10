@@ -88,10 +88,25 @@ _说明：当配置为 `"browser"` 时，可通过 `.browserslistrc` 指定目�
 
 ### `runtimeHelpers`
 
-类型：`boolean`<br>
+类型：`boolean | string`<br>
 默认值：`false`
 
-配置是否加入 `@babel/plugin-transform-runtime` 支持
+配置是否加入 `@babel/plugin-transform-runtime` 支持，如果为字符串，则用于指定 `@babel/runtime` 或 `@babel/runtime-corejs2` 或 `@babel/runtime-corejs3` 的版本号，具体是哪个包，由 `corejs` 配置项决定
+
+### `corejs`
+
+类型：`false | 2 | 3 | { version: 2 | 3; proposals: boolean }`<br>
+默认值：`false`
+
+配置 `@babel/preset-env` 的 `corejs` 选项和 `@babel/plugin-transform-runtime` 的 `corejs` 选项
+
+> `runtimeHelpers` 和 `corejs` 通常需要配合使用，具体说明如下
+>
+> 当使用 `runtimeHelpers` 时，`corejs` 作为 `@babel/plugin-transform-runtime` 的选项
+>
+> - 当 `corejs` 为 `false` 时，如果项目中未申明 `@babel/runtime` 依赖，会根据 `runtimeHelpers` 指定的版本号（未指定时安装最新版本）安装对应的 `@babel/runtime` 依赖
+> - 当 `corejs` 指定的版本号为 `2` 时，如果项目中未申明 `@babel/runtime-corejs2` 依赖，会根据 `runtimeHelpers` 指定的版本号（未指定时安装最新版本）安装对应的 `@babel/runtime-corejs2` 依赖
+> - 当 `corejs` 指定的版本号为 `3` 时，如果项目中未申明 `@babel/runtime-corejs3` 依赖，会根据 `runtimeHelpers` 指定的版本号（未指定时安装最新版本）安装对应的 `@babel/runtime-corejs3` 依赖
 
 ### `extraPresets`
 

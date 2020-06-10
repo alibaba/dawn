@@ -25,6 +25,7 @@ export const run = async (
     include = ["**/*"],
     exclude = ["**/__test__{,/**}", "**/*.+(test|e2e|spec).+(js|jsx|ts|tsx)"],
     runtimeHelpers,
+    corejs,
     extraPresets = [],
     extraPlugins = [],
     nodeVersion,
@@ -43,6 +44,7 @@ export const run = async (
     type,
     typescript: true,
     runtimeHelpers,
+    corejs,
     nodeVersion,
     lazy,
   });

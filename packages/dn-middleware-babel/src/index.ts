@@ -11,7 +11,7 @@ const handler: Handler<IOpts> = options => {
       await ctx.utils.sleep(100);
     }
 
-    validateOpts(opts, ctx);
+    await validateOpts(opts, ctx);
 
     const babelOpts = await run(opts, ctx);
 
