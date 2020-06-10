@@ -96,7 +96,7 @@ _说明：当配置为 `"browser"` 时，可通过 `.browserslistrc` 指定目�
 ### `corejs`
 
 类型：`false | 2 | 3 | { version: 2 | 3; proposals: boolean }`<br>
-默认值：`{ version: 3, proposals: true }`
+默认值：`false`
 
 配置 `@babel/preset-env` 的 `corejs` 选项和 `@babel/plugin-transform-runtime` 的 `corejs` 选项
 

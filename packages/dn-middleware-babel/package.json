@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-babel",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Transform code with babel",
   "keywords": [
     "dawn",
