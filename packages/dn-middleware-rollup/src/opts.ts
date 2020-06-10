@@ -22,6 +22,8 @@ export const getOpts = (opts: IOpts, ctx: IDawnContext): IOpts => {
   const defaultOpts: IOpts = {
     target: "browser",
     outDir: "build",
+    runtimeHelpers: true,
+    corejs: false,
     esm: {
       minify: false,
       mjs: false,

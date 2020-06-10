@@ -48,7 +48,7 @@
     "@types/cssnano": "^4.0.0",
     "@types/lodash": "^4.14.153",
     "babel-plugin-add-module-exports": "^1.0.2",
-    "dn-middleware-babel": "^1.1.2",
+    "dn-middleware-babel": "^1.2.0",
     "dn-middleware-call": "^1.0.3",
     "dn-middleware-clean": "^1.0.2",
     "dn-middleware-lint": "^3.0.5",
@@ -57,6 +57,7 @@
     "dn-middleware-version": "^1.0.4"
   },
   "dependencies": {
+    "@babel/runtime": "^7.10.2",
     "@rollup/plugin-alias": "^3.1.0",
     "@rollup/plugin-babel": "^5.0.2",
     "@rollup/plugin-commonjs": "^12.0.0",

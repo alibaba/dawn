@@ -17,7 +17,6 @@ const handler: Handler<IOpts> = options => {
     await ctx.exec({
       name: "babel",
       noEmit: true,
-      useBuiltIns: opts.useBuiltIns,
       runtimeHelpers: opts.runtimeHelpers,
       corejs: opts.corejs,
     }); // Trigger install babel middleware synchronously and install deps

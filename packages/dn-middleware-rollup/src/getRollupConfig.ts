@@ -44,7 +44,6 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
     disableTypeCheck = false,
     typescript: typescriptOpts = {},
     target = "browser",
-    useBuiltIns,
     runtimeHelpers,
     corejs,
     nodeVersion,
@@ -71,7 +70,6 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
     cwd,
     target,
     type,
-    useBuiltIns,
     runtimeHelpers,
     corejs,
     nodeVersion,
@@ -83,7 +81,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
     babelrc: false,
     exclude: "node_modules/**",
     extensions,
-    babelHelpers: runtimeHelpers && useBuiltIns === false ? "runtime" : "bundled",
+    babelHelpers: runtimeHelpers ? "runtime" : "bundled",
   };
 
   const input = join(cwd, entry);
