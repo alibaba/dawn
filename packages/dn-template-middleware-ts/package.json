@@ -1,6 +1,6 @@
 {
   "name": "dn-template-middleware-ts",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Dawn middleware project template with typescript support",
   "scripts": {
     "test": "dn test"
