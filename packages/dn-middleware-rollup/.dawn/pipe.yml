@@ -1,0 +1,24 @@
+init:
+  - name: pkginfo
+
+dev:
+  - name: $local
+    location: ./lib/index.js
+
+test:
+  - name: lint
+
+build:
+  - name: clean
+    target:
+      - lib
+  - name: babel
+    nodeVersion: '10'
+    extraPlugins:
+      - babel-plugin-add-module-exports
+
+publish:
+  - name: call
+    pipe:
+      - test
+  - name: publish
