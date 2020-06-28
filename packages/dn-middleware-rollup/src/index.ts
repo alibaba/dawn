@@ -75,6 +75,22 @@ const handler: Handler<IOpts> = options => {
         ),
       );
     }
+    if (bundleOpts.system) {
+      tasks.push(
+        run(
+          {
+            cwd,
+            type: "system",
+            entry: bundleOpts.entry,
+            watch,
+            bundleOpts,
+            configFile,
+            analysis,
+          },
+          ctx,
+        ),
+      );
+    }
     await Promise.all(tasks);
 
     await next();

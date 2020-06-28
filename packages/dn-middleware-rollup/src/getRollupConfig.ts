@@ -30,6 +30,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
     umd,
     esm,
     cjs,
+    system,
     extractCSS = true,
     injectCSS = true,
     cssModules: modules = false,
@@ -371,6 +372,28 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
               },
             ]
           : []),
+      ];
+    case "system":
+      return [
+        {
+          input,
+          output: {
+            format,
+            sourcemap: (system && system.sourcemap) || false,
+            file: getOutputFile({ entry, type: "system", pkg, bundleOpts }),
+          },
+          plugins: [
+            ...getPlugins({ minCSS: (system && system.minify) || false }),
+            ...extraUmdPlugins,
+            replace({
+              // eslint-disable-next-line @typescript-eslint/naming-convention
+              "process.env.NODE_ENV":
+                system && system.minify ? JSON.stringify("production") : JSON.stringify("development"),
+            }),
+            ...(system && system.minify ? [terser(terserOptions)] : []),
+          ],
+          external: id => testExternal(externalPeerDeps, externalsExclude, id),
+        },
       ];
     default:
       throw new Error(`Unsupported type ${type}`);
