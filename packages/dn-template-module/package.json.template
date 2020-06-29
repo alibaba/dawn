@@ -1,7 +1,7 @@
 {
-  "name": "my-library",
+  "name": "my-module",
   "version": "1.0.0",
-  "description": "SDK 描述",
+  "description": "模块描述",
   "scripts": {
     "start": "dn d",
     "build": "dn b"
