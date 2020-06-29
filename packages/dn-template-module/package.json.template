@@ -14,6 +14,20 @@
     "src"
   ],
   "license": "MIT",
-  "devDependencies": {},
-  "dependencies": {}
+  "devDependencies": {
+    "dn-middleware-babel": "^1.0.0",
+    "dn-middleware-browser-sync": "^2.0.0-alpha.3",
+    "dn-middleware-call": "^1.0.3",
+    "dn-middleware-clean": "^1.0.2",
+    "dn-middleware-lint": "^3.0.5",
+    "dn-middleware-rollup": "^1.3.0",
+    "dn-middleware-server": "^2.0.0-alpha.7",
+    "dn-middleware-shell": "^1.1.1",
+    "dn-middleware-unit": "^0.2.1"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.10.3",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  }
 }
