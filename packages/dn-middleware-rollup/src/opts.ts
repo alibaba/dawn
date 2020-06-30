@@ -37,6 +37,8 @@ export const getOpts = (opts: IOpts, ctx: IDawnContext): IOpts => {
       name: pkg.name && camelCase(basename(pkg.name)),
       template: "./src/assets/index.html",
     },
+    system: false,
+    iife: false,
   };
 
   const watchDefaultOpts: IOpts = {
@@ -52,8 +54,8 @@ export const getOpts = (opts: IOpts, ctx: IDawnContext): IOpts => {
 
 export const validateOpts = async (opts: IOpts, ctx: IDawnContext): Promise<void> => {
   assert.ok(
-    opts.esm || opts.cjs || opts.umd,
-    "None format of cjs | esm | umd is configured, checkout guide for usage details.",
+    opts.esm || opts.cjs || opts.umd || opts.system || opts.iife,
+    "None format of cjs | esm | umd | system | iife is configured, checkout guide for usage details.",
   );
 
   assert.ok(opts.entry, "No entry found, checkout guide for usage details.");

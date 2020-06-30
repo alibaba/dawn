@@ -33,6 +33,19 @@ export interface IUmd extends IBundleOutput {
   template?: false | string;
 }
 
+export interface ISystemJS extends IBundleOptions {
+  minify?: boolean;
+  sourcemap?: boolean | "inline" | "hidden";
+  globals?: Record<string, string>;
+  name?: string;
+}
+
+export interface IIIFE extends IBundleOptions {
+  minify?: boolean;
+  sourcemap?: boolean | "inline" | "hidden";
+  globals?: Record<string, string>;
+}
+
 export interface IBundleOptions {
   target?: "node" | "browser";
   entry?: string | string[];
@@ -41,6 +54,8 @@ export interface IBundleOptions {
   esm?: IEsm | false;
   cjs?: ICjs | false;
   umd?: IUmd | false;
+  system?: ISystemJS | false;
+  iife?: IIIFE | false;
   extractCSS?: boolean | string;
   injectCSS?: boolean | Record<string, any>;
   cssModules?: boolean | Record<string, any>;
@@ -81,7 +96,7 @@ export type IDawnContext = Context<IOpts>;
 export interface IRollupOpts {
   cwd: string;
   entry: string | string[];
-  type: "cjs" | "esm" | "umd";
+  type: "cjs" | "esm" | "umd" | "system" | "iife";
   bundleOpts: IBundleOptions;
   watch?: boolean;
   configFile?: string;
@@ -91,14 +106,14 @@ export interface IRollupOpts {
 export interface IGetRollupConfigOpts {
   cwd: string;
   entry: string;
-  type: "cjs" | "esm" | "umd";
+  type: "cjs" | "esm" | "umd" | "system" | "iife";
   bundleOpts: IBundleOptions;
   analysis?: boolean;
 }
 
 export interface IGetBabelConfigOpts {
   target: "browser" | "node";
-  type?: "cjs" | "esm" | "umd";
+  type?: "cjs" | "esm" | "umd" | "system" | "iife";
   typescript?: boolean;
   runtimeHelpers?: boolean;
   nodeVersion?: number;

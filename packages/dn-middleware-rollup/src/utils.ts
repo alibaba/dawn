@@ -34,14 +34,14 @@ export const getFileName = (filePath: string): string => {
 // filename priority：specific module type file option > top level file option > pkg field value > basename of entry file
 export const getOutputFile = (opts: {
   entry: string;
-  type: "cjs" | "esm" | "umd";
+  type: "cjs" | "esm" | "umd" | "system" | "iife";
   pkg: PackageJson;
   bundleOpts: IBundleOptions;
   minFile?: boolean;
   mjs?: boolean;
 }): string => {
   const { entry, type, pkg, bundleOpts, minFile, mjs } = opts;
-  const { outDir = "", file, esm, cjs, umd } = bundleOpts;
+  const { outDir = "", file, esm, cjs, umd, system, iife } = bundleOpts;
 
   const name = basename(entry, extname(entry));
 
@@ -86,6 +86,28 @@ export const getOutputFile = (opts: {
         return pkg.browser;
       }
       return `${outDir}/${name}.umd${minFile ? ".min" : ""}.js`;
+    case "system":
+      if (system && system.file) {
+        return `${outDir}/${system.file}.js`;
+      }
+      if (file) {
+        return `${outDir}/${file}.system.js`;
+      }
+      if (pkg.browser) {
+        return `${getFileName(pkg.browser)}.system.js`;
+      }
+      return `${outDir}/${name}.system.js`;
+    case "iife":
+      if (iife && iife.file) {
+        return `${outDir}/${iife.file}.js`;
+      }
+      if (file) {
+        return `${outDir}/${file}.iife.js`;
+      }
+      if (pkg.browser) {
+        return `${getFileName(pkg.browser)}.iife.js`;
+      }
+      return `${outDir}/${name}.iife.js`;
     default:
       throw new Error(`Unsupported type ${type}`);
   }
