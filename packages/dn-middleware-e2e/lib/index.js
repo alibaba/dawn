@@ -1,35 +1,50 @@
 const path = require('path');
-const fs = require('fs');
+const { isArray } = require('util');
 
-/**
- * 这是一个标准的中间件工程模板
- * @param {object} opts cli 传递过来的参数对象 (在 pipe 中的配置)
- * @return {AsyncFunction} 中间件函数
- */
-module.exports = function (opts) {
+module.exports = (opts) => {
 
-  opts.files = opts.files || './test/e2e/**/*.js';
-  opts.timeout = opts.timeout || 10000;
-  opts.browser = opts.browser || 'none';
+  opts = Object.assign({
+    files: './test/**/*.e2e.{ts,js}',
+    timeout: 30000,
+    puppeteer: {
+      download: 'https://npm.taobao.org/mirrors'
+    },
+  }, opts);
 
-  //外层函数的用于接收「参数对象」
-  //必须返回一个中间件处理函数
-  return async function (next) {
+  const checkInstall = async (ctx, pkgs, flag) => {
+    if (!pkgs) return;
+    pkgs = isArray(pkgs) ? pkgs : [pkgs]
+    if (!flag) flag = { 'save-dev': true };
+    for (let pkg of pkgs) {
+      try {
+        require.resolve(`${pkg}/package.json`);
+      } catch (err) {
+        await ctx.mod.install(pkg, { flag });
+      }
+    }
+  }
 
-    let mocha = this.utils.findCommand(__dirname, 'mocha');
-    let setup = path.resolve(__dirname, './setup.js');
+  return async (next, ctx) => {
 
-    this.console.info('开始执行 E2E 测试...');
-    //tnpm i babel-runtime
-    /* eslint-disable */
-    await this.utils.exec(`
-     WEB_DRIVER_BROWSER=${opts.browser} ${mocha} -r ${setup} -t ${opts.timeout} -u bdd ${opts.files} 
+    ctx.console.info('检测及安装 E2E 依赖...');
+    await checkInstall(ctx, ['@types/mocha', 'tslib']);
+    if (opts.puppeteer) {
+      await ctx.mod.exec(`config set puppeteer_download_host=${opts.puppeteer.download}`);
+      await checkInstall(ctx, '@types/puppeteer');
+      await checkInstall(ctx, 'puppeteer', { 'no-save': true });
+    }
+    ctx.console.info('完成');
+
+    const mocha = ctx.utils.findCommand(__dirname, 'mocha');
+    const setup = path.resolve(__dirname, './setup.js');
+
+    ctx.console.info('开始执行 E2E 测试...');
+    await ctx.utils.exec(`
+      ${mocha} -r ${setup} -t ${opts.timeout} --exit --parallel -u bdd ${opts.files} 
     `);
-    /* eslint-enable */
-    this.console.info('完成');
+    ctx.console.info('完成');
 
     next();
-
   };
 
 };

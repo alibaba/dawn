@@ -2,6 +2,7 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "noImplicitAny": true,
+    "allowJs": true,
     "module": "CommonJS",
     "target": "es5",
     "jsx": "react",
@@ -11,6 +12,7 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "importHelpers": true,
+    "declaration": false,
     "lib": [
       "dom",
       "esnext"
