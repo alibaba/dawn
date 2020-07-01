@@ -4,7 +4,7 @@ const { isArray } = require('util');
 module.exports = (opts) => {
 
   opts = Object.assign({
-    files: './test/**/*.e2e.{ts,js}',
+    files: './e2e/**/*.e2e.{ts,js}',
     timeout: 30000,
     puppeteer: {
       download: 'https://npm.taobao.org/mirrors'
@@ -23,6 +23,7 @@ module.exports = (opts) => {
       }
     }
   }
+
 
   return async (next, ctx) => {
 
