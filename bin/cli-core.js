@@ -93,11 +93,12 @@ cmdline
   }, false)
 
   .root.command(['template', 'middleware', 'update', 'u', 'config', 'c'])
-  .action(async function (cmd, env) {
+  .option(['-f', '--force'], 'switch')
+  .action(async function (cmd, force) {
     cmd = ALIAS[cmd] || cmd;
     this.set('command', cmd);
     try {
-      await core.commands[cmd].call(this, cmd);
+      await core.commands[cmd].call(this, force);
       cmdline.onDone(this);
     } catch (err) {
       cmdline.onFail(err);
