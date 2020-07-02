@@ -62,6 +62,11 @@ i18n.getLocale = function (name) {
   if (!name) return values || {};
   if (values && !this.isWhole(values)) return values;
   var locales = values || $locales;
+  utils.each(locales, function (key) {
+    var value = locales[key];
+    delete locales[key];
+    locales[key.replace('_', '-')] = value;
+  });
   return locales[name] ||
     locales[name.split('-')[0]] ||
     utils.each(locales, function (key) {

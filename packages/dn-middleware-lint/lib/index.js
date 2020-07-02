@@ -30,6 +30,7 @@ module.exports = function (opts) {
   opts.global = opts.global || 'window,$,jQuery';
   opts.ignore = opts.ignore || [];
   opts.realtime = opts.realtime || false;
+  opts.override = opts.override !== false;
 
   const eslint = this.utils.findCommand(__dirname, 'eslint');
   const rulesFile = path.resolve(__dirname, './.eslintrc.yml');
@@ -73,7 +74,9 @@ module.exports = function (opts) {
     // 向项目写入 yaml 配置
     const yamlFile = path.normalize(`${this.cwd}/.eslintrc.yml`);
     const yamlText = yaml.safeDump(rules);
-    await this.utils.writeFile(yamlFile, yamlText);
+    if (opts.override || !fs.existsSync(yamlFile)) {
+      await this.utils.writeFile(yamlFile, yamlText);
+    }
 
     // 不再向项目写入 json 配置覆盖
     // const jsonFile = path.normalize(`${this.cwd}/.eslintrc.json`);

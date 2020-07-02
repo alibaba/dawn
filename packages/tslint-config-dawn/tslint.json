@@ -52,7 +52,7 @@
       2
     ],
     "interface-name": [
-      true,
+      false,
       "always-prefix"
     ],
     "interface-over-type-literal": true,
