@@ -18,8 +18,8 @@ module.exports = (opts) => {
     for (let pkg of pkgs) {
       try {
         const vIndex = pkg.lastIndexOf('@');
-        if (vIndex > 0) pkg = pkg.substr(0, vIndex);
-        require.resolve(`${pkg}/package.json`);
+        const pkgName = vIndex > 0 ? pkg.substr(0, vIndex) : pkg;
+        require.resolve(`${pkgName}/package.json`);
       } catch (err) {
         await ctx.mod.install(pkg, { flag });
       }
