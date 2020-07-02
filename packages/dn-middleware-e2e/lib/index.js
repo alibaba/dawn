@@ -1,15 +1,15 @@
 const path = require('path');
-const { isArray } = require('util');
+const { isArray, mix } = require('ntils');
 
 module.exports = (opts) => {
 
-  opts = Object.assign({
+  opts = mix({
     files: './e2e/**/*.e2e.{ts,js}',
     timeout: 30000,
     puppeteer: {
       download: 'https://npm.taobao.org/mirrors'
     },
-  }, opts);
+  }, opts || {}, []);
 
   const checkInstall = async (ctx, pkgs, flag) => {
     if (!pkgs) return;
@@ -17,13 +17,14 @@ module.exports = (opts) => {
     if (!flag) flag = { 'save-dev': true };
     for (let pkg of pkgs) {
       try {
+        const vIndex = pkg.lastIndexOf('@');
+        if (vIndex > 0) pkg = pkg.substr(0, vIndex);
         require.resolve(`${pkg}/package.json`);
       } catch (err) {
         await ctx.mod.install(pkg, { flag });
       }
     }
   }
-
 
   return async (next, ctx) => {
 
@@ -32,7 +33,9 @@ module.exports = (opts) => {
     if (opts.puppeteer) {
       await ctx.mod.exec(`config set puppeteer_download_host=${opts.puppeteer.download}`);
       await checkInstall(ctx, '@types/puppeteer');
-      await checkInstall(ctx, 'puppeteer', { 'no-save': true });
+      const { version } = opts.puppeteer;
+      const fullName = version ? `puppeteer@${version}` : 'puppeteer';
+      await checkInstall(ctx, fullName, { 'no-save': true });
     }
     ctx.console.info('完成');
 

@@ -1,2 +1,4 @@
 dev:
   - name: ./lib/index.js
+    puppeteer:
+      version: latest
