@@ -77,7 +77,6 @@ module.exports = (opts) => {
     const text = vendors.map(name => {
       return `${name}@${deps[name] || Date.now()}`;
     }).join(',');
-    console.log('text', text);
     return md5(text);
   }
 
@@ -92,20 +91,22 @@ module.exports = (opts) => {
     const cacheDir = path.normalize(`${ctx.cwd}/.dll`);
 
     // 生成新 lib 或使用缓存
-    ctx.console.log('检查 Library 的 hash');
+    ctx.console.info('检查 Library 的 hash');
     const hashFile = path.normalize(`${cacheDir}/.hash`);
     const hash = fs.existsSync(hashFile) ?
       (await ctx.utils.readFile(hashFile)).toString() : '';
     if (vendors && vendors.length > 0 && hash !== cacheKey) {
-      ctx.console.log('开始生成 Library');
+      ctx.console.info('开始生成 Library');
       await buildLibrary(ctx, vendors, cacheDir);
       await copyLibrary(ctx, opts, cacheDir);
       ctx.console.info('记录 Library 的 hash');
       await ctx.utils.writeFile(hashFile, cacheKey);
-      ctx.console.log('生成 Library 完成');
+      ctx.console.info('生成 Library 完成');
+      ctx.dllUpdated = true;
     } else {
       await copyLibrary(ctx, opts, cacheDir);
-      ctx.console.log('使用 Library 缓存');
+      ctx.console.info('使用 Library 缓存');
+      ctx.dllUpdated = false;
     }
     ctx.console.info('Done');
 
