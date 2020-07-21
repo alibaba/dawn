@@ -9,10 +9,13 @@ const fs = require('fs');
  */
 module.exports = (opts) => {
 
-  opts = Object.assign({ output: 'build/js', libName: 'vendors' }, opts);
+  opts = Object.assign({
+    output: { js: './build/js', css: './build/css' },
+    libName: 'vendors'
+  }, opts);
 
-  //构建 lib
-  const buildLib = async (ctx, vendors, cacheDir) => {
+  //构建 Library
+  const buildLibrary = async (ctx, vendors, cacheDir) => {
     //配置针对 lib 的 webpack 
     ctx.on('webpack.config', (webpackConf, webpack, webpackOpts) => {
       if (webpackOpts.__libName !== opts.libName) return;
@@ -36,22 +39,36 @@ module.exports = (opts) => {
       sourceMap: false,
       ...opts.webpack,
       common: { disabled: true },
+      folders: { js: '.', css: '.', html: '.' },
       entry: require.resolve('./noop.js'),
       __libName: opts.libName,
     });
-  }
+  };
 
   //引用 lib
-  const refLib = (ctx, webpackConf, webpack, cacheDir) => {
+  const referenceLibrary = (ctx, webpackConf, webpack, cacheDir) => {
     const manifestFile = path.normalize(`${cacheDir}/manifest.json`);
     if (!fs.existsSync(manifestFile)) {
-      throw new Error(`不能找到 lib '${opts.libName}'`);
+      throw new Error(`不能找到 library '${opts.libName}'`);
     };
     webpackConf.plugins.push(new webpack.DllReferencePlugin({
       context: ctx.cwd,
       manifest: require(manifestFile),
     }));
-  }
+  };
+
+  //复制 lib
+  const copyLibrary = async (ctx, opts, cacheDir) => {
+    const jsDir = path.resolve(ctx.cwd, opts.output.js);
+    const cssDir = path.resolve(ctx.cwd, opts.output.css);
+    await ctx.exec({
+      name: 'copy',
+      files: {
+        [`${jsDir}/${opts.libName}.js`]: `${cacheDir}/bundle.js`,
+        [`${cssDir}/${opts.libName}.css`]: `${cacheDir}/bundle.css`
+      }
+    });
+  };
 
   return async (next, ctx) => {
 
@@ -64,32 +81,27 @@ module.exports = (opts) => {
     const cacheDir = path.normalize(`${ctx.cwd}/.dll`);
 
     // 生成新 lib 或使用缓存
-    ctx.console.log('检查 lib 的 hash');
+    ctx.console.log('检查 Library 的 hash');
     const hashFile = path.normalize(`${cacheDir}/.hash`);
     const hash = fs.existsSync(hashFile) ?
       (await ctx.utils.readFile(hashFile)).toString() : '';
     if (vendors && vendors.length > 0 && hash !== cacheKey) {
-      ctx.console.log('开始生成 lib');
-      await buildLib(ctx, vendors, cacheDir);
-      const output = path.resolve(ctx.cwd, opts.output);
-      await ctx.exec({
-        name: 'copy',
-        files: {
-          [`${output}/${opts.libName}.js`]: `${cacheDir}/bundle.js`
-        }
-      });
-      ctx.console.info('记录 lib 的 hash');
+      ctx.console.log('开始生成 Library');
+      await buildLibrary(ctx, vendors, cacheDir);
+      await copyLibrary(ctx, opts, cacheDir);
+      ctx.console.info('记录 Library 的 hash');
       await ctx.utils.writeFile(hashFile, cacheKey);
-      ctx.console.log('生成 lib 完成');
+      ctx.console.log('生成 Library 完成');
     } else {
-      ctx.console.log('使用 lib 缓存');
+      await copyLibrary(ctx, opts, cacheDir);
+      ctx.console.log('使用 Library 缓存');
     }
     ctx.console.info('Done');
 
     //在项目的 webpack 中引用 lib
     ctx.once('webpack.config', (webpackConf, webpack, webpackOpts) => {
       if (webpackOpts.__libName) return;
-      refLib(ctx, webpackConf, webpack, cacheDir);
+      referenceLibrary(ctx, webpackConf, webpack, cacheDir);
     });
 
     next();

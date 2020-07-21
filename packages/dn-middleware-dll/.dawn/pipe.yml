@@ -19,10 +19,10 @@ build:
   - name: clean
   - name: ./lib/index.js
     vendors: 
-      - ntils
-  # - name: webpack
-  #   entry: ./demo/index.js
-  #   template: ./demo/index.html
+      - './src/index.js'
+  - name: webpack
+    entry: ./demo/index.js
+    template: ./demo/index.html
 
 test:
   - name: lint
