@@ -70,6 +70,17 @@ module.exports = (opts) => {
     });
   };
 
+  //生成 hash
+  const createHash = async (ctx, vendors) => {
+    const { dependencies, devDependencies } = ctx.project || {};
+    const deps = Object.assign({}, devDependencies, dependencies);
+    const text = vendors.map(name => {
+      return `${name}@${deps[name] || Date.now()}`;
+    }).join(',');
+    console.log('text', text);
+    return md5(text);
+  }
+
   return async (next, ctx) => {
 
     //计算 lib 资源
@@ -77,7 +88,7 @@ module.exports = (opts) => {
       Object.keys(ctx.project.dependencies || {});
 
     //计算项目缓存目录
-    const cacheKey = md5(JSON.stringify(vendors));
+    const cacheKey = await createHash(ctx, vendors);
     const cacheDir = path.normalize(`${ctx.cwd}/.dll`);
 
     // 生成新 lib 或使用缓存
