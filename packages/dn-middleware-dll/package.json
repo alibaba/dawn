@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-dll",
-  "version": "1.1.7",
+  "version": "2.0.0",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -15,8 +15,8 @@
     "webpack-uglify-parallel": "^0.1.4"
   },
   "devDependencies": {
-    "dn-middleware-clean": "^1.0.1",
-    "dn-middleware-copy": "^0.2.6",
-    "dn-middleware-webpack": "^1.10.0"
+    "dn-middleware-clean": "^1.0.2",
+    "dn-middleware-copy": "^0.2.7",
+    "dn-middleware-webpack": "1.11.5"
   }
 }

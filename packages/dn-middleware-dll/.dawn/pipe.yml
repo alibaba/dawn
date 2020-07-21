@@ -17,13 +17,12 @@ dev:
 
 build:
   - name: clean
-  - name: $local
-    location: ./lib/index.js
-    vendors:
+  - name: ./lib/index.js
+    vendors: 
       - ntils
-  - name: webpack
-    entry: ./demo/index.js
-    template: ./demo/index.html
+  # - name: webpack
+  #   entry: ./demo/index.js
+  #   template: ./demo/index.html
 
 test:
   - name: lint
