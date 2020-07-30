@@ -1,0 +1,18 @@
+# RC config
+.dawn/rc.yml
+
+# Lint config
+.editorconfig
+.eslintrc.yml
+.eslintignore
+.prettierrc.js
+
+# npm lock
+package-lock.json
+yarn.lock
+
+# server
+server.yml
+
+# others
+logs

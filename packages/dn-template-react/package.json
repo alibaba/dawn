@@ -3,9 +3,7 @@
   "version": "1.1.11",
   "description": "React template for dawn",
   "main": "./lib/index.js",
-  "scripts": {
-    "test": "dn test && dn build -e prod"
-  },
+  "scripts": {},
   "author": {
     "name": "Houfeng",
     "email": "admin@xhou.net",
@@ -13,7 +11,18 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "@types/react": "^16.9.43",
+    "@types/react-dom": "^16.9.8",
+    "dn-middleware-browser-sync": "^0.1.0",
+    "dn-middleware-clean": "^1.0.2",
+    "dn-middleware-i18n": "^1.2.4",
+    "dn-middleware-lint": "^3.0.10",
+    "dn-middleware-server": "^1.1.4",
+    "dn-middleware-webpack4": "^1.0.1",
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   }
 }

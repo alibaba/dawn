@@ -1,33 +1,44 @@
 init:
   - name: pkginfo
 
+webpackConfig: &webpackConfig
+  entry: ./src/index.tsx
+  template: ./public/index.html
+  sourceMap: true
+  useSass: false
+  supportTS: true
+  common:
+    disabled: true
+  inject:
+    - ./src/common/inject.ts
+  compress: false
+  externals:
+    react: React
+    react-dom: ReactDOM
+    lodash: _
+
 dev:
   - name: clean
-  - name: copy
-    files:
-      ./build/(0).ico: ./src/assets/favicon.ico
-  - name: webpack
+  - name: lint
+    realtime: true
+  - name: i18n
+  - name: webpack4
+    <<: *webpackConfig
+    env: development
     watch: true
   - name: server
   - name: browser-sync
 
 build:
   - name: clean
-  - name: copy
-    files:
-      (0): ./src/assets/favicon.ico
-  - name: webpack
-
-add:
-  - name: react-component-creator
+  - name: i18n
+  - name: webpack4
+    external: true
+    compress: true
+    env: production
+    template: none
 
 test:
   - name: lint
-  - name: unit
 
 publish:
-  - name: shell
-    script:
-      - dn test
-      - dn build
-  - name: publish 
