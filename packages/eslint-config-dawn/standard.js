@@ -150,9 +150,10 @@ module.exports = {
 
     /**
      * 单方法建议不要超过 120 行
+     * TODO: jsx 的情况无法判断
      */
     'max-lines-per-function': [
-      'warn',
+      'off',
       {
         max: 120,
         skipBlankLines: true,

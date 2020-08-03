@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-lint",
-  "version": "3.0.10",
+  "version": "3.0.11",
   "description": "Dawn lint middleware",
   "main": "./lib/index.js",
   "scripts": {
@@ -8,17 +8,12 @@
   },
   "author": "Jeason",
   "license": "MIT",
-  "peerDependencies": {
-    "eslint": "^6",
-    "eslint-config-dawn": "^2",
-    "prettier": "^2"
-  },
   "dependencies": {
     "confman": "^0.2.10",
     "debug": "^4.1.1",
     "del": "^5.1.0",
     "eslint": "^6.8.0",
-    "eslint-config-dawn": "^2.0.1",
+    "eslint-config-dawn": "^2.0.6",
     "eslint-formatter-pretty": "^3.0.1",
     "eslint-loader": "^3.0.2",
     "globby": "^11.0.0",

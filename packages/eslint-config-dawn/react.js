@@ -6,6 +6,9 @@ module.exports = {
   ],
   plugins: ['react', 'react-hooks', 'jsx-a11y'],
   rules: {
+    // 对 react 组件的 prop-type 不再做要求
+    'react/prop-types': 'off',
+
     /**
      * 检查 effect dependencies，必须包含依赖参数
      * https://github.com/facebook/react/tree/master/packages/eslint-plugin-react-hooks

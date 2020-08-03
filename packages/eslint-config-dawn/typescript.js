@@ -122,7 +122,7 @@ module.exports = {
     camelcase: 'off',
     '@typescript-eslint/camelcase': 'off',
     '@typescript-eslint/naming-convention': [
-      'error',
+      'warn',
       {
         selector: 'default',
         format: ['camelCase', 'PascalCase'],
