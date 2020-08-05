@@ -1,16 +1,22 @@
-import { Handler } from "@dawnjs/types";
-import { IOpts } from "./types";
+import * as Dawn from "@dawnjs/types";
+import webpack from "webpack";
 
-const handler: Handler<IOpts> = opts => {
+import { getWebpackConfig } from "./config";
+import { formatAndValidateOpts } from "./utils";
+import { IGetWebpackConfigOpts, IOpts } from "./types";
+
+// Migrate from v4 to v5: https://webpack.js.org/migrate/5/
+const handler: Dawn.Handler<Partial<IOpts>> = opts => {
   return async (next, ctx) => {
-    // 在这里处理你的逻辑
-    ctx.console.log("This is an example");
-    ctx.console.log("opts", JSON.stringify(opts));
+    // register namespace for webpack5
+    ctx.webpack5 = {};
+    ctx.webpack = webpack;
+    const options = formatAndValidateOpts(opts, ctx);
+    const webpackConfig = getWebpackConfig(options as IGetWebpackConfigOpts, ctx);
 
-    // 触发后续执行
+    console.log(options);
+    console.log(webpackConfig);
     await next();
-
-    // 在这里添加后续执行完成后的逻辑
   };
 };
 

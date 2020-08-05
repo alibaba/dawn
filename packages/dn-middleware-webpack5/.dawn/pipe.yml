@@ -6,7 +6,7 @@ clean:
     target:
       - lib
 
-dev:
+dev:watch:
   - name: call
     pipe:
       - clean
@@ -14,10 +14,15 @@ dev:
     realtime: true
   - name: babel
     watch: true
+    disableTypeCheck: true
     extraPlugins:
       - babel-plugin-add-module-exports
+
+dev:
   - name: $local
     location: ./lib/index.js
+    entry:
+      (1)/(0): ./src/*/*.ts
 
 test:
   - name: lint
