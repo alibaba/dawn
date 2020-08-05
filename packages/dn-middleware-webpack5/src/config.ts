@@ -13,10 +13,19 @@ import typescriptFormatter from "react-dev-utils/typescriptFormatter";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
+import getPublicUrlOrPath from "react-dev-utils/getPublicUrlOrPath";
 import { IGetWebpackConfigOpts } from "./types";
 
 // TODO:
 // const webpackDevClientEntry = require.resolve("react-dev-utils/webpackHotDevClient");
+
+// We use `PUBLIC_URL` environment variable or "homepage" field to infer
+// "public path" at which the app is served.
+// webpack needs to know it to put the right <script> hrefs into HTML even in
+// single-page apps that may serve index.html for nested URLs like /todos/42.
+// We can't use a relative path in HTML because we don't want to load something
+// like /todos/42/static/js/bundle.7289d.js. We have to know the root.
+const getPublicPath = () => getPublicUrlOrPath(process.env.NODE_ENV === "development", process.env.PUBLIC_URL, "/");
 
 const getEntry = (options: IGetWebpackConfigOpts) => {
   const webpackEntry: any = {};
@@ -188,12 +197,35 @@ export const getWebpackConfig = (options: IGetWebpackConfigOpts, ctx: Dawn.Conte
     // Learn more about the mode configuration and what optimizations take place on each value.
     // https://webpack.js.org/configuration/mode/
     mode: options.env,
-    // Stop compilation early in production
+    // stop compilation early in production
     bail: ctx.isEnvProduction,
     // https://webpack.js.org/configuration/devtool/#devtool
     devtool: getDevtool(options.devtool, ctx),
     // web script entry(ies)
     entry: getEntry(options),
+    output: {
+      // The build folder.
+      path: path.join(options.cwd, "./build/"),
+      // Add /* filename */ comments to generated require()s in the output.
+      pathinfo: ctx.isEnvDevelopment,
+      // There will be one main bundle, and one file per asynchronous chunk.
+      // In development, it does not produce real files.
+      filename: "scripts/[name].js",
+      // There are also additional JS chunk files if you use code splitting.
+      chunkFilename: "scripts/[name].[chunkhash:8].chunk.js",
+      // webpack uses `publicPath` to determine where the app is being served from.
+      // It requires a trailing slash, or the file assets will get an incorrect path.
+      // We inferred the "public path" (such as / or /my-project) from homepage.
+      publicPath: getPublicPath(),
+      // Prevents conflicts when multiple webpack runtimes (from different apps)
+      // are used on the same page.
+      jsonpFunction: `webpackJsonp_${ctx?.project?.name || "DnMiddlewareWebpack5"}`,
+      // this defaults to 'window', but by setting it to 'this' then
+      // module chunks which are built will work in web workers as well.
+      globalObject: "this",
+      // User output option
+      ...(options.output as any),
+    },
     plugins: getPlugins(options, ctx).filter(Boolean),
   };
   return config;

@@ -123,5 +123,10 @@ export const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) =
   options.inject = formatNullStringToList(options.inject);
   options.append = formatNullStringToList(options.append);
 
+  // output
+  if (typeof options.output === "string") {
+    options.output = { path: path.join(options.cwd, options.output) };
+  }
+
   return options as IOpts;
 };
