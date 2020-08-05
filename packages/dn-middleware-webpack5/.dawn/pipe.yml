@@ -22,7 +22,8 @@ dev:
   - name: $local
     location: ./lib/index.js
     entry:
-      (1)/(0): ./src/*/*.ts
+      (0): ./src/*.ts
+    template: ./test/index.html
 
 test:
   - name: lint

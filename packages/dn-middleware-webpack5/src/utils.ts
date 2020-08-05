@@ -52,6 +52,14 @@ const formatReglikeObject = (params: Record<string, string>) => {
   return nameFileList;
 };
 
+function formatNullStringToList<T = string>(params?: T | T[] | null): T[] {
+  if (!params) return [];
+  else if (Array.isArray(params)) {
+    return params;
+  }
+  return [params];
+}
+
 // Validate and format input opts
 export const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
   const options = Object.assign({}, opts);
@@ -89,24 +97,31 @@ export const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) =
       returnRelative: true,
     });
   }
-  assert.ok(options.entry, "[webpack5] No entry found, checkout guide for usage details.");
+  assert.ok(options.entry, "[webpack5] No `entry` found, checkout guide for usage details.");
   options.entry = formatReglikeObject(options.entry as any);
 
-  // if (
-  //   !options.entry ||
-  //   (Array.isArray(options.entry) && !options.entry?.length) ||
-  //   (typeof options.entry === "object" && !Object.keys(options.entry)?.length)
-  // ) {
-  //   options.entry = getExistFile({
-  //     cwd: options.cwd,
-  //     files: ["src/index.tsx", "src/index.ts", "src/index.jsx", "src/index.js"],
-  //     returnRelative: true,
-  //   });
-  // }
+  // useTypescript judge by entry file ext
+  ctx.useTypescript = options.entry?.some?.(({ file }) => file.endsWith(".ts") || file.endsWith(".tsx"));
+
+  // template
+  if (
+    !options.template ||
+    (Array.isArray(options.template) && !options.template?.length) ||
+    (typeof options.template === "object" && !Object.keys(options.template)?.length)
+  ) {
+    options.template = getExistFile({
+      cwd: options.cwd,
+      // `src/assets/index.html` is not recommanded and will be removed soon
+      files: ["public/index.html", "src/assets/index.html"],
+      returnRelative: true,
+    });
+  }
+  assert.ok(options.template, "[webpack5] No `template` found, checkout guide for usage details.");
+  options.template = formatReglikeObject(options.template as any);
 
   // inject & append
-  if (typeof options.inject === "string") options.inject = [options.inject];
-  if (typeof options.append === "string") options.append = [options.append];
+  options.inject = formatNullStringToList(options.inject);
+  options.append = formatNullStringToList(options.append);
 
   return options as IOpts;
 };
