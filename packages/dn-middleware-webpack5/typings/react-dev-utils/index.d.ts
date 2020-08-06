@@ -6,3 +6,6 @@ declare module "react-dev-utils/ForkTsCheckerWebpackPlugin";
 
 // patch for react-dev-utils/typescriptFormatter
 declare module "react-dev-utils/typescriptFormatter";
+
+// patch for react-dev-utils/chalk
+declare module "react-dev-utils/chalk";

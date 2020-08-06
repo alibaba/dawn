@@ -1,10 +1,10 @@
 import * as path from "path";
 import resolve from "resolve";
 import * as Dawn from "@dawnjs/types";
-import type { Configuration, ModuleOptions, RuleSetRule, WebpackPluginInstance } from "webpack";
+import type { Configuration, ModuleOptions, RuleSetRule, WebpackPluginInstance } from "webpack/types.d";
 import { DefinePlugin, HotModuleReplacementPlugin } from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import InlineChunkHtmlPlugin from "react-dev-utils/InlineChunkHtmlPlugin";
+// import InlineChunkHtmlPlugin from "react-dev-utils/InlineChunkHtmlPlugin";
 import InterpolateHtmlPlugin from "react-dev-utils/InterpolateHtmlPlugin";
 import ModuleNotFoundPlugin from "react-dev-utils/ModuleNotFoundPlugin";
 import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModulesPlugin";
@@ -12,8 +12,11 @@ import ForkTsCheckerWebpackPlugin from "react-dev-utils/ForkTsCheckerWebpackPlug
 import typescriptFormatter from "react-dev-utils/typescriptFormatter";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 
 import getPublicUrlOrPath from "react-dev-utils/getPublicUrlOrPath";
+import getCSSModuleLocalIdent from "react-dev-utils/getCSSModuleLocalIdent";
+// import getCacheIdentifier from "react-dev-utils/getCacheIdentifier";
 import { IGetWebpackConfigOpts } from "./types";
 
 // We use `PUBLIC_URL` environment variable or "homepage" field to infer
@@ -23,6 +26,8 @@ import { IGetWebpackConfigOpts } from "./types";
 // We can't use a relative path in HTML because we don't want to load something
 // like /todos/42/static/js/bundle.7289d.js. We have to know the root.
 const getPublicPath = () => getPublicUrlOrPath(process.env.NODE_ENV === "development", process.env.PUBLIC_URL, "/");
+
+// const extensions = [".js", ".jsx", ".ts", ".tsx", ".es6", ".es", ".mjs"];
 
 // Generate webpack entries
 const getEntry = (options: IGetWebpackConfigOpts) => {
@@ -46,7 +51,7 @@ const getDevtool = (devtool: boolean | string, ctx: Dawn.Context) => {
       if (typeof devtool === "string") {
         formatDevtool = devtool;
       } else {
-        formatDevtool = ctx.isEnvDevelopment ? "cheap-module-eval-source-map" : "cheap-module-source-map";
+        formatDevtool = ctx.isEnvDevelopment ? "cheap-module-source-map" : "source-map";
       }
       break;
   }
@@ -61,7 +66,7 @@ const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
   // Generates an `index.html` file with the <script> injected.
   options.entry.forEach(({ name }) => {
     const template = options.template?.find?.(temp => temp.name === name) ?? options.template[0];
-    if (template) return;
+    if (!template) return;
     const minifyOption =
       options.htmlMinifier ?? // use user options first
       (ctx.isEnvProduction // auto minify when production mode
@@ -93,7 +98,7 @@ const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
       new HtmlWebpackPlugin({
         ...options.html,
         inject: true,
-        filename: `./${name}.html`,
+        filename: path.join(options?.folders?.html ?? "", `${name}.html`),
         template: template.file,
         // TODO: do we need to filter chunks? https://github.com/jantimon/html-webpack-plugin#filtering-chunks
         // chunks: [name],
@@ -105,7 +110,7 @@ const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
   // InlineChunkHtmlPlugin
   // Inlines the webpack runtime script. This script is too small to warrant a network request.
   // https://github.com/facebook/create-react-app/tree/master/packages/react-dev-utils#new-inlinechunkhtmlpluginhtmlwebpackplugin-htmlwebpackplugin-tests-regex
-  ctx.isEnvProduction && plugins.push(new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/]) as any);
+  // ctx.isEnvProduction && plugins.push(new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/]) as any);
 
   // InterpolateHtmlPlugin
   // Makes some environment variables available in index.html.
@@ -159,7 +164,7 @@ const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
 
   // ForkTsCheckerWebpackPlugin
   // TypeScript type checking
-  ctx.useTypescript &&
+  ctx.useTypeScript &&
     plugins.push(
       new ForkTsCheckerWebpackPlugin({
         typescript: resolve.sync("typescript", {
@@ -186,6 +191,72 @@ const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
   return plugins;
 };
 
+// common function to get style loaders
+const getStyleLoaders = (
+  options: { cssOptions?: object; preProcessor?: string; preProcessorOptions?: object; styleOptions?: object },
+  ctx: Dawn.Context,
+) => {
+  const loaders = [
+    ctx.injectCSS
+      ? require.resolve("style-loader")
+      : {
+          loader: MiniCssExtractPlugin.loader,
+          options: {
+            publicPath: getPublicPath(),
+            ...options.styleOptions,
+          },
+        },
+    {
+      loader: require.resolve("css-loader"),
+      options: options.cssOptions,
+    },
+    {
+      // Options for PostCSS as we reference these options twice
+      // Adds vendor prefixing based on your specified browser support in package.json
+      loader: require.resolve("postcss-loader"),
+      options: {
+        // Necessary for external CSS imports to work
+        // https://github.com/facebook/create-react-app/issues/2677
+        ident: "postcss",
+        plugins: () => [
+          // TODO: see what postcss-plugins used in rollup mw
+          // eslint-disable-next-line @typescript-eslint/no-require-imports
+          require("postcss-flexbugs-fixes"),
+          // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+          require("postcss-preset-env")({
+            autoprefixer: { flexbox: "no-2009" },
+            stage: 3,
+          }),
+          // Adds PostCSS Normalize as the reset css with default options,
+          // so that it honors browserslist config in package.json
+          // which in turn let's users customize the target behavior as per their needs.
+          // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+          require("postcss-normalize")(),
+        ],
+        sourceMap: ctx.isEnvDevelopment,
+      },
+    },
+  ].filter(Boolean);
+  if (options.preProcessor) {
+    loaders.push(
+      {
+        loader: require.resolve("resolve-url-loader"),
+        options: {
+          sourceMap: ctx.isEnvDevelopment,
+        },
+      },
+      {
+        loader: require.resolve(options.preProcessor),
+        options: {
+          sourceMap: true,
+          ...options.preProcessorOptions,
+        },
+      },
+    );
+  }
+  return loaders;
+};
+
 // Generate webpack modules config
 // Each module has a smaller surface area than a full program, making verification, debugging, and testing trivial.
 // Well-written modules provide solid abstractions and encapsulation boundaries, so that each module has a coherent design and a clear purpose within the overall application.
@@ -195,7 +266,7 @@ export const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Contex
     name: "babel",
     noEmit: true,
     cwd: options.cwd,
-    target: ["web", "browser"].includes(options.target),
+    target: ["web", "browser"].includes(options.target) ? "browser" : "node",
     type: "cjs",
     runtimeHelpers: options.runtimeHelpers,
     corejs: options.corejs,
@@ -203,9 +274,6 @@ export const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Contex
     extraPresets: options.extraBabelPresets,
     extraPlugins: options.extraBabelPlugins,
   });
-
-  console.log(babelOpts);
-  const extensions = [".js", ".jsx", ".ts", ".tsx", ".es6", ".es", ".mjs"];
 
   const rules: RuleSetRule[] = [
     // Disable require.ensure as it's not a standard language feature.
@@ -223,7 +291,7 @@ export const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Contex
           loader: require.resolve("url-loader"),
           options: {
             limit: "10000",
-            name: "static/[name].[hash:8].[ext]",
+            name: path.join(options?.folders?.media ?? "", "[name].[hash:8].[ext]"),
             ...options.urlLoader,
           },
         },
@@ -235,41 +303,107 @@ export const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Contex
           options: {
             ...babelOpts,
             babelrc: false,
+            configFile: false,
             exclude: "node_modules/**",
-            extensions,
-            babelHelpers: options.runtimeHelpers ? "runtime" : "bundled",
-            // customize: require.resolve("babel-preset-react-app/webpack-overrides"),
-            // babelrc: false,
-            // configFile: false,
-            // presets: [require.resolve("babel-preset-react-app")],
-            // // Make sure we have a unique cache identifier, erring on the side of caution.
-            // // We remove this when the user ejects because the default is sane and uses Babel options. Instead of options, we use
-            // // the react-scripts and babel-preset-react-app versions.
-            // cacheIdentifier: getCacheIdentifier(
-            //   ctx.isEnvProduction ? "production" : ctx.isEnvDevelopment && "development",
-            //   ["babel-plugin-named-asset-import", "babel-preset-react-app", "react-dev-utils", "react-scripts"],
-            // ),
-            // plugins: [
-            //   [
-            //     require.resolve("babel-plugin-named-asset-import"),
-            //     {
-            //       loaderMap: {
-            //         svg: {
-            //           ReactComponent: "@svgr/webpack?-svgo,+titleProp,+ref![path]",
-            //         },
-            //       },
-            //     },
-            //   ],
-            //   // ctx.isEnvDevelopment && shouldUseReactRefresh && require.resolve("react-refresh/babel"),
-            // ].filter(Boolean),
-            // // This is a feature of `babel-loader` for webpack (not Babel itself).
-            // // It enables caching results in ./node_modules/.cache/babel-loader/
-            // // directory for faster rebuilds.
-            // cacheDirectory: true,
-            // // See #6846 for context on why cacheCompression is disabled
-            // cacheCompression: false,
-            // compact: ctx.isEnvProduction,
+            // extensions,
+            // babelHelpers: options.runtimeHelpers ? "runtime" : "bundled",
+            // This is a feature of `babel-loader` for webpack (not Babel itself).
+            // It enables caching results in ./node_modules/.cache/babel-loader/
+            // directory for faster rebuilds.
+            cacheDirectory: true,
+            // See #6846 for context on why cacheCompression is disabled
+            cacheCompression: false,
+            compact: ctx.isEnvProduction,
+            // Make sure we have a unique cache identifier, erring on the side of caution.
+            // We remove this when the user ejects because the default is sane and uses Babel options. Instead of options, we use
+            // the react-scripts and babel-preset-react-app versions.
+            // cacheIdentifier: getCacheIdentifier(ctx.isEnvProduction ? "production" : "development", [
+            //   "babel-plugin-named-asset-import",
+            //   "react-dev-utils",
+            // ]),
           },
+        },
+        // "postcss" loader applies autoprefixer to our CSS.
+        // "css" loader resolves paths in CSS and adds assets as dependencies.
+        // "style" loader turns CSS into JS modules that inject <style> tags.
+        // In production, we use MiniCSSExtractPlugin to extract that CSS to a file, but in development "style" loader enables hot editing of CSS.
+        // By default we support CSS Modules with the extension .module.css
+        {
+          test: /\.css$/,
+          exclude: /\.module\.css$/,
+          use: getStyleLoaders(
+            {
+              cssOptions: {
+                importLoaders: 1,
+                sourceMap: ctx.isEnvDevelopment,
+                ...options.cssLoader,
+              },
+              styleOptions: options.styleLoader,
+            },
+            ctx,
+          ),
+          // Don't consider CSS imports dead code even if the
+          // containing package claims to have no side effects.
+          // Remove this when webpack adds a warning or an error for this.
+          // See https://github.com/webpack/webpack/issues/6571
+          sideEffects: true,
+        },
+        // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
+        // using the extension .module.css
+        {
+          test: /\.module\.css$/,
+          use: getStyleLoaders(
+            {
+              cssOptions: {
+                importLoaders: 1,
+                sourceMap: ctx.isEnvDevelopment,
+                modules: { getLocalIdent: getCSSModuleLocalIdent },
+                ...options.cssLoader,
+              },
+              styleOptions: options.styleLoader,
+            },
+            ctx,
+          ),
+        },
+        // Opt-in support for LESS (using .less extensions).
+        // By default we support SASS Modules with the extensions .module.less
+        {
+          test: /\.less$/,
+          exclude: /\.module\.less$/,
+          use: getStyleLoaders(
+            {
+              cssOptions: {
+                importLoaders: 3,
+                sourceMap: ctx.isEnvDevelopment,
+                ...options.cssLoader,
+              },
+              styleOptions: options.styleLoader,
+              preProcessor: "less-loader",
+              preProcessorOptions: {},
+            },
+            ctx,
+          ),
+          // Don't consider CSS imports dead code even if the containing package claims to have no side effects.
+          // Remove this when webpack adds a warning or an error for this.
+          // See https://github.com/webpack/webpack/issues/6571
+          sideEffects: true,
+        },
+        // Adds support for CSS Modules, but using LESS using the extension .module.less
+        {
+          test: /\.module\.less$/,
+          use: getStyleLoaders(
+            {
+              cssOptions: {
+                importLoaders: 3,
+                sourceMap: ctx.isEnvDevelopment,
+                ...options.cssLoader,
+              },
+              styleOptions: options.styleLoader,
+              preProcessor: "less-loader",
+              preProcessorOptions: {},
+            },
+            ctx,
+          ),
         },
         // "file" loader makes sure those assets get served by Server.
         // When you `import` an asset, you get its (virtual) filename.
@@ -281,7 +415,7 @@ export const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Contex
           // Also exclude `html` and `json` extensions so they get processed by webpacks internal loaders.
           exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
           options: {
-            name: "static/[name].[hash:8].[ext]",
+            name: path.join(options?.folders?.media ?? "", "[name].[hash:8].[ext]"),
             ...options.fileLoader,
           },
         },
@@ -299,6 +433,9 @@ export const getWebpackConfig = async (options: IGetWebpackConfigOpts, ctx: Dawn
   // util symbol
   ctx.isEnvDevelopment = options.env === "development";
   ctx.isEnvProduction = options.env === "production";
+
+  // default: only inject when dev, not inject when build
+  ctx.injectCSS = options.injectCSS === undefined ? ctx.isEnvDevelopment : !!options.injectCSS;
 
   const webpackModule = await getModule(options, ctx);
 
@@ -322,9 +459,9 @@ export const getWebpackConfig = async (options: IGetWebpackConfigOpts, ctx: Dawn
       pathinfo: ctx.isEnvDevelopment,
       // There will be one main bundle, and one file per asynchronous chunk.
       // In development, it does not produce real files.
-      filename: "scripts/[name].js",
+      filename: path.join(options?.folders?.script ?? "", "[name].js"),
       // There are also additional JS chunk files if you use code splitting.
-      chunkFilename: "scripts/[name].[chunkhash:8].chunk.js",
+      chunkFilename: path.join(options?.folders?.script ?? "", "[name].[chunkhash:8].chunk.js"),
       // webpack uses `publicPath` to determine where the app is being served from.
       // It requires a trailing slash, or the file assets will get an incorrect path.
       // We inferred the "public path" (such as / or /my-project) from homepage.
@@ -340,6 +477,32 @@ export const getWebpackConfig = async (options: IGetWebpackConfigOpts, ctx: Dawn
     },
     module: webpackModule,
     plugins: getPlugins(options, ctx).filter(Boolean),
+    resolve: {
+      alias: {
+        // Allows for better profiling with ReactDevTools
+        ...(options.profiling && {
+          "react-dom$": "react-dom/profiling",
+          // This is a package for cooperative scheduling in a browser environment. It is currently used internally by React, but we plan to make it more generic.
+          // https://www.npmjs.com/package/scheduler
+          "scheduler/tracing": "scheduler/tracing-profiling",
+        }),
+        ...options.alias,
+      },
+      // Enable resolving symlinks to the original location.
+      symlinks: true,
+      modules: [
+        "node_modules",
+        path.resolve(ctx.cwd, "./node_modules/"),
+        path.resolve(__dirname, "../node_modules/"),
+        ctx.cwd,
+        path.resolve(__dirname, "../"),
+      ],
+      extensions: [".js", ".mjs", ".json", ".jsx", ".css", ".less", ".scss", ".sass"].concat(
+        ctx.useTypeScript ? [".ts", ".tsx"] : [],
+      ),
+      // Use tsconfig.paths as webpack alias
+      plugins: [ctx.useTypeScript && new TsconfigPathsPlugin()].filter(Boolean),
+    },
     // Some libraries import Node modules but don't use them in the browser.
     // Tell webpack to provide empty mocks for them so importing them works.
     // webpack@v5 make some changes, see: https://webpack.js.org/migrate/5/#test-webpack-5-compatibility
@@ -356,9 +519,9 @@ export const getWebpackConfig = async (options: IGetWebpackConfigOpts, ctx: Dawn
       // Keep the runtime chunk separated to enable long term caching
       // https://twitter.com/wSokra/status/969679223278505985
       // https://github.com/facebook/create-react-app/issues/5358
-      runtimeChunk: {
-        name: (entrypoint: any) => `runtime-${entrypoint?.name}`,
-      },
+      // runtimeChunk: {
+      //   name: (entrypoint: any) => `runtime-${entrypoint?.name}`,
+      // },
     },
   };
   return config;

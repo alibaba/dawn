@@ -5,8 +5,15 @@ export type Template = string | Record<string, string> | string[] | Array<{ name
 export type Output =
   | string
   | {
+      [key: string]: any;
       path: string;
     };
+export interface Folders {
+  script?: string;
+  style?: string;
+  media?: string;
+  html?: string;
+}
 
 export interface IOpts {
   cwd?: string;
@@ -19,6 +26,14 @@ export interface IOpts {
   devtool?: Devtool; // sourcemap
   performance?: boolean | "warning" | "error";
   target?: "browser" | "node" | "webworker" | string;
+  // https://webpack.js.org/configuration/resolve/#resolvealias
+  alias?: Record<string, string>;
+  profiling?: boolean;
+  folders?: Folders;
+  injectCSS?: boolean;
+
+  // tsc still compile when error
+  tscCompileOnError?: boolean;
 
   // plugin options
   // HtmlWebpackPlugin: https://github.com/jantimon/html-webpack-plugin#options
@@ -29,6 +44,8 @@ export interface IOpts {
   // loader options
   // UrlLoader: https://github.com/webpack-contrib/url-loader
   urlLoader?: object;
+  styleLoader?: object;
+  cssLoader?: object;
   // FileLoader: https://github.com/webpack-contrib/file-loader
   fileLoader?: object;
 

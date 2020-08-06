@@ -100,11 +100,11 @@ export const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) =
   assert.ok(options.entry, "[webpack5] No `entry` found, checkout guide for usage details.");
   options.entry = formatReglikeObject(options.entry as any);
 
-  // useTypescript judge by entry file ext
-  ctx.useTypescript = options.entry?.some?.(({ file }) => file.endsWith(".ts") || file.endsWith(".tsx"));
+  // useTypeScript judge by entry file ext
+  ctx.useTypeScript = options.entry?.some?.(({ file }) => file.endsWith(".ts") || file.endsWith(".tsx"));
   assert.ok(
     // if entry is dot ts(x), but not found tsconfig.json, exist
-    !(ctx.useTypescript && !fs.existsSync(path.join(ctx.cwd, "tsconfig.json"))),
+    !(ctx.useTypeScript && !fs.existsSync(path.join(ctx.cwd, "tsconfig.json"))),
     "[webpack5] Your entry is typescript but missing tsconfig.json file.",
   );
 
@@ -143,6 +143,19 @@ export const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) =
   // browser means web
   // default is web
   options.target = options.target === "browser" ? "web" : options.target ?? "web";
+
+  // alias
+  if (ctx.useTypeScript && options.alias) {
+    ctx.console.warn("[webpack5] `alias` is not recommanded in ts project, please use paths in tsconfig.json");
+  }
+
+  // profiling
+  // TODO: change default to true?
+  options.profiling = options.profiling ?? false;
+
+  // tscCompileOnError
+  // default is true
+  options.tscCompileOnError = options.tscCompileOnError ?? true;
 
   return options as IOpts;
 };
