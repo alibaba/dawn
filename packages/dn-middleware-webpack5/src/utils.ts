@@ -4,7 +4,7 @@ import * as assert from "assert";
 import globby from "globby";
 import * as Dawn from "@dawnjs/types";
 
-import { Env, IOpts } from "./types";
+import { Env, IGetWebpackConfigOpts, IOpts } from "./types";
 
 export const getExistFile = ({
   cwd,
@@ -102,6 +102,11 @@ export const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) =
 
   // useTypescript judge by entry file ext
   ctx.useTypescript = options.entry?.some?.(({ file }) => file.endsWith(".ts") || file.endsWith(".tsx"));
+  assert.ok(
+    // if entry is dot ts(x), but not found tsconfig.json, exist
+    !(ctx.useTypescript && !fs.existsSync(path.join(ctx.cwd, "tsconfig.json"))),
+    "[webpack5] Your entry is typescript but missing tsconfig.json file.",
+  );
 
   // template
   if (
@@ -127,6 +132,17 @@ export const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) =
   if (typeof options.output === "string") {
     options.output = { path: path.join(options.cwd, options.output) };
   }
+
+  // performance
+  // default is false
+  // true means warning
+  options.performance = options.performance === true ? "warning" : options.performance ?? false;
+  (options as IGetWebpackConfigOpts).performanceConfig = { hints: options.performance };
+
+  // target
+  // browser means web
+  // default is web
+  options.target = options.target === "browser" ? "web" : options.target ?? "web";
 
   return options as IOpts;
 };

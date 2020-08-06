@@ -1,7 +1,7 @@
 import * as path from "path";
 import resolve from "resolve";
 import * as Dawn from "@dawnjs/types";
-import type { Configuration, WebpackPluginInstance } from "webpack";
+import type { Configuration, ModuleOptions, RuleSetRule, WebpackPluginInstance } from "webpack";
 import { DefinePlugin, HotModuleReplacementPlugin } from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import InlineChunkHtmlPlugin from "react-dev-utils/InlineChunkHtmlPlugin";
@@ -16,9 +16,6 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import getPublicUrlOrPath from "react-dev-utils/getPublicUrlOrPath";
 import { IGetWebpackConfigOpts } from "./types";
 
-// TODO:
-// const webpackDevClientEntry = require.resolve("react-dev-utils/webpackHotDevClient");
-
 // We use `PUBLIC_URL` environment variable or "homepage" field to infer
 // "public path" at which the app is served.
 // webpack needs to know it to put the right <script> hrefs into HTML even in
@@ -27,6 +24,7 @@ import { IGetWebpackConfigOpts } from "./types";
 // like /todos/42/static/js/bundle.7289d.js. We have to know the root.
 const getPublicPath = () => getPublicUrlOrPath(process.env.NODE_ENV === "development", process.env.PUBLIC_URL, "/");
 
+// Generate webpack entries
 const getEntry = (options: IGetWebpackConfigOpts) => {
   const webpackEntry: any = {};
   options.entry.forEach(({ name, file }) => {
@@ -35,7 +33,7 @@ const getEntry = (options: IGetWebpackConfigOpts) => {
   return webpackEntry;
 };
 
-// Generate devtool
+// Generate devtool/sourcemap
 const getDevtool = (devtool: boolean | string, ctx: Dawn.Context) => {
   let formatDevtool: string | false;
   switch (devtool) {
@@ -55,6 +53,7 @@ const getDevtool = (devtool: boolean | string, ctx: Dawn.Context) => {
   return formatDevtool;
 };
 
+// Generate webpack plugins
 const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
   const plugins: WebpackPluginInstance[] = [];
 
@@ -187,11 +186,121 @@ const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
   return plugins;
 };
 
+// Generate webpack modules config
+// Each module has a smaller surface area than a full program, making verification, debugging, and testing trivial.
+// Well-written modules provide solid abstractions and encapsulation boundaries, so that each module has a coherent design and a clear purpose within the overall application.
+export const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
+  const webpackModule: ModuleOptions = {};
+  const { babelOpts } = await ctx.exec({
+    name: "babel",
+    noEmit: true,
+    cwd: options.cwd,
+    target: ["web", "browser"].includes(options.target),
+    type: "cjs",
+    runtimeHelpers: options.runtimeHelpers,
+    corejs: options.corejs,
+    nodeVersion: options.nodeVersion,
+    extraPresets: options.extraBabelPresets,
+    extraPlugins: options.extraBabelPlugins,
+  });
+
+  console.log(babelOpts);
+  const extensions = [".js", ".jsx", ".ts", ".tsx", ".es6", ".es", ".mjs"];
+
+  const rules: RuleSetRule[] = [
+    // Disable require.ensure as it's not a standard language feature.
+    { parser: { requireEnsure: false } },
+    // It's important to run the linter before Babel processes the JS.
+    // We do this in lint middleware
+    {
+      // "oneOf" will traverse all following loaders until one will match the requirements.
+      // When no loader matches it will fall back to the "file" loader at the end of the loader list.
+      oneOf: [
+        // "url" loader works like "file" loader except that it embeds assets smaller than specified limit in bytes as data URLs to avoid requests.
+        // A missing `test` is equivalent to a match.
+        {
+          test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+          loader: require.resolve("url-loader"),
+          options: {
+            limit: "10000",
+            name: "static/[name].[hash:8].[ext]",
+            ...options.urlLoader,
+          },
+        },
+        // Process application JS with Babel.
+        // The preset includes JSX, Flow, TypeScript, and some ESnext features.
+        {
+          test: /\.(js|mjs|jsx|ts|tsx)$/,
+          loader: require.resolve("babel-loader"),
+          options: {
+            ...babelOpts,
+            babelrc: false,
+            exclude: "node_modules/**",
+            extensions,
+            babelHelpers: options.runtimeHelpers ? "runtime" : "bundled",
+            // customize: require.resolve("babel-preset-react-app/webpack-overrides"),
+            // babelrc: false,
+            // configFile: false,
+            // presets: [require.resolve("babel-preset-react-app")],
+            // // Make sure we have a unique cache identifier, erring on the side of caution.
+            // // We remove this when the user ejects because the default is sane and uses Babel options. Instead of options, we use
+            // // the react-scripts and babel-preset-react-app versions.
+            // cacheIdentifier: getCacheIdentifier(
+            //   ctx.isEnvProduction ? "production" : ctx.isEnvDevelopment && "development",
+            //   ["babel-plugin-named-asset-import", "babel-preset-react-app", "react-dev-utils", "react-scripts"],
+            // ),
+            // plugins: [
+            //   [
+            //     require.resolve("babel-plugin-named-asset-import"),
+            //     {
+            //       loaderMap: {
+            //         svg: {
+            //           ReactComponent: "@svgr/webpack?-svgo,+titleProp,+ref![path]",
+            //         },
+            //       },
+            //     },
+            //   ],
+            //   // ctx.isEnvDevelopment && shouldUseReactRefresh && require.resolve("react-refresh/babel"),
+            // ].filter(Boolean),
+            // // This is a feature of `babel-loader` for webpack (not Babel itself).
+            // // It enables caching results in ./node_modules/.cache/babel-loader/
+            // // directory for faster rebuilds.
+            // cacheDirectory: true,
+            // // See #6846 for context on why cacheCompression is disabled
+            // cacheCompression: false,
+            // compact: ctx.isEnvProduction,
+          },
+        },
+        // "file" loader makes sure those assets get served by Server.
+        // When you `import` an asset, you get its (virtual) filename.
+        // In production, they would get copied to the `build` folder.
+        // This loader doesn't use a "test" so it will catch all modules that fall through the other loaders.
+        {
+          loader: require.resolve("file-loader"),
+          // Exclude `js` files to keep "css" loader working as it injects its runtime that would otherwise be processed through "file" loader.
+          // Also exclude `html` and `json` extensions so they get processed by webpacks internal loaders.
+          exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
+          options: {
+            name: "static/[name].[hash:8].[ext]",
+            ...options.fileLoader,
+          },
+        },
+        // file-loader should be the last one
+      ],
+    },
+  ];
+
+  webpackModule.rules = rules;
+  return webpackModule;
+};
+
 // Generate webpack config
-export const getWebpackConfig = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
+export const getWebpackConfig = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
   // util symbol
   ctx.isEnvDevelopment = options.env === "development";
   ctx.isEnvProduction = options.env === "production";
+
+  const webpackModule = await getModule(options, ctx);
 
   const config: Configuration = {
     // Learn more about the mode configuration and what optimizations take place on each value.
@@ -201,6 +310,9 @@ export const getWebpackConfig = (options: IGetWebpackConfigOpts, ctx: Dawn.Conte
     bail: ctx.isEnvProduction,
     // https://webpack.js.org/configuration/devtool/#devtool
     devtool: getDevtool(options.devtool, ctx),
+    // webpack can compile for multiple environments or targets.
+    // to understand what a target is in detail: https://webpack.js.org/concepts/targets/
+    target: options.target as any,
     // web script entry(ies)
     entry: getEntry(options),
     output: {
@@ -219,14 +331,35 @@ export const getWebpackConfig = (options: IGetWebpackConfigOpts, ctx: Dawn.Conte
       publicPath: getPublicPath(),
       // Prevents conflicts when multiple webpack runtimes (from different apps)
       // are used on the same page.
-      jsonpFunction: `webpackJsonp_${ctx?.project?.name || "DnMiddlewareWebpack5"}`,
+      jsonpFunction: `webpackJsonp_${ctx?.project?.name || "dn-middleware-webpack5"}`,
       // this defaults to 'window', but by setting it to 'this' then
       // module chunks which are built will work in web workers as well.
       globalObject: "this",
       // User output option
       ...(options.output as any),
     },
+    module: webpackModule,
     plugins: getPlugins(options, ctx).filter(Boolean),
+    // Some libraries import Node modules but don't use them in the browser.
+    // Tell webpack to provide empty mocks for them so importing them works.
+    // webpack@v5 make some changes, see: https://webpack.js.org/migrate/5/#test-webpack-5-compatibility
+    node: {
+      // TODO: node
+    },
+    // Turn off performance processing because we utilize
+    // our own hints via the FileSizeReporter
+    performance: options.performanceConfig,
+    optimization: {
+      minimize: ctx.isEnvProduction,
+      // TODO: splitChunks
+      // TODO: minimizer
+      // Keep the runtime chunk separated to enable long term caching
+      // https://twitter.com/wSokra/status/969679223278505985
+      // https://github.com/facebook/create-react-app/issues/5358
+      runtimeChunk: {
+        name: (entrypoint: any) => `runtime-${entrypoint?.name}`,
+      },
+    },
   };
   return config;
 };

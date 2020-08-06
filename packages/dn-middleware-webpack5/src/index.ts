@@ -1,5 +1,6 @@
 import * as Dawn from "@dawnjs/types";
 import webpack from "webpack";
+// import resolve from "resolve";
 
 import { getWebpackConfig } from "./config";
 import { formatAndValidateOpts } from "./utils";
@@ -12,7 +13,7 @@ const handler: Dawn.Handler<Partial<IOpts>> = opts => {
     ctx.webpack5 = {};
     ctx.webpack = webpack;
     const options = formatAndValidateOpts(opts, ctx);
-    const webpackConfig = getWebpackConfig(options as IGetWebpackConfigOpts, ctx);
+    const webpackConfig = await getWebpackConfig(options as IGetWebpackConfigOpts, ctx);
 
     console.log(options);
     console.log(webpackConfig);
