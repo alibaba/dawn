@@ -58,7 +58,19 @@ async function installInPackage(ctx, pkg, remote) {
   return ctx.mod.exec(`install ${remote}`, { cwd: pkg.root });
 }
 
-async function execCommand(ctx, cmd, { all, wait, npm, env } = {}) {
+async function wait(promise, timeout = 0) {
+  if (!promise || timeout < 1) return promise;
+  return new Promise((resolve, reject) => {
+    let aborted = false;
+    promise.then(value => {
+      if (aborted) return;
+      resolve(value);
+    }).catch(reject);
+    setTimeout(() => resolve(), timeout);
+  })
+}
+
+async function execCommand(ctx, cmd, { all, timeout, npm, env } = {}) {
   const packages = all ? await getAllPackages(ctx) : await pickPackages(ctx);
   if (!cmd) {
     cmd = (await ctx.inquirer.prompt([{
@@ -68,7 +80,7 @@ async function execCommand(ctx, cmd, { all, wait, npm, env } = {}) {
     }])).cmd;
   }
   return packages.reduce(async (prev, pkg) => {
-    if (wait !== false) await prev;
+    await wait(prev, timeout || 0);
     return npm ? npmExecInPackage(ctx, pkg, cmd) :
       execInPackage(ctx, pkg, cmd, env);
   }, null);
@@ -187,7 +199,9 @@ module.exports = () => {
         break;
       case 'd':
       case 'dev':
-        await execCommand(ctx, `dn ${ctx.command}`, { all: true, wait: false });
+        await execCommand(ctx, `dn ${ctx.command}`, {
+          all: true, timeout: 10000
+        });
         break;
       case 'a':
       case 'add':
