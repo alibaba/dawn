@@ -1,4 +1,4 @@
-const { resolve, normalize } = require('path');
+const { resolve } = require('path');
 const { existsSync } = require('fs');
 const { EOL } = require('os');
 
@@ -58,15 +58,24 @@ async function installInPackage(ctx, pkg, remote) {
   return ctx.mod.exec(`install ${remote}`, { cwd: pkg.root });
 }
 
-async function wait(promise, timeout = 0) {
+function wait(promise, timeout = 0) {
   if (!promise || timeout < 1) return promise;
   return new Promise((resolve, reject) => {
     let aborted = false;
     promise.then(value => {
       if (aborted) return;
+      aborted = true;
       resolve(value);
-    }).catch(reject);
-    setTimeout(() => resolve(), timeout);
+    }).catch(err => {
+      if (aborted) return;
+      aborted = true;
+      reject(err);
+    });
+    setTimeout(() => {
+      if (aborted) return;
+      aborted = true;
+      resolve();
+    }, timeout);
   })
 }
 
@@ -80,9 +89,10 @@ async function execCommand(ctx, cmd, { all, timeout, npm, env } = {}) {
     }])).cmd;
   }
   return packages.reduce(async (prev, pkg) => {
-    await wait(prev, timeout || 0);
-    return npm ? npmExecInPackage(ctx, pkg, cmd) :
-      execInPackage(ctx, pkg, cmd, env);
+    await prev;
+    const current = npm ?
+      npmExecInPackage(ctx, pkg, cmd) : execInPackage(ctx, pkg, cmd, env);
+    return wait(current, timeout || 0);
   }, null);
 }
 
@@ -200,7 +210,7 @@ module.exports = () => {
       case 'd':
       case 'dev':
         await execCommand(ctx, `dn ${ctx.command}`, {
-          all: true, timeout: 10000
+          all: true, timeout: 15000
         });
         break;
       case 'a':
