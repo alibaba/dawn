@@ -1,5 +1,8 @@
+link: copy
+
 packages:
   - path: demo-a
+    result: ./lib/**/*.*
   - path: demo-b
   - path: demo-c
     deps:

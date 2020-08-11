@@ -1,4 +1,4 @@
-const { resolve } = require('path');
+const { resolve, normalize } = require('path');
 const { existsSync } = require('fs');
 const { EOL } = require('os');
 
@@ -21,14 +21,15 @@ async function getPackageRoot(ctx, package) {
 async function getAllPackages(ctx) {
   const { packages = [] } = await getSolutionConf(ctx);
   if (ctx.__packages) return ctx.__packages;
-  ctx.__packages = await Promise.all(packages.map(async ({ path, deps }) => {
-    const root = await getPackageRoot(ctx, path);
-    const packageFile = resolve(root, './package.json');
-    const package = require(packageFile);
-    const name = package.name;
-    const value = root;
-    return { root, path, deps, name, value, package, packageFile };
-  }));
+  ctx.__packages = await Promise.all(
+    packages.map(async ({ path, deps, result }) => {
+      const root = await getPackageRoot(ctx, path);
+      const packageFile = resolve(root, './package.json');
+      const package = require(packageFile);
+      const name = package.name;
+      const value = root;
+      return { root, path, deps, result, name, value, package, packageFile };
+    }));
   return ctx.__packages;
 }
 
@@ -96,13 +97,33 @@ async function execCommand(ctx, cmd, { all, timeout, npm, env } = {}) {
   }, null);
 }
 
+async function copyDepResult(ctx, pkg, dep) {
+  const fromFiles = resolve(dep.root, dep.result || './build/**/*.*');
+  const toDir = resolve(pkg.root, `./node_modules/${dep.name}/`);
+  const copy = () => ctx.exec({
+    name: 'copy',
+    files: {
+      [normalize(`${toDir}/package.json`)]: dep.packageFile,
+      [normalize(`${toDir}/`)]: fromFiles
+    }
+  });
+  const { cmd } = ctx.cli.params;
+  if (cmd !== 'd' && cmd !== 'dev') return copy();
+  ctx.exec({ name: 'watch', match: fromFiles, onChange: copy });
+}
+
 async function linkPackage(ctx, pkg) {
   if (!pkg || !pkg.deps || pkg.deps.length < 1) return;
+  const { link } = await getSolutionConf(ctx);
   const deps = (await getAllPackages(ctx))
     .filter(item => pkg.deps.indexOf(item.path) > -1);
   await deps.reduce(async (prev, current) => {
     await prev;
-    await npmExecInPackage(ctx, pkg, `link ${current.name}`);
+    if (link === 'copy') {
+      await copyDepResult(ctx, pkg, current);
+    } else {
+      await npmExecInPackage(ctx, pkg, `link ${current.name}`);
+    }
     pkg.package.dependencies = {
       ...(pkg.package.dependencies || {}),
       [current.name]: `^${current.package.version}`
@@ -131,7 +152,10 @@ async function clearLinks(ctx) {
 async function linkAllPackages(ctx) {
   ctx.console.warn('Link all packages');
   await clearLinks(ctx);
-  await execCommand(ctx, `link`, { all: true, npm: true });
+  const { link } = await getSolutionConf(ctx);
+  if (link !== 'copy') {
+    await execCommand(ctx, `link`, { all: true, npm: true });
+  }
   const packages = await getAllPackages(ctx);
   await Promise.all(packages.map(async (pkg) => {
     await linkPackage(ctx, pkg);
@@ -199,6 +223,7 @@ async function publish(ctx) {
 module.exports = () => {
   return async (next, ctx) => {
     ctx.console.log('Solution mode enabled');
+    const { link } = await getSolutionConf(ctx);
     const { cmd, $1 } = ctx.cli.params;
     switch (cmd) {
       case 'r':
@@ -209,6 +234,7 @@ module.exports = () => {
         break;
       case 'd':
       case 'dev':
+        if (link === 'copy') await linkAllPackages(ctx);
         await execCommand(ctx, `dn ${ctx.command}`, {
           all: true, timeout: 15000
         });

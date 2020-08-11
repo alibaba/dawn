@@ -1,5 +1,5 @@
 {
-  "name": "demo-a",
+  "name": "@demo/demo-a",
   "version": "1.0.4",
   "description": "",
   "main": "./lib/index.js",

@@ -23,6 +23,7 @@
   "dependencies": {
     "mota": "^3.5.0",
     "demo-a": "^1.0.4",
+    "@demo/demo-a": "^1.0.4",
     "demo-b": "^1.0.4"
   }
 }
