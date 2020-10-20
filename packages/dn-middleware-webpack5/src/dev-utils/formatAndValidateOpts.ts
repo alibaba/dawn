@@ -81,7 +81,7 @@ export const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) =
     options.append = formatNullStringToList(options.append);
   
     // output
-    options.output = options.output ?? "/build";
+    options.output = options.output ?? "./build";
     if (typeof options.output === "string") {
       options.output = { path: options.output };
     }

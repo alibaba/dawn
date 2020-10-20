@@ -112,8 +112,8 @@ export const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) =>
     // If you require a missing module and then `npm install` it, you still have to restart the development server for webpack to discover it.
     // This plugin makes the discovery automatic so you don't have to restart.
     // See https://github.com/facebook/create-react-app/issues/186
-    ctx.isEnvDevelopment &&
-      plugins.push(new WatchMissingNodeModulesPlugin(path.join(options.cwd, "node_modules")) as any);
+    // ctx.isEnvDevelopment &&
+      // plugins.push(new WatchMissingNodeModulesPlugin(path.join(options.cwd, "node_modules")) as any);
   
     // MiniCssExtractPlugin
     // Options similar to the same options in webpackOptions.output both options are optional
@@ -130,10 +130,10 @@ export const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) =>
     // now IgnorePlugin must now be passed only one argument that can be an object, string or function.
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
-    new IgnorePlugin({
-      resourceRegExp: /^\.\/locale$/,
-      contextRegExp: /moment$/
-    });
+    // new IgnorePlugin({
+    //   resourceRegExp: /^\.\/locale$/,
+    //   contextRegExp: /moment$/
+    // });
   
     // ForkTsCheckerWebpackPlugin
     // TypeScript type checking

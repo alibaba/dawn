@@ -19,11 +19,17 @@ dev:watch:
       - babel-plugin-add-module-exports
 
 dev:
+  - name: clean
   - name: $local
     location: ./lib/index.js
     entry:
-      (0): ./src/*.ts
+      index: ./test/*.tsx
     template: ./test/index.html
+  - name: server
+    historyApiFallback: true
+    port: 8892
+    host: localhost
+  - name: browser-sync
 
 test:
   - name: lint

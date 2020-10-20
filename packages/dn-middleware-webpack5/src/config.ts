@@ -72,6 +72,8 @@ export const getWebpackConfig = async (options: IGetWebpackConfigOpts, ctx: Dawn
     // web script entry(ies)
     entry: getEntry(options),
     output: {
+      // User output option
+      ...(options.output as any),
       // The build folder.
       path: path.resolve(options.cwd, (options.output as any)?.path),
       // Add /* filename */ comments to generated require()s in the output.
@@ -88,8 +90,6 @@ export const getWebpackConfig = async (options: IGetWebpackConfigOpts, ctx: Dawn
       // this defaults to 'window', but by setting it to 'this' then
       // module chunks which are built will work in web workers as well.
       globalObject: "this",
-      // User output option
-      ...(options.output as any),
     },
     module: webpackModule,
     plugins: getPlugins(options, ctx).filter(Boolean),
