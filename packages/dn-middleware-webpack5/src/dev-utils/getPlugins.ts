@@ -11,6 +11,8 @@ import ForkTsCheckerWebpackPlugin from "react-dev-utils/ForkTsCheckerWebpackPlug
 import typescriptFormatter from "react-dev-utils/typescriptFormatter";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+
 // import InlineChunkHtmlPlugin from "react-dev-utils/InlineChunkHtmlPlugin";
 // import getCacheIdentifier from "react-dev-utils/getCacheIdentifier";
 
@@ -135,6 +137,10 @@ export const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) =>
     //   contextRegExp: /moment$/
     // });
   
+    // BundleAnalyzerPlugin
+    // https://github.com/webpack-contrib/webpack-bundle-analyzer
+    options.analysis && plugins.push(new BundleAnalyzerPlugin(options.analysis));
+
     // ForkTsCheckerWebpackPlugin
     // TypeScript type checking
     ctx.useTypeScript &&

@@ -5,6 +5,29 @@ import * as assert from "assert";
 import { Env, IGetWebpackConfigOpts, IOpts } from "../types";
 import { getExistFile, formatReglikeObject, formatNullStringToList } from "./utils";
 
+//生成排除配置
+function makeExternal(commonjs: string, root: string, amd?: string) {
+  amd = amd || commonjs;
+  let commonjs2 = commonjs;
+  return {commonjs, commonjs2, root, amd};
+}
+
+//库默认排除设定
+const LIB_DEFAULT_EXTERNALS = {
+  "jquery": makeExternal("jquery", "jQuery"),
+  "zepto": makeExternal("zepto", "Zepto"),
+  "react": makeExternal("react", "React"),
+  "react-dom": makeExternal("react-dom", "ReactDOM")
+};
+
+//普通项目默认排除设定
+const PRO_DEFAULT_EXTERNALS = {
+  "jquery": "jQuery",
+  "zepto": "Zepto",
+  "react": "React",
+  "react-dom": "ReactDOM"
+};
+
 // Validate and format input opts
 export const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
     const options = Object.assign({}, opts);
@@ -85,13 +108,31 @@ export const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) =
     if (typeof options.output === "string") {
       options.output = { path: options.output };
     }
-  
+    // chunkFilename for v3
+    if (options.chunkFilename) {
+      options.output.chunkFilename = options.chunkFilename;
+      ctx.console.warn("[webpack5] `chunkFilename` is not recommanded in dn-middleware-webpack5, please use `output.chunkFilename` instead");
+    }
+    // externals
+    options.external = options.external ?? false;
+    if (options.external === false) {
+      options.externals = {};
+    } else {
+      options.externals = options.externals ||
+        (options.output?.library ? LIB_DEFAULT_EXTERNALS : PRO_DEFAULT_EXTERNALS);
+    }
+
     // performance
     // default is false
     // true means warning
     options.performance = options.performance === true ? "warning" : options.performance ?? false;
     (options as IGetWebpackConfigOpts).performanceConfig = { hints: options.performance };
   
+    // compress
+    // default is true when in production
+    // Make sure to turn off this when you need dn-middleware-compress
+    options.compress = options.compress ?? options.env === "production";
+
     // target
     // browser means web
     // default is web
@@ -100,6 +141,15 @@ export const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) =
     // alias
     if (ctx.useTypeScript && options.alias) {
       ctx.console.warn("[webpack5] `alias` is not recommanded in ts project, please use paths in tsconfig.json");
+    }
+
+    // analysis
+    options.analysis = options.analysis ?? false;
+    if (options.analysis === true) {
+      // set default analysisConfig
+      options.analysis = {
+        analyzerMode: "server",
+      }
     }
 
     // profiling

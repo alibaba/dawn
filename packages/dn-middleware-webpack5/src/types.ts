@@ -9,7 +9,12 @@ export type Output =
   | {
       [key: string]: any;
       path: string;
+      library?: Library;
     };
+type Library = {
+  type?: string;
+  name?: string;
+}
 export interface Folders {
   script?: string;
   style?: string;
@@ -19,7 +24,8 @@ export interface Folders {
 
 export interface IOptimization {
   // Tell webpack to minimize the bundle using the TerserPlugin or the plugin(s) specified in optimization.minimizer.
-  minimize: Boolean;
+  minimize?: Boolean;
+  minimizer?: any;
   splitChunks: object;
   [key: string]: any;
 }
@@ -49,6 +55,8 @@ export interface IOpts {
   devtool?: Devtool; // sourcemap
   performance?: boolean | "warning" | "error";
   target?: "browser" | "node" | "webworker" | string;
+  externals?: object;
+  analysis?: boolean | object; // analysis mode
   // https://webpack.js.org/configuration/resolve/#resolvealias
   alias?: Record<string, string>;
   profiling?: boolean;
@@ -82,7 +90,11 @@ export interface IOpts {
   // BC dn-m-webpack4
   // BC dn-m-webpack3
   sourceMap?: Devtool;
-  common?: ICommonOptionV3 // optimization options
+  common?: ICommonOptionV3; // optimization options
+  external?: boolean; // external or not
+  chunkFilename?: string; // output.chunkFilename
+  // default true when in envProduction;
+  compress?: boolean;
 }
 
 interface PerformanceOpts {

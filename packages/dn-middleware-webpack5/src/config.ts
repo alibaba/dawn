@@ -120,6 +120,7 @@ export const getWebpackConfig = async (options: IGetWebpackConfigOpts, ctx: Dawn
       // Use tsconfig.paths as webpack alias
       plugins: [ctx.useTypeScript && new TsconfigPathsPlugin()].filter(Boolean),
     },
+    externals: options.externals as any,
     // Some libraries import Node modules but don't use them in the browser.
     // Tell webpack to provide empty mocks for them so importing them works.
     // webpack@v5 make some changes, see: https://webpack.js.org/migrate/5/#test-webpack-5-compatibility

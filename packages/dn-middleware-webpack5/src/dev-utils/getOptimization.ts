@@ -8,7 +8,8 @@ const getOptimization = (
 ) => {
   const { optimization, common } = options;
   const optimizationConfig: IOptimization = {
-    minimize: ctx.isEnvProduction,
+    minimize: options.compress,
+    minimizer: optimization?.minimizer ?? ["..."],
     // TODO: splitChunks
     splitChunks: {
       chunks: 'all',

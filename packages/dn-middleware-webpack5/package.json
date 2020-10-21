@@ -43,6 +43,7 @@
     "@types/mini-css-extract-plugin": "^0.9.1",
     "@types/react-dev-utils": "^9.0.4",
     "@types/resolve": "^1.17.1",
+    "@types/webpack-bundle-analyzer": "^3.9.0",
     "babel-plugin-add-module-exports": "^1.0.2",
     "dn-middleware-browser-sync": "^0.1.0",
     "dn-middleware-call": "^1.0.3",
@@ -51,7 +52,8 @@
     "dn-middleware-lint": "^3.0.5",
     "dn-middleware-pkginfo": "^1.1.3",
     "dn-middleware-server": "^1.1.4",
-    "typescript": "^3.9.3"
+    "typescript": "^3.9.3",
+    "webpack-bundle-analyzer": "^3.9.0"
   },
   "license": "MIT",
   "dependencies": {
@@ -65,6 +67,7 @@
     "html-webpack-plugin": "^4.3.0",
     "less-loader": "^6.2.0",
     "mini-css-extract-plugin": "^0.9.0",
+    "moment": "^2.29.1",
     "postcss-flexbugs-fixes": "^4.2.1",
     "postcss-loader": "^3.0.0",
     "postcss-normalize": "^9.0.0",
