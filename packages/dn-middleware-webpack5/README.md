@@ -1,33 +1,59 @@
 ---
-group: template
-name: middleware-ts
-title: 中间件模板（TS版）
+group: middleware
+name: webpack5
+title: Webpack5
 ---
 
-## dn-template-middleware-ts
+# dn-middleware-webpack5
+几乎完全向下兼容，即使是旧项目迁移，成本也很低，并且增加了很多开发中新功能：
+1. target 允许传递一个目标列表，并且支持目标的版本。例如 `target: "node14"``target: ["web", "es2020"]`。
+2. [模块联邦]("https://webpack.docschina.org/concepts/module-federation/")：远程的模块可以独立编译，然后在运行时进行加载，同时还能够定义公共库来避免重复加载。
+3. 构建优化：optimization中的各种属性的更新和新增，例如 `optimization.innerGraph` 可以对模块中的标志进行分析，找出导出和引用之间的依赖关系。生产模式下是默认启用的。
+4. 同时API支持了更多可扩展配置
 
-中间件模板，用于快速的创建一个 Dawn 中间件工程，和普通的中间件模板相比，支持使用 TS 编写模板。
+除了新功能，还有很多使用上的优化
+1. 新增了长期缓存的算法，这些算法在生产模式下是默认启用的，建议不要设置，使用默认值更合适。【`optimization.chunkIds`和`optimization.moduleIds`】
+2. 统一使用内容哈希，`[contenthash]`，在只修改注释时优化长期缓存
+3. 删除output.jsonpFunction，自动使用 `package.json` 中有唯一的名称来防止多个 webpack 运行时的冲突
+4. 其他构建优化
+5. 其他性能优化
 
-创建一个中间件
+## 示例
 
-```sh
-$ dn init -t middleware-ts
+```yml
+dev:
+  - name: webpack5
+    watch: true
+  - name: server
+  - name: browser-sync
+
+build:
+  - name: webpack5
 ```
 
-如果你的 dn 连接的是默认服务，也可以从模板列表中选择
+## 配置项说明
 
-```sh
-$ dn init
-```
+### `env`
 
-可在以类似如下的菜单中选择 `middleware` 模板
+类型：`"development" | "production"`<br>
+默认值：`development`
 
-```sh
-? Found 3 templates (Use arrow keys)
-  1. front         : Blank front end project template
-  2. node          : Blank node project template
-  3. middleware    : Dawn middleware project template
-❯ 4. middleware-ts : Dawn middleware project template with typescript support
-```
+运行环境，开发环境development, 生产环境production
 
-工程初始化完成后，就可以使用 `dn` 相关命令进行开发构建了。
+### `entry`
+
+类型：`string`<br>
+默认值：`/src/index`
+
+入口起点
+
+### `devtool` ｜ `sourceMap(v4)`
+
+类型：`boolean | string`<br>
+默认值：`false`
+
+控制是否生成，以及如何生成 source map
+
+### etc.
+
+## 其他

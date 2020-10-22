@@ -12,6 +12,7 @@ import typescriptFormatter from "react-dev-utils/typescriptFormatter";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
 // import InlineChunkHtmlPlugin from "react-dev-utils/InlineChunkHtmlPlugin";
 // import getCacheIdentifier from "react-dev-utils/getCacheIdentifier";
@@ -108,7 +109,7 @@ export const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) =>
     // Watcher doesn't work well if you mistype casing in a path so we use a plugin that prints an error when you attempt to do this.
     // See https://github.com/facebook/create-react-app/issues/240
     // https://github.com/Urthen/case-sensitive-paths-webpack-plugin
-    ctx.isEnvDevelopment && plugins.push(new CaseSensitivePathsPlugin());
+    // ctx.isEnvDevelopment && plugins.push(new CaseSensitivePathsPlugin());
   
     // WatchMissingNodeModulesPlugin
     // If you require a missing module and then `npm install` it, you still have to restart the development server for webpack to discover it.
@@ -139,7 +140,8 @@ export const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) =>
   
     // BundleAnalyzerPlugin
     // https://github.com/webpack-contrib/webpack-bundle-analyzer
-    options.analysis && plugins.push(new BundleAnalyzerPlugin(options.analysis));
+    const analysisOptions = options.analysis === true ? {} : options.analysis;
+    options.analysis && plugins.push(new BundleAnalyzerPlugin(analysisOptions as BundleAnalyzerPlugin.Options));
 
     // ForkTsCheckerWebpackPlugin
     // TypeScript type checking
@@ -167,6 +169,21 @@ export const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) =>
         }),
       );
   
+      // https://webpack.docschina.org/concepts/module-federation/
+      options.moduleFederation && plugins.push(
+        new ModuleFederationPlugin({
+          // name: "app_one_remote",
+          // remotes: {
+          //   app_two: "app_two_remote",
+          //   app_three: "app_three_remote"
+          // },
+          // exposes: {
+          //   AppContainer: "./src/App"
+          // },
+          shared: ["react", "react-dom"],
+          ...options.moduleFederation,
+        }),
+      )
     return plugins;
   };
   

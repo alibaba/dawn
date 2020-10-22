@@ -14,13 +14,11 @@ const handler: Dawn.Handler<Partial<IOpts>> = opts => {
     // register namespace for webpack5
     ctx.webpack5 = {};
     ctx.webpack = webpack;
-    console.log("opts", opts);
     const options = formatAndValidateOpts(opts, ctx);
 
     const webpackConfig = await getWebpackConfig(options as IGetWebpackConfigOpts, ctx);
 
-    console.log("options", options);
-    console.log("webpackConfig", webpackConfig);
+    ctx.console.log("webpackConfig", webpackConfig);
 
     const compiler = createCompiler({
       config: webpackConfig as any,
@@ -29,26 +27,29 @@ const handler: Dawn.Handler<Partial<IOpts>> = opts => {
     }, ctx)
 
     // TODO: emit event
-    compiler.run((err, stats) => {
-      if (err) {
-        console.error(err.stack || err);
-        // TODO: check the structure of err
-        // if (err.details) {
-          // console.error(err.details);
-        // }
-        return;
-      }
-    
-      const info = stats.toJson();
-    
-      if (stats.hasErrors()) {
-        console.error(info.errors);
-      }
-    
-      if (stats.hasWarnings()) {
-        console.warn(info.warnings);
-      }
-    });
+    if (options.watch) {
+      compiler.watch(opts.watchOpts, (err, stats) => {
+        // Fatal webpack errors (wrong configuration, etc)
+        if (err) {
+          ctx.console.error(err.stack || err);
+          process.exit;
+          return;
+        }
+        if (ctx.emit) ctx.emit('webpack.stats', stats);
+        ctx.console.log('[Webpack5]Start Watching:', Date.now());
+      });
+    } else {
+      compiler.run((err, stats) => {
+        if (err) {
+          ctx.console.error(err.stack || err);
+          // TODO: check the structure of err
+          // if (err.details) {
+            // ctx.console.error(err.details);
+          // }
+          return;
+        }
+      });
+    }
     next();
   };
 };

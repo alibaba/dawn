@@ -92,6 +92,10 @@ export const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) =
     assert.ok(options.template, "[webpack5] No `template` found, checkout guide for usage details.");
     options.template = formatReglikeObject(options.template as any);
   
+    // watch
+    // default true when in development
+    options.watch = options.watch ?? options.env === "development";
+
     // injectCss
     // default: only inject when dev, not inject when build
     ctx.injectCSS = options.injectCSS === undefined ? options.env === "development" : !!options.injectCSS;
@@ -113,6 +117,7 @@ export const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) =
       options.output.chunkFilename = options.chunkFilename;
       ctx.console.warn("[webpack5] `chunkFilename` is not recommanded in dn-middleware-webpack5, please use `output.chunkFilename` instead");
     }
+
     // externals
     options.external = options.external ?? false;
     if (options.external === false) {
@@ -141,6 +146,13 @@ export const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) =
     // alias
     if (ctx.useTypeScript && options.alias) {
       ctx.console.warn("[webpack5] `alias` is not recommanded in ts project, please use paths in tsconfig.json");
+    }
+
+    // common chunk
+    options.common = {
+      disabled: false,
+      name: "common",
+      ...options.common,
     }
 
     // analysis

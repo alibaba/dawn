@@ -10,13 +10,16 @@ const getOptimization = (
   const optimizationConfig: IOptimization = {
     minimize: options.compress,
     minimizer: optimization?.minimizer ?? ["..."],
-    // TODO: splitChunks
     splitChunks: {
       chunks: 'all',
       // It is recommended to set splitChunks.name to false for production builds
       // so that it doesn't change names unnecessarily.
-      name: false,
+      name: !ctx.isEnvProduction,
     },
+    // default true when in production
+    // innerGraph: ctx.isEnvProduction,
+    // sideEffects: false,
+
     // Keep the runtime chunk separated to enable long term caching
     // https://twitter.com/wSokra/status/969679223278505985
     // https://github.com/facebook/create-react-app/issues/5358

@@ -87,7 +87,9 @@ export const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Contex
     name: "babel",
     noEmit: true,
     cwd: options.cwd,
-    target: ["web", "browser"].includes(options.target) ? "browser" : "node",
+    target: Array.isArray(options.target)
+      ? options.target
+      : ["web", "browser"].includes(options.target) ? "browser" : "node",
     type: "cjs",
     ...options.babel,
   });

@@ -1,7 +1,9 @@
 import * as fs from "fs";
 import * as path from "path";
+import * as Dawn from "@dawnjs/types";
 import globby from "globby";
 import getPublicUrlOrPath from "react-dev-utils/getPublicUrlOrPath";
+import type { Stats } from "webpack/types";
 
 export const getExistFile = ({
   cwd,
@@ -64,4 +66,34 @@ export function formatNullStringToList<T = string>(params?: T | T[] | null): T[]
     return params;
   }
   return [params];
+}
+
+export function formatWebpackMessages({
+  warnings,
+  errors
+}: {
+  warnings?: any[],
+  errors?: any[]
+}) {
+  return {
+    errors: Array.isArray(errors) ? errors?.map(e => e.message) : [],
+    warnings: Array.isArray(warnings) ? warnings?.map(e => e.message) : [],
+  }
+}
+
+export function printError(stats: Stats, ctx: Dawn.Context) {
+  // const info = stats.toJson();
+
+  // // Compilation errors (missing modules, syntax errors, etc)
+  // if (stats.hasErrors()) {
+
+  //   ctx.console.error("error");
+  //   ctx.console.error(info.errors);
+  // }
+
+  // // Compilation warnings
+  // if (stats.hasWarnings()) {
+  //   ctx.console.error("warning");
+  //   ctx.console.warn(info.warnings);
+  // }
 }

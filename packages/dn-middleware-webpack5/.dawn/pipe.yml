@@ -25,6 +25,7 @@ dev:
     entry:
       index: ./test/*.tsx
     template: ./test/index.html
+    watch: true
   - name: server
     historyApiFallback: true
     port: 8892

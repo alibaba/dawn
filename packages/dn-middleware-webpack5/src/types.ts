@@ -26,7 +26,9 @@ export interface IOptimization {
   // Tell webpack to minimize the bundle using the TerserPlugin or the plugin(s) specified in optimization.minimizer.
   minimize?: Boolean;
   minimizer?: any;
-  splitChunks: object;
+  splitChunks?: object;
+  // tells webpack whether to conduct inner graph analysis for unused exports.
+  innerGraph?: boolean;
   [key: string]: any;
 }
 
@@ -43,6 +45,13 @@ interface IBabel {
   extraBabelPlugins?: any[];
 }
 
+interface IModeleFederation {
+  name?: string;
+  remotes?: object;
+  exposes?: object;
+  shared?: string[];
+  [key: string]: any;
+}
 export interface IOpts {
   cwd?: string;
   env: Env;
@@ -54,8 +63,11 @@ export interface IOpts {
   template?: Template;
   devtool?: Devtool; // sourcemap
   performance?: boolean | "warning" | "error";
-  target?: "browser" | "node" | "webworker" | string;
+  target?: "browser" | "node" | "webworker" | string | [string, ...string[]];
   externals?: object;
+  // moduleFederation configs
+  // https://webpack.docschina.org/concepts/module-federation/
+  moduleFederation?: IModeleFederation;
   analysis?: boolean | object; // analysis mode
   // https://webpack.js.org/configuration/resolve/#resolvealias
   alias?: Record<string, string>;
@@ -95,6 +107,8 @@ export interface IOpts {
   chunkFilename?: string; // output.chunkFilename
   // default true when in envProduction;
   compress?: boolean;
+  watch?: boolean;
+  watchOpts?: object;
 }
 
 interface PerformanceOpts {

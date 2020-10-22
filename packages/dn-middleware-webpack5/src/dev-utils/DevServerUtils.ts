@@ -2,7 +2,7 @@ import webpack from "webpack";
 import chalk from "react-dev-utils/chalk";
 import forkTsCheckerWebpackPlugin from "react-dev-utils/ForkTsCheckerWebpackPlugin";
 import typescriptFormatter from "react-dev-utils/typescriptFormatter";
-import formatWebpackMessages from "react-dev-utils/formatWebpackMessages";
+import { formatWebpackMessages } from "./utils";
 import * as Dawn from "@dawnjs/types";
 
 import { CompilerCreaterOpts } from "../types";
@@ -15,12 +15,7 @@ export function createCompiler({
 // "Compiler" is a low-level interface to webpack.
     // It lets us listen to some events and provide our own custom messages.
     let compiler;
-    try {
-      compiler = webpack(config);
-    } catch (err) {
-      ctx.console.error(chalk.red("[webpack5] Failed to compile."));
-      throw err;
-    }
+    compiler = webpack(config);
 
     // "invalid" event fires when you have changed a file, and webpack is
     // recompiling a bundle. WebpackDevServer takes care to pause serving the
@@ -92,8 +87,8 @@ export function createCompiler({
         stats.compilation.warnings.push(...messages.warnings);
       }
 
-      console.log(111, statsData);
       const messages = formatWebpackMessages(statsData);
+
       const isSuccessful = !messages.errors.length && !messages.warnings.length;
       if (isSuccessful) {
         ctx.console.info("[webpack5] Compiled successfully!");
@@ -106,13 +101,13 @@ export function createCompiler({
           messages.errors.length = 1;
         }
         ctx.console.error("[webpack5] Failed to compile.\n");
-        ctx.console.log(messages.errors.join("\n\n"));
+        ctx.console.error(messages.errors.join("\n\n"));
         return;
       }
 
       // Show warnings if no errors were found.
       if (messages.warnings.length) {
-        ctx.console.warn("Compiled with warnings.\n");
+        ctx.console.warn("[webpack5] Compiled with warnings.\n");
         ctx.console.log(messages.warnings.join("\n\n"));
 
         // Teach some ESLint tricks.
