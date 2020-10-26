@@ -31,29 +31,201 @@ build:
   - name: webpack5
 ```
 
-## 配置项说明
 
+> ## 配置项属性（基础配置类）
 ### `env`
-
 类型：`"development" | "production"`<br>
-默认值：`development`
+默认值：`"development"`
 
 运行环境，开发环境development, 生产环境production
 
-### `entry`
 
+### `entry`
 类型：`string`<br>
-默认值：`/src/index`
+默认值：`"/src/index"`
 
 入口起点
 
-### `devtool` ｜ `sourceMap(v4)`
 
+### `output`
+类型：`string ｜ object`<br>
+默认值：`"/build"`
+
+输出文件的相对路径
+
+
+### `output.path`
+同 `output`
+
+
+### `output.library`
+类型：`object`<br>
+默认值：`{}`
+
+参考：[library]("https://webpack.docschina.org/configuration/output/#outputlibrary")
+
+
+### `publicPath`
+类型：`string`<br>
+默认值：`/`
+
+异步资源默认前缀，如cdn地址
+
+
+### `devtool` ｜ `sourceMap(v4)`
 类型：`boolean | string`<br>
 默认值：`false`
 
 控制是否生成，以及如何生成 source map
 
-### etc.
 
-## 其他
+### `target`
+类型：`"browser"｜ "node" ｜ "webworker"`<br>
+默认值：`"browser"`
+
+编译环境
+
+
+### `alias`
+类型：`object`<br>
+默认值：`{}`
+
+别名
+
+
+> ## 配置项属性（进阶基础配置）
+### `babel`
+类型：`string`<br>
+默认值：
+```js
+{
+  runtimeHelpers?: boolean | string;
+  corejs?: false | 2 | 3 | { version: 2 | 3; proposals: boolean };
+  nodeVersion?: string | "current" | true;
+  extraBabelPresets?: any[];
+  extraBabelPlugins?: any[];
+}
+```
+
+babel配置、参考babel中间件
+
+
+### `html`
+类型：`object`<br>
+默认值：`{}`
+
+HtmlWebpackPlugin配置
+
+
+### `urlLoader`
+类型：`object`<br>
+默认值：`{}`
+
+urlLoader配置
+
+
+### `styleLoader`
+类型：`object`<br>
+默认值：`{}`
+
+styleLoader配置
+
+
+### `cssLoader`
+类型：`object`<br>
+默认值：`{}`
+
+cssLoader配置
+
+
+### `fileLoader`
+类型：`object`<br>
+默认值：`{}`
+
+fileLoader配置
+
+
+
+### `folders(v4)`
+类型：
+```js
+{
+  script?: string;
+  style?: string;
+  media?: string;
+  html?: string;
+}
+```
+默认值：`{}`
+
+指定资源子目录名称，主要包括css,js，字体和图片和html的目录，不指定的话会直接输出到output目录下。兼容V4，V5有拆分的对应替代配置项
+
+
+
+>## 配置项属性（构建优化类）
+
+### `externals`
+类型：`object`<br>
+默认值：`{}`
+
+打包排除的依赖配置项
+
+
+### `external(v4)`
+类型：`boolean`<br>
+默认值：`false`
+
+是否要打包排除依赖
+
+### `common.disabled(v4)`
+类型：`boolean`<br>
+默认值：`false`
+
+禁用抽取公共部分
+
+
+### `common.name(v4)`
+类型：`string`<br>
+默认值：`common`
+
+生成的公共资源名称
+
+
+> ## 配置项属性（性能优化类）
+
+### `htmlMinifier`
+类型：`boolean`<br>
+默认值：`true`
+
+是否压缩html
+
+
+### `performance`
+类型：`boolean ｜"warning" | "error"`<br>
+默认值：`false`
+
+是否开启性能提示及形式
+
+
+### `optimization`
+类型：
+```js
+{
+  minimize?: Boolean;
+  minimizer?: any;
+  splitChunks?: object;
+  innerGraph?: boolean;
+}
+```
+默认值：`false`
+
+优化配置项
+
+
+> ## 配置项属性（分析工具类）
+
+### `analysis`
+类型：`boolean | object`<br>
+默认值：`false`
+
+是否启用分析工具`BundleAnalyzerPlugin`，以及相关配置项，如是否为其开启server
