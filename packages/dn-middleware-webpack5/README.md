@@ -32,12 +32,12 @@ build:
 ```
 
 
-> ## 配置项属性（基础配置类）
+## 配置项属性（基础配置类）
 ### `env`
 类型：`"development" | "production"`<br>
 默认值：`"development"`
 
-运行环境，开发环境development, 生产环境production
+运行环境，开发环境development，生产环境production
 
 
 ### `entry`
@@ -93,7 +93,7 @@ build:
 别名
 
 
-> ## 配置项属性（进阶基础配置）
+## 配置项属性（进阶基础配置）
 ### `babel`
 类型：`string`<br>
 默认值：
@@ -162,7 +162,7 @@ fileLoader配置
 
 
 
->## 配置项属性（构建优化类）
+## 配置项属性（构建优化类）
 
 ### `externals`
 类型：`object`<br>
@@ -191,7 +191,7 @@ fileLoader配置
 生成的公共资源名称
 
 
-> ## 配置项属性（性能优化类）
+## 配置项属性（性能优化类）
 
 ### `htmlMinifier`
 类型：`boolean`<br>
@@ -222,7 +222,7 @@ fileLoader配置
 优化配置项
 
 
-> ## 配置项属性（分析工具类）
+## 配置项属性（分析工具类）
 
 ### `analysis`
 类型：`boolean | object`<br>
