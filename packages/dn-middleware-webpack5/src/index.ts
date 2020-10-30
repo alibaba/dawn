@@ -23,20 +23,20 @@ const handler: Dawn.Handler<Partial<IOpts>> = opts => {
     let webpackConfig = await getWebpackConfig(options as IGetWebpackConfigOpts, ctx);
 
     // merge custom config.js
-    opts.configFile = opts.configFile || './webpack.config.js';
-    let customConfigFile = path.resolve(ctx.cwd, opts.configFile);
+    opts.configFile = opts.configFile || "./webpack.config.js";
+    const customConfigFile = path.resolve(ctx.cwd, opts.configFile);
     if (fs.existsSync(customConfigFile)) {
-      let customConfigsGenerate = require(customConfigFile);
+      const customConfigsGenerate = require(customConfigFile);
       if (typeof customConfigsGenerate === "function") {
         await customConfigsGenerate(webpackConfig, webpack, this);
-        ctx.console.info('已合并自定义构建配置...');
+        ctx.console.info("已合并自定义构建配置...");
       } else if (customConfigsGenerate) {
         webpackConfig = customConfigsGenerate;
-        ctx.console.warn('已使用自定义构建配置...');
+        ctx.console.warn("已使用自定义构建配置...");
       }
     }
 
-    if (ctx.emit) ctx.emit('webpack.config', webpackConfig, webpack, opts);
+    if (ctx.emit) ctx.emit("webpack.config", webpackConfig, webpack, opts);
 
     // console.log("webpackConfig", webpackConfig);
 
@@ -45,13 +45,16 @@ const handler: Dawn.Handler<Partial<IOpts>> = opts => {
     //   const smp = new SpeedMeasurePlugin();
     //   webpackConfig = smp.wrap(webpackConfig);
     // }
-    const compiler = createCompiler({
-      config: webpackConfig as any,
-      useTypeScript: ctx.useTypeScript,
-      tscCompileOnError: options.tscCompileOnError
-    }, ctx)
+    const compiler = createCompiler(
+      {
+        config: webpackConfig as any,
+        useTypeScript: ctx.useTypeScript,
+        tscCompileOnError: options.tscCompileOnError,
+      },
+      ctx,
+    );
 
-    if (ctx.emit) ctx.emit('webpack.compiler', compiler, webpack, webpackConfig);
+    if (ctx.emit) ctx.emit("webpack.compiler", compiler, webpack, webpackConfig);
 
     if (options.watch) {
       compiler.watch(opts.watchOpts, (err, stats) => {
@@ -61,8 +64,8 @@ const handler: Dawn.Handler<Partial<IOpts>> = opts => {
           process.exit;
           return;
         }
-        if (ctx.emit) ctx.emit('webpack.stats', stats);
-        ctx.console.log('[Webpack5]Start Watching:', Date.now());
+        if (ctx.emit) ctx.emit("webpack.stats", stats);
+        ctx.console.log("[Webpack5]Start Watching:", Date.now());
         next();
       });
     } else {

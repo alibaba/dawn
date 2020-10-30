@@ -2,9 +2,12 @@ import type { Configuration } from "webpack/types.d";
 
 export type Env = "development" | "production";
 export type Devtool = boolean | string;
-export type FileInfo = { name: string; file: string };
-export type Entry = string | Record<string, string> | string[] | Array<FileInfo>;
-export type Template = string | Record<string, string> | string[] | Array<FileInfo>;
+export interface FileInfo {
+  name: string;
+  file: string;
+}
+export type Entry = string | Record<string, string> | string[] | FileInfo[];
+export type Template = string | Record<string, string> | string[] | FileInfo[];
 export type Output =
   | string
   | {
@@ -12,7 +15,7 @@ export type Output =
       path: string;
       library?: Library;
     };
-type Library = {
+interface Library {
   type?: string;
   name?: string;
 }
@@ -25,7 +28,7 @@ export interface Folders {
 
 export interface IOptimization {
   // Tell webpack to minimize the bundle using the TerserPlugin or the plugin(s) specified in optimization.minimizer.
-  minimize?: Boolean;
+  minimize?: boolean;
   // minimizer?: any;
   splitChunks?: object;
   // tells webpack whether to conduct inner graph analysis for unused exports.
@@ -34,7 +37,7 @@ export interface IOptimization {
 }
 
 interface ICommonOptionV3 {
-  disabled?: Boolean;
+  disabled?: boolean;
   name?: string;
 }
 
@@ -130,6 +133,6 @@ export interface IGetWebpackConfigOpts extends IOpts {
 
 export interface CompilerCreaterOpts {
   config: Configuration;
-  useTypeScript: Boolean;
-  tscCompileOnError: Boolean;
+  useTypeScript: boolean;
+  tscCompileOnError: boolean;
 }

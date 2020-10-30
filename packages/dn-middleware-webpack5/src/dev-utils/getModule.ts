@@ -8,74 +8,74 @@ import { getPublicPath } from "./utils";
 
 // common function to get style loaders
 const getStyleLoaders = (
-    options: {
-      cssOptions?: object;
-      preProcessor?: string;
-      preProcessorOptions?: object;
-      styleOptions?: object;
-    },
-    ctx: Dawn.Context,
-  ) => {
-    const loaders = [
-      ctx.injectCSS
-        ? require.resolve("style-loader")
-        : {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              publicPath: getPublicPath(ctx),
-              ...options.styleOptions,
-            },
+  options: {
+    cssOptions?: object;
+    preProcessor?: string;
+    preProcessorOptions?: object;
+    styleOptions?: object;
+  },
+  ctx: Dawn.Context,
+) => {
+  const loaders = [
+    ctx.injectCSS
+      ? require.resolve("style-loader")
+      : {
+          loader: MiniCssExtractPlugin.loader,
+          options: {
+            publicPath: getPublicPath(ctx),
+            ...options.styleOptions,
           },
-      {
-        loader: require.resolve("css-loader"),
-        options: options.cssOptions,
+        },
+    {
+      loader: require.resolve("css-loader"),
+      options: options.cssOptions,
+    },
+    {
+      // Options for PostCSS as we reference these options twice
+      // Adds vendor prefixing based on your specified browser support in package.json
+      loader: require.resolve("postcss-loader"),
+      options: {
+        // Necessary for external CSS imports to work
+        // https://github.com/facebook/create-react-app/issues/2677
+        ident: "postcss",
+        plugins: () => [
+          // TODO: see what postcss-plugins used in rollup mw
+          // eslint-disable-next-line @typescript-eslint/no-require-imports
+          require("postcss-flexbugs-fixes"),
+          // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+          require("postcss-preset-env")({
+            autoprefixer: { flexbox: "no-2009" },
+            stage: 3,
+          }),
+          // Adds PostCSS Normalize as the reset css with default options,
+          // so that it honors browserslist config in package.json
+          // which in turn let's users customize the target behavior as per their needs.
+          // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+          require("postcss-normalize")(),
+        ],
+        sourceMap: ctx.isEnvDevelopment,
       },
+    },
+  ].filter(Boolean);
+  if (options.preProcessor) {
+    loaders.push(
       {
-        // Options for PostCSS as we reference these options twice
-        // Adds vendor prefixing based on your specified browser support in package.json
-        loader: require.resolve("postcss-loader"),
+        loader: require.resolve("resolve-url-loader"),
         options: {
-          // Necessary for external CSS imports to work
-          // https://github.com/facebook/create-react-app/issues/2677
-          ident: "postcss",
-          plugins: () => [
-            // TODO: see what postcss-plugins used in rollup mw
-            // eslint-disable-next-line @typescript-eslint/no-require-imports
-            require("postcss-flexbugs-fixes"),
-            // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-            require("postcss-preset-env")({
-              autoprefixer: { flexbox: "no-2009" },
-              stage: 3,
-            }),
-            // Adds PostCSS Normalize as the reset css with default options,
-            // so that it honors browserslist config in package.json
-            // which in turn let's users customize the target behavior as per their needs.
-            // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-            require("postcss-normalize")(),
-          ],
           sourceMap: ctx.isEnvDevelopment,
         },
       },
-    ].filter(Boolean);
-    if (options.preProcessor) {
-      loaders.push(
-        {
-          loader: require.resolve("resolve-url-loader"),
-          options: {
-            sourceMap: ctx.isEnvDevelopment,
-          },
+      {
+        loader: require.resolve(options.preProcessor),
+        options: {
+          sourceMap: true,
+          ...options.preProcessorOptions,
         },
-        {
-          loader: require.resolve(options.preProcessor),
-          options: {
-            sourceMap: true,
-            ...options.preProcessorOptions,
-          },
-        },
-      );
-    }
-    return loaders;
-  };
+      },
+    );
+  }
+  return loaders;
+};
 
 // Generate webpack modules config
 // Each module has a smaller surface area than a full program, making verification, debugging, and testing trivial.
@@ -89,7 +89,9 @@ export const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Contex
     cwd: options.cwd,
     target: Array.isArray(options.target)
       ? options.target
-      : ["web", "browser"].includes(options.target) ? "browser" : "node",
+      : ["web", "browser"].includes(options.target)
+      ? "browser"
+      : "node",
     type: "cjs",
     ...options.babel,
   });

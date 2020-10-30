@@ -3,16 +3,16 @@ import * as path from "path";
 import * as Dawn from "@dawnjs/types";
 import * as assert from "assert";
 import { Env, IGetWebpackConfigOpts, IOpts } from "../types";
-import { getExistFile, formatReglikeObject, formatNullStringToList } from "./utils";
+import { formatNullStringToList, formatReglikeObject, getExistFile } from "./utils";
 
-//生成排除配置
+// 生成排除配置
 function makeExternal(commonjs: string, root: string, amd?: string) {
   amd = amd || commonjs;
-  let commonjs2 = commonjs;
+  const commonjs2 = commonjs;
   return { commonjs, commonjs2, root, amd };
 }
 
-//库默认排除设定
+// 库默认排除设定
 const LIB_DEFAULT_EXTERNALS = {
   jquery: makeExternal("jquery", "jQuery"),
   zepto: makeExternal("zepto", "Zepto"),
@@ -20,7 +20,7 @@ const LIB_DEFAULT_EXTERNALS = {
   "react-dom": makeExternal("react-dom", "ReactDOM"),
 };
 
-//普通项目默认排除设定
+// 普通项目默认排除设定
 const PRO_DEFAULT_EXTERNALS = {
   jquery: "jQuery",
   zepto: "Zepto",
@@ -120,7 +120,7 @@ export const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) =
     style: options.css ?? "css",
     media: options.img ?? "media",
     html: options.html ?? "",
-  }
+  };
   // chunkFilename for v3
   if (options.chunkFilename) {
     options.output.chunkFilename = options.chunkFilename;
@@ -130,7 +130,10 @@ export const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) =
   }
 
   options.hot = options.hot ?? options.env === "development";
-  assert.ok(!(options.hot && options.env === "production"), "[webpack5] react-refresh must be disabled in production mode");
+  assert.ok(
+    !(options.hot && options.env === "production"),
+    "[webpack5] react-refresh must be disabled in production mode",
+  );
 
   // externals
   if (options.external === false) {
@@ -138,7 +141,9 @@ export const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) =
   } else {
     if (options.hot) {
       options.externals = {};
-      ctx.console.warn("[Webpack5] Auto set `externals` to {} by using react-refresh in development mode. You can set `hot` to false to disabled it in development mode");
+      ctx.console.warn(
+        "[Webpack5] Auto set `externals` to {} by using react-refresh in development mode. You can set `hot` to false to disabled it in development mode",
+      );
     }
     options.externals = options.externals || (options.output?.library ? LIB_DEFAULT_EXTERNALS : PRO_DEFAULT_EXTERNALS);
   }
@@ -147,7 +152,7 @@ export const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) =
   // default is false
   // true means warning
   options.performance = options.performance === true ? "warning" : options.performance ?? false;
-  (options as IGetWebpackConfigOpts).performanceConfig = { hints: options.performance };
+  options.performanceConfig = { hints: options.performance };
 
   // compress
   // default is true when in production
@@ -193,7 +198,7 @@ export const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) =
   if (options.cssModules) {
     options.cssLoader = {
       modules: opts.cssModules,
-      camelCase: opts.cssModules, //只要启用就采用「小驼峰」
+      camelCase: opts.cssModules, // 只要启用就采用「小驼峰」
     };
   }
   // tscCompileOnError
