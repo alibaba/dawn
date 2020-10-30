@@ -3,6 +3,7 @@ import * as path from "path";
 import * as Dawn from "@dawnjs/types";
 import globby from "globby";
 import getPublicUrlOrPath from "react-dev-utils/getPublicUrlOrPath";
+import { FileInfo } from "../types";
 import type { Stats } from "webpack/types";
 
 export const getExistFile = ({
@@ -23,13 +24,13 @@ export const getExistFile = ({
 };
 
 
-// We use `PUBLIC_URL` environment variable or "homepage" field to infer
+// We use `PUBLIC_URL` enviroinfernment variable or "homepage" field to
 // "public path" at which the app is served.
 // webpack needs to know it to put the right <script> hrefs into HTML even in
 // single-page apps that may serve index.html for nested URLs like /todos/42.
 // We can't use a relative path in HTML because we don't want to load something
 // like /todos/42/static/js/bundle.7289d.js. We have to know the root.
-export const getPublicPath = () => getPublicUrlOrPath(process.env.NODE_ENV === "development", process.env.PUBLIC_URL, "/");
+export const getPublicPath = (ctx: Dawn.Context) => (ctx.publicPath || ctx.publicPath === "") ? ctx.publicPath : getPublicUrlOrPath(process.env.NODE_ENV === "development", process.env.PUBLIC_URL, "");
 
 // ./src/foo.js => foo
 const getFilenameByPath = (f: string) => path.basename(f).split(".")[0];
@@ -46,7 +47,7 @@ export const formatReglikeObject = (params: Record<string, string>) => {
   } else {
     Object.assign(paramsMap, params);
   }
-  const nameFileList: Array<{ name: string; file: string }> = [];
+  const nameFileList: Array<FileInfo> = [];
   Object.entries(paramsMap).forEach(([nameExpr, fileExpr]) => {
     const files = globby.sync(fileExpr);
     files.forEach(file => {
@@ -79,6 +80,31 @@ export function formatWebpackMessages({
     errors: Array.isArray(errors) ? errors?.map(e => e.message) : [],
     warnings: Array.isArray(warnings) ? warnings?.map(e => e.message) : [],
   }
+}
+
+/**
+ * @param {number} size the size in bytes
+ * @returns {string} the formatted size
+ */
+export function formatSize(size: number) {
+	if (typeof size !== "number" || Number.isNaN(size) === true) {
+		return "unknown size";
+	}
+
+	if (size <= 0) {
+		return "0 bytes";
+	}
+
+	const abbreviations = ["bytes", "KiB", "MiB", "GiB"];
+	const index = Math.floor(Math.log(size) / Math.log(1024));
+
+	return `${+(size / Math.pow(1024, index)).toPrecision(3)} ${
+		abbreviations[index]
+	}`;
+};
+
+export function makeRow(a: string, b: string): string {
+  return ` ${a}\t       ${b}`;
 }
 
 export function printError(stats: Stats, ctx: Dawn.Context) {

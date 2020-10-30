@@ -22,7 +22,7 @@ const getStyleLoaders = (
         : {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              publicPath: getPublicPath(),
+              publicPath: getPublicPath(ctx),
               ...options.styleOptions,
             },
           },
@@ -76,7 +76,7 @@ const getStyleLoaders = (
     }
     return loaders;
   };
-  
+
 // Generate webpack modules config
 // Each module has a smaller surface area than a full program, making verification, debugging, and testing trivial.
 // Well-written modules provide solid abstractions and encapsulation boundaries,
@@ -138,6 +138,11 @@ export const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Contex
             //   "babel-plugin-named-asset-import",
             //   "react-dev-utils",
             // ]),
+            // fast-refresh now because of an error of its plugin
+            // plugins: [
+            //   ...babelOpts.plugins,
+            //   ctx.isEnvDevelopment && require.resolve('react-refresh/babel'),
+            // ].filter(Boolean),
           },
         },
         // "postcss" loader applies autoprefixer to our CSS.

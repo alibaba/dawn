@@ -1,5 +1,8 @@
 import * as Dawn from "@dawnjs/types";
 import webpack from "webpack";
+import fs from "fs";
+import path from "path";
+// import SpeedMeasurePlugin from "speed-measure-webpack-plugin";
 
 import { getWebpackConfig } from "./config";
 import formatAndValidateOpts from "./dev-utils/formatAndValidateOpts";
@@ -14,19 +17,42 @@ const handler: Dawn.Handler<Partial<IOpts>> = opts => {
     // register namespace for webpack5
     ctx.webpack5 = {};
     ctx.webpack = webpack;
+
     const options = formatAndValidateOpts(opts, ctx);
 
-    const webpackConfig = await getWebpackConfig(options as IGetWebpackConfigOpts, ctx);
+    let webpackConfig = await getWebpackConfig(options as IGetWebpackConfigOpts, ctx);
 
-    ctx.console.log("webpackConfig", webpackConfig);
+    // merge custom config.js
+    opts.configFile = opts.configFile || './webpack.config.js';
+    let customConfigFile = path.resolve(ctx.cwd, opts.configFile);
+    if (fs.existsSync(customConfigFile)) {
+      let customConfigsGenerate = require(customConfigFile);
+      if (typeof customConfigsGenerate === "function") {
+        await customConfigsGenerate(webpackConfig, webpack, this);
+        ctx.console.info('已合并自定义构建配置...');
+      } else if (customConfigsGenerate) {
+        webpackConfig = customConfigsGenerate;
+        ctx.console.warn('已使用自定义构建配置...');
+      }
+    }
 
+    if (ctx.emit) ctx.emit('webpack.config', webpackConfig, webpack, opts);
+
+    // console.log("webpackConfig", webpackConfig);
+
+    // It doesn't work on webpack5
+    // if (options.analysis) {
+    //   const smp = new SpeedMeasurePlugin();
+    //   webpackConfig = smp.wrap(webpackConfig);
+    // }
     const compiler = createCompiler({
       config: webpackConfig as any,
       useTypeScript: ctx.useTypeScript,
       tscCompileOnError: options.tscCompileOnError
     }, ctx)
 
-    // TODO: emit event
+    if (ctx.emit) ctx.emit('webpack.compiler', compiler, webpack, webpackConfig);
+
     if (options.watch) {
       compiler.watch(opts.watchOpts, (err, stats) => {
         // Fatal webpack errors (wrong configuration, etc)
@@ -37,20 +63,23 @@ const handler: Dawn.Handler<Partial<IOpts>> = opts => {
         }
         if (ctx.emit) ctx.emit('webpack.stats', stats);
         ctx.console.log('[Webpack5]Start Watching:', Date.now());
+        next();
       });
     } else {
+      // console.log('startrun');
       compiler.run((err, stats) => {
+        // console.log('done');
         if (err) {
+          ctx.console.error("[webpack5] Fatal webpack errors.\n");
           ctx.console.error(err.stack || err);
-          // TODO: check the structure of err
           // if (err.details) {
-            // ctx.console.error(err.details);
+          //   ctx.console.error(err.details);
           // }
           return;
         }
+        next();
       });
     }
-    next();
   };
 };
 

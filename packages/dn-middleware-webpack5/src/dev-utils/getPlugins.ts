@@ -4,32 +4,33 @@ import * as Dawn from "@dawnjs/types";
 import { DefinePlugin, HotModuleReplacementPlugin, IgnorePlugin } from "webpack";
 import type { WebpackPluginInstance } from "webpack/types.d";
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import InterpolateHtmlPlugin from "react-dev-utils/InterpolateHtmlPlugin";
+// import InterpolateHtmlPlugin from "react-dev-utils/InterpolateHtmlPlugin";
 import ModuleNotFoundPlugin from "react-dev-utils/ModuleNotFoundPlugin";
-import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModulesPlugin";
+// import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModulesPlugin";
 import ForkTsCheckerWebpackPlugin from "react-dev-utils/ForkTsCheckerWebpackPlugin";
 import typescriptFormatter from "react-dev-utils/typescriptFormatter";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+// import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import Webpackbar from "webpackbar";
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
 // import InlineChunkHtmlPlugin from "react-dev-utils/InlineChunkHtmlPlugin";
 // import getCacheIdentifier from "react-dev-utils/getCacheIdentifier";
 
-import { IGetWebpackConfigOpts } from "../types";
+import { FileInfo, IGetWebpackConfigOpts } from "../types";
 
 // Generate webpack plugins
 export const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
     const plugins: WebpackPluginInstance[] = [];
-  
+
     // HTMLWebpackPlugin
     // Generates an `index.html` file with the <script> injected.
-    options.entry.forEach(({ name }) => {
+    (options.entry as Array<FileInfo>).forEach(({ name }) => {
       const template = options.template?.find?.(temp => temp.name === name) ?? options.template[0];
       if (!template) return;
       const minifyOption =
-        options.htmlMinifier ?? // use user options first
         (ctx.isEnvProduction // auto minify when production mode
           ? {
               // https://github.com/DanielRuf/html-minifier-terser
@@ -57,38 +58,36 @@ export const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) =>
           : false);
       plugins.push(
         new HtmlWebpackPlugin({
-          ...options.html,
           inject: true,
           filename: path.join(options?.folders?.html ?? "", `${name}.html`),
           template: template.file,
-          // TODO: do we need to filter chunks? https://github.com/jantimon/html-webpack-plugin#filtering-chunks
-          // chunks: [name],
+          chunks: [options?.common?.name, name].filter(Boolean),
           minify: minifyOption,
         }),
       );
     });
-  
+
     // InlineChunkHtmlPlugin
     // Inlines the webpack runtime script. This script is too small to warrant a network request.
     // https://github.com/facebook/create-react-app/tree/master/packages/react-dev-utils#new-inlinechunkhtmlpluginhtmlwebpackplugin-htmlwebpackplugin-tests-regex
     // ctx.isEnvProduction && plugins.push(new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/]) as any);
-  
+
     // InterpolateHtmlPlugin
     // Makes some environment variables available in index.html.
     // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="icon" href="%PUBLIC_URL%/favicon.ico">
     // It will be an empty string unless you specify "homepage" in `package.json`, in which case it will be the pathname of that URL.
     // https://github.com/facebook/create-react-app/tree/master/packages/react-dev-utils#new-interpolatehtmlpluginhtmlwebpackplugin-htmlwebpackplugin-replacements-keystring-string
-    plugins.push(
-      new InterpolateHtmlPlugin(HtmlWebpackPlugin, {
+    // plugins.push(
+      // new InterpolateHtmlPlugin(HtmlWebpackPlugin, {
         // TODO: add some envs
-      }) as any,
-    );
-  
+      // }) as any,
+    // );
+
     // ModuleNotFoundPlugin
     // This gives some necessary context to module not found errors, such as the requesting resource.
     plugins.push(new ModuleNotFoundPlugin(options.cwd));
-  
+
     // DefinePlugin
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
@@ -96,35 +95,37 @@ export const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) =>
     // Otherwise React will be compiled in the very slow development mode.
     plugins.push(
       new DefinePlugin({
-        'process.env': {
+        "process.env": {
           NODE_ENV: JSON.stringify(options.env), //production
         }
       }),
     );
-  
-    // This is necessary to emit hot updates (CSS and Fast Refresh):
-    ctx.isEnvDevelopment && plugins.push(new HotModuleReplacementPlugin());
-  
+
     // CaseSensitivePathsPlugin
     // Watcher doesn't work well if you mistype casing in a path so we use a plugin that prints an error when you attempt to do this.
     // See https://github.com/facebook/create-react-app/issues/240
     // https://github.com/Urthen/case-sensitive-paths-webpack-plugin
-    // ctx.isEnvDevelopment && plugins.push(new CaseSensitivePathsPlugin());
-  
-    // WatchMissingNodeModulesPlugin
-    // If you require a missing module and then `npm install` it, you still have to restart the development server for webpack to discover it.
-    // This plugin makes the discovery automatic so you don't have to restart.
-    // See https://github.com/facebook/create-react-app/issues/186
-    // ctx.isEnvDevelopment &&
-      // plugins.push(new WatchMissingNodeModulesPlugin(path.join(options.cwd, "node_modules")) as any);
-  
+    ctx.isEnvDevelopment && plugins.push(new CaseSensitivePathsPlugin());
+
     // MiniCssExtractPlugin
     // Options similar to the same options in webpackOptions.output both options are optional
     ctx.isEnvProduction && plugins.push(new MiniCssExtractPlugin({
-      filename: path.join(options?.folders?.style ?? "", "[name].[contenthash:8].css"),
+      filename: path.join(options?.folders?.style ?? "", "[name].css"),
       chunkFilename: path.join(options?.folders?.style ?? "", "[name].[contenthash:8].chunk.css"),
     }) as any);
-  
+
+
+    if (options.hot) {
+      // This is necessary to emit hot updates (CSS and Fast Refresh):
+      // https://github.com/pmmmwh/react-refresh-webpack-plugin/issues/232
+      // a fetal error is discoverd in webpack5, so fast-refresh plugin is disabled now until it's fixed
+      // plugins.push(new ReactRefreshWebpackPlugin());
+      plugins.push(new HotModuleReplacementPlugin());
+    }
+
+    // hide it
+    ctx.isEnvDevelopment && plugins.push(new Webpackbar());
+
     // webpack.IgnorePlugin
     // Moment.js is an extremely popular library that bundles large locale files
     // by default due to how webpack interprets its code. This is a practical
@@ -137,7 +138,7 @@ export const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) =>
     //   resourceRegExp: /^\.\/locale$/,
     //   contextRegExp: /moment$/
     // });
-  
+
     // BundleAnalyzerPlugin
     // https://github.com/webpack-contrib/webpack-bundle-analyzer
     const analysisOptions = options.analysis === true ? {} : options.analysis;
@@ -168,7 +169,7 @@ export const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) =>
           formatter: ctx.isEnvProduction ? typescriptFormatter : undefined,
         }),
       );
-  
+
       // https://webpack.docschina.org/concepts/module-federation/
       options.moduleFederation && plugins.push(
         new ModuleFederationPlugin({
@@ -186,5 +187,5 @@ export const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) =>
       )
     return plugins;
   };
-  
+
   export default getPlugins;

@@ -9,7 +9,6 @@ const getOptimization = (
   const { optimization, common } = options;
   const optimizationConfig: IOptimization = {
     minimize: options.compress,
-    minimizer: optimization?.minimizer ?? ["..."],
     splitChunks: {
       chunks: 'all',
       // It is recommended to set splitChunks.name to false for production builds
@@ -17,8 +16,8 @@ const getOptimization = (
       name: !ctx.isEnvProduction,
     },
     // default true when in production
-    // innerGraph: ctx.isEnvProduction,
-    // sideEffects: false,
+    innerGraph: ctx.isEnvProduction,
+    sideEffects: false,
 
     // Keep the runtime chunk separated to enable long term caching
     // https://twitter.com/wSokra/status/969679223278505985
@@ -53,13 +52,13 @@ const getOptimization = (
   // These are enabled by default in production mode.
   // chunkIds: "deterministic" moduleIds: "deterministic" mangleExports: "deterministic"
 
-  // moduleIds/chunkIds/mangleExports: false disables the default behavior. 
-  // Note that in webpack 5 you must provide a custom plugin.
+  // moduleIds/chunkIds/mangleExports: false disables the default behavior.
+  // Note that in webpack 5 you must provide a custom plugin(webpack.ids.DeterministicModuleIdsPlugin).
   return {
     ...optimizationConfig,
     ...optimization,
   };
 }
 
-  
+
 export default getOptimization;

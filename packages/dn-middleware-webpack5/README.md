@@ -117,6 +117,20 @@ babel配置、参考babel中间件
 HtmlWebpackPlugin配置
 
 
+### `injectCSS`
+类型：`boolean`<br>
+默认值：`true`
+
+是否引入css
+
+
+### `tscCompileOnError`
+类型：`boolean`<br>
+默认值：`true`
+
+ts类型检查中的错误是否会阻断编译
+
+
 ### `urlLoader`
 类型：`object`<br>
 默认值：`{}`

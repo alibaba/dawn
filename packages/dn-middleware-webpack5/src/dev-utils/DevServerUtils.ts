@@ -2,7 +2,7 @@ import webpack from "webpack";
 import chalk from "react-dev-utils/chalk";
 import forkTsCheckerWebpackPlugin from "react-dev-utils/ForkTsCheckerWebpackPlugin";
 import typescriptFormatter from "react-dev-utils/typescriptFormatter";
-import { formatWebpackMessages } from "./utils";
+import { formatWebpackMessages, formatSize, makeRow } from "./utils";
 import * as Dawn from "@dawnjs/types";
 
 import { CompilerCreaterOpts } from "../types";
@@ -15,6 +15,7 @@ export function createCompiler({
 // "Compiler" is a low-level interface to webpack.
     // It lets us listen to some events and provide our own custom messages.
     let compiler;
+    // console.log("config", config);
     compiler = webpack(config);
 
     // "invalid" event fires when you have changed a file, and webpack is
@@ -61,7 +62,28 @@ export function createCompiler({
         all: false,
         warnings: true,
         errors: true,
+        assets: true,
+        timings: true,
       });
+
+      // print assets in production mode
+      if (statsData.assets && ctx.isEnvProduction) {
+        let assetsLog = "\n\n" + makeRow(
+          chalk.cyan.bold(`File`),
+          chalk.cyan.bold(`Size`),
+        ) + "\n\n";
+        assetsLog += statsData.assets?.map((asset: any) => {
+          const { name, size } = asset;
+          return makeRow(
+            /js$/.test(name)
+              ?
+                chalk.green(name)
+              : chalk.yellow(name),
+            formatSize(size)
+          );
+        }).join(`\n`);
+        console.log(assetsLog, "\n");
+      }
 
       if (useTypeScript && statsData.errors.length === 0) {
         const delayedMsg = setTimeout(() => {
@@ -91,7 +113,8 @@ export function createCompiler({
 
       const isSuccessful = !messages.errors.length && !messages.warnings.length;
       if (isSuccessful) {
-        ctx.console.info("[webpack5] Compiled successfully!");
+        console.log("\n");
+        ctx.console.info(`[webpack5] Compiled successfully in ${statsData.time}ms`);
       }
 
       // If errors exist, only show errors.

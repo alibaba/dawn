@@ -4,27 +4,18 @@ import type { Configuration } from "webpack/types.d";
 
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 
-import { IGetWebpackConfigOpts, Output } from "./types";
+import { FileInfo, IGetWebpackConfigOpts, Output } from "./types";
 import getModule from "./dev-utils/getModule";
 import getPlugins from "./dev-utils/getPlugins";
 import { getPublicPath } from "./dev-utils/utils";
 import getOptimization from "./dev-utils/getOptimization";
 
-const moduleFileExtensions = [
-  ".js",
-  ".mjs",
-  ".json",
-  ".jsx",
-  ".css",
-  ".less",
-  ".scss",
-  ".sass"
-];
+const moduleFileExtensions = [".js", ".mjs", ".json", ".jsx", ".css", ".less", ".scss", ".sass"];
 
 // Generate webpack entries
 const getEntry = (options: IGetWebpackConfigOpts) => {
   const webpackEntry: any = {};
-  options.entry.forEach(({ name, file }) => {
+  (options.entry as FileInfo[]).forEach(({ name, file }) => {
     webpackEntry[name] = [...options.inject, file, ...options.append];
   });
   return webpackEntry;
@@ -86,7 +77,7 @@ export const getWebpackConfig = async (options: IGetWebpackConfigOpts, ctx: Dawn
       // webpack uses `publicPath` to determine where the app is being served from.
       // It requires a trailing slash, or the file assets will get an incorrect path.
       // We inferred the "public path" (such as / or /my-project) from homepage.
-      publicPath: options?.publicPath ?? getPublicPath(),
+      publicPath: getPublicPath(ctx),
       // this defaults to 'window', but by setting it to 'this' then
       // module chunks which are built will work in web workers as well.
       globalObject: "this",
@@ -114,9 +105,7 @@ export const getWebpackConfig = async (options: IGetWebpackConfigOpts, ctx: Dawn
         ctx.cwd,
         path.resolve(__dirname, "../"),
       ],
-      extensions: moduleFileExtensions.concat(
-        ctx.useTypeScript ? [".ts", ".tsx"] : [],
-      ),
+      extensions: moduleFileExtensions.concat(ctx.useTypeScript ? [".ts", ".tsx"] : []),
       // Use tsconfig.paths as webpack alias
       plugins: [ctx.useTypeScript && new TsconfigPathsPlugin()].filter(Boolean),
     },
@@ -128,6 +117,9 @@ export const getWebpackConfig = async (options: IGetWebpackConfigOpts, ctx: Dawn
       // TODO: node
     },
     watch: options.watch,
+    // Cache the generated webpack modules and chunks to improve build speed.
+    // https://webpack.js.org/configuration/other-options/#cache
+    cache: options.cache as any,
     // These options allows you to control how webpack notifies you
     // of assets and entry points that exceed a specific file limit.
     performance: options.performanceConfig,

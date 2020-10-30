@@ -2,8 +2,9 @@ import type { Configuration } from "webpack/types.d";
 
 export type Env = "development" | "production";
 export type Devtool = boolean | string;
-export type Entry = string | Record<string, string> | string[] | Array<{ name: string; file: string }>;
-export type Template = string | Record<string, string> | string[] | Array<{ name: string; file: string }>;
+export type FileInfo = { name: string; file: string };
+export type Entry = string | Record<string, string> | string[] | Array<FileInfo>;
+export type Template = string | Record<string, string> | string[] | Array<FileInfo>;
 export type Output =
   | string
   | {
@@ -25,7 +26,7 @@ export interface Folders {
 export interface IOptimization {
   // Tell webpack to minimize the bundle using the TerserPlugin or the plugin(s) specified in optimization.minimizer.
   minimize?: Boolean;
-  minimizer?: any;
+  // minimizer?: any;
   splitChunks?: object;
   // tells webpack whether to conduct inner graph analysis for unused exports.
   innerGraph?: boolean;
@@ -53,14 +54,15 @@ interface IModeleFederation {
   [key: string]: any;
 }
 export interface IOpts {
+  configFile?: string;
   cwd?: string;
   env: Env;
-  inject?: string | string[];
-  append?: string | string[];
   entry?: Entry;
   output?: Output;
   publicPath?: string;
   template?: Template;
+  inject?: string | string[];
+  append?: string | string[];
   devtool?: Devtool; // sourcemap
   performance?: boolean | "warning" | "error";
   target?: "browser" | "node" | "webworker" | string | [string, ...string[]];
@@ -74,30 +76,21 @@ export interface IOpts {
   profiling?: boolean;
   folders?: Folders;
   injectCSS?: boolean;
+  cache?: object;
 
   // optimization
+  // https://webpack.js.org/configuration/optimization/
   optimization?: IOptimization;
   // tsc still compile when error
   tscCompileOnError?: boolean;
-
-  // plugin options
-  // HtmlWebpackPlugin: https://github.com/jantimon/html-webpack-plugin#options
-  html?: object;
-  // HTMLMinifier: https://github.com/DanielRuf/html-minifier-terser
-  htmlMinifier?: boolean | object;
-
-  // loader options
-  // UrlLoader: https://github.com/webpack-contrib/url-loader
-  urlLoader?: object;
-  styleLoader?: object;
-  cssLoader?: object;
-  // FileLoader: https://github.com/webpack-contrib/file-loader
-  fileLoader?: object;
 
   // use css Modules
   cssModules?: boolean;
   // babel
   babel?: IBabel;
+
+  // fast refresh/HMR
+  hot?: boolean;
 
   // BC dn-m-webpack4
   // BC dn-m-webpack3
@@ -105,6 +98,11 @@ export interface IOpts {
   common?: ICommonOptionV3; // optimization options
   external?: boolean; // external or not
   chunkFilename?: string; // output.chunkFilename
+  js?: string;
+  css?: string;
+  font?: string;
+  img?: string;
+  html?: string;
   // default true when in envProduction;
   compress?: boolean;
   watch?: boolean;
@@ -119,6 +117,15 @@ export interface IGetWebpackConfigOpts extends IOpts {
   entry?: Array<{ name: string; file: string }>;
   template?: Array<{ name: string; file: string }>;
   performanceConfig?: false | PerformanceOpts;
+
+  // configurations
+  // loader options
+  // UrlLoader: https://github.com/webpack-contrib/url-loader
+  urlLoader?: object;
+  styleLoader?: object;
+  cssLoader?: object;
+  // FileLoader: https://github.com/webpack-contrib/file-loader
+  fileLoader?: object;
 }
 
 export interface CompilerCreaterOpts {
