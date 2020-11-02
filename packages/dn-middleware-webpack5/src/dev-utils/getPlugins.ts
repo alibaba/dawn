@@ -1,19 +1,19 @@
 import resolve from "resolve";
 import * as path from "path";
 import * as Dawn from "@dawnjs/types";
-import { DefinePlugin, HotModuleReplacementPlugin, IgnorePlugin } from "webpack";
+import { DefinePlugin, HotModuleReplacementPlugin } from "webpack";
 import type { WebpackPluginInstance } from "webpack/types.d";
-import HtmlWebpackPlugin from "html-webpack-plugin";
 // import InterpolateHtmlPlugin from "react-dev-utils/InterpolateHtmlPlugin";
 import ModuleNotFoundPlugin from "react-dev-utils/ModuleNotFoundPlugin";
 // import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModulesPlugin";
 import ForkTsCheckerWebpackPlugin from "react-dev-utils/ForkTsCheckerWebpackPlugin";
 import typescriptFormatter from "react-dev-utils/typescriptFormatter";
-import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
-// import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import Webpackbar from "webpackbar";
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 
 // import InlineChunkHtmlPlugin from "react-dev-utils/InlineChunkHtmlPlugin";
 // import getCacheIdentifier from "react-dev-utils/getCacheIdentifier";
@@ -23,7 +23,7 @@ import { FileInfo, IGetWebpackConfigOpts } from "../types";
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
 // Generate webpack plugins
-export const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
+const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
   const plugins: WebpackPluginInstance[] = [];
 
   // HTMLWebpackPlugin
@@ -121,7 +121,7 @@ export const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) =>
     // This is necessary to emit hot updates (CSS and Fast Refresh):
     // https://github.com/pmmmwh/react-refresh-webpack-plugin/issues/232
     // a fetal error is discoverd in webpack5, so fast-refresh plugin is disabled now until it's fixed
-    // plugins.push(new ReactRefreshWebpackPlugin());
+    plugins.push(new ReactRefreshWebpackPlugin());
     plugins.push(new HotModuleReplacementPlugin());
   }
 

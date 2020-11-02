@@ -4,7 +4,7 @@ import type { Configuration } from "webpack/types.d";
 
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 
-import { FileInfo, IGetWebpackConfigOpts, Output } from "./types";
+import { FileInfo, IGetWebpackConfigOpts } from "./types";
 import getModule from "./dev-utils/getModule";
 import getPlugins from "./dev-utils/getPlugins";
 import { getPublicPath } from "./dev-utils/utils";

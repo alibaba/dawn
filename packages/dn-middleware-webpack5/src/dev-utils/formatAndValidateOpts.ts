@@ -29,7 +29,7 @@ const PRO_DEFAULT_EXTERNALS = {
 };
 
 // Validate and format input opts
-export const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
+const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
   const options = Object.assign({}, opts) as IGetWebpackConfigOpts;
 
   // cwd

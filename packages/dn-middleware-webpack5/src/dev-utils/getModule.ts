@@ -81,7 +81,7 @@ const getStyleLoaders = (
 // Each module has a smaller surface area than a full program, making verification, debugging, and testing trivial.
 // Well-written modules provide solid abstractions and encapsulation boundaries,
 // so that each module has a coherent design and a clear purpose within the overall application.
-export const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
+const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
   const webpackModule: ModuleOptions = {};
   const { babelOpts } = await ctx.exec({
     name: "babel",

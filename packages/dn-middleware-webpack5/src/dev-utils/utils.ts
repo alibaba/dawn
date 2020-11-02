@@ -4,7 +4,7 @@ import * as Dawn from "@dawnjs/types";
 import globby from "globby";
 import getPublicUrlOrPath from "react-dev-utils/getPublicUrlOrPath";
 import { FileInfo } from "../types";
-import type { Stats } from "webpack/types";
+// import type { Stats } from "webpack/types";
 
 export const getExistFile = ({
   cwd,
@@ -94,23 +94,23 @@ export function formatSize(size: number) {
   const abbreviations = ["bytes", "KiB", "MiB", "GiB"];
   const index = Math.floor(Math.log(size) / Math.log(1024));
 
-  return `${+(size / Math.pow(1024, index)).toPrecision(3)} ${abbreviations[index]}`;
+  return `${+(size / 1024 ** index).toPrecision(3)} ${abbreviations[index]}`;
 }
 
 export function makeRow(a: string, b: string): string {
   return ` ${a}\t       ${b}`;
 }
 
-export function printError(stats: Stats, ctx: Dawn.Context) {
-  // const info = stats.toJson();
-  // // Compilation errors (missing modules, syntax errors, etc)
-  // if (stats.hasErrors()) {
-  //   ctx.console.error("error");
-  //   ctx.console.error(info.errors);
-  // }
-  // // Compilation warnings
-  // if (stats.hasWarnings()) {
-  //   ctx.console.error("warning");
-  //   ctx.console.warn(info.warnings);
-  // }
-}
+// export function printError(stats: Stats, ctx: Dawn.Context) {
+// const info = stats.toJson();
+// // Compilation errors (missing modules, syntax errors, etc)
+// if (stats.hasErrors()) {
+//   ctx.console.error("error");
+//   ctx.console.error(info.errors);
+// }
+// // Compilation warnings
+// if (stats.hasWarnings()) {
+//   ctx.console.error("warning");
+//   ctx.console.warn(info.warnings);
+// }
+// }

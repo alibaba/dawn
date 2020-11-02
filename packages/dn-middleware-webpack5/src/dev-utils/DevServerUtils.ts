@@ -10,9 +10,7 @@ import { CompilerCreaterOpts } from "../types";
 export function createCompiler({ config, useTypeScript, tscCompileOnError }: CompilerCreaterOpts, ctx: Dawn.Context) {
   // "Compiler" is a low-level interface to webpack.
   // It lets us listen to some events and provide our own custom messages.
-  let compiler;
-  // console.log("config", config);
-  compiler = webpack(config);
+  const compiler = webpack(config);
 
   // "invalid" event fires when you have changed a file, and webpack is
   // recompiling a bundle. WebpackDevServer takes care to pause serving the

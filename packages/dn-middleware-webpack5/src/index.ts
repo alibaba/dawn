@@ -61,7 +61,6 @@ const handler: Dawn.Handler<Partial<IOpts>> = opts => {
         // Fatal webpack errors (wrong configuration, etc)
         if (err) {
           ctx.console.error(err.stack || err);
-          process.exit;
           return;
         }
         if (ctx.emit) ctx.emit("webpack.stats", stats);
@@ -70,7 +69,7 @@ const handler: Dawn.Handler<Partial<IOpts>> = opts => {
       });
     } else {
       // console.log('startrun');
-      compiler.run((err, stats) => {
+      compiler.run(err => {
         // console.log('done');
         if (err) {
           ctx.console.error("[webpack5] Fatal webpack errors.\n");
