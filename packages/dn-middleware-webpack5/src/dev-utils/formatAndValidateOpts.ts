@@ -115,12 +115,14 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
   }
 
   // folders
-  options.folders = options.folders ?? {
-    script: options.js ?? "js",
-    style: options.css ?? "css",
-    media: options.img ?? "media",
-    html: options.html ?? "",
+  options.folders = {
+    script: options?.folders?.js ?? "js",
+    style: options?.folders?.css ?? "css",
+    media: options?.folders?.img ?? "media",
+    html: options?.folders?.html ?? "",
+    ...options.folders,
   };
+
   // chunkFilename for v3
   if (options.chunkFilename) {
     options.output.chunkFilename = options.chunkFilename;
@@ -189,6 +191,7 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
   // TODO: change default to true?
   options.profiling = options.profiling ?? false;
 
+  // cache default filesystem
   options.cache = options.cache ?? {
     type: "filesystem",
   };

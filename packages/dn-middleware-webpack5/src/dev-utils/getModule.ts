@@ -141,10 +141,10 @@ const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
             //   "react-dev-utils",
             // ]),
             // fast-refresh now because of an error of its plugin
-            // plugins: [
-            //   ...babelOpts.plugins,
-            //   ctx.isEnvDevelopment && require.resolve('react-refresh/babel'),
-            // ].filter(Boolean),
+            plugins: [
+              ...babelOpts?.plugins,
+              options.hot && require.resolve('react-refresh/babel'),
+            ].filter(Boolean),
           },
         },
         // "postcss" loader applies autoprefixer to our CSS.

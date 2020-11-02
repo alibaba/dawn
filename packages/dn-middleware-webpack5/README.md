@@ -65,6 +65,19 @@ build:
 参考：[library]("https://webpack.docschina.org/configuration/output/#outputlibrary")
 
 
+### `output.chunkFileName`
+同 `output`
+默认值：`"[name].[chunkhash:8].chunk.js"`
+
+默认异步chunk为这个路径，可根据vm中升级前的路径灵活变更
+
+
+### `template`
+类型：`string | Array<{ name: string; file: string }>`<br>
+默认值：`"public/index.html"` 或 `"src/assets/index.html"`
+
+html模板入口
+
 ### `publicPath`
 类型：`string`<br>
 默认值：`/`
@@ -110,18 +123,18 @@ build:
 babel配置、参考babel中间件
 
 
-### `html`
-类型：`object`<br>
-默认值：`{}`
-
-HtmlWebpackPlugin配置
-
-
 ### `injectCSS`
 类型：`boolean`<br>
 默认值：`true`
 
 是否引入css
+
+
+### `cssModules`
+类型：`boolean`<br>
+默认值：`false`
+
+是否使用css Modules
 
 
 ### `tscCompileOnError`
@@ -130,53 +143,45 @@ HtmlWebpackPlugin配置
 
 ts类型检查中的错误是否会阻断编译
 
-
-### `urlLoader`
-类型：`object`<br>
-默认值：`{}`
-
-urlLoader配置
-
-
-### `styleLoader`
-类型：`object`<br>
-默认值：`{}`
-
-styleLoader配置
-
-
-### `cssLoader`
-类型：`object`<br>
-默认值：`{}`
-
-cssLoader配置
-
-
-### `fileLoader`
-类型：`object`<br>
-默认值：`{}`
-
-fileLoader配置
-
-
-
-### `folders(v4)`
+### `folders`
 类型：
 ```js
 {
-  script?: string;
-  style?: string;
+  js?: string;
+  css?: string;
   media?: string;
   html?: string;
 }
 ```
 默认值：`{}`
 
-指定资源子目录名称，主要包括css,js，字体和图片和html的目录，不指定的话会直接输出到output目录下。兼容V4，V5有拆分的对应替代配置项
+指定资源子目录名称，主要包括css,js，字体和图片和html的目录，不指定的话会直接输出到output目录下
 
 
+### `moduleFederation`
+类型：object<br>
+
+模块联邦相关配置
+
+
+### `js`
 
 ## 配置项属性（构建优化类）
+
+
+### `compress`
+类型：`boolean`<br>
+默认值：开发环境默认 `false`，生产环境默认 `true`
+
+是否启用压缩（如果使用了compress中间件，需要将此配置设置为 false）
+
+
+### `watch`
+类型：`boolean`<br>
+默认值：开发环境默认 `true`，生产环境默认 `false`
+
+是否开启监听模式
+
 
 ### `externals`
 类型：`object`<br>
@@ -190,6 +195,13 @@ fileLoader配置
 默认值：`false`
 
 是否要打包排除依赖
+
+### `hot`
+类型：`boolean`<br>
+默认值：开发环境默认为 true
+
+是否开启 react-refresh（类似于 HMR）
+
 
 ### `common.disabled(v4)`
 类型：`boolean`<br>
@@ -235,6 +247,11 @@ fileLoader配置
 
 优化配置项
 
+### `cache`
+类型：`object`<br>
+默认值：`{ type: "filesystem" }`
+
+缓存相关的配置项，参考：[官方文档]("https://webpack.js.org/configuration/other-options/#cache")了解相关配置项
 
 ## 配置项属性（分析工具类）
 

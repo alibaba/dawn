@@ -13,6 +13,7 @@ export type Output =
   | {
       [key: string]: any;
       path: string;
+      chunkFilename?: string;
       library?: Library;
     };
 interface Library {
@@ -24,6 +25,11 @@ export interface Folders {
   style?: string;
   media?: string;
   html?: string;
+  // v4
+  js?: string;
+  css?: string;
+  font?: string;
+  img?: string;
 }
 
 export interface IOptimization {
@@ -101,11 +107,6 @@ export interface IOpts {
   common?: ICommonOptionV3; // optimization options
   external?: boolean; // external or not
   chunkFilename?: string; // output.chunkFilename
-  js?: string;
-  css?: string;
-  font?: string;
-  img?: string;
-  html?: string;
   // default true when in envProduction;
   compress?: boolean;
   watch?: boolean;
