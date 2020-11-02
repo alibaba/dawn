@@ -5,18 +5,21 @@ title: Webpack5
 ---
 
 # dn-middleware-webpack5
-几乎完全向下兼容，即使是旧项目迁移，成本也很低，并且增加了很多开发中新功能：
-1. target 允许传递一个目标列表，并且支持目标的版本。例如 `target: "node14"``target: ["web", "es2020"]`。
-2. [模块联邦]("https://webpack.docschina.org/concepts/module-federation/")：远程的模块可以独立编译，然后在运行时进行加载，同时还能够定义公共库来避免重复加载。
-3. 构建优化：optimization中的各种属性的更新和新增，例如 `optimization.innerGraph` 可以对模块中的标志进行分析，找出导出和引用之间的依赖关系。生产模式下是默认启用的。
-4. 同时API支持了更多可扩展配置
-
-除了新功能，还有很多使用上的优化
-1. 新增了长期缓存的算法，这些算法在生产模式下是默认启用的，建议不要设置，使用默认值更合适。【`optimization.chunkIds`和`optimization.moduleIds`】
-2. 统一使用内容哈希，`[contenthash]`，在只修改注释时优化长期缓存
-3. 删除output.jsonpFunction，自动使用 `package.json` 中有唯一的名称来防止多个 webpack 运行时的冲突
-4. 其他构建优化
-5. 其他性能优化
+## Features
+1. 新版本的中间件采用 ts 进行了完全的代码重写和设计上的改造
+2. wepack5 新特性支持：
+   1. target 允许传递一个目标列表，并且支持目标的版本。例如 target: "node14"``target: ["web", "es2020"]。
+   2. 模块联邦：这是一个颠覆性的feature，远程的模块可以独立编译，然后在运行时进行加载，同时还能够定义公共库来避免重复加载。
+   3. 构建优化：optimization中的各种属性的更新和新增，例如 optimization.innerGraph 可以对模块中的标志进行分析，找出导出和引用之间的依赖关系。生产模式下是默认启用的。
+   4. 同时API支持了更多可扩展配置
+3. 更加智能，自动生成很多默认值，比如文件入口、是否启用ts编译等
+4. 除了新功能，还有很多使用上的优化
+   1. 新增了长期缓存的算法，这些算法在生产模式下是默认启用的，建议不要设置，使用默认值更合适。optimization.chunkIds和optimization.moduleIds
+   2. 统一使用内容哈希，[contenthash]，在只修改注释时优化长期缓存
+   3. 删除output.jsonpFunction，自动使用 package.json 中有唯一的名称来防止多个 webpack 运行时的冲突
+   4. 支持 Fast Refresh，替换了 HMR，支持 React Hooks 级别的热更新了，具体可往下看(由于兼容性暂时关闭，问题开发者已修复20201102)
+5. 其他构建优化
+6. 其他性能优化（btw.并不是所有 optimization 配置项都开启就是优化性能，有的只适用于小型项目，大型项目中反而起反作用）
 
 ## 示例
 
@@ -29,8 +32,27 @@ dev:
 
 build:
   - name: webpack5
+    env: "production"
 ```
 
+## 旧版本升级指南
+
+1. 删除原有包，以更新 package.lock.json：`npm uninstall dn-middleware-webpack -D && npm i dn-middleware-webpack5 -D`
+2. 修改 pipe.yml 中间件配置为webpack5
+3. 可选：常用多余配置移除
+   1. 在 development 环境下，会默认帮你配置
+      1. watch：监听文件变化，默认 true 打开
+      2. injectCSS：注入 css，默认 true 打开
+      3. hot：热更新，默认打开
+      4. devtool / sourceMap：默认为 "source-map"
+   2. 在 production 环境下，会默认帮你设置
+      1. compress：压缩，默认打开
+      2. devtool / sourceMap：默认为 false
+   3. 文件目录相关默认值
+      1. entry 为 "src/index.tsx", "src/index.ts", "src/index.jsx", "src/index.js"时
+      2. template 为 "public/index.html", "src/assets/index.html" 时
+      3. output 为 "/build" 时
+      4. 会自动根据目录中有无 ts 文件来决定要不要打开 ts 编译
 
 ## 配置项属性（基础配置类）
 ### `env`
