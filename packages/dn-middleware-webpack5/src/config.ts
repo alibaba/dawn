@@ -63,8 +63,6 @@ export const getWebpackConfig = async (options: IGetWebpackConfigOpts, ctx: Dawn
     // web script entry(ies)
     entry: getEntry(options),
     output: {
-      // The build folder.
-      path: path.resolve(options.cwd, (options.output as any)?.path),
       // Add /* filename */ comments to generated require()s in the output.
       pathinfo: ctx.isEnvDevelopment,
       // There will be one main bundle, and one file per asynchronous chunk.
@@ -81,6 +79,8 @@ export const getWebpackConfig = async (options: IGetWebpackConfigOpts, ctx: Dawn
       globalObject: "this",
       // User output option
       ...(options.output as any),
+      // The build folder.
+      path: path.resolve(options.cwd, (options.output as any)?.path),
     },
     module: webpackModule,
     plugins: getPlugins(options, ctx).filter(Boolean),

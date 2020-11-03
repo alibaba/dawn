@@ -141,7 +141,7 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
   if (options.external === false) {
     options.externals = {};
   } else {
-    if (options.hot) {
+    if (options.hot && options.externals) {
       options.externals = {};
       ctx.console.warn(
         "[Webpack5] Auto set `externals` to {} by using react-refresh in development mode. You can set `hot` to false to disabled it in development mode",

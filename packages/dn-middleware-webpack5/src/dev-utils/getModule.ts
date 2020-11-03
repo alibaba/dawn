@@ -96,6 +96,8 @@ const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
     ...options.babel,
   });
 
+  // fast-refresh now because of an error of its plugin
+  options.hot && babelOpts?.plugins.push(require.resolve('react-refresh/babel'));
   const rules: RuleSetRule[] = [
     // It's important to run the linter before Babel processes the JS.
     // We do this in lint middleware
@@ -140,11 +142,6 @@ const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
             //   "babel-plugin-named-asset-import",
             //   "react-dev-utils",
             // ]),
-            // fast-refresh now because of an error of its plugin
-            plugins: [
-              ...babelOpts?.plugins,
-              options.hot && require.resolve('react-refresh/babel'),
-            ].filter(Boolean),
           },
         },
         // "postcss" loader applies autoprefixer to our CSS.

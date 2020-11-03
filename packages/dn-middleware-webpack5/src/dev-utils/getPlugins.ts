@@ -117,13 +117,10 @@ const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
       }) as any,
     );
 
-  if (options.hot) {
-    // This is necessary to emit hot updates (CSS and Fast Refresh):
-    // https://github.com/pmmmwh/react-refresh-webpack-plugin/issues/232
-    // a fetal error is discoverd in webpack5, so fast-refresh plugin is disabled now until it's fixed
-    plugins.push(new ReactRefreshWebpackPlugin());
-    plugins.push(new HotModuleReplacementPlugin());
-  }
+  // This is necessary to emit hot updates (CSS and Fast Refresh):
+  // https://github.com/pmmmwh/react-refresh-webpack-plugin/issues/232
+  plugins.push(new ReactRefreshWebpackPlugin());
+  options.hot && plugins.push(new HotModuleReplacementPlugin());
 
   // hide it
   ctx.isEnvDevelopment && plugins.push(new Webpackbar());
