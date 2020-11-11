@@ -40,19 +40,17 @@ const getStyleLoaders = (
       options: {
         postcssOptions: {
           plugins: [
-            // TODO: see what postcss-plugins used in rollup mw
-            // eslint-disable-next-line @typescript-eslint/no-require-imports
-            require("postcss-flexbugs-fixes"),
-            // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-            require("postcss-preset-env")({
-              autoprefixer: { flexbox: "no-2009" },
-              stage: 3,
-            }),
-            // Adds PostCSS Normalize as the reset css with default options,
+            [
+              "postcss-preset-env",
+              {
+                autoprefixer: { flexbox: "no-2009" },
+                stage: 3,
+              },
+            ],
+             // Adds PostCSS Normalize as the reset css with default options,
             // so that it honors browserslist config in package.json
             // which in turn let's users customize the target behavior as per their needs.
-            // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-            require("postcss-normalize")(),
+            // "postcss-normalize",
           ],
         },
         sourceMap: ctx.isEnvDevelopment,
