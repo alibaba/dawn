@@ -1,6 +1,6 @@
 import * as path from "path";
 import * as Dawn from "@dawnjs/types";
-import getCSSModuleLocalIdent from "react-dev-utils/getCSSModuleLocalIdent";
+// import getCSSModuleLocalIdent from "react-dev-utils/getCSSModuleLocalIdent";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import type { ModuleOptions, RuleSetRule } from "webpack/types.d";
 import { IGetWebpackConfigOpts } from "../types";
@@ -28,31 +28,33 @@ const getStyleLoaders = (
         },
     {
       loader: require.resolve("css-loader"),
-      options: options.cssOptions,
+      options: {
+        sourceMap: ctx.isEnvDevelopment,
+        ...options.cssOptions,
+      }
     },
     {
       // Options for PostCSS as we reference these options twice
       // Adds vendor prefixing based on your specified browser support in package.json
       loader: require.resolve("postcss-loader"),
       options: {
-        // Necessary for external CSS imports to work
-        // https://github.com/facebook/create-react-app/issues/2677
-        ident: "postcss",
-        plugins: () => [
-          // TODO: see what postcss-plugins used in rollup mw
-          // eslint-disable-next-line @typescript-eslint/no-require-imports
-          require("postcss-flexbugs-fixes"),
-          // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-          require("postcss-preset-env")({
-            autoprefixer: { flexbox: "no-2009" },
-            stage: 3,
-          }),
-          // Adds PostCSS Normalize as the reset css with default options,
-          // so that it honors browserslist config in package.json
-          // which in turn let's users customize the target behavior as per their needs.
-          // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-          require("postcss-normalize")(),
-        ],
+        postcssOptions: {
+          plugins: [
+            // TODO: see what postcss-plugins used in rollup mw
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
+            require("postcss-flexbugs-fixes"),
+            // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+            require("postcss-preset-env")({
+              autoprefixer: { flexbox: "no-2009" },
+              stage: 3,
+            }),
+            // Adds PostCSS Normalize as the reset css with default options,
+            // so that it honors browserslist config in package.json
+            // which in turn let's users customize the target behavior as per their needs.
+            // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+            require("postcss-normalize")(),
+          ],
+        },
         sourceMap: ctx.isEnvDevelopment,
       },
     },
@@ -147,7 +149,8 @@ const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
         // "postcss" loader applies autoprefixer to our CSS.
         // "css" loader resolves paths in CSS and adds assets as dependencies.
         // "style" loader turns CSS into JS modules that inject <style> tags.
-        // In production, we use MiniCSSExtractPlugin to extract that CSS to a file, but in development "style" loader enables hot editing of CSS.
+        // In production, we use MiniCSSExtractPlugin to extract that CSS to a file,
+        // but in development "style" loader enables hot editing of CSS.
         // By default we support CSS Modules with the extension .module.css
         {
           test: /\.css$/,
@@ -156,7 +159,6 @@ const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
             {
               cssOptions: {
                 importLoaders: 1,
-                sourceMap: ctx.isEnvDevelopment,
                 ...options.cssLoader,
               },
               styleOptions: options.styleLoader,
@@ -177,8 +179,7 @@ const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
             {
               cssOptions: {
                 importLoaders: 1,
-                sourceMap: ctx.isEnvDevelopment,
-                modules: { getLocalIdent: getCSSModuleLocalIdent },
+                modules: true,
                 ...options.cssLoader,
               },
               styleOptions: options.styleLoader,
@@ -195,7 +196,6 @@ const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
             {
               cssOptions: {
                 importLoaders: 3,
-                sourceMap: ctx.isEnvDevelopment,
                 ...options.cssLoader,
               },
               styleOptions: options.styleLoader,
@@ -216,7 +216,7 @@ const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
             {
               cssOptions: {
                 importLoaders: 3,
-                sourceMap: ctx.isEnvDevelopment,
+                modules: true,
                 ...options.cssLoader,
               },
               styleOptions: options.styleLoader,

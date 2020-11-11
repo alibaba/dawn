@@ -109,7 +109,7 @@ const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
 
   // MiniCssExtractPlugin
   // Options similar to the same options in webpackOptions.output both options are optional
-  ctx.isEnvProduction &&
+  !ctx.injectCSS &&
     plugins.push(
       new MiniCssExtractPlugin({
         filename: path.join(options?.folders?.style ?? "", "[name].css"),
