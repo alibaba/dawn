@@ -11,7 +11,7 @@ import inject from "@rollup/plugin-inject";
 import replace from "@rollup/plugin-replace";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import typescript2 from "rollup-plugin-typescript2";
-import babel, { IBabelPluginOptions } from "@rollup/plugin-babel";
+import babel, { RollupBabelInputPluginOptions } from "@rollup/plugin-babel";
 import json from "@rollup/plugin-json";
 import yaml from "@rollup/plugin-yaml";
 import wasm from "@rollup/plugin-wasm";
@@ -80,7 +80,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
     extraPresets: extraBabelPresets,
     extraPlugins: extraBabelPlugins,
   });
-  const babelPluginOptions: IBabelPluginOptions = {
+  const babelPluginOptions: RollupBabelInputPluginOptions = {
     ...babelOpts,
     babelrc: false,
     exclude: "node_modules/**",
@@ -180,12 +180,14 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
         inject: injectCSS,
         modules,
         minimize: !!minCSS,
-        use: [
-          ["less", { javascriptEnabled: true, plugins: [new NpmImport({ prefix: "~" })], ...lessOpts }],
-          ["sass", { ...sassOpts }],
-        ],
+        use: {
+          sass: { ...sassOpts },
+          stylus: {},
+          less: { javascriptEnabled: true, plugins: [new NpmImport({ prefix: "~" })], ...lessOpts },
+        },
         plugins: [autoprefixer(autoprefixerOpts)],
         config: {
+          path: join(cwd, "postcss.config.js"),
           ctx: opts,
         },
       }),
