@@ -220,6 +220,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
                 compilerOptions: {
                   // Support dynamic import
                   target: "esnext",
+                  ...(jsxRuntime === "automatic" ? { jsx: "preserve" } : {}),
                 },
               },
               check: !disableTypeCheck,
