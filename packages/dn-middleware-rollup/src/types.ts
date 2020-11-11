@@ -64,6 +64,7 @@ export interface IBundleOptions {
   autoprefixer?: AutoprefixerOptions;
   runtimeHelpers?: boolean;
   corejs?: false | 2 | 3 | { version: 2 | 3; proposals: boolean };
+  jsxRuntime?: "classic" | "automatic";
   nodeVersion?: string | "current" | true;
   extraBabelPresets?: any[];
   extraBabelPlugins?: any[];

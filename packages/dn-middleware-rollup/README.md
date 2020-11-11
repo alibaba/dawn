@@ -368,6 +368,13 @@ _说明：该配置项主要是为了老的历史项目可以快速接入，过�
 
 透传给 `dn-middleware-babel` 的 `corejs` 配置项，详细说明请查看[相关文档](https://www.npmjs.com/package/dn-middleware-babel#corejs)
 
+### `jsxRuntime`
+
+类型：`"classic" | "automatic"`<br>
+默认值：
+
+透传给 `dn-middleware-babel` 的 `jsxRuntime` 配置项，详细说明请查看[相关文档](https://www.npmjs.com/package/dn-middleware-babel#jsxruntime)
+
 ### `extraBabelPresets`
 
 类型：`any[]`<br>
