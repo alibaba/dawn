@@ -17,3 +17,12 @@ export const getTSConfigCompilerOptions = (path: string) => {
 export const isTransform = (path: string, regexp: RegExp): boolean => {
   return regexp.test(path) && !path.endsWith(".d.ts");
 };
+
+export const hasJsxRuntime = () => {
+  try {
+    require.resolve("react/jsx-runtime");
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
