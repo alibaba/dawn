@@ -2,6 +2,7 @@ import webpack from "webpack";
 import chalk from "react-dev-utils/chalk";
 import forkTsCheckerWebpackPlugin from "react-dev-utils/ForkTsCheckerWebpackPlugin";
 import typescriptFormatter from "react-dev-utils/typescriptFormatter";
+import os from "os";
 import { formatSize, formatWebpackMessages, makeRow } from "./utils";
 import * as Dawn from "@dawnjs/types";
 
@@ -16,9 +17,9 @@ export function createCompiler({ config, useTypeScript, tscCompileOnError }: Com
   // recompiling a bundle. WebpackDevServer takes care to pause serving the
   // bundle, so if you refresh, it'll wait instead of serving the old one.
   // "invalid" is short for "bundle invalidated", it doesn't imply any errors.
-  compiler.hooks.invalid.tap("invalid", () => {
-    ctx.console.info("[webpack5] Compiling...");
-  });
+  // compiler.hooks.invalid.tap("invalid", () => {
+  //   ctx.console.info("[webpack5] Compiling...");
+  // });
 
   // let isFirstCompile = true;
   let tsMessagesPromise: Promise<any>;
@@ -68,8 +69,8 @@ export function createCompiler({ config, useTypeScript, tscCompileOnError }: Com
           const { name, size } = asset;
           return makeRow(/js$/.test(name) ? chalk.green(name) : chalk.yellow(name), formatSize(size));
         })
-        .join(`\n`);
-      console.log(assetsLog, "\n");
+        .join(os.EOL);
+      console.log(assetsLog, os.EOL);
     }
 
     if (useTypeScript && statsData.errors.length === 0) {
@@ -98,11 +99,12 @@ export function createCompiler({ config, useTypeScript, tscCompileOnError }: Com
 
     const messages = formatWebpackMessages(statsData);
 
-    const isSuccessful = !messages.errors.length && !messages.warnings.length;
-    if (isSuccessful) {
-      console.log("\n");
-      ctx.console.info(`[webpack5] Compiled successfully in ${statsData.time}ms`);
-    }
+    // webpackBar shows the itme
+    // const isSuccessful = !messages.errors.length && !messages.warnings.length;
+    // if (isSuccessful) {
+      // console.log("\n");
+      // ctx.console.info(`[webpack5] Compiled successfully in ${statsData.time}ms`);
+    // }
 
     // If errors exist, only show errors.
     if (messages.errors.length) {
@@ -110,23 +112,15 @@ export function createCompiler({ config, useTypeScript, tscCompileOnError }: Com
       if (messages.errors.length > 1) {
         messages.errors.length = 1;
       }
-      ctx.console.error("[webpack5] Failed to compile.\n");
-      ctx.console.error(messages.errors.join("\n\n"));
+      console.log("\n\n");
+      ctx.console.error("[webpack5] Failed to compile." + os.EOL);
+      ctx.console.error(messages.errors.join(os.EOL + os.EOL));
       return;
-    }
-
-    // Show warnings if no errors were found.
-    if (messages.warnings.length) {
-      ctx.console.warn("[webpack5] Compiled with warnings.\n");
-      ctx.console.log(messages.warnings.join("\n\n"));
-
-      // Teach some ESLint tricks.
-      // console.log(
-      //   "\nSearch for the " + chalk.underline(chalk.yellow("keywords")) + " to learn more about each warning.",
-      // );
-      ctx.console.log(
-        `[webpack5] To ignore lint issues, add ${chalk.cyan("// eslint-disable-next-line")} to the line before.\n`,
-      );
+    } else if (messages.warnings.length) {
+      // Show warnings if no errors were found.
+      console.log("\n\n");
+      ctx.console.warn("[webpack5] Compiled with warnings." + os.EOL);
+      ctx.console.log(messages.warnings.join(os.EOL + os.EOL));
     }
   });
   return compiler;

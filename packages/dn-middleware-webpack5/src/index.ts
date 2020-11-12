@@ -64,7 +64,7 @@ const handler: Dawn.Handler<Partial<IOpts>> = opts => {
           return;
         }
         if (ctx.emit) ctx.emit("webpack.stats", stats);
-        ctx.console.log("[Webpack5]Start Watching:", Date.now());
+        ctx.console.log("[Webpack5]实时编译:", Date.now());
         next();
       });
     } else {
