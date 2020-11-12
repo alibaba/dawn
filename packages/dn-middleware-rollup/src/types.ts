@@ -29,6 +29,7 @@ export interface IUmd extends IBundleOutput {
   globals?: Record<string, string>;
   name?: string;
   minFile?: boolean;
+  onlyMinFile?: boolean;
   sourcemap?: boolean | "inline" | "hidden";
   template?: false | string;
 }

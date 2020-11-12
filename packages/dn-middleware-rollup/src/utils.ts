@@ -129,3 +129,10 @@ export const testExternal = (pkgs: Set<string>, excludes: string[], id: string):
   }
   return pkgs.has(getPkgNameByid(id));
 };
+
+export const testGlobalExternal = (pkgs: Set<string>, excludes: string[], id: string): boolean => {
+  if (excludes.includes(id)) {
+    return false;
+  }
+  return pkgs.has(id);
+};
