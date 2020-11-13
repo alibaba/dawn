@@ -248,6 +248,13 @@ _说明：默认会根据项目 `package.json` 中的 `name` 字段动态生成�
 
 是否额外输出 `.min.js` 文件，该文件会被混淆压缩
 
+#### `umd.onlyMinFile`
+
+类型：`boolean`<br>
+默认值：
+
+是否仅输出 `.min.js` 文件
+
 #### `umd.template`
 
 类型：`false | string`<br>
@@ -367,6 +374,13 @@ _说明：该配置项主要是为了老的历史项目可以快速接入，过�
 默认值：`false`
 
 透传给 `dn-middleware-babel` 的 `corejs` 配置项，详细说明请查看[相关文档](https://www.npmjs.com/package/dn-middleware-babel#corejs)
+
+### `jsxRuntime`
+
+类型：`"classic" | "automatic"`<br>
+默认值：
+
+透传给 `dn-middleware-babel` 的 `jsxRuntime` 配置项，详细说明请查看[相关文档](https://www.npmjs.com/package/dn-middleware-babel#jsxruntime)
 
 ### `extraBabelPresets`
 
