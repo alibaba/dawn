@@ -3,7 +3,18 @@ import { IGetBabelConfigOpts } from "./types";
 import { hasJsxRuntime } from "./utils";
 
 export const getBabelConfig = (opts: IGetBabelConfigOpts): Pick<TransformOptions, "presets" | "plugins"> => {
-  const { env, target, typescript, type, runtimeHelpers, corejs, jsxRuntime, nodeVersion, lazy } = opts;
+  const {
+    env,
+    target,
+    typescript,
+    type,
+    runtimeHelpers,
+    corejs,
+    jsxRuntime,
+    disableAutoReactRequire,
+    nodeVersion,
+    lazy,
+  } = opts;
   const isBrowser = target === "browser";
   const targets = isBrowser ? undefined : { node: nodeVersion || "10" };
 
@@ -40,7 +51,9 @@ export const getBabelConfig = (opts: IGetBabelConfigOpts): Pick<TransformOptions
             ],
           ]
         : []),
-      require.resolve("babel-plugin-react-require"),
+      ...(disableAutoReactRequire !== false || (jsxRuntime === "automatic" && hasJsxRuntime())
+        ? [require.resolve("babel-plugin-react-require")]
+        : []),
       require.resolve("@babel/plugin-syntax-dynamic-import"),
       require.resolve("@babel/plugin-proposal-export-default-from"),
       require.resolve("@babel/plugin-proposal-export-namespace-from"),

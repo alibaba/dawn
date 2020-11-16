@@ -1,5 +1,15 @@
 # Change Log
 
+## 1.4.0 (2020-11-16)
+
+### Features
+
+- Support `disableAutoReactRequire` to exclude `babel-plugin-react-require` plugin.
+
+### Breaking Changes (maybe)
+
+- If `jsxRuntime` is `"automatic"` and using React 17.0.0+/16.14.0+/15.7.0+/0.14.10+, `disableAutoReactRequire` is set to `true` by default.
+
 ## 1.3.0 (2020-11-11)
 
 ### Features
