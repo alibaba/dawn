@@ -9,8 +9,6 @@ import formatAndValidateOpts from "./dev-utils/formatAndValidateOpts";
 import { IGetWebpackConfigOpts, IOpts } from "./types";
 import { createCompiler } from "./dev-utils/DevServerUtils";
 
-process.env.NODE_OPTIONS = "--trace-deprecation";
-
 // Migrate from v4 to v5: https://webpack.js.org/migrate/5/
 const handler: Dawn.Handler<Partial<IOpts>> = opts => {
   return async (next, ctx) => {
@@ -29,10 +27,10 @@ const handler: Dawn.Handler<Partial<IOpts>> = opts => {
       const customConfigsGenerate = require(customConfigFile);
       if (typeof customConfigsGenerate === "function") {
         await customConfigsGenerate(webpackConfig, webpack, this);
-        ctx.console.info("已合并自定义构建配置...");
+        ctx.console.info(`[webpack5] Merged custom webpack config from '${opts.configFile}'.`);
       } else if (customConfigsGenerate) {
         webpackConfig = customConfigsGenerate;
-        ctx.console.warn("已使用自定义构建配置...");
+        ctx.console.info(`[webpack5] Use custom webpack config from '${opts.configFile}'.`);
       }
     }
 
@@ -64,7 +62,6 @@ const handler: Dawn.Handler<Partial<IOpts>> = opts => {
           return;
         }
         if (ctx.emit) ctx.emit("webpack.stats", stats);
-        ctx.console.log("[Webpack5]实时编译:", Date.now());
         next();
       });
     } else {

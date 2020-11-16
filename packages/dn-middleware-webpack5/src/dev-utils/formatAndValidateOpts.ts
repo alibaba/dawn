@@ -116,9 +116,9 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
 
   // folders
   options.folders = {
-    script: options?.folders?.js ?? "js",
-    style: options?.folders?.css ?? "css",
-    media: options?.folders?.img ?? "media",
+    script: options?.folders?.js ?? ".",
+    style: options?.folders?.css ?? ".",
+    media: options?.folders?.img ?? "assets",
     html: options?.folders?.html ?? "",
     ...options.folders,
   };
@@ -138,13 +138,17 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
   );
 
   // externals
+  if (typeof options.external !== "boolean") {
+    // auto disable external when dev mode
+    options.external = options.env === "development" ? false : true;
+  }
   if (options.external === false) {
     options.externals = {};
   } else {
     if (options.hot && options.externals) {
       options.externals = {};
       ctx.console.warn(
-        "[Webpack5] Auto set `externals` to {} by using react-refresh in development mode. You can set `hot` to false to disabled it in development mode",
+        "[webpack5] Auto set `externals` to {} by using react-refresh in development mode. You can set `hot` to false to disabled it in development mode",
       );
     }
     options.externals = options.externals || (options.output?.library ? LIB_DEFAULT_EXTERNALS : PRO_DEFAULT_EXTERNALS);
@@ -184,6 +188,7 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
     // set default analysisConfig
     options.analysis = {
       analyzerMode: "server",
+      openAnalyzer: false
     };
   }
 
@@ -197,6 +202,7 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
   };
 
   // cssLoader
+  // style.module.(css|less|scss|sass)$
   options.cssLoader = options.cssLoader ?? {};
   if (options.cssModules) {
     options.cssLoader = {
@@ -209,7 +215,7 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
   // If `true`, errors in TypeScript type checking will not prevent start script from running app,
   // and will not cause build script to exit unsuccessfully.
   // Also downgrades all TypeScript type checking error messages to warning messages.
-  options.tscCompileOnError = options.tscCompileOnError ?? true;
+  options.tscCompileOnError = options.tscCompileOnError !== false;
 
   // other judges
 
