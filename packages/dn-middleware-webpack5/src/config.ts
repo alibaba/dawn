@@ -17,6 +17,9 @@ const getEntry = (options: IGetWebpackConfigOpts) => {
   const webpackEntry: any = {};
   (options.entry as FileInfo[]).forEach(({ name, file }) => {
     webpackEntry[name] = [...options.inject, file, ...options.append];
+    // if (options.hot) {
+    //   webpackEntry[name].unshift('react-hot-loader/patch'); // 热更新添加对应patch
+    // }
   });
   return webpackEntry;
 };
@@ -34,7 +37,7 @@ const getDevtool = (devtool: boolean | string, ctx: Dawn.Context) => {
       if (typeof devtool === "string") {
         formatDevtool = devtool;
       } else {
-        formatDevtool = ctx.isEnvDevelopment ? "source-map" : false;
+        formatDevtool = ctx.isEnvDevelopment ? "eval-source-map" : false;
       }
       break;
   }
@@ -116,7 +119,6 @@ export const getWebpackConfig = async (options: IGetWebpackConfigOpts, ctx: Dawn
     node: {
       // TODO: node
     },
-    watch: options.watch,
     // Cache the generated webpack modules and chunks to improve build speed.
     // https://webpack.js.org/configuration/other-options/#cache
     cache: options.cache as any,

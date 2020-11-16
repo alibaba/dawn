@@ -97,7 +97,8 @@ const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
   });
 
   // fast-refresh now because of an error of its plugin
-  options.hot && babelOpts?.plugins.push(require.resolve('react-refresh/babel'));
+  // options.hot && babelOpts?.plugins.push(require.resolve('react-refresh/babel'));
+  // options.hot && babelOpts?.plugins.push(require.resolve('react-hot-loader/babel'));
   const rules: RuleSetRule[] = [
     // It's important to run the linter before Babel processes the JS.
     // We do this in lint middleware

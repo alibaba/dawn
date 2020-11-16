@@ -53,7 +53,7 @@ export const formatReglikeObject = (params: Record<string, string>) => {
   Object.entries(paramsMap).forEach(([nameExpr, fileExpr]) => {
     const files = globby.sync(fileExpr);
     files.forEach(file => {
-      const paths = file.split("/").reverse().map(getFilenameByPath);
+      const paths = file.split("/").reverse()?.map(getFilenameByPath);
       const name = nameExpr.replace(/\((\d+)\)/g, (_, index) => {
         return paths[index];
       });

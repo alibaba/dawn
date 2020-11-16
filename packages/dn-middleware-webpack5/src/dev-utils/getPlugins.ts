@@ -10,7 +10,7 @@ import ForkTsCheckerWebpackPlugin from "react-dev-utils/ForkTsCheckerWebpackPlug
 import typescriptFormatter from "react-dev-utils/typescriptFormatter";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
-import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+// import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import Webpackbar from "webpackbar";
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
@@ -119,11 +119,11 @@ const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
 
   // This is necessary to emit hot updates (CSS and Fast Refresh):
   // https://github.com/pmmmwh/react-refresh-webpack-plugin/issues/232
-  plugins.push(new ReactRefreshWebpackPlugin());
-  options.hot && plugins.push(new HotModuleReplacementPlugin());
+  // options.hot && plugins.push(new ReactRefreshWebpackPlugin());
+  // options.hot && plugins.push(new HotModuleReplacementPlugin());
 
   // hide it
-  ctx.isEnvDevelopment && plugins.push(new Webpackbar());
+  plugins.push(new Webpackbar({}));
 
   // webpack.IgnorePlugin
   // Moment.js is an extremely popular library that bundles large locale files

@@ -193,7 +193,7 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
 
   // cache default filesystem
   options.cache = options.cache ?? {
-    type: "filesystem",
+    type: "memory",
   };
 
   // cssLoader

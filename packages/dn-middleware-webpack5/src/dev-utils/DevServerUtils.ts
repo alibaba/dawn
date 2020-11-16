@@ -39,8 +39,8 @@ export function createCompiler({ config, useTypeScript, tscCompileOnError }: Com
         const format = (message: any) => `${message.file}\n${typescriptFormatter(message, true)}`;
 
         tsMessagesResolver({
-          errors: allMsgs.filter(msg => msg.severity === "error").map(format),
-          warnings: allMsgs.filter(msg => msg.severity === "warning").map(format),
+          errors: allMsgs.filter(msg => msg.severity === "error")?.map(format),
+          warnings: allMsgs.filter(msg => msg.severity === "warning")?.map(format),
         });
       });
   }
@@ -70,7 +70,6 @@ export function createCompiler({ config, useTypeScript, tscCompileOnError }: Com
           return makeRow(/js$/.test(name) ? chalk.green(name) : chalk.yellow(name), formatSize(size));
         })
         .join(os.EOL);
-      console.log(assetsLog, os.EOL);
     }
 
     if (useTypeScript && statsData.errors.length === 0) {
@@ -112,13 +111,11 @@ export function createCompiler({ config, useTypeScript, tscCompileOnError }: Com
       if (messages.errors.length > 1) {
         messages.errors.length = 1;
       }
-      console.log("\n\n");
       ctx.console.error("[webpack5] Failed to compile." + os.EOL);
       ctx.console.error(messages.errors.join(os.EOL + os.EOL));
       return;
     } else if (messages.warnings.length) {
       // Show warnings if no errors were found.
-      console.log("\n\n");
       ctx.console.warn("[webpack5] Compiled with warnings." + os.EOL);
       ctx.console.log(messages.warnings.join(os.EOL + os.EOL));
     }
