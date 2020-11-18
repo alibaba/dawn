@@ -124,8 +124,6 @@ const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
           loader: require.resolve("babel-loader"),
           options: {
             ...babelOpts,
-            babelrc: false,
-            configFile: false,
             exclude: "node_modules/**",
             // extensions,
             // babelHelpers: options.runtimeHelpers ? "runtime" : "bundled",
