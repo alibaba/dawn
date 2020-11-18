@@ -16,6 +16,7 @@ export const run = async (
   ctx: IDawnContext,
 ): Promise<Pick<babel.TransformOptions, "presets" | "plugins">> => {
   const {
+    env,
     cwd,
     watch,
     type = "cjs",
@@ -26,6 +27,7 @@ export const run = async (
     exclude = ["**/__test__{,/**}", "**/*.+(test|e2e|spec).+(js|jsx|ts|tsx)"],
     runtimeHelpers,
     corejs,
+    jsxRuntime,
     extraPresets = [],
     extraPlugins = [],
     nodeVersion,
@@ -35,16 +37,18 @@ export const run = async (
   } = opts;
 
   const srcPath = resolve(cwd, srcDir);
-  const outputDir = output || type === "cjs" ? "lib" : "es"; // lib for type=cjs and es for type=esm if not set output option
+  const outputDir = output || (type === "cjs" ? "lib" : "es"); // lib for type=cjs and es for type=esm if not set output option
   const outputPath = resolve(cwd, outputDir);
   const patterns = include.map(p => join(srcPath, p)).concat(exclude.map(p => `!${join(srcPath, p)}`));
 
   const babelOpts = getBabelConfig({
+    env,
     target,
     type,
     typescript: true,
     runtimeHelpers,
     corejs,
+    jsxRuntime,
     nodeVersion,
     lazy,
   });
@@ -91,7 +95,7 @@ export const run = async (
       .pipe(
         gulpIf(
           f => isTransform(f.path, babelTransformRegexp),
-          through.obj((file, env, cb) => {
+          through.obj((file, enc, cb) => {
             try {
               file.contents = Buffer.from(transform(file)); // eslint-disable-line no-param-reassign
               file.path = file.path.replace(extname(file.path), ".js"); // eslint-disable-line no-param-reassign

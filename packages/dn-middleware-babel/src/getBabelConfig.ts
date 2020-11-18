@@ -1,8 +1,9 @@
 import { TransformOptions } from "@babel/core";
 import { IGetBabelConfigOpts } from "./types";
+import { hasJsxRuntime } from "./utils";
 
 export const getBabelConfig = (opts: IGetBabelConfigOpts): Pick<TransformOptions, "presets" | "plugins"> => {
-  const { target, typescript, type, runtimeHelpers, corejs, nodeVersion, lazy } = opts;
+  const { env, target, typescript, type, runtimeHelpers, corejs, jsxRuntime, nodeVersion, lazy } = opts;
   const isBrowser = target === "browser";
   const targets = isBrowser ? undefined : { node: nodeVersion || "10" };
 
@@ -16,7 +17,17 @@ export const getBabelConfig = (opts: IGetBabelConfigOpts): Pick<TransformOptions
           modules: type === "esm" ? false : "auto",
         },
       ],
-      ...(isBrowser ? [require.resolve("@babel/preset-react")] : []),
+      ...(isBrowser
+        ? [
+            [
+              require.resolve("@babel/preset-react"),
+              {
+                development: env === "development",
+                runtime: hasJsxRuntime() ? jsxRuntime || "classic" : "classic",
+              },
+            ],
+          ]
+        : []),
     ],
     plugins: [
       ...(type === "cjs" && lazy && !isBrowser

@@ -11,7 +11,7 @@ import inject from "@rollup/plugin-inject";
 import replace from "@rollup/plugin-replace";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import typescript2 from "rollup-plugin-typescript2";
-import babel, { IBabelPluginOptions } from "@rollup/plugin-babel";
+import babel, { RollupBabelInputPluginOptions } from "@rollup/plugin-babel";
 import json from "@rollup/plugin-json";
 import yaml from "@rollup/plugin-yaml";
 import wasm from "@rollup/plugin-wasm";
@@ -20,7 +20,7 @@ import { terser } from "rollup-plugin-terser";
 import html, { IHtmlPluginTemplateFunctionArgument, makeHtmlAttributes } from "@rollup/plugin-html";
 import visualizer from "rollup-plugin-visualizer";
 import { merge } from "lodash";
-import { getOutputFile, testExternal } from "./utils";
+import { getOutputFile, testExternal, testGlobalExternal } from "./utils";
 import { IDawnContext, IGetRollupConfigOpts, IUmd } from "./types";
 
 // eslint-disable-next-line max-lines-per-function
@@ -48,6 +48,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
     target = "browser",
     runtimeHelpers,
     corejs,
+    jsxRuntime,
     nodeVersion,
     extraBabelPresets,
     extraBabelPlugins,
@@ -74,11 +75,12 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
     type,
     runtimeHelpers,
     corejs,
+    jsxRuntime,
     nodeVersion,
     extraPresets: extraBabelPresets,
     extraPlugins: extraBabelPlugins,
   });
-  const babelPluginOptions: IBabelPluginOptions = {
+  const babelPluginOptions: RollupBabelInputPluginOptions = {
     ...babelOpts,
     babelrc: false,
     exclude: "node_modules/**",
@@ -178,12 +180,14 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
         inject: injectCSS,
         modules,
         minimize: !!minCSS,
-        use: [
-          ["less", { javascriptEnabled: true, plugins: [new NpmImport({ prefix: "~" })], ...lessOpts }],
-          ["sass", { ...sassOpts }],
-        ],
+        use: {
+          sass: { ...sassOpts },
+          stylus: {},
+          less: { javascriptEnabled: true, plugins: [new NpmImport({ prefix: "~" })], ...lessOpts },
+        },
         plugins: [autoprefixer(autoprefixerOpts)],
         config: {
+          path: join(cwd, "postcss.config.js"),
           ctx: opts,
         },
       }),
@@ -216,6 +220,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
                 compilerOptions: {
                   // Support dynamic import
                   target: "esnext",
+                  ...(jsxRuntime === "automatic" ? { jsx: "preserve" } : {}),
                 },
               },
               check: !disableTypeCheck,
@@ -317,39 +322,46 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
       ];
     case "umd":
       return [
-        {
-          input,
-          output: {
-            format,
-            sourcemap: (umd && umd.sourcemap) || false,
-            file: getOutputFile({ entry, type: "umd", pkg, bundleOpts }),
-            globals: umd && umd.globals,
-            name: umd && umd.name,
-          },
-          plugins: [
-            ...getPlugins(),
-            ...extraUmdPlugins,
-            replace({
-              // eslint-disable-next-line @typescript-eslint/naming-convention
-              "process.env.NODE_ENV": JSON.stringify("development"),
-            }),
-            ...(target === "browser" && umd && umd.template !== false
-              ? [html({ title: "Dawn", ...htmlOpts, template })]
-              : []),
-            ...(analysis
-              ? [
-                  visualizer({
-                    filename: join(dirname(getOutputFile({ entry, type: "umd", pkg, bundleOpts })), "stats-umd.html"),
-                    title: "Rollup Visualizer - UMD",
-                    open: true,
-                    gzipSize: true,
+        ...(umd && !umd.onlyMinFile
+          ? [
+              {
+                input,
+                output: {
+                  format,
+                  sourcemap: (umd && umd.sourcemap) || false,
+                  file: getOutputFile({ entry, type: "umd", pkg, bundleOpts }),
+                  globals: umd && umd.globals,
+                  name: umd && umd.name,
+                },
+                plugins: [
+                  ...getPlugins(),
+                  ...extraUmdPlugins,
+                  replace({
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
+                    "process.env.NODE_ENV": JSON.stringify("development"),
                   }),
-                ]
-              : []),
-          ],
-          external: (id: string) => testExternal(externalPeerDeps, externalsExclude, id),
-        },
-        ...(umd && umd.minFile
+                  ...(target === "browser" && umd && umd.template !== false
+                    ? [html({ title: "Dawn", ...htmlOpts, template })]
+                    : []),
+                  ...(analysis
+                    ? [
+                        visualizer({
+                          filename: join(
+                            dirname(getOutputFile({ entry, type: "umd", pkg, bundleOpts })),
+                            "stats-umd.html",
+                          ),
+                          title: "Rollup Visualizer - UMD",
+                          open: true,
+                          gzipSize: true,
+                        }),
+                      ]
+                    : []),
+                ],
+                external: (id: string) => testGlobalExternal(externalPeerDeps, externalsExclude, id),
+              },
+            ]
+          : []),
+        ...(umd && (umd.minFile || umd.onlyMinFile)
           ? [
               {
                 input,
@@ -369,7 +381,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
                   }),
                   terser(terserOptions),
                 ],
-                external: (id: string) => testExternal(externalPeerDeps, externalsExclude, id),
+                external: (id: string) => testGlobalExternal(externalPeerDeps, externalsExclude, id),
               },
             ]
           : []),
@@ -395,7 +407,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
             }),
             ...(system && system.minify ? [terser(terserOptions)] : []),
           ],
-          external: id => testExternal(externalPeerDeps, externalsExclude, id),
+          external: id => testGlobalExternal(externalPeerDeps, externalsExclude, id),
         },
       ];
     case "iife":
@@ -418,7 +430,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
             }),
             ...(iife && iife.minify ? [terser(terserOptions)] : []),
           ],
-          external: id => testExternal(externalPeerDeps, externalsExclude, id),
+          external: id => testGlobalExternal(externalPeerDeps, externalsExclude, id),
         },
       ];
     default:
