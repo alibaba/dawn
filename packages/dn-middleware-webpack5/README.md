@@ -129,20 +129,10 @@ html模板入口
 
 
 ## 配置项属性（进阶基础配置）
-### `babel`
-类型：`string`<br>
-默认值：
-```js
-{
-  runtimeHelpers?: boolean | string;
-  corejs?: false | 2 | 3 | { version: 2 | 3; proposals: boolean };
-  nodeVersion?: string | "current" | true;
-  extraBabelPresets?: any[];
-  extraBabelPlugins?: any[];
-}
-```
+### `jsxRuntime`
+类型：`"automatic" | "classic"`<br>
 
-babel配置、参考babel中间件
+透传给 `dn-middleware-babel` 的 `jsxRuntime` 配置项，详细说明请查看[相关文档](https://www.npmjs.com/package/dn-middleware-babel#jsxruntime)
 
 
 ### `injectCSS`

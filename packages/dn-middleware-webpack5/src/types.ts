@@ -66,6 +66,7 @@ export interface IOpts {
   configFile?: string;
   cwd?: string;
   env: Env;
+  jsxRuntime?: boolean;
   entry?: Entry;
   output?: Output;
   publicPath?: string;
