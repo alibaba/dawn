@@ -51,7 +51,7 @@ export const getBabelConfig = (opts: IGetBabelConfigOpts): Pick<TransformOptions
             ],
           ]
         : []),
-      ...(disableAutoReactRequire !== true || (jsxRuntime === "automatic" && hasJsxRuntime())
+      ...(disableAutoReactRequire === true || (jsxRuntime === "automatic" && hasJsxRuntime())
         ? []
         : [require.resolve("babel-plugin-react-require")]),
       require.resolve("@babel/plugin-syntax-dynamic-import"),
