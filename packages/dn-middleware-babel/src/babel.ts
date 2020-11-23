@@ -28,6 +28,7 @@ export const run = async (
     runtimeHelpers,
     corejs,
     jsxRuntime,
+    disableAutoReactRequire,
     extraPresets = [],
     extraPlugins = [],
     nodeVersion,
@@ -49,6 +50,7 @@ export const run = async (
     runtimeHelpers,
     corejs,
     jsxRuntime,
+    disableAutoReactRequire,
     nodeVersion,
     lazy,
   });

@@ -120,6 +120,15 @@ _说明：当配置为 `"browser"` 时，可通过 `.browserslistrc` 指定目�
 
 配置 `@babel/preset-react` 的 `runtime` 选项
 
+### `disableAutoReactRequire`
+
+类型：`boolean`<br>
+默认值：
+
+配置是否排除 `babel-plugin-react-require`。默认情况下不会排除，但如果 `jsxRuntime` 设置为 `"automatic"` 并且使用了支持新 JSX Runtime 的 React 版本，则默认排除
+
+配置 `@babel/preset-react` 的 `runtime` 选项
+
 ### `extraPresets`
 
 类型：`any[]`<br>
