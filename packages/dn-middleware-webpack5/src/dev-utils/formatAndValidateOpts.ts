@@ -188,7 +188,7 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
     // set default analysisConfig
     options.analysis = {
       analyzerMode: "server",
-      openAnalyzer: false
+      openAnalyzer: false,
     };
   }
 
