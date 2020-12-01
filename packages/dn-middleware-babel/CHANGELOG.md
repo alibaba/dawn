@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.4.2 (2020-12-1)
+
+### Features
+
+- Support `pragma` and `pragmaFrag` options, which can modify `@babel/preset-react`'s behavior for JSX Transform.
+
 ## 1.4.0 (2020-11-16)
 
 ### Features

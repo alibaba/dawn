@@ -120,6 +120,20 @@ _说明：当配置为 `"browser"` 时，可通过 `.browserslistrc` 指定目�
 
 配置 `@babel/preset-react` 的 `runtime` 选项
 
+### `pragma`
+
+类型：`string`<br>
+默认值：`React.createElement`
+
+配置 `@babel/preset-react` 的 `pragma` 选项
+
+### `pragmaFrag`
+
+类型：`string`<br>
+默认值：`React.Fragment`
+
+配置 `@babel/preset-react` 的 `pragmaFrag` 选项
+
 ### `disableAutoReactRequire`
 
 类型：`boolean`<br>

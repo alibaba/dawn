@@ -16,6 +16,8 @@ export interface IOpts {
   corejs?: false | 2 | 3 | { version: 2 | 3; proposals: boolean };
   jsxRuntime?: "automatic" | "classic";
   disableAutoReactRequire?: boolean;
+  pragma?: string;
+  pragmaFrag?: string;
   extraPresets?: any[];
   extraPlugins?: any[];
   nodeVersion?: string | "current" | true;
@@ -32,6 +34,8 @@ export interface IGetBabelConfigOpts {
   runtimeHelpers?: boolean | string;
   jsxRuntime?: "automatic" | "classic";
   disableAutoReactRequire?: boolean;
+  pragma?: string;
+  pragmaFrag?: string;
   corejs?: false | 2 | 3 | { version: 2 | 3; proposals: boolean };
   nodeVersion?: number;
   lazy?: boolean;

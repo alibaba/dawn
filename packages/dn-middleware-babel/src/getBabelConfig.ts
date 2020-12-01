@@ -11,6 +11,8 @@ export const getBabelConfig = (opts: IGetBabelConfigOpts): Pick<TransformOptions
     runtimeHelpers,
     corejs,
     jsxRuntime,
+    pragma,
+    pragmaFrag,
     disableAutoReactRequire,
     nodeVersion,
     lazy,
@@ -35,6 +37,8 @@ export const getBabelConfig = (opts: IGetBabelConfigOpts): Pick<TransformOptions
               {
                 development: env === "development",
                 runtime: hasJsxRuntime() ? jsxRuntime || "classic" : "classic",
+                pragma,
+                pragmaFrag,
               },
             ],
           ]
