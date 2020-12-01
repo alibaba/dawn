@@ -53,6 +53,10 @@ interface IBabel {
   nodeVersion?: string | "current" | true;
   extraBabelPresets?: any[];
   extraBabelPlugins?: any[];
+  jsxRuntime?: boolean;
+  pragma?: string;
+  pragmaFrag?: string;
+  disableAutoReactRequire?: boolean;
 }
 
 interface IModeleFederation {
@@ -66,7 +70,7 @@ export interface IOpts {
   configFile?: string;
   cwd?: string;
   env: Env;
-  jsxRuntime?: boolean;
+
   entry?: Entry;
   output?: Output;
   publicPath?: string;
@@ -98,6 +102,7 @@ export interface IOpts {
   cssModules?: boolean;
   // babel
   babel?: IBabel;
+  jsxRuntime?: boolean;
 
   // fast refresh/HMR
   hot?: boolean;

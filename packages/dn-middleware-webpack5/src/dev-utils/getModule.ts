@@ -31,7 +31,7 @@ const getStyleLoaders = (
       options: {
         sourceMap: ctx.isEnvDevelopment,
         ...options.cssOptions,
-      }
+      },
     },
     {
       // Options for PostCSS as we reference these options twice
@@ -47,7 +47,7 @@ const getStyleLoaders = (
                 stage: 3,
               },
             ],
-             // Adds PostCSS Normalize as the reset css with default options,
+            // Adds PostCSS Normalize as the reset css with default options,
             // so that it honors browserslist config in package.json
             // which in turn let's users customize the target behavior as per their needs.
             // "postcss-normalize",
@@ -97,6 +97,7 @@ const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
     // fast-refresh now because of an error of its plugin
     // extraPlugins: [...(options.hot ? ["react-hot-loader/babel", "react-refresh/babel"] : [])],
     jsxRuntime: options.jsxRuntime,
+    ...options.babel,
   });
 
   const rules: RuleSetRule[] = [

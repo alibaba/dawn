@@ -73,8 +73,12 @@ export function formatNullStringToList<T = string>(params?: T | T[] | null): T[]
 
 export function formatWebpackMessages({ warnings, errors }: { warnings?: any[]; errors?: any[] }) {
   const result = {
-    errors: Array.isArray(errors) ? errors?.map(message => formatMessage(message)) : [],
-    warnings: Array.isArray(warnings) ? warnings?.map(message => formatMessage(message)) : [],
+    errors: Array.isArray(errors)
+      ? errors?.map(message => (typeof message === "string" ? formatMessage(message) : formatMessageObj(message)))
+      : [],
+    warnings: Array.isArray(warnings)
+      ? warnings?.map(message => (typeof message === "string" ? formatMessage(message) : formatMessageObj(message)))
+      : [],
   };
 
   if (result.errors.some(isLikelyASyntaxError)) {
@@ -213,4 +217,14 @@ function formatMessage(message: string) {
   message = message.replace(/^\s*at\s((?!webpack:).)*:\d+:\d+[\s)]*(\n|$)/gm, ""); // at ... ...:x:y
 
   return message.trim();
+}
+
+type ErrObj = {
+  moduleIdentifier?: string;
+  moduleName?: string;
+  loc?: string;
+  message?: string;
+};
+function formatMessageObj({ moduleName, loc, message }: ErrObj) {
+  return moduleName + "(" + loc + ")" + "\n" + message + "\n";
 }
