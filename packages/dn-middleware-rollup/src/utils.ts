@@ -47,7 +47,7 @@ export const getOutputFile = (opts: {
   mjs?: boolean;
 }): string => {
   const { entry, type, pkg, bundleOpts, minFile, mjs } = opts;
-  const { outDir = DEFAULT_OUTPUT_DIR[type as string], esm, cjs, umd, system, iife } = bundleOpts;
+  const { outDir = DEFAULT_OUTPUT_DIR[type as string] || "build", esm, cjs, umd, system, iife } = bundleOpts;
   let { file } = bundleOpts;
 
   let name = basename(entry, extname(entry));
@@ -71,7 +71,7 @@ export const getOutputFile = (opts: {
           return pkg.module;
         }
       }
-      return `${outDir}/${name}${mjs ? ".mjs" : ".esm.js"}`;
+      return `${outDir}/${name}${mjs ? ".mjs" : ".js"}`;
     case "cjs":
       if (cjs && cjs.file) {
         return `${outDir}/${cjs.file}.js`;
@@ -96,7 +96,7 @@ export const getOutputFile = (opts: {
         }
         return pkg.browser;
       }
-      return `${outDir}/${name}.umd${minFile ? ".min" : ""}.js`;
+      return `${outDir}/${name}${minFile ? ".min" : ""}.js`;
     case "system":
       if (system && system.file) {
         return `${outDir}/${system.file}.js`;
