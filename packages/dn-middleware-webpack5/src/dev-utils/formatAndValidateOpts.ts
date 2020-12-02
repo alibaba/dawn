@@ -2,6 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import * as Dawn from "@dawnjs/types";
 import * as assert from "assert";
+import { camelCase } from "lodash";
 import { Env, IGetWebpackConfigOpts, IOpts } from "../types";
 import { formatNullStringToList, formatReglikeObject, getExistFile } from "./utils";
 
@@ -119,6 +120,10 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
     options.output = { path: options.output };
   } else if (!options.output || !options.output?.path) {
     options.output = { ...options?.output, path: defaultOutputPath };
+  }
+
+  if (options.output?.libraryTarget === "umd") {
+    options.output.library = options.output.library || camelCase(path.basename(ctx.project.name)) as any;
   }
 
   // folders
