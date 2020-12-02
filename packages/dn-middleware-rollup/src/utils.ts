@@ -31,7 +31,7 @@ export const getFileName = (filePath: string): string => {
   return `${dirname(filePath)}/${basename(filePath, extname(filePath))}`;
 };
 
-const DEFAULT_OUTPUT_DIR = {
+const DEFAULT_OUTPUT_DIR: Record<string, string> = {
   esm: "esm",
   cjs: "lib",
   umd: "build",
@@ -47,7 +47,7 @@ export const getOutputFile = (opts: {
   mjs?: boolean;
 }): string => {
   const { entry, type, pkg, bundleOpts, minFile, mjs } = opts;
-  const { outDir = DEFAULT_OUTPUT_DIR[type], esm, cjs, umd, system, iife } = bundleOpts;
+  const { outDir = DEFAULT_OUTPUT_DIR[type as string], esm, cjs, umd, system, iife } = bundleOpts;
   let { file } = bundleOpts;
 
   let name = basename(entry, extname(entry));
