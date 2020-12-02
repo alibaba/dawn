@@ -38,7 +38,7 @@ export const getPublicPath = (ctx: Dawn.Context) =>
 const getFilenameByPath = (f: string) => path.basename(f).split(".")[0];
 
 // format entry and template
-export const formatReglikeObject = (params: Record<string, string>) => {
+export const formatReglikeObject = (params: Record<string, string> | any[] | string) => {
   const paramsMap: Record<string, string> = {};
   if (typeof params === "string") {
     paramsMap[getFilenameByPath(params)] = params;

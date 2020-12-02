@@ -26,10 +26,12 @@ const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPl
 const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
   const plugins: WebpackPluginInstance[] = [];
 
+  // false or empty array
+  // if (options?.template?.length) {
   // HTMLWebpackPlugin
   // Generates an `index.html` file with the <script> injected.
   (options.entry as FileInfo[]).forEach(({ name }) => {
-    const template = options.template?.find?.(temp => temp.name === name) ?? options.template[0];
+    const template = options.template?.find?.(temp => temp.name === name) ?? options.template?.[0];
     if (!template) return;
     const minifyOption = ctx.isEnvProduction // auto minify when production mode
       ? {
@@ -66,6 +68,7 @@ const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
       }),
     );
   });
+  // }
 
   // InlineChunkHtmlPlugin
   // Inlines the webpack runtime script. This script is too small to warrant a network request.
@@ -119,8 +122,21 @@ const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
 
   // This is necessary to emit hot updates (CSS and Fast Refresh):
   // https://github.com/pmmmwh/react-refresh-webpack-plugin/issues/232
-  // options.hot && plugins.push(new ReactRefreshWebpackPlugin());
   // options.hot && plugins.push(new HotModuleReplacementPlugin());
+  // options.hot &&
+  //   plugins.push(
+  //     new ReactRefreshWebpackPlugin({
+  //       // include: /\.(js|jsx|ts|tsx|flow)$/i,
+  //       overlay: {
+  //         // entry: require.resolve("react-dev-utils/webpackHotDevClient"),
+  //         sockIntegration: "whm",
+  //         // entry: require.resolve('@pmmmwh/react-refresh-webpack-plugin/client/ErrorOverlayEntry'),
+  //         // module: require.resolve('@pmmmwh/react-refresh-webpack-plugin/overlay'),
+  //         // TODO: This is just a stub module. Clean this up if possible.
+  //         // module: require.resolve('./hotRefreshOverlayModuleStub'),
+  //       },
+  //     }),
+  //   );
 
   // hide it
   plugins.push(new Webpackbar({}));

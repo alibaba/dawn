@@ -69,20 +69,24 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
   options.entry = formatReglikeObject(opts.entry as any);
 
   // template
-  if (
-    !opts.template ||
-    (Array.isArray(opts.template) && !opts.template?.length) ||
-    (typeof opts.template === "object" && !Object.keys(opts.template)?.length)
-  ) {
+  if (opts.template === true || opts.template === undefined) {
+    // auto find templates
     opts.template = getExistFile({
       cwd: options.cwd,
       // `src/assets/index.html` is not recommanded and will be removed soon
       files: ["public/index.html", "src/assets/index.html"],
       returnRelative: true,
     });
+    options.template = formatReglikeObject(opts.template);
+  } else if (
+    !opts.template ||
+    (Array.isArray(opts.template) && !opts.template?.length) ||
+    (typeof opts.template === "object" && !Object.keys(opts.template)?.length)
+  ) {
+    options.template = [];
+  } else {
+    options.template = formatReglikeObject(opts.template);
   }
-  assert.ok(opts.template, "[webpack5] No `template` found, checkout guide for usage details.");
-  options.template = formatReglikeObject(opts.template as any);
 
   // watch
   // default true when in development

@@ -7,7 +7,7 @@ export interface FileInfo {
   file: string;
 }
 export type Entry = string | Record<string, string> | string[] | FileInfo[];
-export type Template = string | Record<string, string> | string[] | FileInfo[];
+export type Template = string | Record<string, string> | string[] | FileInfo[] | boolean;
 export type Output =
   | string
   | {
