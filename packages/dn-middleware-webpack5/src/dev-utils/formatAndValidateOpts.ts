@@ -114,9 +114,11 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
   options.append = formatNullStringToList(options.append);
 
   // output
-  options.output = options.output ?? "./build";
+  const defaultOutputPath = "./build";
   if (typeof options.output === "string") {
     options.output = { path: options.output };
+  } else if (!options.output || !options.output?.path) {
+    options.output = { ...options?.output, path: defaultOutputPath };
   }
 
   // folders
