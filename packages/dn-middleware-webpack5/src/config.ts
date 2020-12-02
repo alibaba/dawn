@@ -15,11 +15,13 @@ const moduleFileExtensions = [".js", ".mjs", ".json", ".jsx", ".css", ".less", "
 // Generate webpack entries
 const getEntry = (options: IGetWebpackConfigOpts) => {
   const webpackEntry: any = {};
+  // const hotClientEntry = require.resolve("react-dev-utils/webpackHotDevClient");
   (options.entry as FileInfo[]).forEach(({ name, file }) => {
     webpackEntry[name] = [...options.inject, file, ...options.append];
-    // if (options.hot) {
-    //   webpackEntry[name].unshift('react-hot-loader/patch'); // 热更新添加对应patch
-    // }
+    if (options.hot) {
+      // webpackEntry[name].unshift(require.resolve('./patch')); // 热更新添加对应patch
+      // webpackEntry[name].unshift(`webpack-hot-middleware/client?reload=true&log=false&name=${name}`); // 热更新添加对应patch
+    }
   });
   return webpackEntry;
 };
@@ -37,7 +39,7 @@ const getDevtool = (devtool: boolean | string, ctx: Dawn.Context) => {
       if (typeof devtool === "string") {
         formatDevtool = devtool;
       } else {
-        formatDevtool = ctx.isEnvDevelopment ? "eval-source-map" : false;
+        formatDevtool = ctx.isEnvDevelopment ? "eval-cheap-module-source-map" : "cheap-source-map";
       }
       break;
   }
