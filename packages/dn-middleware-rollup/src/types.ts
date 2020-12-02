@@ -51,7 +51,7 @@ export interface IBundleOptions {
   target?: "node" | "browser";
   entry?: string | string[];
   outDir?: string;
-  file?: string;
+  file?: string | Record<string, string>;
   esm?: IEsm | false;
   cjs?: ICjs | false;
   umd?: IUmd | false;
