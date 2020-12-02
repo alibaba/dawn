@@ -38,17 +38,17 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
   // env
   const isLegalEnv = (e?: Env) => ["development", "production"].includes(e);
   if (!isLegalEnv(options.env)) {
-    let envMessage = "[webpack5] None `env` development|production is configured";
+    let envMessage = "[webpack5] `env` should be one of development/production";
     if (isLegalEnv(process.env?.DN_ENV as Env)) {
       options.env = process.env.DN_ENV as Env;
-      envMessage += `, auto set to ${options.env} by using DN_ENV`;
+      envMessage += `, set to "${options.env}" automatically by DN_ENV`;
     } else if (isLegalEnv(process.env?.NODE_ENV as Env)) {
       options.env = process.env.NODE_ENV as Env;
-      envMessage += `, auto set to ${options.env} by using NODE_ENV`;
+      envMessage += `, set to "${options.env}" automatically by NODE_ENV`;
     } else {
       // ctx.command == current pipe full-name: init/dev/build/publish/..
       options.env = ctx.command.includes("dev") ? "development" : "production";
-      envMessage += `, auto set to \`${options.env}\` by using DN_CMD`;
+      envMessage += `, set to "${options.env}" automatically by DN_CMD`;
     }
     ctx.console.warn(envMessage);
   }
@@ -90,8 +90,9 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
 
   // watchOpts
   options.watchOpts = options.watchOpts ?? {
-    aggregateTimeout: 2000,
-    ignored: ["!src/**"],
+    // aggregateTimeout: 200,
+    poll: true,
+    ignored: /node_modules/,
   };
 
   // injectCss
@@ -177,7 +178,7 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
 
   // common chunk
   options.common = {
-    disabled: false,
+    disabled: true, // break change: default disabled common
     name: "common",
     ...options.common,
   };
