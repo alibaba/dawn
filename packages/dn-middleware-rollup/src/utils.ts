@@ -31,6 +31,12 @@ export const getFileName = (filePath: string): string => {
   return `${dirname(filePath)}/${basename(filePath, extname(filePath))}`;
 };
 
+const DEFAULT_OUTPUT_DIR: Record<string, string> = {
+  esm: "esm",
+  cjs: "lib",
+  umd: "build",
+};
+
 // filename priority：specific module type file option > top level file option > pkg field value > basename of entry file
 export const getOutputFile = (opts: {
   entry: string;
@@ -41,9 +47,14 @@ export const getOutputFile = (opts: {
   mjs?: boolean;
 }): string => {
   const { entry, type, pkg, bundleOpts, minFile, mjs } = opts;
-  const { outDir = "", file, esm, cjs, umd, system, iife } = bundleOpts;
+  const { outDir = DEFAULT_OUTPUT_DIR[type as string] || "build", esm, cjs, umd, system, iife } = bundleOpts;
+  let { file } = bundleOpts;
 
-  const name = basename(entry, extname(entry));
+  let name = basename(entry, extname(entry));
+  if (typeof file === "object") {
+    name = file[entry] || name;
+    file = undefined;
+  }
 
   switch (type) {
     case "esm":
@@ -60,7 +71,7 @@ export const getOutputFile = (opts: {
           return pkg.module;
         }
       }
-      return `${outDir}/${name}${mjs ? ".mjs" : ".esm.js"}`;
+      return `${outDir}/${name}${mjs ? ".mjs" : ".js"}`;
     case "cjs":
       if (cjs && cjs.file) {
         return `${outDir}/${cjs.file}.js`;
@@ -85,7 +96,7 @@ export const getOutputFile = (opts: {
         }
         return pkg.browser;
       }
-      return `${outDir}/${name}.umd${minFile ? ".min" : ""}.js`;
+      return `${outDir}/${name}${minFile ? ".min" : ""}.js`;
     case "system":
       if (system && system.file) {
         return `${outDir}/${system.file}.js`;
