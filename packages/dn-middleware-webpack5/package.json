@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-webpack5",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "",
   "keywords": [
     "dawn",
@@ -83,6 +83,7 @@
     "webpack": "^5.8.0",
     "webpack-bundle-analyzer": "^4.1.0",
     "webpack-cli": "^4.2.0",
-    "webpackbar": "^5.0.0-3"
+    "webpackbar": "^5.0.0-3",
+    "json-loader": "^0.5.7"
   }
 }
