@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.5.0 (2020-12-02)
+
+### Features
+
+- Default output dir determained by output type now. `"esm"` for `esm`, `"lib"` for `cjs` and `"build"` for `umd`.
+- Support multile entry output file name option.
+
 ## 1.4.0 (2020-11-12)
 
 ### Breaking Change
