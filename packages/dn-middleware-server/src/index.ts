@@ -97,6 +97,15 @@ const handler: Dawn.Handler<IOpts> = opts => {
     app.use(headers(serverConfig?.headers));
     app.use(handlers(serverConfig?.handlers, ctx));
     app.use(proxies(serverConfig?.proxy, ctx));
+    if (ctx.webpackCompiler) {
+      app.use(
+        c2k(
+          require("webpack-hot-middleware")(ctx.webpackCompiler, {
+            log: false,
+          }),
+        ),
+      );
+    }
     if (enabledHttps) {
       app.use(enforceHttps({ port: options.port }));
     }
