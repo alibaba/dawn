@@ -11,7 +11,7 @@ import typescriptFormatter from "react-dev-utils/typescriptFormatter";
 import { ESBuildPlugin } from "esbuild-loader";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
-// import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import Webpackbar from "webpackbar";
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -122,23 +122,24 @@ const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
       }) as any,
     );
 
-  // This is necessary to emit hot updates (CSS and Fast Refresh):
-  // https://github.com/pmmmwh/react-refresh-webpack-plugin/issues/232
-  // options.hot && plugins.push(new HotModuleReplacementPlugin());
-  // options.hot &&
-  //   plugins.push(
-  //     new ReactRefreshWebpackPlugin({
-  //       // include: /\.(js|jsx|ts|tsx|flow)$/i,
-  //       overlay: {
-  //         // entry: require.resolve("react-dev-utils/webpackHotDevClient"),
-  //         sockIntegration: "whm",
-  //         // entry: require.resolve('@pmmmwh/react-refresh-webpack-plugin/client/ErrorOverlayEntry'),
-  //         // module: require.resolve('@pmmmwh/react-refresh-webpack-plugin/overlay'),
-  //         // TODO: This is just a stub module. Clean this up if possible.
-  //         // module: require.resolve('./hotRefreshOverlayModuleStub'),
-  //       },
-  //     }),
-  //   );
+  if (options.hot) {
+    // This is necessary to emit hot updates (CSS and Fast Refresh):
+    // https://github.com/pmmmwh/react-refresh-webpack-plugin/issues/232
+    plugins.push(
+      new ReactRefreshWebpackPlugin({
+        // include: /\.(js|jsx|ts|tsx|flow)$/i,
+        overlay: {
+          // entry: require.resolve("react-dev-utils/webpackHotDevClient"),
+          sockIntegration: "whm",
+          // entry: require.resolve('@pmmmwh/react-refresh-webpack-plugin/client/ErrorOverlayEntry'),
+          // module: require.resolve('@pmmmwh/react-refresh-webpack-plugin/overlay'),
+          // TODO: This is just a stub module. Clean this up if possible.
+          // module: require.resolve('./hotRefreshOverlayModuleStub'),
+        },
+      }),
+    );
+    plugins.push(new HotModuleReplacementPlugin());
+  }
 
   if (options?.esbuild?.minify || options?.esbuild?.loader) {
     plugins.push(new ESBuildPlugin());

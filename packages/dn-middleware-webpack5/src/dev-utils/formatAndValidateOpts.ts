@@ -143,7 +143,7 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
     );
   }
 
-  options.hot = options.hot ?? options.env === "development";
+  options.hot = options.hot ?? (options.env === "development" && options.watch);
   assert.ok(
     !(options.hot && options.env === "production"),
     "[webpack5] react-refresh must be disabled in production mode",

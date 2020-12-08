@@ -19,8 +19,7 @@ const getEntry = (options: IGetWebpackConfigOpts) => {
   (options.entry as FileInfo[]).forEach(({ name, file }) => {
     webpackEntry[name] = [...options.inject, file, ...options.append];
     if (options.hot) {
-      // webpackEntry[name].unshift(require.resolve('./patch')); // 热更新添加对应patch
-      // webpackEntry[name].unshift(`webpack-hot-middleware/client?reload=true&log=false&name=${name}`); // 热更新添加对应patch
+      webpackEntry[name].unshift(`webpack-hot-middleware/client?reload=true&log=false&name=${name}`); // 热更新添加对应patch
     }
   });
   return webpackEntry;
