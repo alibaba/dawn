@@ -52,6 +52,9 @@ const handler: Dawn.Handler<Partial<IOpts>> = opts => {
       ctx,
     );
 
+    // mount compiler to dn ctx
+    ctx.webpackCompiler = compiler;
+
     if (ctx.emit) ctx.emit("webpack.compiler", compiler, webpack, webpackConfig);
 
     if (options.watch) {
