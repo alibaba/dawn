@@ -97,15 +97,7 @@ const handler: Dawn.Handler<IOpts> = opts => {
     app.use(headers(serverConfig?.headers));
     app.use(handlers(serverConfig?.handlers, ctx));
     app.use(proxies(serverConfig?.proxy, ctx));
-    if (ctx.webpackCompiler) {
-      app.use(
-        c2k(
-          require("webpack-hot-middleware")(ctx.webpackCompiler, {
-            log: false,
-          }),
-        ),
-      );
-    }
+
     if (enabledHttps) {
       app.use(enforceHttps({ port: options.port }));
     }
@@ -117,6 +109,7 @@ const handler: Dawn.Handler<IOpts> = opts => {
       app.use(c2k(indexServe));
     }
 
+    // webpack HMR
     app.use(await webpackDev(ctx, { enabledHttps, options }));
     const listenOptions: any = [
       options.port,
