@@ -47,6 +47,11 @@ interface ICommonOptionV3 {
   name?: string;
 }
 
+interface IESBuildOptions {
+  loader?: boolean | object; // TODO
+  minify?: boolean | object;
+}
+
 interface IBabel {
   runtimeHelpers?: boolean | string;
   corejs?: false | 2 | 3 | { version: 2 | 3; proposals: boolean };
@@ -117,6 +122,9 @@ export interface IOpts {
   compress?: boolean;
   watch?: boolean;
   watchOpts?: object;
+
+  // esbuild
+  esbuild?: IESBuildOptions;
 }
 
 interface PerformanceOpts {

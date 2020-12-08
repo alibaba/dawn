@@ -188,6 +188,18 @@ ts类型检查中的错误是否会阻断编译
 是否启用压缩（如果使用了compress中间件，需要将此配置设置为 false）
 
 
+### `esbuild.minify`
+类型：`boolean | object`<br>
+默认值：`false`
+
+是否启用 `esbuild` 的构建产物压缩能力，代替 `TerserPlugin`，类型为 object 时透传给 ESBuildMinifyPlugin 作为选项
+
+### `esbuild.loader`
+类型：`boolean | object`<br>
+默认值：`false`
+
+【暂不支持】是否启用 `esbuild` 的构建能力，代替 `babel-loader`，类型为 object 时作为 esbuild-loader 的选项
+
 ### `watch`
 类型：`boolean`<br>
 默认值：开发环境默认 `true`，生产环境默认 `false`

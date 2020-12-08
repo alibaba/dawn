@@ -1,4 +1,5 @@
 import * as Dawn from "@dawnjs/types";
+import { ESBuildMinifyPlugin } from "esbuild-loader";
 import { IGetWebpackConfigOpts, IOptimization } from "../types";
 
 // common function to get style loaders
@@ -6,6 +7,9 @@ const getOptimization = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
   const { optimization, common } = options;
   const optimizationConfig: IOptimization = {
     minimize: options.compress,
+    minimizer: options?.esbuild?.minify
+      ? [new ESBuildMinifyPlugin(typeof options?.esbuild?.minify === "object" ? options?.esbuild?.minify : undefined)]
+      : undefined,
     splitChunks: {
       chunks: "all",
       // It is recommended to set splitChunks.name to false for production builds

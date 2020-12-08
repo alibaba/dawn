@@ -8,6 +8,7 @@ import ModuleNotFoundPlugin from "react-dev-utils/ModuleNotFoundPlugin";
 // import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModulesPlugin";
 import ForkTsCheckerWebpackPlugin from "react-dev-utils/ForkTsCheckerWebpackPlugin";
 import typescriptFormatter from "react-dev-utils/typescriptFormatter";
+import { ESBuildPlugin } from "esbuild-loader";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 // import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
@@ -138,6 +139,10 @@ const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
   //       },
   //     }),
   //   );
+
+  if (options?.esbuild?.minify || options?.esbuild?.loader) {
+    plugins.push(new ESBuildPlugin());
+  }
 
   const clearConsoleReporter: any = {
     start() {

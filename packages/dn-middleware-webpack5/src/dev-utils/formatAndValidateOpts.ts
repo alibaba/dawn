@@ -238,6 +238,7 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
     !(ctx.useTypeScript && !fs.existsSync(path.join(ctx.cwd, "tsconfig.json"))),
     "[webpack5] Your entry is typescript but missing tsconfig.json file.",
   );
+
   return options as IOpts;
 };
 
