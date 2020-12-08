@@ -123,7 +123,7 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
   }
 
   if (options.output?.libraryTarget === "umd") {
-    options.output.library = options.output.library || camelCase(path.basename(ctx.project.name)) as any;
+    options.output.library = options.output.library || (camelCase(path.basename(ctx.project.name)) as any);
   }
 
   // folders
