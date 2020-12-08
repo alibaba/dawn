@@ -12,6 +12,7 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 // import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import Webpackbar from "webpackbar";
+
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 
@@ -138,8 +139,22 @@ const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
   //     }),
   //   );
 
-  // hide it
-  plugins.push(new Webpackbar({}));
+  const clearConsoleReporter: any = {
+    start() {
+      const allowScrollBack = true;
+      process.stdout.write(allowScrollBack ? "\x1B[H\x1B[2J" : "\x1B[2J\x1B[3J\x1B[H\x1Bc");
+    },
+  };
+
+  plugins.push(
+    new Webpackbar({
+      reporters: [
+        options.watch ? clearConsoleReporter : null,
+        "fancy",
+        options.analysis || ctx.isEnvProduction ? "stats" : null,
+      ].filter(Boolean),
+    }),
+  );
 
   // webpack.IgnorePlugin
   // Moment.js is an extremely popular library that bundles large locale files

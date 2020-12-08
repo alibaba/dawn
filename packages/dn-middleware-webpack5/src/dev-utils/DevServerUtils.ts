@@ -62,23 +62,19 @@ export function createCompiler({ config, useTypeScript, tscCompileOnError }: Com
     });
 
     // print assets in production mode
-    if (statsData.assets && ctx.isEnvProduction) {
-      let assetsLog = `\n\n${makeRow(chalk.cyan.bold(`File`), chalk.cyan.bold(`Size`))}\n\n`;
-      assetsLog += statsData.assets
-        ?.map((asset: any) => {
-          const { name, size } = asset;
-          return makeRow(/js$/.test(name) ? chalk.green(name) : chalk.yellow(name), formatSize(size));
-        })
-        .join(os.EOL);
-    }
+    // if (statsData.assets && ctx.isEnvProduction) {
+    //   let assetsLog = `\n\n${makeRow(chalk.cyan.bold(`File`), chalk.cyan.bold(`Size`))}\n\n`;
+    //   assetsLog += statsData.assets
+    //     ?.map((asset: any) => {
+    //       const { name, size } = asset;
+    //       return makeRow(/js$/.test(name) ? chalk.green(name) : chalk.yellow(name), formatSize(size));
+    //     })
+    //     .join(os.EOL);
+    //   console.log(assetsLog)
+    // }
 
     if (useTypeScript && statsData.errors.length === 0) {
-      const delayedMsg = setTimeout(() => {
-        ctx.console.warn("[webpack5] Files successfully emitted, waiting for typecheck results...");
-      }, 100);
-
       const messages = await tsMessagesPromise;
-      clearTimeout(delayedMsg);
       if (tscCompileOnError) {
         statsData.warnings.push(...messages.errors);
       } else {
