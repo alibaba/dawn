@@ -10,7 +10,7 @@ import getPlugins from "./dev-utils/getPlugins";
 import { getPublicPath } from "./dev-utils/utils";
 import getOptimization from "./dev-utils/getOptimization";
 
-const moduleFileExtensions = [".js", ".mjs", ".json", ".jsx", ".css", ".less", ".scss", ".sass"];
+const moduleFileExtensions = [".js", ".mjs", ".json", ".jsx"];
 
 // Generate webpack entries
 const getEntry = (options: IGetWebpackConfigOpts) => {

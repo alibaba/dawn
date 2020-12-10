@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.1.13 (2020-12-10)
+
+### Fix
+
+- Resolve extensions remove `css/less/sass/scss`
+
 ## 1.1.10 (2020-12-08)
 
 ### Features
