@@ -16,6 +16,7 @@ import Webpackbar from "webpackbar";
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
+const VModulePlugin = require("vmodule-webpack-plugin");
 
 // import InlineChunkHtmlPlugin from "react-dev-utils/InlineChunkHtmlPlugin";
 // import getCacheIdentifier from "react-dev-utils/getCacheIdentifier";
@@ -220,6 +221,21 @@ const getPlugins = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
         // },
         shared: ["react", "react-dom"],
         ...options.moduleFederation,
+      }),
+    );
+
+  // $config Plugin
+  const configPath = path.resolve(options.cwd, options?.config?.path);
+  // @ts-ignore
+  ctx.utils.confman.env = options?.config?.env;
+  ctx.$config = ctx.utils.confman.load(configPath) || options?.config?.content;
+  ctx.$config &&
+    plugins.push(
+      new VModulePlugin.VModulePlugin({
+        env: options?.config?.env,
+        name: options?.config?.name,
+        content: ctx.$config,
+        watch: [configPath, `${configPath}.*`, `${configPath}/**/*.*`],
       }),
     );
   return plugins;

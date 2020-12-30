@@ -125,6 +125,16 @@ export interface IOpts {
 
   // esbuild
   esbuild?: IESBuildOptions;
+
+  // config
+  config?: IConfig;
+}
+
+interface IConfig {
+  name?: string; // config moduleName
+  path?: string; // config file path
+  env?: string;
+  content?: any; // set whole content
 }
 
 interface PerformanceOpts {

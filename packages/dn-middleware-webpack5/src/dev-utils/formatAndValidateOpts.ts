@@ -91,7 +91,7 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
 
   // watch
   // default true when in development
-  options.watch = options.watch ?? options.env === "development";
+  options.watch = options.watch ?? false /*options.env === "development"*/;
 
   // watchOpts
   options.watchOpts = options.watchOpts ?? {
@@ -239,6 +239,12 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
     "[webpack5] Your entry is typescript but missing tsconfig.json file.",
   );
 
+  // $config
+  options.config = options.config ?? {
+    name: "$config",
+    path: "./src/config",
+    env: options.env,
+  };
   return options as IOpts;
 };
 
