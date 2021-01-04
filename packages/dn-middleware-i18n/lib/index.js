@@ -41,10 +41,11 @@ module.exports = function (opts) {
     };
 
     const addLocales = (conf) => {
-      conf.plugins.push(confman.webpackPlugin({
+      const locales = confman.load(localesPath);
+      conf.plugins.push(new VModulePlugin({
         name: '$locales',
-        path: localesPath,
-        content: opts.extract ? extractBuild : null
+        content: opts.extract ? extractBuild : locales,
+        watch: [localesPath, `${localesPath}.*`, `${localesPath}/**/*.*`],
       }));
     };
 
