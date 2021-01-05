@@ -48,6 +48,7 @@ const handler: Dawn.Handler<Partial<IOpts>> = opts => {
         config: webpackConfig as any,
         useTypeScript: ctx.useTypeScript,
         tscCompileOnError: options.tscCompileOnError,
+        disabledTypeCheck: options.disabledTypeCheck,
       },
       ctx,
     );

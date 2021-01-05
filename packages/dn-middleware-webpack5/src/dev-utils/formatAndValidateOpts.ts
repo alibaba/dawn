@@ -230,6 +230,7 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
   // Also downgrades all TypeScript type checking error messages to warning messages.
   options.tscCompileOnError = options.tscCompileOnError !== false;
 
+  options.disabledTypeCheck = options.disabledTypeCheck !== false;
   // other judges
 
   // useTypeScript judge by entry file ext

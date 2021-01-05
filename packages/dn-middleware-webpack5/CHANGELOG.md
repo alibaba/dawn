@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.1.17 (2021-1-5)
+
+### Features
+
+- Support `disabledTypeCheck` to disable forkTsCheckerWebpackPlugin.
+
 ## 1.1.13 (2020-12-10)
 
 ### Fix

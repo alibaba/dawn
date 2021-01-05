@@ -146,8 +146,14 @@ html模板入口
 类型：`boolean`<br>
 默认值：`false`
 
-是否使用css Modules
+是否使用 css Modules
 
+
+### `disabledTypeCheck`
+类型：`boolean`<br>
+默认值：`false`
+
+是否阻止 ts 类型检查
 
 ### `tscCompileOnError`
 类型：`boolean`<br>

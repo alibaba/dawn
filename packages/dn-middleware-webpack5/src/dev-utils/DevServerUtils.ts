@@ -8,7 +8,10 @@ import * as Dawn from "@dawnjs/types";
 
 import { CompilerCreaterOpts } from "../types";
 
-export function createCompiler({ config, useTypeScript, tscCompileOnError }: CompilerCreaterOpts, ctx: Dawn.Context) {
+export function createCompiler(
+  { config, useTypeScript, tscCompileOnError, disabledTypeCheck }: CompilerCreaterOpts,
+  ctx: Dawn.Context,
+) {
   // "Compiler" is a low-level interface to webpack.
   // It lets us listen to some events and provide our own custom messages.
   const compiler = webpack(config);
@@ -25,7 +28,7 @@ export function createCompiler({ config, useTypeScript, tscCompileOnError }: Com
   let tsMessagesPromise: Promise<any>;
   let tsMessagesResolver: Function;
 
-  if (useTypeScript) {
+  if (useTypeScript && !disabledTypeCheck) {
     compiler.hooks.beforeCompile.tap("beforeCompile", () => {
       tsMessagesPromise = new Promise(resolve => {
         tsMessagesResolver = (msgs: any) => resolve(msgs);
@@ -73,7 +76,7 @@ export function createCompiler({ config, useTypeScript, tscCompileOnError }: Com
     //   console.log(assetsLog)
     // }
 
-    if (useTypeScript && statsData.errors.length === 0) {
+    if (useTypeScript && !disabledTypeCheck && statsData.errors.length === 0) {
       const messages = await tsMessagesPromise;
       if (tscCompileOnError) {
         statsData.warnings.push(...messages.errors);
@@ -97,8 +100,8 @@ export function createCompiler({ config, useTypeScript, tscCompileOnError }: Com
     // webpackBar shows the itme
     // const isSuccessful = !messages.errors.length && !messages.warnings.length;
     // if (isSuccessful) {
-      // console.log("\n");
-      // ctx.console.info(`[webpack5] Compiled successfully in ${statsData.time}ms`);
+    // console.log("\n");
+    // ctx.console.info(`[webpack5] Compiled successfully in ${statsData.time}ms`);
     // }
 
     // If errors exist, only show errors.

@@ -102,6 +102,8 @@ export interface IOpts {
   optimization?: IOptimization;
   // tsc still compile when error
   tscCompileOnError?: boolean;
+  // disabled typescript type check
+  disabledTypeCheck?: boolean;
 
   // use css Modules
   cssModules?: boolean;
@@ -160,4 +162,5 @@ export interface CompilerCreaterOpts {
   config: Configuration;
   useTypeScript: boolean;
   tscCompileOnError: boolean;
+  disabledTypeCheck: boolean;
 }
