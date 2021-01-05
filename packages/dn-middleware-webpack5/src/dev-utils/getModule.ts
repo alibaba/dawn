@@ -198,7 +198,9 @@ const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
               },
               styleOptions: options.styleLoader,
               preProcessor: "less-loader",
-              preProcessorOptions: {},
+              preProcessorOptions: {
+                javascriptEnabled: true,
+              },
             },
             ctx,
           ),
@@ -219,7 +221,9 @@ const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
               },
               styleOptions: options.styleLoader,
               preProcessor: "less-loader",
-              preProcessorOptions: {},
+              preProcessorOptions: {
+                javascriptEnabled: true,
+              },
             },
             ctx,
           ),

@@ -219,7 +219,8 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
   if (options.cssModules) {
     options.cssLoader = {
       modules: opts.cssModules,
-      camelCase: opts.cssModules, // 只要启用就采用「小驼峰」
+      // CamelCase is not supported anymore. It's recommended for local selectors.
+      // camelCase: opts.cssModules, // 只要启用就采用「小驼峰」
     };
   }
   // tscCompileOnError
