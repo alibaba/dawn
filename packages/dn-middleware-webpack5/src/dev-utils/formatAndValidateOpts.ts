@@ -48,7 +48,7 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
       envMessage += `, set to "${options.env}" automatically by NODE_ENV`;
     } else {
       // ctx.command == current pipe full-name: init/dev/build/publish/..
-      options.env = ctx.command.includes("dev") ? "development" : "production";
+      options.env = ctx.command.includes("dev") || ctx.command.includes("daily") ? "development" : "production";
       envMessage += `, set to "${options.env}" automatically by DN_CMD`;
     }
     ctx.console.warn(envMessage);
@@ -242,10 +242,10 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
   );
 
   // $config
-  options.config = options.config ?? {
-    name: "$config",
-    path: "./src/config",
-    env: options.env,
+  options.config = {
+    name: options.config?.name ?? "$config",
+    path: options.config?.name ?? "./src/config",
+    env: options.config?.env || opts.env || ctx.command,
   };
   return options as IOpts;
 };
