@@ -245,8 +245,9 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
   options.config = {
     name: options.config?.name ?? "$config",
     path: options.config?.name ?? "./src/config",
-    env: options.config?.env || opts.env || ctx.command,
+    env: options.config?.env || ctx.env || ctx.command,
   };
+
   return options as IOpts;
 };
 
