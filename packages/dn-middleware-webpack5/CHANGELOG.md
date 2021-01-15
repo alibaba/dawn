@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.1.21 (2021-1-15)
+
+### Features
+
+- Support `sass`
+
 ## 1.1.17 (2021-1-5)
 
 ### Features

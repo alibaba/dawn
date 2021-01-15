@@ -6,6 +6,14 @@ import type { ModuleOptions, RuleSetRule } from "webpack/types.d";
 import { IGetWebpackConfigOpts } from "../types";
 import { getPublicPath } from "./utils";
 
+// style files regexes
+const cssRegex = /\.css$/;
+const cssModuleRegex = /\.module\.css$/;
+const lessRegex = /\.less$/;
+const lessModuleRegex = /\.module\.less$/;
+const sassRegex = /\.(scss|sass)$/;
+const sassModuleRegex = /\.module\.(scss|sass)$/;
+
 // common function to get style loaders
 const getStyleLoaders = (
   options: {
@@ -151,8 +159,8 @@ const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
         // but in development "style" loader enables hot editing of CSS.
         // By default we support CSS Modules with the extension .module.css
         {
-          test: /\.css$/,
-          exclude: /\.module\.css$/,
+          test: cssRegex,
+          exclude: cssModuleRegex,
           use: getStyleLoaders(
             {
               cssOptions: {
@@ -172,7 +180,7 @@ const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
         // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
         // using the extension .module.css
         {
-          test: /\.module\.css$/,
+          test: cssModuleRegex,
           use: getStyleLoaders(
             {
               cssOptions: {
@@ -186,10 +194,10 @@ const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
           ),
         },
         // Opt-in support for LESS (using .less extensions).
-        // By default we support SASS Modules with the extensions .module.less
+        // By default we support LESS Modules with the extensions .module.less
         {
-          test: /\.less$/,
-          exclude: /\.module\.less$/,
+          test: lessRegex,
+          exclude: lessModuleRegex,
           use: getStyleLoaders(
             {
               cssOptions: {
@@ -213,7 +221,7 @@ const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
         },
         // Adds support for CSS Modules, but using LESS using the extension .module.less
         {
-          test: /\.module\.less$/,
+          test: lessModuleRegex,
           use: getStyleLoaders(
             {
               cssOptions: {
@@ -228,6 +236,46 @@ const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
                   javascriptEnabled: true,
                 },
               },
+            },
+            ctx,
+          ),
+        },
+        // Opt-in support for SASS (using .scss or .sass extensions).
+        // By default we support SASS Modules with the
+        // extensions .module.scss or .module.sass
+        {
+          test: sassRegex,
+          exclude: sassModuleRegex,
+          use: getStyleLoaders(
+            {
+              cssOptions: {
+                importLoaders: 3,
+                ...options.cssLoader,
+              },
+              styleOptions: options.styleLoader,
+              preProcessor: "sass-loader",
+            },
+            ctx,
+          ),
+          // Don't consider CSS imports dead code even if the
+          // containing package claims to have no side effects.
+          // Remove this when webpack adds a warning or an error for this.
+          // See https://github.com/webpack/webpack/issues/6571
+          sideEffects: true,
+        },
+        // Adds support for CSS Modules, but using SASS
+        // using the extension .module.scss or .module.sass
+        {
+          test: sassModuleRegex,
+          use: getStyleLoaders(
+            {
+              cssOptions: {
+                importLoaders: 3,
+                modules: true,
+                ...options.cssLoader,
+              },
+              styleOptions: options.styleLoader,
+              preProcessor: "sass-loader",
             },
             ctx,
           ),
