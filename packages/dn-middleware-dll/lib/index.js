@@ -1,7 +1,4 @@
-const webpack = require('webpack');
 const path = require('path');
-const UglifyJsParallelPlugin = require('webpack-uglify-parallel');
-const os = require('os');
 const md5 = require('md5');
 const fs = require('fs');
 
@@ -10,90 +7,113 @@ const fs = require('fs');
  * @param {object} opts cli 传递过来的参数对象 (在 pipe 中的配置)
  * @return {AsyncFunction} 中间件函数
  */
-module.exports = function (opts) {
+module.exports = (opts) => {
 
-  opts = Object.assign({ output: 'build/js', libName: 'lib' }, opts);
+  opts = Object.assign({
+    output: { js: './build/js', css: './build/css' },
+    libName: 'vendors'
+  }, opts);
 
-  //构建 lib
-  async function buildLib(vendors, cacheDir) {
-    const plugins = [new webpack.DllPlugin({
-      path: path.normalize(`${cacheDir}/manifest.json`),
-      name: opts.libName,
-      context: this.cwd,
-    }), new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production')
-      }
-    })];
-    if (opts.compress !== false) {
-      plugins.push(new UglifyJsParallelPlugin({
-        workers: opts.maxThread || os.cpus().length,
-        cacheDir: path.resolve(cacheDir, `./.uglify/`),
-        mangle: false,
-        sourceMap: false,
-        compressor: { warnings: false }
+  //构建 Library
+  const buildLibrary = async (ctx, vendors, cacheDir) => {
+    //配置针对 lib 的 webpack 
+    ctx.on('webpack.config', (webpackConf, webpack, webpackOpts) => {
+      if (webpackOpts.__libName !== opts.libName) return;
+      webpackConf.plugins.push(new webpack.DllPlugin({
+        path: path.normalize(`${cacheDir}/manifest.json`),
+        name: opts.libName,
+        context: ctx.cwd,
       }));
-    }
-    await this.exec({
+      webpackConf.context = ctx.cwd;
+      webpackConf.output = {
+        path: cacheDir,
+        filename: '[name].js',
+        library: opts.libName
+      };
+      webpackConf.entry = { bundle: vendors };
+    });
+    //执行 Lib 构建
+    await ctx.exec({
       name: 'webpack',
-      watch: opts.watch,
-      _isLib: true,
-      configObject: {
-        context: this.cwd,
-        output: {
-          path: cacheDir,
-          filename: '[name].js',
-          library: opts.libName
-        },
-        entry: { bundle: vendors },
-        plugins: plugins
+      env: 'production',
+      sourceMap: false,
+      ...opts.webpack,
+      common: { disabled: true },
+      folders: { js: '.', css: '.', html: '.' },
+      entry: require.resolve('./noop.js'),
+      __libName: opts.libName,
+    });
+  };
+
+  //引用 lib
+  const referenceLibrary = (ctx, webpackConf, webpack, cacheDir) => {
+    const manifestFile = path.normalize(`${cacheDir}/manifest.json`);
+    if (!fs.existsSync(manifestFile)) {
+      throw new Error(`不能找到 library '${opts.libName}'`);
+    };
+    webpackConf.plugins.push(new webpack.DllReferencePlugin({
+      context: ctx.cwd,
+      manifest: require(manifestFile),
+    }));
+  };
+
+  //复制 lib
+  const copyLibrary = async (ctx, opts, cacheDir) => {
+    const jsDir = path.resolve(ctx.cwd, opts.output.js);
+    const cssDir = path.resolve(ctx.cwd, opts.output.css);
+    await ctx.exec({
+      name: 'copy',
+      files: {
+        [`${jsDir}/${opts.libName}.js`]: `${cacheDir}/bundle.js`,
+        [`${cssDir}/${opts.libName}.css`]: `${cacheDir}/bundle.css`
       }
     });
+  };
+
+  //生成 hash
+  const createHash = async (ctx, vendors) => {
+    const { dependencies, devDependencies } = ctx.project || {};
+    const deps = Object.assign({}, devDependencies, dependencies);
+    const text = vendors.map(name => {
+      return `${name}@${deps[name] || Date.now()}`;
+    }).join(',');
+    return md5(text);
   }
 
-  return async function (next) {
+  return async (next, ctx) => {
 
     //计算 lib 资源
-    const vendors = opts.vendors || Object.keys(this.project.dependencies || {});
+    const vendors = opts.vendors || opts.entry ||
+      Object.keys(ctx.project.dependencies || {});
 
     //计算项目缓存目录
-    const cacheKey = md5(JSON.stringify(vendors));
-    const cacheDir = path.normalize(`${this.cwd}/.cache`);
+    const cacheKey = await createHash(ctx, vendors);
+    const cacheDir = path.normalize(`${ctx.cwd}/.dll`);
 
-    //lib 生成
-    this.console.log('检查 lib 的 hash');
+    // 生成新 lib 或使用缓存
+    ctx.console.info('检查 Library 的 hash');
     const hashFile = path.normalize(`${cacheDir}/.hash`);
     const hash = fs.existsSync(hashFile) ?
-      (await this.utils.readFile(hashFile)).toString() : '';
+      (await ctx.utils.readFile(hashFile)).toString() : '';
     if (vendors && vendors.length > 0 && hash !== cacheKey) {
-      this.console.log('开始生成 lib');
-      await buildLib.call(this, vendors, cacheDir);
-      const output = path.resolve(this.cwd, opts.output);
-      await this.exec({
-        name: 'copy',
-        files: {
-          [`${output}/${opts.libName}.js`]: `${cacheDir}/bundle.js`
-        }
-      });
-      this.console.info('记录 lib 的 hash');
-      await this.utils.writeFile(hashFile, cacheKey);
-      this.console.log('生成 lib 完成');
+      ctx.console.info('开始生成 Library');
+      await buildLibrary(ctx, vendors, cacheDir);
+      await copyLibrary(ctx, opts, cacheDir);
+      ctx.console.info('记录 Library 的 hash');
+      await ctx.utils.writeFile(hashFile, cacheKey);
+      ctx.console.info('生成 Library 完成');
+      ctx.dllUpdated = true;
     } else {
-      this.console.log('使用 lib 缓存');
+      await copyLibrary(ctx, opts, cacheDir);
+      ctx.console.info('使用 Library 缓存');
+      ctx.dllUpdated = false;
     }
-    this.console.info('Done');
+    ctx.console.info('Done');
 
-    //lib 引用
-    this.once('webpack.config', (webpackConf, webpack, webpackOpts) => {
-      if (webpackOpts._isLib) return;
-      const manifestFile = path.normalize(`${cacheDir}/manifest.json`);
-      if (!fs.existsSync(manifestFile)) {
-        throw new Error(`Cannt find lib '${opts.libName}'`);
-      };
-      webpackConf.plugins.push(new webpack.DllReferencePlugin({
-        context: this.cwd,
-        manifest: require(manifestFile),
-      }));
+    //在项目的 webpack 中引用 lib
+    ctx.once('webpack.config', (webpackConf, webpack, webpackOpts) => {
+      if (webpackOpts.__libName) return;
+      referenceLibrary(ctx, webpackConf, webpack, cacheDir);
     });
 
     next();

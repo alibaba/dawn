@@ -21,14 +21,15 @@ async function getPackageRoot(ctx, package) {
 async function getAllPackages(ctx) {
   const { packages = [] } = await getSolutionConf(ctx);
   if (ctx.__packages) return ctx.__packages;
-  ctx.__packages = await Promise.all(packages.map(async ({ path, deps }) => {
-    const root = await getPackageRoot(ctx, path);
-    const packageFile = resolve(root, './package.json');
-    const package = require(packageFile);
-    const name = package.name;
-    const value = root;
-    return { root, path, deps, name, value, package, packageFile };
-  }));
+  ctx.__packages = await Promise.all(
+    packages.map(async ({ path, deps, result }) => {
+      const root = await getPackageRoot(ctx, path);
+      const packageFile = resolve(root, './package.json');
+      const package = require(packageFile);
+      const name = package.name;
+      const value = root;
+      return { root, path, deps, result, name, value, package, packageFile };
+    }));
   return ctx.__packages;
 }
 
@@ -58,7 +59,28 @@ async function installInPackage(ctx, pkg, remote) {
   return ctx.mod.exec(`install ${remote}`, { cwd: pkg.root });
 }
 
-async function execCommand(ctx, cmd, { all, wait, npm, env } = {}) {
+function wait(promise, timeout = 0) {
+  if (!promise || timeout < 1) return promise;
+  return new Promise((resolve, reject) => {
+    let aborted = false;
+    promise.then(value => {
+      if (aborted) return;
+      aborted = true;
+      resolve(value);
+    }).catch(err => {
+      if (aborted) return;
+      aborted = true;
+      reject(err);
+    });
+    setTimeout(() => {
+      if (aborted) return;
+      aborted = true;
+      resolve();
+    }, timeout);
+  })
+}
+
+async function execCommand(ctx, cmd, { all, timeout, npm, env } = {}) {
   const packages = all ? await getAllPackages(ctx) : await pickPackages(ctx);
   if (!cmd) {
     cmd = (await ctx.inquirer.prompt([{
@@ -68,19 +90,40 @@ async function execCommand(ctx, cmd, { all, wait, npm, env } = {}) {
     }])).cmd;
   }
   return packages.reduce(async (prev, pkg) => {
-    if (wait !== false) await prev;
-    return npm ? npmExecInPackage(ctx, pkg, cmd) :
-      execInPackage(ctx, pkg, cmd, env);
+    await prev;
+    const current = npm ?
+      npmExecInPackage(ctx, pkg, cmd) : execInPackage(ctx, pkg, cmd, env);
+    return wait(current, timeout || 0);
   }, null);
+}
+
+async function copyDepResult(ctx, pkg, dep) {
+  const fromFiles = resolve(dep.root, dep.result || './build/**/*.*');
+  const toDir = resolve(pkg.root, `./node_modules/${dep.name}/`);
+  const copy = () => ctx.exec({
+    name: 'copy',
+    files: {
+      [normalize(`${toDir}/package.json`)]: dep.packageFile,
+      [normalize(`${toDir}/`)]: fromFiles
+    }
+  });
+  const { cmd } = ctx.cli.params;
+  if (cmd !== 'd' && cmd !== 'dev') return copy();
+  ctx.exec({ name: 'watch', match: fromFiles, onChange: copy });
 }
 
 async function linkPackage(ctx, pkg) {
   if (!pkg || !pkg.deps || pkg.deps.length < 1) return;
+  const { link } = await getSolutionConf(ctx);
   const deps = (await getAllPackages(ctx))
     .filter(item => pkg.deps.indexOf(item.path) > -1);
   await deps.reduce(async (prev, current) => {
     await prev;
-    await npmExecInPackage(ctx, pkg, `link ${current.name}`);
+    if (link === 'copy') {
+      await copyDepResult(ctx, pkg, current);
+    } else {
+      await npmExecInPackage(ctx, pkg, `link ${current.name}`);
+    }
     pkg.package.dependencies = {
       ...(pkg.package.dependencies || {}),
       [current.name]: `^${current.package.version}`
@@ -109,7 +152,10 @@ async function clearLinks(ctx) {
 async function linkAllPackages(ctx) {
   ctx.console.warn('Link all packages');
   await clearLinks(ctx);
-  await execCommand(ctx, `link`, { all: true, npm: true });
+  const { link } = await getSolutionConf(ctx);
+  if (link !== 'copy') {
+    await execCommand(ctx, `link`, { all: true, npm: true });
+  }
   const packages = await getAllPackages(ctx);
   await Promise.all(packages.map(async (pkg) => {
     await linkPackage(ctx, pkg);
@@ -177,6 +223,7 @@ async function publish(ctx) {
 module.exports = () => {
   return async (next, ctx) => {
     ctx.console.log('Solution mode enabled');
+    const { link } = await getSolutionConf(ctx);
     const { cmd, $1 } = ctx.cli.params;
     switch (cmd) {
       case 'r':
@@ -187,7 +234,10 @@ module.exports = () => {
         break;
       case 'd':
       case 'dev':
-        await execCommand(ctx, `dn ${ctx.command}`, { all: true, wait: false });
+        if (link === 'copy') await linkAllPackages(ctx);
+        await execCommand(ctx, `dn ${ctx.command}`, {
+          all: true, timeout: 15000
+        });
         break;
       case 'a':
       case 'add':

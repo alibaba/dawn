@@ -31,19 +31,6 @@ module.exports = function (opts) {
     if (this.emit) this.emit('webpack.opts', opts, webpack);
     let config = opts.configObject || await generateConfig(this, opts);
 
-    //config
-    let customConfigFile = path.resolve(this.cwd, opts.configFile);
-    if (fs.existsSync(customConfigFile)) {
-      let customConfigsGenerate = require(customConfigFile);
-      if (utils.isFunction(customConfigsGenerate)) {
-        await customConfigsGenerate(config, webpack, this);
-        this.console.info('已合并自定义构建配置...');
-      } else if (!utils.isNull(customConfigsGenerate)) {
-        config = customConfigsGenerate;
-        this.console.warn('已使用自定义构建配置...');
-      }
-    }
-
     //resolve
     config.resolve = config.resolve || {};
     config.resolve.symlinks = true;
@@ -61,6 +48,19 @@ module.exports = function (opts) {
     if (this.faked) this.faked.apply(config);
     if (this.emit) this.emit('webpack.config', config, webpack, opts);
     this.webpackConfig = config;
+
+    //config
+    let customConfigFile = path.resolve(this.cwd, opts.configFile);
+    if (fs.existsSync(customConfigFile)) {
+      let customConfigsGenerate = require(customConfigFile);
+      if (utils.isFunction(customConfigsGenerate)) {
+        await customConfigsGenerate(config, webpack, this);
+        this.console.info('已合并自定义构建配置...');
+      } else if (!utils.isNull(customConfigsGenerate)) {
+        config = customConfigsGenerate;
+        this.console.warn('已使用自定义构建配置...');
+      }
+    }
 
     await this.utils.sleep(1000);
 

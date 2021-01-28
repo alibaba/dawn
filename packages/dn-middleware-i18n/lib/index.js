@@ -1,6 +1,6 @@
 const confman = require('confman');
 const path = require('path');
-const VModule = require('vmodule-webpack-plugin');
+const { VModulePlugin } = require('vmodule-webpack-plugin');
 const utils = require('ntils');
 const fs = require('fs');
 const mkdirp = require('mkdirp');
@@ -34,22 +34,23 @@ module.exports = function (opts) {
       utils.each(locales, (name, locale) => {
         locale.__name__ = name;
         const localeFile = path.normalize(`${extractPath}/${name}.js`);
-        const localeCode = `window['${opts.key}']=${JSON.stringify(locale)};`;
+        const localeCode = `(typeof window !== "undefined" ? window : globalThis)['${opts.key}']=${JSON.stringify(locale)};`;
         fs.writeFileSync(localeFile, localeCode);
       });
       return { _t: Date.now() };
     };
 
     const addLocales = (conf) => {
-      conf.plugins.push(confman.webpackPlugin({
+      const locales = confman.load(localesPath);
+      conf.plugins.push(new VModulePlugin({
         name: '$locales',
-        path: localesPath,
-        content: opts.extract ? extractBuild : null
+        content: opts.extract ? extractBuild : locales,
+        watch: [localesPath, `${localesPath}.*`, `${localesPath}/**/*.*`],
       }));
     };
 
     const addI18N = (conf) => {
-      conf.plugins.push(new VModule({
+      conf.plugins.push(new VModulePlugin({
         name: '$i18n',
         file: require.resolve('./i18n')
       }));
@@ -58,7 +59,7 @@ module.exports = function (opts) {
     const addOpts = (conf) => {
       const key = opts.key;
       const jsx = opts.jsx || opts.react;
-      conf.plugins.push(new VModule({
+      conf.plugins.push(new VModulePlugin({
         name: '$i18n_opts',
         content: { key, jsx }
       }));
