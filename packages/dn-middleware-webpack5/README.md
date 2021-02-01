@@ -63,8 +63,21 @@ build:
 
 
 ### `entry`
-类型：`string`<br>
-默认值：`"/src/index"`
+类型：`string | object`<br>
+默认值：`"src/index"`<br>
+示例：
+```js
+  entry: src/test.tsx
+```
+```js
+  entry:
+    (1): src/**.tsx
+```
+```js
+  entry:
+    x: src/index.tsx
+    y: src/test.tsx
+```
 
 入口起点
 
