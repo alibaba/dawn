@@ -5,9 +5,8 @@ clean:
   - name: clean
     target:
       - lib
-      - src/.runtime
 
-dev:watch:
+dev:
   - name: call
     pipe:
       - clean
@@ -18,10 +17,6 @@ dev:watch:
     disableTypeCheck: true
     extraPlugins:
       - babel-plugin-add-module-exports
-
-dev:
-  - name: $local
-    location: ./lib/index.js
 
 test:
   - name: lint

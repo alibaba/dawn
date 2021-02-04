@@ -1,10 +1,11 @@
 {
-  "name": "dn-middleware-framework",
+  "name": "umijs-preset-dawn",
   "version": "1.0.0",
-  "description": "Dawn official framework by umijs.",
+  "description": "umijs preset for dawn framework",
   "keywords": [
     "dawn",
-    "middleware"
+    "umijs",
+    "umijs-preset"
   ],
   "main": "./lib/index.js",
   "scripts": {
@@ -38,11 +39,8 @@
   "license": "MIT",
   "dependencies": {
     "@umijs/core": "^3.3.7",
-    "@umijs/plugin-access": "^2.3.3",
-    "@umijs/plugin-helmet": "^1.1.1",
+    "@umijs/preset-built-in": "^3.3.7",
     "@umijs/types": "^3.3.7",
-    "@umijs/utils": "^3.3.7",
-    "umi": "^3.3.7",
-    "umijs-preset-dawn": "^1.0.0"
+    "@umijs/utils": "^3.3.7"
   }
 }

@@ -117,5 +117,3 @@ dist
 
 # Transform output
 lib
-package-lock.json
-.runtime

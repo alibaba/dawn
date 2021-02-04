@@ -1,16 +1,42 @@
 import { Handler } from "@dawnjs/types";
-import { IOpts } from "./types";
+import { Service } from "./Service";
+import { IFrameworkOptions } from "./IFrameworkOptions";
 
-const handler: Handler<IOpts> = opts => {
+const builtinPlugins: string[] = [
+  // TODO: pick useful runtime-plugins
+  require.resolve("@umijs/plugin-access"),
+  require.resolve("@umijs/plugin-helmet"),
+  // require.resolve("@umijs/plugin-request"),
+];
+
+const handler: Handler<IFrameworkOptions> = opts => {
   return async (next, ctx) => {
-    // 在这里处理你的逻辑
-    ctx.console.log("This is an example");
-    ctx.console.log("opts", JSON.stringify(opts));
+    const { plugins } = opts;
+    // UmiJS Service Instance
+    const service = new Service({
+      ...opts,
+      cwd: ctx.cwd,
+      pkg: ctx.project,
+      plugins: [...builtinPlugins, ...(plugins ?? [])],
+    });
 
-    // 触发后续执行
+    process.env.WATCH = "none";
+    process.env.UMI_VERSION = "3.0.0";
+    process.env.UMI_DIR = "src/.runtime";
+
+    // Initialize umijs service
+    await service.init();
+
+    // Generate runtime files
+    await service.runCommand({ name: "initialize" });
+
+    ctx.on("webpack.config", webpackConfig => {
+      // TODO: merge part of umijs webpack config to dawn
+      webpackConfig.resolve.alias.umi = process.env.UMI_DIR;
+    });
+
+    // execute next pipeline
     await next();
-
-    // 在这里添加后续执行完成后的逻辑
   };
 };
 

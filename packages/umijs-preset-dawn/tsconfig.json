@@ -6,9 +6,8 @@
     "target": "ESNext",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true,
     "typeRoots": ["./typings", "./node_modules/@types"]
   },
-  "include": ["src"],
+  "include": ["src/"],
   "exclude": ["node_modules", "typings"]
 }
