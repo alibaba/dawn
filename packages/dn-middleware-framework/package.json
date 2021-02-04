@@ -43,6 +43,6 @@
     "@umijs/types": "^3.3.7",
     "@umijs/utils": "^3.3.7",
     "umi": "^3.3.7",
-    "umijs-preset-dawn": "^1.0.0"
+    "umijs-preset-dawn": "^1.0.1"
   }
 }
