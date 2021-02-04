@@ -1,0 +1,37 @@
+init:
+  - name: pkginfo
+
+clean:
+  - name: clean
+    target:
+      - lib
+
+dev:
+  - name: call
+    pipe:
+      - clean
+  - name: lint
+    realtime: true
+  - name: babel
+    watch: true
+    extraPlugins:
+      - babel-plugin-add-module-exports
+  - name: $local
+    location: ./lib/index.js
+
+test:
+  - name: lint
+
+build:
+  - name: call
+    pipe:
+      - clean
+  - name: babel
+    extraPlugins:
+      - babel-plugin-add-module-exports
+
+publish:
+  - name: call
+    pipe:
+      - test
+  - name: publish
