@@ -49,6 +49,7 @@ const handler: Dawn.Handler<Partial<IOpts>> = opts => {
         useTypeScript: ctx.useTypeScript,
         tscCompileOnError: options.tscCompileOnError,
         disabledTypeCheck: options.disabledTypeCheck,
+        statsOpts: options.statsOpts,
       },
       ctx,
     );

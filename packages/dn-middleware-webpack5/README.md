@@ -303,3 +303,8 @@ ts类型检查中的错误是否会阻断编译
 默认值：`false`
 
 是否启用分析工具`BundleAnalyzerPlugin`，以及相关配置项，如是否为其开启server
+
+### `statsOpts`
+类型：`object`<br>
+
+定制 stats 输出项内容

@@ -124,6 +124,7 @@ export interface IOpts {
   compress?: boolean;
   watch?: boolean;
   watchOpts?: object;
+  statsOpts?: object;
 
   // esbuild
   esbuild?: IESBuildOptions;
@@ -163,4 +164,5 @@ export interface CompilerCreaterOpts {
   useTypeScript: boolean;
   tscCompileOnError: boolean;
   disabledTypeCheck: boolean;
+  statsOpts: object;
 }

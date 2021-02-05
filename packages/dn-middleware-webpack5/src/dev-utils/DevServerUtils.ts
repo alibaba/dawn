@@ -9,7 +9,7 @@ import * as Dawn from "@dawnjs/types";
 import { CompilerCreaterOpts } from "../types";
 
 export function createCompiler(
-  { config, useTypeScript, tscCompileOnError, disabledTypeCheck }: CompilerCreaterOpts,
+  { config, useTypeScript, tscCompileOnError, disabledTypeCheck, statsOpts }: CompilerCreaterOpts,
   ctx: Dawn.Context,
 ) {
   // "Compiler" is a low-level interface to webpack.
@@ -56,13 +56,15 @@ export function createCompiler(
     // them in a readable focused way.
     // We only construct the warnings and errors for speed:
     // https://github.com/facebook/create-react-app/issues/4492#issuecomment-421959548
-    const statsData = stats.toJson({
-      all: false,
-      warnings: true,
-      errors: true,
-      assets: true,
-      timings: true,
-    });
+    const statsData = stats.toJson(
+      statsOpts ?? {
+        all: false,
+        warnings: true,
+        errors: true,
+        assets: true,
+        timings: true,
+      },
+    );
 
     // print assets in production mode
     // if (statsData.assets && ctx.isEnvProduction) {
