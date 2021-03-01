@@ -1,6 +1,7 @@
 import * as Dawn from "@dawnjs/types";
 import { ESBuildMinifyPlugin } from "esbuild-loader";
-import OptimizeCssAssetsPlugin from "optimize-css-assets-webpack-plugin";
+
+import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 import { IGetWebpackConfigOpts, IOptimization } from "../types";
 
@@ -23,15 +24,8 @@ const getOptimization = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
             },
           }),
       ,
-      new OptimizeCssAssetsPlugin({
-        cssProcessorOptions: {
-          discardComments: {
-            removeAll: true,
-          },
-        },
-        canPrint: false,
-      }),
-    ],
+      new CssMinimizerPlugin(),
+    ].filter(Boolean),
     splitChunks: {
       chunks: "all",
       // It is recommended to set splitChunks.name to false for production builds
