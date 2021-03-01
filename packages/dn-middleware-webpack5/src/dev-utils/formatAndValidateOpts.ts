@@ -228,9 +228,9 @@ const formatAndValidateOpts = (opts: Partial<IOpts>, ctx: Dawn.Context) => {
   // If `true`, errors in TypeScript type checking will not prevent start script from running app,
   // and will not cause build script to exit unsuccessfully.
   // Also downgrades all TypeScript type checking error messages to warning messages.
-  options.tscCompileOnError = options.tscCompileOnError !== false;
+  options.tscCompileOnError = options.tscCompileOnError ?? true;
 
-  options.disabledTypeCheck = options.disabledTypeCheck !== false;
+  options.disabledTypeCheck = options.disabledTypeCheck ?? false;
   // other judges
 
   // useTypeScript judge by entry file ext
