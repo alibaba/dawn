@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.1.24 (2021-3-1)
+
+### Features
+
+- Support `css compress`
+
 ## 1.1.21 (2021-1-15)
 
 ### Features

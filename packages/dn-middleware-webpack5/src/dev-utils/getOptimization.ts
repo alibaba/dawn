@@ -1,5 +1,7 @@
 import * as Dawn from "@dawnjs/types";
 import { ESBuildMinifyPlugin } from "esbuild-loader";
+import OptimizeCssAssetsPlugin from "optimize-css-assets-webpack-plugin";
+import TerserPlugin from "terser-webpack-plugin";
 import { IGetWebpackConfigOpts, IOptimization } from "../types";
 
 // common function to get style loaders
@@ -7,9 +9,29 @@ const getOptimization = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
   const { optimization, common } = options;
   const optimizationConfig: IOptimization = {
     minimize: options.compress,
-    minimizer: options?.esbuild?.minify
-      ? [new ESBuildMinifyPlugin(typeof options?.esbuild?.minify === "object" ? options?.esbuild?.minify : undefined)]
-      : undefined,
+    minimizer: [
+      options?.esbuild?.minify
+        ? new ESBuildMinifyPlugin(typeof options?.esbuild?.minify === "object" ? options?.esbuild?.minify : undefined)
+        : new TerserPlugin({
+            terserOptions: {
+              compress: {
+                drop_console: true,
+              },
+              output: {
+                comments: false,
+              },
+            },
+          }),
+      ,
+      new OptimizeCssAssetsPlugin({
+        cssProcessorOptions: {
+          discardComments: {
+            removeAll: true,
+          },
+        },
+        canPrint: false,
+      }),
+    ],
     splitChunks: {
       chunks: "all",
       // It is recommended to set splitChunks.name to false for production builds
