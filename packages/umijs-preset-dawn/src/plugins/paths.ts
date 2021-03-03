@@ -9,4 +9,8 @@ export default function pathsPlugin(api: IApi) {
     ...paths,
     absTmpPath: path.join(path.dirname(paths.absTmpPath), runtimeDir),
   }));
+  api.modifyConfig(memo => {
+    memo.mountElementId = "root";
+    return memo;
+  });
 }

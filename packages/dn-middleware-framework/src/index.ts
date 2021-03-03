@@ -33,6 +33,9 @@ const handler: Handler<IFrameworkOptions> = opts => {
     ctx.on("webpack.config", webpackConfig => {
       // TODO: merge part of umijs webpack config to dawn
       webpackConfig.resolve.alias.umi = process.env.UMI_DIR;
+      // webpackConfig.entry = {
+      //   index: "./src/.runtime/index.ts", // force rewrite entry
+      // };
     });
 
     // execute next pipeline
