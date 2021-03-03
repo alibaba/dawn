@@ -16,6 +16,8 @@ const handler: Dawn.Handler<Partial<IOpts>> = opts => {
     ctx.webpack5 = {};
     ctx.webpack = webpack;
 
+    if (ctx.emit) ctx.emit("webpack.options", opts);
+
     const options = formatAndValidateOpts(opts, ctx);
 
     let webpackConfig = await getWebpackConfig(options as IGetWebpackConfigOpts, ctx);
