@@ -22,6 +22,7 @@ const getOptimization = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
                 comments: false,
               },
             },
+            extractComments: false,
           }),
       ,
       new CssMinimizerPlugin(),
