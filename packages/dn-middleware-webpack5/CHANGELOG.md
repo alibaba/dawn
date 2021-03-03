@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.1.30 (2021-3-3)
+
+### Features
+
+- Support `webpack.options` event, params is opts.
+
 ## 1.1.24 (2021-3-1)
 
 ### Features
