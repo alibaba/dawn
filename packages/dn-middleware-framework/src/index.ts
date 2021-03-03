@@ -30,6 +30,14 @@ const handler: Handler<IFrameworkOptions> = opts => {
     // Generate runtime files
     await service.runCommand({ name: "initialize" });
 
+    ctx.on("webpack.options", webpackOptions => {
+      webpackOptions.entry = "./src/.runtime/index.ts";
+      webpackOptions.template = {
+        "(0)": "./public/*.html",
+      };
+      webpackOptions.external = true;
+    });
+
     ctx.on("webpack.config", webpackConfig => {
       // TODO: merge part of umijs webpack config to dawn
       webpackConfig.resolve.alias.umi = process.env.UMI_DIR;

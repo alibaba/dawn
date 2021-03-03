@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-framework",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Dawn official framework by umijs.",
   "keywords": [
     "dawn",
@@ -43,6 +43,6 @@
     "@umijs/types": "^3.3.7",
     "@umijs/utils": "^3.3.7",
     "umi": "^3.3.7",
-    "umijs-preset-dawn": "^1.0.1"
+    "umijs-preset-dawn": "^1.0.2"
   }
 }
