@@ -10,8 +10,5 @@ export default (api: IApi) => {
     });
   });
 
-  api.addUmiExports(() => [
-    { source: `../${DIR_NAME_IN_TMP}/request`, exportAll: true },
-    { source: `../${DIR_NAME_IN_TMP}/request`, specifiers: [{ local: "instance", exported: "axios" }] },
-  ]);
+  api.addUmiExports(() => [{ source: `../${DIR_NAME_IN_TMP}/request`, exportAll: true }]);
 };

@@ -37,7 +37,5 @@ export const createModel = <T = any>(defaultInitialValue: T) => {
 
   return [useModel, ModelProvider, context] as const;
 };
-
-export default createModel;
 `;
 };

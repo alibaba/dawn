@@ -12,7 +12,6 @@ export const isURLSearchParams = (val: any): boolean => {
 
 // @ts-ignore
 const { Axios, create, Cancel, CancelToken, isCancel, all, spread } = rawAxios;
-export { Axios, create, Cancel, CancelToken, isCancel, all, spread };
 
 export interface IExtendAxiosRequestConfig<T = any> extends AxiosRequestConfig {
   params?: T;
@@ -74,7 +73,7 @@ export function createInstance(config?: IExtendAxiosRequestConfig): IExtendAxios
   return instance;
 }
 
-export const instance = createInstance();
+export const axios = createInstance();
 
 export type AxiosGetParams<P> = [url: string, config?: IExtendAxiosRequestConfig<P>];
 export type KeyType<P = any> = string | AxiosGetParams<P> | any[] | null;
@@ -112,12 +111,10 @@ export function useMutate(mutationFn: () => Promise<any>) {
 
 // You can use other methods when fetching data, but you'd better not do this.
 const fetcher = (...argv: AxiosGetParams<any>) =>
-  instance.request({ url: argv[0], method: "GET", ...argv[1] }).then(r => r?.data);
+  axios.request({ url: argv[0], method: "GET", ...argv[1] }).then(r => r?.data);
 
 export const RequestProvider = ({ children, ...props }: React.PropsWithChildren<ConfigInterface>) =>
   React.createElement(SWRConfig, { value: { ...props, fetcher } }, children);
 RequestProvider.displayName = "RequestProvider";
-
-export default instance;
 `;
 };

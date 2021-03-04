@@ -15,5 +15,5 @@ export default (api: IApi) => {
     });
   });
 
-  api.addUmiExports(() => [{ specifiers: ["createModel"], source: `../${DIR_NAME_IN_TMP}/createModel` }]);
+  api.addUmiExports(() => [{ source: `../${DIR_NAME_IN_TMP}/createModel`, exportAll: true }]);
 };
