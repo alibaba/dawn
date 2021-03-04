@@ -3,7 +3,7 @@ require('ts-node').register({
   compilerOptions: {
     allowJs: true,
     module: 'commonjs',
-    target: 'es2017',
+    target: 'es5',
     esModuleInterop: true,
     types: [
       'node',
