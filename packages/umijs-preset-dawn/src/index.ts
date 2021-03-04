@@ -19,6 +19,8 @@ export default function umijsPresetDawn() {
       require.resolve("@umijs/preset-built-in/lib/plugins/generateFiles/core/umiExports"),
       require.resolve("@umijs/preset-built-in/lib/plugins/generateFiles/core/configTypes"),
       require.resolve("./plugins/core"),
+      require.resolve("./plugins/model"),
+      require.resolve("./plugins/request"),
 
       // // bundle configs
       // require.resolve('./plugins/features/alias'),
