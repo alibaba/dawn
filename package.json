@@ -15,6 +15,7 @@
     "lint:fix": "npm run lint -- --fix"
   },
   "devDependencies": {
+    "@types/node": "^14.14.34",
     "eslint": "^7.21.0",
     "execa": "^5.0.0",
     "lerna": "^4.0.0",
