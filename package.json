@@ -12,7 +12,9 @@
     "prebuild": "npm run clean && npm run bootstrap",
     "build": "tsc --build ./tsconfig.json",
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx ./",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "npm run lint -- --fix",
+    "prepublishOnly": "npm run build",
+    "publish": "lerna publish"
   },
   "devDependencies": {
     "@types/node": "^14.14.34",
