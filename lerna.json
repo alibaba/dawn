@@ -14,7 +14,8 @@
   ],
   "command": {
     "publish": {
-      "message": "chore: release"
+      "message": "chore: release",
+      "registry": "https://registry.npmjs.org"
     }
   }
 }
