@@ -1,10 +1,9 @@
 {
   "name": "@dawn/core",
-  "version": "2.0.0",
-  "description": "Dawn core",
+  "version": "Unreleased",
+  "description": "Dawn utils",
   "keywords": [
-    "dawn",
-    "core"
+    "dawn"
   ],
   "homepage": "http://dawnjs.com/",
   "license": "MIT",

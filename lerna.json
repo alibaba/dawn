@@ -12,7 +12,7 @@
     "**/fixtures/**",
     "**/test/**"
   ],
-  "commands": {
+  "command": {
     "publish": {
       "message": "chore: release"
     }
