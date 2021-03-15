@@ -1,5 +1,5 @@
 {
-  "name": "@dawn/core",
+  "name": "@dawnjs/utils",
   "version": "2.0.0-alpha.0",
   "description": "Dawn utils",
   "keywords": [

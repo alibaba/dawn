@@ -1,5 +1,5 @@
 {
-  "name": "@dawn/eslint-config-dawn",
+  "name": "@dawnjs/eslint-config-dawn",
   "version": "2.0.0-alpha.0",
   "description": "dawn eslint rules",
   "main": "index.js",
