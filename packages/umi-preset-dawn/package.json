@@ -1,6 +1,6 @@
 {
   "name": "@dawn/umi-preset-dawn",
-  "version": "Unreleased",
+  "version": "2.0.0-alpha.0",
   "description": "Basic umi preset",
   "keywords": [
     "dawn",

@@ -1,6 +1,6 @@
 {
   "name": "dawn",
-  "version": "Unreleased",
+  "version": "2.0.0-alpha.0",
   "description": "dawn cli",
   "homepage": "http://dawnjs.com/",
   "license": "MIT",
