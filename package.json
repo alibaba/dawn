@@ -13,8 +13,8 @@
     "build": "tsc --build ./tsconfig.json",
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx ./",
     "lint:fix": "npm run lint -- --fix",
-    "prepublishOnly": "npm run build",
-    "release": "lerna publish from-package --no-private"
+    "prepare": "npm run build",
+    "release": "lerna publish --no-private"
   },
   "husky": {
     "hooks": {
