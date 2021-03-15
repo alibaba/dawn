@@ -14,7 +14,7 @@
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx ./",
     "lint:fix": "npm run lint -- --fix",
     "prepublishOnly": "npm run build",
-    "publish": "lerna publish"
+    "publish": "lerna publish --from-package --no-private"
   },
   "husky": {
     "hooks": {
