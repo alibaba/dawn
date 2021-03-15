@@ -1,0 +1,32 @@
+{
+  "name": "dawn",
+  "version": "2.0.0",
+  "description": "dawn cli",
+  "homepage": "http://dawnjs.com/",
+  "license": "MIT",
+  "files": [
+    "bin",
+    "lib"
+  ],
+  "bin": {
+    "dn": "./bin/dawn.js",
+    "dawn": "./bin/dawn.js"
+  },
+  "main": "lib/index.js",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alibaba/dawn.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=10.10.0",
+    "npm": ">=3.0.0"
+  }
+}

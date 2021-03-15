@@ -1,2 +1,5 @@
 extends:
-  - dawn
+  - ./packages/eslint-config-dawn/typescript
+parserOptions:
+  project:
+    - ./packages/**/tsconfig.json

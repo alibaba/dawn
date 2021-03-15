@@ -1,0 +1,29 @@
+{
+  "name": "@dawn/core",
+  "version": "2.0.0",
+  "description": "Dawn core",
+  "keywords": [
+    "dawn",
+    "core"
+  ],
+  "homepage": "http://dawnjs.com/",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alibaba/dawn.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/alibaba/dawn/issues"
+  }
+}
