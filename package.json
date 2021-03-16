@@ -6,18 +6,15 @@
   ],
   "license": "MIT",
   "scripts": {
+    "lerna": "lerna",
     "bootstrap": "lerna bootstrap",
     "clean": "lerna clean --yes && lerna run clean",
     "prebuild": "npm run clean && npm run bootstrap",
     "build": "lerna run build",
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx ./",
-    "lint:fix": "npm run lint -- --fix"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "npm run lint"
-    }
+    "lint:fix": "npm run lint -- --fix",
+    "publish": "lerna publish",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.0.1",
