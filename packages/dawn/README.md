@@ -1,3 +1,5 @@
+English | [简体中文](https://github.com/alibaba/dawn/blob/master/README.zh-CN.md)
+
 <h1 align="center">
   <img src="https://img.alicdn.com/tfs/TB1OjR6HQL0gK0jSZFAXXcA9pXa-1360-1360.png" alt="Dawn" width="200">
   <br>Dawn<br>
@@ -66,7 +68,7 @@ dev:
     watch: true
   - name: server
     port: 8001
-    
+
 # Build & pack
 buid:
   - name: webpack

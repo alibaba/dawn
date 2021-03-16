@@ -1,8 +1,8 @@
 # eslint-config-dawn
 
-[![npm package](https://img.shields.io/npm/v/eslint-config-dawn.svg)](https://www.npmjs.org/package/eslint-config-dawn) [![npm downloads](http://img.shields.io/npm/dm/eslint-config-dawn.svg)](https://www.npmjs.org/package/eslint-config-dawn)
+[![npm package](https://img.shields.io/npm/v/@dawnjs/eslint-config-dawn.svg)](https://www.npmjs.org/package/@dawnjs/eslint-config-dawn) [![npm downloads](http://img.shields.io/npm/dm/@dawnjs/eslint-config-dawn.svg)](https://www.npmjs.org/package/@dawnjs/eslint-config-dawn)
 
-`eslint-config-dawn` 是一套渐进式的开源 Lint 规范，适配 `JavaScript/NodeJS/TypeScript/React` 等多种项目类型，同时也为您个性化的 ESLint Config 提供了最佳实践参考。
+`@dawnjs/eslint-config-dawn` 是一套渐进式的开源 Lint 规范，适配 `JavaScript/NodeJS/TypeScript/React` 等多种项目类型，同时也为您个性化的 ESLint Config 提供了最佳实践参考。
 
 > 本项目基于 [Alibaba ESLint Config](https://www.npmjs.com/package/eslint-config-ali)
 
@@ -19,7 +19,7 @@
 按照下方示例安装依赖：
 
 ```bash
-$ npm install --save-dev eslint@6 prettier@2 eslint-config-dawn@latest
+$ npm install --save-dev eslint prettier @dawnjs/eslint-config-dawn
 ```
 
 ## 快速开始 Quick Start
@@ -28,12 +28,12 @@ $ npm install --save-dev eslint@6 prettier@2 eslint-config-dawn@latest
 
 ```yaml
 # .eslintrc.yml
-extends: dawn
+extends: '@dawnjs/eslint-config-dawn'
 ```
 
 ```javascript
 // .prettierrc.js
-module.exports = require('eslint-config-dawn/prettierrc');
+module.exports = require('@dawnjs/eslint-config-dawn/prettierrc');
 ```
 
 ## 高阶使用 Advanced Usage
@@ -42,26 +42,26 @@ module.exports = require('eslint-config-dawn/prettierrc');
 
 ```yaml
 # .eslintrc.yml
-extends: dawn/standard
+extends: '@dawnjs/eslint-config-dawn/standard'
 ```
 
 ### TypeScript 项目
 
 ```yaml
 # .eslintrc.yml
-extends: dawn/typescript
+extends: '@dawnjs/eslint-config-dawn/typescript'
 ```
 
-`dawn/ts` 与 `dawn/typescript` 是等价的。
+`@dawnjs/eslint-config-dawn/ts` 与 `@dawnjs/eslint-config-dawn/typescript` 是等价的。
 
 ### TypeScript + React 项目
 
 ```yaml
 # .eslintrc.yml
-extends: dawn/typescript-react
+extends: '@dawnjs/eslint-config-dawn/typescript-react'
 ```
 
-`dawn/ts-react` 与 `dawn/typescript-react` 是等价的。
+`@dawnjs/eslint-config-dawn/ts-react` 与 `@dawnjs/eslint-config-dawn/typescript-react` 是等价的。
 
 ### 多个 config 混合使用
 
@@ -71,14 +71,14 @@ extends: dawn/typescript-react
 # .eslintrc.yml
 extends:
   - airbnb
-  - dawn
+  - '@dawnjs/eslint-config-dawn'
 ```
 
 ### 自定义规则
 
 ```yaml
 # .eslintrc.yml
-extends: dawn
+extends: '@dawnjs/eslint-config-dawn'
 env:
   # node: true
   # jest: true
@@ -91,7 +91,7 @@ rules:
 ```javascript
 // .prettierrc.js
 module.exports = {
-  ...require('eslint-config-dawn/prettierrc'),
+  ...require('@dawnjs/eslint-config-dawn/prettierrc'),
   semi: true, // your rule
 };
 ```

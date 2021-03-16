@@ -1,0 +1,38 @@
+{
+  "name": "@dawnjs/core",
+  "private": true,
+  "version": "initial",
+  "description": "Dawn core",
+  "keywords": [
+    "dawn"
+  ],
+  "homepage": "http://dawnjs.com/",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alibaba/dawn.git"
+  },
+  "scripts": {
+    "clean": "rimraf lib",
+    "prebuild": "npm run clean",
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "bugs": {
+    "url": "https://github.com/alibaba/dawn/issues"
+  },
+  "dependencies": {
+    "require-dir": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/require-dir": "^1.0.1"
+  }
+}

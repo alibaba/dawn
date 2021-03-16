@@ -6,6 +6,7 @@
   ],
   "license": "MIT",
   "scripts": {
+    "create": "node scripts/createPkg.js",
     "lerna": "lerna",
     "bootstrap": "lerna bootstrap",
     "clean": "lerna clean --yes && lerna run clean",
@@ -13,7 +14,7 @@
     "build": "lerna run build",
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx ./",
     "lint:fix": "npm run lint -- --fix",
-    "publish": "lerna publish",
+    "publish": "lerna publish --no-private",
     "prepare": "husky install"
   },
   "devDependencies": {
@@ -22,7 +23,9 @@
     "commitlint-config-ali": "^0.1.3",
     "eslint": "^7.21.0",
     "execa": "^5.0.0",
+    "fs-extra": "^9.1.0",
     "husky": "^5.1.3",
+    "inquirer": "^8.0.0",
     "lerna": "^4.0.0",
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",

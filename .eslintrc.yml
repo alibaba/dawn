@@ -2,4 +2,5 @@ extends:
   - ./packages/eslint-config-dawn/typescript
 parserOptions:
   project:
+    - ./tsconfig.json
     - ./packages/**/tsconfig.json

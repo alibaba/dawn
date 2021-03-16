@@ -1,3 +1,5 @@
+English | [简体中文](./README.zh-CN.md)
+
 <h1 align="center">
   <img src="https://img.alicdn.com/tfs/TB1OjR6HQL0gK0jSZFAXXcA9pXa-1360-1360.png" alt="Dawn" width="200">
   <br>Dawn<br>
@@ -22,43 +24,43 @@
 
 <pre align="center">npm i <a href="https://www.npmjs.com/package/dawn">dawn</a> -g</pre>
 
-[README in English](README-intl.md)
+[中文 README](README.md)
 
-Dawn 取「黎明、破晓」之意，原为「阿里云·业务运营团队」内部的前端构建和工程化工具，现已完全开源。它通过 `pipeline` 和 `middleware` 将开发过程抽象为相对固定的阶段和有限的操作，简化并统一了开发人员的日常构建与开发相关的工作。
+Dawn is a lightweight task management and build tool for front-end and nodejs. It abstracts the development process into relatively fixed phases and limited operations through `pipeline` and `middleware`, simplifying and unifying the work related to the construction and development of developers.
 
-## 特点
+## Features
 
-- 采用中间件技术，封装常用功能，易于扩展，方便重用
-- 支持 pipeline 让多个 task 协同完成构建任务
-- 简单、一致的命令行接口，易于开发人员使用
-- 支持基于「中心服务」管理中间件和工程模板
-- 支持搭建私有中心服务，并统一下发构建规则，易于团队统一管理
+- Support middleware, easy to extend, and easy to reuse.
+- Support pipeline, multiple subtasks collaborate to complete the build task.
+- Simple and consistent command line interfaces that are easy for developers to use.
+- Manage middleware and engineering templates based on central services.
+- Support 'private central service', distribution rules, and easy team management.
 
-## 安装
+## Install
 
 ```sh
 $ npm install dawn -g
 ```
 
-## 使用
+## Use
 ```sh
-# 1. 创建 & 初始化
+# 1. Create & Initialize
 $ dn init -t front
 
-# 2. 开发 & 实时编译
+# 2. Development & Real-time compilation
 $ dn dev
 
-# 3. 语法检查 & 测试
+# 3. Lint & Test
 $ dn test
 
-# 4. 构建 & 打包
+# 4. Build & pack
 $ dn build
 ```
 
-## 示例（.dawn.yml 或 .dawn 目录）
+## Example（.dawn.yml or .dawn folder）
 
 ```yml
-# 启动开发服务
+# Development & Real-time compilation
 dev:
   - name: webpack
     entry: ./src/*.js
@@ -66,23 +68,24 @@ dev:
     watch: true
   - name: server
     port: 8001
-    
-# 直接构建
+
+# Build & pack
 buid:
   - name: webpack
     entry: ./src/*.js
     template: ./assets/*.html
 ```
 
-## 文档
+## Documents
 
-- 使用入门：[getting-started.md](docs/markdowns/getting-started.md)
-- 配置 Pipeline：[pipeline.md](docs/markdowns/pipeline.md)
-- 中间件：[middleware.md](docs/markdowns/middleware.md)
-- 更多文档：[https://alibaba.github.io/dawn/docs/](https://alibaba.github.io/dawn/docs/)
+- Getting Started: [getting-started.md](https://alibaba.github.io/dawn/docs/#!/zh/guide/getting-started)
+- Pipeline: [pipeline.md](https://alibaba.github.io/dawn/docs/#!/zh/guide/pipeline)
+- Middleware: [middleware.md](https://alibaba.github.io/dawn/docs/#!/zh/guide/middleware)
+- More docs: [https://alibaba.github.io/dawn/docs/](https://alibaba.github.io/dawn/docs/)
 
-## 其它
 
-- [贡献](CONTRIBUTING-zh.md)
-- [更新日志](CHANGELOG.md)
-- [MIT 协议](https://tldrlegal.com/license/mit-license)
+## Others
+
+- [Contributing](CONTRIBUTING.md)
+- [Changelog](CHANGELOG.md)
+- [MIT](https://tldrlegal.com/license/mit-license)
