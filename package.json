@@ -6,15 +6,12 @@
   ],
   "license": "MIT",
   "scripts": {
-    "setup": "rm -rf node_modules && yarn install && npm run build",
     "bootstrap": "lerna bootstrap",
-    "clean": "lerna clean --yes && rimraf packages/*/lib",
+    "clean": "lerna clean --yes && lerna run clean",
     "prebuild": "npm run clean && npm run bootstrap",
-    "build": "tsc --build ./tsconfig.json",
+    "build": "lerna run build",
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx ./",
-    "lint:fix": "npm run lint -- --fix",
-    "prepare": "npm run build",
-    "release": "lerna publish --no-private"
+    "lint:fix": "npm run lint -- --fix"
   },
   "husky": {
     "hooks": {
@@ -31,6 +28,7 @@
     "husky": "^5.1.3",
     "lerna": "^4.0.0",
     "prettier": "^2.2.1",
+    "rimraf": "^3.0.2",
     "typescript": "^4.2.3"
   }
 }

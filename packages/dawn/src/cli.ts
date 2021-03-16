@@ -1,7 +1,8 @@
 import program from "commander";
 import semver from "semver";
 import createDebug from "debug";
-import pkg from "../package.json";
+
+const pkg = require("../package.json");
 
 (async () => {
   const debug = createDebug("dawn:cli");

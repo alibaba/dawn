@@ -1,9 +1,15 @@
 {
-  "files": [],
-  "references": [
-    { "path": "packages/dawn" },
-    { "path": "packages/utils" },
-    { "path": "packages/babel-preset-dawn" },
-    { "path": "packages/umi-preset-dawn" }
-  ]
+  "compilerOptions": {
+    "target": "es5",
+    "jsx": "react",
+    "experimentalDecorators": true,
+    "declaration": true,
+    "sourceMap": false,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "module": "commonjs"
+  }
 }
