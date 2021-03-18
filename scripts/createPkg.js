@@ -5,7 +5,7 @@ const path = require('path');
 const getPkgJson = ({ name, description, typescript }) => {
   return {
     name,
-    version: 'initial',
+    version: '0.0.0',
     description,
     keywords: ['dawn'],
     homepage: 'http://dawnjs.com/',

@@ -1,7 +1,6 @@
 {
   "name": "@dawnjs/utils",
-  "private": true,
-  "version": "2.0.0-alpha.0",
+  "version": "0.0.0",
   "description": "Dawn utils",
   "keywords": [
     "dawn"
@@ -29,5 +28,16 @@
   },
   "bugs": {
     "url": "https://github.com/alibaba/dawn/issues"
+  },
+  "dependencies": {
+    "commander": "^7.1.0",
+    "debug": "^4.3.1",
+    "require-dir": "^1.2.0",
+    "signale": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.5",
+    "@types/require-dir": "^1.0.1",
+    "@types/signale": "^1.4.1"
   }
 }

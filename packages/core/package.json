@@ -1,7 +1,6 @@
 {
   "name": "@dawnjs/core",
-  "private": true,
-  "version": "initial",
+  "version": "0.0.0",
   "description": "Dawn core",
   "keywords": [
     "dawn"
@@ -30,9 +29,6 @@
     "url": "https://github.com/alibaba/dawn/issues"
   },
   "dependencies": {
-    "require-dir": "^1.2.0"
-  },
-  "devDependencies": {
-    "@types/require-dir": "^1.0.1"
+    "@dawnjs/utils": "^0.0.0"
   }
 }
