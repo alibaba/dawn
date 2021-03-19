@@ -9,7 +9,8 @@ dev:
 build:
   - name: shell
     script:
-      - dn dev
+      # - dn dev
+      - echo '#${process.env.DN_ENV}#'
 
 test:
   - name: lint

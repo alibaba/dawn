@@ -45,8 +45,9 @@ async function pickPackages(ctx) {
 }
 
 async function execInPackage(ctx, pkg, cmd, env) {
-  ctx.console.warn(`Executing '${cmd}' in ${pkg.name}`);
-  return ctx.utils.exec(cmd, { env, cwd: pkg.root });
+  env = { ...process.env, env };
+  ctx.console.warn(`Executing '${cmd} -e ${env.DN_ENV}' in ${pkg.name}`);
+  return ctx.utils.exec(`${cmd} -e ${env.DN_ENV}`, { env, cwd: pkg.root });
 }
 
 async function npmExecInPackage(ctx, pkg, cmd) {
@@ -216,7 +217,7 @@ async function publish(ctx) {
   await ctx.exec({ name: 'submitter' });
   await execCommand(ctx, `dn publish`, {
     all: unified,
-    env: { ...process.env, __version__: ctx.version },
+    env: { __version__: ctx.version },
   });
 }
 
