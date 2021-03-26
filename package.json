@@ -79,8 +79,7 @@
     "shify": "^3.0.5",
     "stp": "0.0.4",
     "stream-to-buffer": "^0.1.0",
-    "update-notifier": "^2.3.0",
-    "v8-compile-cache": "^2.3.0"
+    "update-notifier": "^2.3.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

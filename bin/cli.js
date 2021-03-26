@@ -5,8 +5,6 @@
  * @author Houfeng <admin@xhou.net>
  */
 
-require('v8-compile-cache');
-
 const pkg = require('../package.json');
 const semver = require('semver');
 const debug = require('debug')('cli');
