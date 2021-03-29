@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.1.32 (2021-3-29)
+### Features
+
+- Change `node-sass` to `dart-sass`
 ## 1.1.30 (2021-3-3)
 
 ### Features
