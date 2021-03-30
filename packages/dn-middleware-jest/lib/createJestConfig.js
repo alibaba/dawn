@@ -1,23 +1,36 @@
-module.exports = resolve => ({
-  collectCoverageFrom: ['src/**/*.{js,jsx,mjs}'],
-  testMatch: [
-    '**/__tests__/**/*.{js,jsx,mjs}',
-    '**/test/unit/**/*.{js,jsx,mjs}',
-    '**/?(*.)(spec|test).{js,jsx,mjs}'
+module.exports = () => ({
+  collectCoverageFrom: [
+    'index.{js,jsx,ts,tsx}',
+    'src/**/*.{js,jsx,ts,tsx}',
+    '!**/typings/**',
+    '!**/types/**',
+    '!**/fixtures/**',
+    '!**/examples/**',
+    '!**/*.d.ts'
   ],
-  // where to search for files/tests
-  testEnvironment: 'node',
-  testURL: 'http://localhost',
+  testMatch: ['**/?*.(test|spec|e2e).(j|t)s?(x)'],
+  testEnvironment: require.resolve('jest-environment-jsdom-fourteen'),
+  testPathIgnorePatterns: ['/node_modules/', '/fixtures/'],
   transform: {
-    '^.+\\.(js|jsx|mjs)$': resolve('lib/babelTransform.js')
+    '^.+\\.(js|jsx|ts|tsx)$': require.resolve(
+      '../helpers/transformers/javascript'
+    ),
+    '^.+\\.(css|less|sass|scss|stylus)$': require.resolve(
+      '../helpers/transformers/css'
+    ),
+    '^(?!.*\\.(js|jsx|ts|tsx|css|less|sass|scss|stylus|json)$)': require.resolve(
+      '../helpers/transformers/file'
+    )
   },
   transformIgnorePatterns: [
     '[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$',
     '^.+\\.module\\.css$'
   ],
+  setupFiles: [require.resolve('../helpers/setupFiles/shim')],
+  setupFilesAfterEnv: [require.resolve('../helpers/setupFiles/jasmine')],
   moduleNameMapper: {
     '^react-native$': 'react-native-web',
-    '^.+\\.module\\.css$': 'identity-obj-proxy'
+    '\\.(css|less|sass|scss|stylus)$': 'identity-obj-proxy'
   },
   moduleFileExtensions: [
     'web.js',
@@ -26,6 +39,9 @@ module.exports = resolve => ({
     'json',
     'web.jsx',
     'jsx',
+    'ts',
+    'tsx',
     'node'
-  ]
+  ],
+  verbose: true
 });
