@@ -6,7 +6,7 @@ module.exports = babelJest.createTransformer({
     env: 'development',
     target: 'browser',
     type: 'cjs',
-    typescript: false,
+    typescript: true,
     corejs: 3
   }),
   babelrc: false,

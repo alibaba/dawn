@@ -12,8 +12,11 @@ module.exports = () => ({
   testEnvironment: require.resolve('jest-environment-jsdom-fourteen'),
   testPathIgnorePatterns: ['/node_modules/', '/fixtures/'],
   transform: {
-    '^.+\\.(js|jsx|ts|tsx)$': require.resolve(
+    '^.+\\.(js|jsx|mjs)$': require.resolve(
       '../helpers/transformers/javascript'
+    ),
+    '^.+\\.(ts|tsx)$': require.resolve(
+      '../helpers/transformers/typescript'
     ),
     '^.+\\.(css|less|sass|scss|stylus)$': require.resolve(
       '../helpers/transformers/css'
@@ -23,8 +26,8 @@ module.exports = () => ({
     )
   },
   transformIgnorePatterns: [
-    '[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$',
-    '^.+\\.module\\.css$'
+    // '[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$',
+    // '^.+\\.module\\.css$'
   ],
   setupFiles: [require.resolve('../helpers/setupFiles/shim')],
   setupFilesAfterEnv: [require.resolve('../helpers/setupFiles/jasmine')],
