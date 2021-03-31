@@ -1,10 +1,21 @@
-*.DS_Store
-*.log
-logs/
+# 忽略目录
+build/
+test/
+tests/
 node_modules/
-demo/
-examples/
-.vscode/
-.cache/
-.nyc_output/
+dist/
+out/
+docs/
+
+# node 覆盖率文件
 coverage/
+
+# 忽略测试文件
+/packages/*/__tests__
+/packages/*/lib/
+
+# 忽略文件
+**/*-min.js
+**/*.min.js
+
+*.bak

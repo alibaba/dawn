@@ -7,11 +7,10 @@ const console = require('console3');
 const pkg = require('../package.json');
 const path = require('path');
 const cmdline = require('cmdline');
-const core = require('../');
+const core = require('..');
 const Context = core.Context;
 const middlewares = core.middlewares;
 const debug = require('debug')('cli-core');
-const sleep = require('../lib/common/sleep');
 
 core.upgrade.check();
 
@@ -25,7 +24,7 @@ const ALIAS = {
   p: 'publish',
   r: 'run',
   u: 'update',
-  c: 'config'
+  c: 'config',
 };
 
 cmdline.onFail = async function (err) {
@@ -56,12 +55,13 @@ cmdline
     cmd = ALIAS[cmd] || cmd;
     this.set('command', cmd);
     try {
-      let downloadCtx = new Context(this, {
-        template, cmd,
-        pipeline: [middlewares.init]
+      const downloadCtx = new Context(this, {
+        template,
+        cmd,
+        pipeline: [middlewares.init],
       });
       await downloadCtx.run();
-      let context = new Context(this, { template, cmd });
+      const context = new Context(this, { template, cmd });
       await context.run();
       cmdline.onDone(context);
     } catch (err) {
@@ -69,10 +69,7 @@ cmdline
     }
   }, false)
 
-  .root.command([
-    'dev', 'add', 'test', 'build', 'publish', 'start', 'run',
-    'd', 'a', 't', 'b', 'p', 's', 'r'
-  ])
+  .root.command(['dev', 'add', 'test', 'build', 'publish', 'start', 'run', 'd', 'a', 't', 'b', 'p', 's', 'r'])
   .option(['-e', '--env'], 'string')
   .action(async function (cmd, env, $1) {
     if (cmd == 'r' || cmd == 'run') {
@@ -84,7 +81,7 @@ cmdline
     process.env.DN_ENV = env || '';
     process.env.NODE_ENV = env || process.env.NODE_ENV || '';
     try {
-      let context = new Context(this, { cmd, env });
+      const context = new Context(this, { cmd, env });
       await context.run();
       cmdline.onDone(context);
     } catch (err) {

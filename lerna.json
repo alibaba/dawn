@@ -1,21 +1,13 @@
 {
   "version": "independent",
   "npmClient": "yarn",
-  "registry": "https://registry.npmjs.org",
   "useWorkspaces": true,
-  "packages": [
-    "packages/*"
-  ],
+  "packages": ["packages/*"],
   "command": {
     "publish": {
-      "allowBranch": [
-        "master"
-      ],
+      "registry": "https://registry.npmjs.org",
       "conventionalCommits": true
     }
   },
-  "ignoreChanges": [
-    "**/*.md",
-    "**/test/**"
-  ]
+  "ignoreChanges": ["**/*.md", "**/test/**"]
 }

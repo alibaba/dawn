@@ -1,5 +1,5 @@
 {
-  "name": "dawn",
+  "name": "@dawnjs/cli",
   "version": "1.10.0",
   "description": "dawn cli",
   "main": "./lib/index.js",
@@ -7,18 +7,7 @@
     "dn": "./bin/cli.js",
     "dawn": "./bin/cli.js"
   },
-  "scripts": {
-    "dntest": "node ./bin/cli.js test",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "dnbuild": "node ./bin/cli.js build",
-    "test": "npm run dntest",
-    "gitrebase": "git pull --rebase `echo $npm_package_repository_url | cut -d \\+ -f 2` master"
-  },
-  "pre-push": [
-    "gitrebase",
-    "test",
-    "dnbuild"
-  ],
+  "scripts": {},
   "keywords": [
     "dawn",
     "cli",
@@ -27,7 +16,7 @@
     "build"
   ],
   "engines": {
-    "node": ">=7.6.0"
+    "node": ">=12.0.0"
   },
   "configs": {
     "server": "https://alibaba.github.io/dawn",
@@ -80,18 +69,5 @@
     "stp": "0.0.4",
     "stream-to-buffer": "^0.1.0",
     "update-notifier": "^2.3.0"
-  },
-  "devDependencies": {
-    "babel-eslint": "^10.0.1",
-    "coveralls": "^3.0.0",
-    "dn-middleware-doc": "^2.1.0",
-    "dn-middleware-file-header": "^1.0.3",
-    "dn-middleware-lint": "^2.1.3",
-    "dn-middleware-shell": "^1.1.0",
-    "dn-middleware-unit": "^0.1.18",
-    "eslint-config-dawn": "^1.0.7",
-    "eslint-plugin-html": "^5.0.0",
-    "eslint-plugin-react": "^7.11.1",
-    "nyc": "^11.4.1"
   }
 }

@@ -7,10 +7,10 @@ module.exports = babelJest.createTransformer({
       {
         typescript: true,
         env: { modules: 'auto' },
-        react: { development: true }
-      }
-    ]
+        react: { development: true },
+      },
+    ],
   ],
   babelrc: false,
-  configFile: false
+  configFile: false,
 });

@@ -6,26 +6,24 @@
     "dawn",
     "babel"
   ],
-  "homepage": "http://dawnjs.com/",
+  "homepage": "http://dawnjs.com",
   "license": "MIT",
   "main": "lib/index.js",
   "files": [
     "lib"
   ],
   "publishConfig": {
-    "registry": "https://registry.npmjs.org",
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alibaba/dawn.git"
+    "url": "https://github.com/alibaba/dawn.git"
   },
   "scripts": {
     "clean": "rimraf lib",
     "prebuild": "npm run clean",
     "build": "tsc",
-    "prepublishOnly": "npm run build",
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "prepublishOnly": "npm run build"
   },
   "bugs": {
     "url": "https://github.com/alibaba/dawn/issues"

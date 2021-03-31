@@ -20,13 +20,12 @@
   ],
   "license": "MIT",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org",
     "access": "public"
   },
-  "homepage": "http://dawnjs.com/",
+  "homepage": "http://dawnjs.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alibaba/dawn.git"
+    "url": "https://github.com/alibaba/dawn.git"
   },
   "peerDependencies": {
     "eslint": ">=6",
