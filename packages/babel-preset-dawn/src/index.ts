@@ -26,7 +26,7 @@ export default (opts: IOpts = {}) => {
   return {
     presets: resolvePlugin([
       opts.typescript && "@babel/preset-typescript",
-      opts.env && ["@babel/preset-env", opts.env],
+      ["@babel/preset-env", toObject(opts.env)],
       opts.react && ["@babel/preset-react", toObject(opts.react)],
     ]),
     plugins: resolvePlugin([
