@@ -39,6 +39,7 @@ module.exports = (opts) => {
     argv.push(`--config=${JSON.stringify(config)}`);
 
     if (opts.watch) argv.push('--watch');
+    if (opts.watchAll) argv.push('--watchAll');
     if (opts.coverage !== false) argv.push('--coverage');
     if (opts.debug || process.env.DN_DEBUG) argv.push('--debug');
     if (opts.silent) argv.push('--silent');
