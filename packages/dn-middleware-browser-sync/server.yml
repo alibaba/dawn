@@ -1,7 +1,0 @@
-proxy:
-  rules: 
-    ^/api(.*): 'https://www.aliyun.com/'
-
-static:
-  compress: false
-  cache: false

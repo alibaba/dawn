@@ -1,9 +1,0 @@
-extends:
-  - dawn
-env:
-  browser: true
-  node: true
-globals:
-  window: writable
-  $: writable
-  jQuery: writable

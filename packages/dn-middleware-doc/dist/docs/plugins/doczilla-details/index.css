@@ -1,7 +1,0 @@
-details.expand summary {
-  cursor: pointer;
-}
-
-details.expand summary:focus {
-  outline: none;
-}

@@ -1,0 +1,21 @@
+{
+  "version": "independent",
+  "npmClient": "yarn",
+  "registry": "https://registry.npmjs.org",
+  "useWorkspaces": true,
+  "packages": [
+    "packages/*"
+  ],
+  "command": {
+    "publish": {
+      "allowBranch": [
+        "master"
+      ],
+      "conventionalCommits": true
+    }
+  },
+  "ignoreChanges": [
+    "**/*.md",
+    "**/test/**"
+  ]
+}

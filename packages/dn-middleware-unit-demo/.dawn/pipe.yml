@@ -1,3 +1,0 @@
-dev:
-  - name: $local
-    location: ./lib/index.js

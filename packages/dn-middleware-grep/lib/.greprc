@@ -1,7 +1,0 @@
-words:
-  - 'let '
-  - 'const '
-  - '.find'
-  - '.findIndex'
-  - '=>'
-  - 'class '

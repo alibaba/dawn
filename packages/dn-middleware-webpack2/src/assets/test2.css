@@ -1,8 +1,0 @@
-@import url('./index.less');
-:local(.app) {
-  color: #ddd;
-}
-
-.test2 {
-  color: blue;
-}

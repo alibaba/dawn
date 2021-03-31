@@ -1,2 +1,2 @@
 extends:
-  - dawn
+  - ./packages/eslint-config-dawn/typescript
