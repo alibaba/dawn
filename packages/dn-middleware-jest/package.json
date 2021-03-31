@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-jest",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Jest middleware for dawn project's unit-test.",
   "main": "./lib/index.js",
   "scripts": {
