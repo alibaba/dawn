@@ -22,7 +22,7 @@ function resolvePlugin(plugins) {
   });
 }
 
-export default (opts: IOpts = {}) => {
+export default (context: any, opts: IOpts = {}) => {
   return {
     presets: resolvePlugin([
       opts.typescript && "@babel/preset-typescript",
