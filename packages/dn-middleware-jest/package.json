@@ -9,15 +9,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@dawnjs/babel-preset-dawn": "^2.0.0",
     "babel-jest": "^26.6.3",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
     "core-js": "^3.9.1",
     "dn-middleware-babel": "^1.4.2",
     "jest": "^26.6.3",
     "jest-environment-jsdom-fourteen": "^1.0.1",
     "regenerator-runtime": "^0.13.7",
-    "ts-jest": "^26.5.4",
     "whatwg-fetch": "^3.6.2"
   }
 }

@@ -1,14 +1,16 @@
 const babelJest = require('babel-jest');
-const { getBabelConfig } = require('dn-middleware-babel/lib/getBabelConfig');
 
 module.exports = babelJest.createTransformer({
-  ...getBabelConfig({
-    env: 'development',
-    target: 'browser',
-    type: 'cjs',
-    typescript: false,
-    corejs: 3
-  }),
+  presets: [
+    [
+      require.resolve('@dawnjs/babel-preset-dawn'),
+      {
+        typescript: false,
+        // env: { modules: false },
+        react: { development: true }
+      }
+    ]
+  ],
   babelrc: false,
   configFile: false
 });
