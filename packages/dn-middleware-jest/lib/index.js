@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 /* eslint-disable no-undef */
 const path = require('path');
 const fs = require('fs');
@@ -36,6 +37,11 @@ module.exports = (opts) => {
       userJestConfig
     );
     argv.push(`--config=${JSON.stringify(config)}`);
+
+    if (opts.watch) argv.push('--watch');
+    if (opts.coverage !== false) argv.push('--coverage');
+    if (opts.debug || process.env.DN_DEBUG) argv.push('--debug');
+    if (opts.silent) argv.push('--silent');
 
     try {
       ctx.console.info('[jest] start running unit test...');
