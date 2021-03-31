@@ -1,5 +1,5 @@
 {
-  "name": "@dawnjs/dn-middleware-jest",
+  "name": "@dawnjs/middleware-jest",
   "version": "2.0.2",
   "description": "Jest middleware for dawn project's unit-test.",
   "main": "./lib/index.js",
