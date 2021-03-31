@@ -10,7 +10,7 @@ module.exports = {
     project: './tsconfig.json',
     projectFolderIgnoreList: ['/node_modules/'], // same as default
     warnOnUnsupportedTypeScriptVersion: true, // same as default
-    createDefaultProgram: false, // same as default
+    createDefaultProgram: true,
   },
   settings: {
     // Apply special parsing for TypeScript files

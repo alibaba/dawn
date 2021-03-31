@@ -1,5 +1,6 @@
 {
   "name": "@dawnjs/core",
+  "private": true,
   "version": "0.0.0",
   "description": "Dawn core",
   "keywords": [

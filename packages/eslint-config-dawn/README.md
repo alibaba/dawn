@@ -1,4 +1,4 @@
-# eslint-config-dawn
+# @dawnjs/eslint-config-dawn
 
 [![npm package](https://img.shields.io/npm/v/@dawnjs/eslint-config-dawn.svg)](https://www.npmjs.org/package/@dawnjs/eslint-config-dawn) [![npm downloads](http://img.shields.io/npm/dm/@dawnjs/eslint-config-dawn.svg)](https://www.npmjs.org/package/@dawnjs/eslint-config-dawn)
 
