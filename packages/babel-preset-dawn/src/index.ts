@@ -1,5 +1,3 @@
-import { dirname } from "path";
-
 interface IOpts {
   typescript?: boolean;
   env?: object;
@@ -42,15 +40,7 @@ export default (context: any, opts: IOpts = {}) => {
       opts.typescript && "babel-plugin-transform-typescript-metadata",
       ["@babel/plugin-proposal-decorators", { legacy: true }],
       ["@babel/plugin-proposal-class-properties", { loose: true }],
-      opts.transformRuntime && [
-        "@babel/plugin-transform-runtime",
-        {
-          version: require("@babel/runtime/package.json").version,
-          absoluteRuntime: dirname(require.resolve("@babel/runtime/package.json")),
-          useESModules: true,
-          ...toObject(opts.transformRuntime),
-        },
-      ],
+      opts.transformRuntime && ["@babel/plugin-transform-runtime", toObject(opts.transformRuntime)],
       "@babel/plugin-proposal-function-bind",
       "@babel/plugin-proposal-logical-assignment-operators",
       ["@babel/plugin-proposal-pipeline-operator", { proposal: "minimal" }],
