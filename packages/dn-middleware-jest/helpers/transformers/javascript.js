@@ -6,7 +6,7 @@ module.exports = babelJest.createTransformer({
       require.resolve('@dawnjs/babel-preset-dawn'),
       {
         typescript: false,
-        // env: { modules: false },
+        env: { modules: 'auto' },
         react: { development: true }
       }
     ]
