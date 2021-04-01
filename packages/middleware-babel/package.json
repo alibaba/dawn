@@ -1,0 +1,50 @@
+{
+  "name": "@dawnjs/dn-middleware-babel",
+  "version": "1.4.2",
+  "description": "Transform code with babel",
+  "keywords": [
+    "dawn",
+    "middleware",
+    "babel"
+  ],
+  "main": "./lib/index.js",
+  "scripts": {
+    "clean": "rimraf lib",
+    "prebuild": "npm run clean",
+    "build": "tsc && ts-add-module-exports",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "src",
+    "lib",
+    "typings",
+    "template"
+  ],
+  "author": {
+    "name": "soulwu",
+    "email": "soulwuzjjx@vip.qq.com"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/babel__core": "^7.1.12",
+    "@types/gulp-if": "0.0.33",
+    "@types/lodash": "^4.14.165",
+    "@types/through2": "^2.0.36",
+    "@types/vinyl-fs": "^2.4.11"
+  },
+  "dependencies": {
+    "@babel/core": "^7.12.3",
+    "@dawnjs/babel-preset-dawn": "^2.0.0",
+    "@dawnjs/types": "^1.8.5",
+    "chokidar": "^3.4.3",
+    "gulp-if": "^3.0.0",
+    "gulp-typescript": "^5.0.1",
+    "lodash": "^4.17.20",
+    "through2": "^4.0.2",
+    "typescript": "^4.0.5",
+    "vinyl-fs": "^3.0.3"
+  },
+  "license": "MIT"
+}

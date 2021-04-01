@@ -8,7 +8,7 @@
     "url": "git+https://github.com/alibaba/dawn.git"
   },
   "scripts": {
-    "bootstrap": "lerna bootstrap --hoist",
+    "bootstrap": "lerna bootstrap",
     "clean": "lerna clean --yes",
     "prepare": "husky install",
     "lint": "eslint --quiet --cache --ext .js,.jsx,.ts,.tsx ./",
@@ -23,6 +23,8 @@
     "husky": "^6.0.0",
     "lerna": "^4.0.0",
     "prettier": "^2.2.1",
+    "rimraf": "^3.0.2",
+    "ts-add-module-exports": "^1.0.0",
     "typescript": "^4.2.3"
   }
 }
