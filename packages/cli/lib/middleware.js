@@ -85,5 +85,5 @@ exports.require = async function (name, cwd) {
     debug('packagePath', packagePath);
     mdModule = require(packagePath);
   }
-  return mdModule && nameInfo.member ? mdModule[nameInfo.member] : mdModule;
+  return mdModule && nameInfo.member ? mdModule[nameInfo.member] : (mdModule.default || mdModule);
 };
