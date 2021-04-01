@@ -35,7 +35,7 @@ const getOptimization = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
     },
     // default true when in production
     innerGraph: ctx.isEnvProduction,
-    sideEffects: false,
+    sideEffects: true,
 
     // Keep the runtime chunk separated to enable long term caching
     // https://twitter.com/wSokra/status/969679223278505985
