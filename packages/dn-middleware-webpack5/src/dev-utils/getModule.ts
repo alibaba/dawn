@@ -255,7 +255,7 @@ const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
               styleOptions: options.styleLoader,
               preProcessor: "sass-loader",
               preProcessorOptions: {
-                implementation: require("dart-sass"),
+                implementation: require("sass"),
               },
             },
             ctx,
@@ -280,7 +280,7 @@ const getModule = async (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
               styleOptions: options.styleLoader,
               preProcessor: "sass-loader",
               preProcessorOptions: {
-                implementation: require("dart-sass"),
+                implementation: require("sass"),
               },
             },
             ctx,
