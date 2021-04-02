@@ -1,0 +1,22 @@
+{
+  "name": "@dawnjs/dn-middleware-call",
+  "version": "1.0.3",
+  "description": "A middleware to call other pipeline",
+  "keywords": [
+    "dawn",
+    "middleware",
+    "call"
+  ],
+  "main": "./lib/index.js",
+  "scripts": {},
+  "author": "",
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "http://dawnjs.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alibaba/dawn.git"
+  },
+  "license": "MIT"
+}

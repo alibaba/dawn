@@ -1,15 +1,9 @@
----
-group: template
-name: middleware
-title: 中间件工程
----
+# @dawnjs/dn-middleware-jest
 
-# dn-middleware-jest
-
-[![npm](https://img.shields.io/npm/v/dn-middleware-jest)](https://www.npmjs.com/package/dn-middleware-jest)
-[![npm](https://img.shields.io/npm/dw/dn-middleware-jest)](https://www.npmjs.com/package/dn-middleware-jest)
-[![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/dn-middleware-jest)](https://libraries.io/npm/dn-middleware-jest)<br>
-![node-current](https://img.shields.io/node/v/dn-middleware-jest)
+[![npm](https://img.shields.io/npm/v/@dawnjs/dn-middleware-jest)](https://www.npmjs.com/package/@dawnjs/dn-middleware-jest)
+[![npm](https://img.shields.io/npm/dw/@dawnjs/dn-middleware-jest)](https://www.npmjs.com/package/@dawnjs/dn-middleware-jest)
+<!-- [![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/@dawnjs/dn-middleware-jest)](https://libraries.io/npm/@dawnjs/dn-middleware-jest)<br>
+![node-current](https://img.shields.io/node/v/@dawnjs/dn-middleware-jest) -->
 
 Jest 单元测试中间件
 

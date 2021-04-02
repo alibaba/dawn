@@ -1,15 +1,9 @@
----
-group: middleware
-name: babel
-title: Babel
----
-
 # @dawnjs/dn-middleware-babel
 
 [![npm](https://img.shields.io/npm/v/@dawnjs/dn-middleware-babel)](https://www.npmjs.com/package/@dawnjs/dn-middleware-babel)
 [![npm](https://img.shields.io/npm/dw/@dawnjs/dn-middleware-babel)](<(https://www.npmjs.com/package/@dawnjs/dn-middleware-babel)>)
-[![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/@dawnjs/dn-middleware-babel)](https://libraries.io/npm/@dawnjs/dn-middleware-babel)<br>
-![node-current](https://img.shields.io/node/v/@dawnjs/dn-middleware-babel)
+<!-- [![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/@dawnjs/dn-middleware-babel)](https://libraries.io/npm/@dawnjs/dn-middleware-babel)<br>
+![node-current](https://img.shields.io/node/v/@dawnjs/dn-middleware-babel) -->
 
 该中间件提供使用 Babel 进行代码编译，主要用于仅编译不打包场景，如果需要进行资源打包，推荐使用 rollup 或 webpack 中间件
 
