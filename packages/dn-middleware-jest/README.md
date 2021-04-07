@@ -71,6 +71,20 @@ unit:argv:
 
 打印关于 Jest 配置的调试信息
 
+### `json`
+
+类型：`boolean`<br>
+默认值：`false`
+
+以JSON格式打印测试结果
+
+### `outputFile`
+
+类型：`true | string`<br>
+默认值：`null`
+
+测试结果写入文件
+
 ### `silent`
 
 类型：`boolean`<br>

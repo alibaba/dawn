@@ -43,6 +43,18 @@ module.exports = (opts) => {
     if (opts.coverage !== false) argv.push('--coverage');
     if (opts.debug || process.env.DN_DEBUG) argv.push('--debug');
     if (opts.silent) argv.push('--silent');
+    if (typeof opts.outputFile === 'string') {
+      argv.push(`--outputFile=${opts.outputFile}`);
+      await ctx.utils.mkdirp(path.dirname(opts.outputFile));
+      opts.json = true;
+    } else if (opts.outputFile === true) {
+      argv.push(
+        `--outputFile=${path.join(ctx.cwd, './build/.jest-test-results.json')}`
+      );
+      await ctx.utils.mkdirp(path.join(ctx.cwd, './build'));
+      opts.json = true;
+    }
+    if (opts.json) argv.push('--json');
 
     try {
       ctx.console.info('[jest] start running unit test...');
