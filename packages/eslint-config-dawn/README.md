@@ -38,14 +38,46 @@ module.exports = require('@dawnjs/eslint-config-dawn/prettierrc');
 
 ## 高阶使用 Advanced Usage
 
-### NodeJS 项目或纯 JS 项目（无 React）
+### JavaScript 项目
+
+#### 一般项目
 
 ```yaml
 # .eslintrc.yml
 extends: '@dawnjs/eslint-config-dawn/standard'
 ```
 
+#### React 项目
+
+```yaml
+# .eslintrc.yml
+extends: '@dawnjs/eslint-config-dawn/react'
+```
+
+#### Rax 项目
+
+```yaml
+# .eslintrc.yml
+extends: '@dawnjs/eslint-config-dawn/rax'
+```
+
+#### Vue 项目
+
+```yaml
+# .eslintrc.yml
+extends: '@dawnjs/eslint-config-dawn/vue'
+```
+
+#### ES5 项目
+
+```yaml
+# .eslintrc.yml
+extends: '@dawnjs/eslint-config-dawn/legacy'
+```
+
 ### TypeScript 项目
+
+#### 一般项目
 
 ```yaml
 # .eslintrc.yml
@@ -54,7 +86,7 @@ extends: '@dawnjs/eslint-config-dawn/typescript'
 
 `@dawnjs/eslint-config-dawn/ts` 与 `@dawnjs/eslint-config-dawn/typescript` 是等价的。
 
-### TypeScript + React 项目
+#### React 项目
 
 ```yaml
 # .eslintrc.yml
@@ -62,6 +94,20 @@ extends: '@dawnjs/eslint-config-dawn/typescript-react'
 ```
 
 `@dawnjs/eslint-config-dawn/ts-react` 与 `@dawnjs/eslint-config-dawn/typescript-react` 是等价的。
+
+#### Rax 项目
+
+```yaml
+# .eslintrc.yml
+extends: '@dawnjs/eslint-config-dawn/typescript-rax'
+```
+
+#### Vue 项目
+
+```yaml
+# .eslintrc.yml
+extends: '@dawnjs/eslint-config-dawn/typescript-vue'
+```
 
 ### 多个 config 混合使用
 

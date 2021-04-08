@@ -4,7 +4,7 @@ import { merge } from "lodash";
 import { IDawnContext, IOpts } from "./types";
 
 export const getOpts = (opts: IOpts, ctx: IDawnContext): IOpts => {
-  return merge({ cwd: ctx.cwd, env: process.env.NODE_ENV } as IOpts, opts);
+  return merge({ cwd: ctx.cwd, env: process.env.NODE_ENV }, opts);
 };
 
 export const validateOpts = async (opts: IOpts, ctx: IDawnContext): Promise<void> => {

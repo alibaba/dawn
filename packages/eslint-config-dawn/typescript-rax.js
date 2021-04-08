@@ -1,10 +1,8 @@
 module.exports = {
   extends: [
-    require.resolve('eslint-config-ali/typescript/react'),
-    require.resolve('eslint-config-ali/jsx-a11y'),
+    require.resolve('eslint-config-ali/typescript/rax'),
     require.resolve('./base'),
     require.resolve('./typescript-base'),
-    require.resolve('./react-base'),
   ],
   settings: {
     // Apply special parsing for TypeScript files
