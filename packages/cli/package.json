@@ -4,8 +4,8 @@
   "description": "dawn cli",
   "main": "./lib/index.js",
   "bin": {
-    "dn": "./bin/cli.js",
-    "dawn": "./bin/cli.js"
+    "dawn": "./bin/cli.js",
+    "dn": "./bin/cli.js"
   },
   "scripts": {},
   "keywords": [

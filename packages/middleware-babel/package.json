@@ -15,9 +15,7 @@
     "prepublishOnly": "npm run build"
   },
   "files": [
-    "src",
     "lib",
-    "typings",
     "template"
   ],
   "author": {
