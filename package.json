@@ -1,6 +1,6 @@
 {
   "name": "dawn",
-  "version": "1.10.0",
+  "version": "1.10.2",
   "description": "dawn cli",
   "main": "./lib/index.js",
   "bin": {
@@ -51,6 +51,9 @@
     "type": "git",
     "url": "https://github.com/alibaba/dawn.git"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "dependencies": {
     "buffer-to-stream": "^1.0.0",
     "bufferhelper": "^0.2.1",
@@ -58,17 +61,17 @@
     "confman": "^0.2.8",
     "console3": "^1.0.6",
     "copy-dir": "^0.3.0",
-    "debug": "^3.1.0",
-    "decompress": "^4.2.0",
+    "debug": "^3.2.7",
+    "decompress": "^4.2.1",
     "decompress-targz": "^4.1.1",
     "del": "^3.0.0",
     "globby": "^7.1.1",
     "inquirer": "^5.0.1",
-    "js-yaml": "^3.10.0",
+    "js-yaml": "^3.14.1",
     "leftpad": "^0.0.1",
-    "mkdirp": "^0.5.1",
+    "mkdirp": "^0.5.5",
     "node-fetch": "^1.7.3",
-    "npm": "^6.11.3",
+    "npm": "^6.14.12",
     "ntils": "^3.1.11",
     "oneport": "^1.0.2",
     "react-dev-utils": "^5.0.1",
@@ -82,16 +85,16 @@
     "update-notifier": "^2.3.0"
   },
   "devDependencies": {
-    "babel-eslint": "^10.0.1",
-    "coveralls": "^3.0.0",
+    "babel-eslint": "^10.1.0",
+    "coveralls": "^3.1.0",
     "dn-middleware-doc": "^2.1.0",
-    "dn-middleware-file-header": "^1.0.3",
-    "dn-middleware-lint": "^2.1.3",
-    "dn-middleware-shell": "^1.1.0",
+    "dn-middleware-file-header": "^1.0.5",
+    "dn-middleware-lint": "^2.2.4",
+    "dn-middleware-shell": "^1.1.1",
     "dn-middleware-unit": "^0.1.18",
     "eslint-config-dawn": "^1.0.7",
     "eslint-plugin-html": "^5.0.0",
-    "eslint-plugin-react": "^7.11.1",
+    "eslint-plugin-react": "^7.23.1",
     "nyc": "^11.4.1"
   }
 }
