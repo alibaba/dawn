@@ -5,9 +5,7 @@ init:
 dev:
   - name: $local
     location: ./lib/index.js
-    argv:
-      - --coverage
-      - --watch
+    outputFile: ./build/foo.json
 
 test:
   - name: lint

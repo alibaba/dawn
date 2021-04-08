@@ -17,10 +17,9 @@ dev:
 
 build:
   - name: clean
-  - name: $local
-    location: ./lib/index.js
-    vendors:
-      - ntils
+  - name: ./lib/index.js
+    vendors: 
+      - 'ntils'
   - name: webpack
     entry: ./demo/index.js
     template: ./demo/index.html

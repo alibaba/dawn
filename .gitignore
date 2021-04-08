@@ -8,3 +8,4 @@ examples/
 .cache/
 .nyc_output/
 coverage/
+build/
