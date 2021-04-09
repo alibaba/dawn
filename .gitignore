@@ -30,3 +30,8 @@ coverage
 *.swp
 *.dia~
 *.temp.json
+
+/packages/*/lib/
+!/packages/cli/lib/
+!/packages/middleware-call/lib/
+!/packages/middleware-jest/lib/
