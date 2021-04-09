@@ -11,6 +11,10 @@
   "publishConfig": {
     "access": "public"
   },
+  "files": [
+    "lib",
+    "helpers"
+  ],
   "homepage": "http://dawnjs.com",
   "repository": {
     "type": "git",
