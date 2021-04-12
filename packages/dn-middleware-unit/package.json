@@ -1,6 +1,6 @@
 {
   "name": "dn-middleware-unit",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -34,5 +34,8 @@
     "nyc": "^13.1.0",
     "supertest": "^3.3.0",
     "ts-node": "^7.0.1"
+  },
+  "devDependencies": {
+    "typescript": "^4.2.4"
   }
 }

@@ -43,7 +43,7 @@ module.exports = function (opts) {
     //tnpm i babel-runtime
     /* eslint-disable */
     await this.utils.exec(`
-      ${nyc} -r html -r text -e ${opts.extension} -x ${excludes} ${mocha} -r ${setup} -t ${opts.timeout} -u bdd ${opts.files} 
+      ${nyc} -r html -r text -r json-summary -e ${opts.extension} -x ${excludes} ${mocha} -r ${setup} -t ${opts.timeout} -u bdd ${opts.files} 
       echo 
       echo ------------------------------------------------------------------------
       echo ./coverage/index.html
