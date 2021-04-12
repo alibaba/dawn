@@ -6,7 +6,8 @@
   "command": {
     "publish": {
       "registry": "https://registry.npmjs.org",
-      "conventionalCommits": true
+      "conventionalCommits": true,
+      "message": "chore: publish"
     }
   },
   "ignoreChanges": ["**/*.md", "**/test/**"]
