@@ -1216,18 +1216,6 @@
   dependencies:
     chalk "^4.0.0"
 
-"@dawnjs/types@^1.8.6":
-  version "1.8.6"
-  resolved "https://registry.npm.taobao.org/@dawnjs/types/download/@dawnjs/types-1.8.6.tgz#8cec1d00da78f7ec6794dbe0dc90af84e63c4028"
-  integrity sha1-jOwdANp49+xnlNvg3JCvhOY8QCg=
-  dependencies:
-    "@npm/types" "^1.0.1"
-    "@types/inquirer" "^6.5.0"
-    "@types/node-fetch" "^2.5.7"
-    del "^5.1.0"
-    globby "^11.0.0"
-    ntils "^5.1.2"
-
 "@eslint/eslintrc@^0.4.0":
   version "0.4.0"
   resolved "https://registry.npm.taobao.org/@eslint/eslintrc/download/@eslint/eslintrc-0.4.0.tgz?cache=0&sync_timestamp=1614461109275&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40eslint%2Feslintrc%2Fdownload%2F%40eslint%2Feslintrc-0.4.0.tgz#99cc0a0584d72f1df38b900fb062ba995f395547"
