@@ -21,6 +21,7 @@
     "url": "https://github.com/alibaba/dawn.git"
   },
   "dependencies": {
+    "@babel/core": "^7.13.15",
     "@dawnjs/babel-preset-dawn": "^2.0.1",
     "babel-jest": "^26.6.3",
     "core-js": "^3.9.1",
