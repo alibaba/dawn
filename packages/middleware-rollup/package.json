@@ -34,7 +34,7 @@
     "url": "https://github.com/alibaba/dawn.git"
   },
   "devDependencies": {
-    "@dawnjs/types": "^1.8.6",
+    "@dawnjs/types": "^2.0.1",
     "@types/autoprefixer": "^9.7.2",
     "@types/lodash": "^4.14.165"
   },
