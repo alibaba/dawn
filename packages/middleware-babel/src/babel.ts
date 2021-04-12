@@ -35,7 +35,6 @@ export const run = async (
     extraPlugins = [],
     nodeVersion,
     disableTypeCheck,
-    lazy,
     noEmit,
   } = opts;
 
@@ -56,7 +55,6 @@ export const run = async (
     pragmaFrag,
     disableAutoReactRequire,
     nodeVersion,
-    lazy,
   });
   babelOpts.presets.push(...extraPresets);
   babelOpts.plugins.push(...extraPlugins);
