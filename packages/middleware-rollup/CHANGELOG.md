@@ -1,5 +1,26 @@
 # Change Log
 
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# 1.6.0 (2021-04-12)
+
+
+### Features
+
+* add @dawnjs/dn-middleware-rollup ([9fcf9ff](https://github.com/alibaba/dawn/commit/9fcf9ffa269a8c1fe5c8744ab92e693f30fd98f2))
+
+
+### Reverts
+
+* Revert "chore: publish" ([e32dbd0](https://github.com/alibaba/dawn/commit/e32dbd0d9aa3f3b76e6e707504840c1b7e8c0705))
+
+
+
+
+
+# Change Log
+
 ## 1.5.0 (2020-12-02)
 
 ### Features
