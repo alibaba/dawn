@@ -45,5 +45,6 @@ export const getBabelConfig = (opts: IGetBabelConfigOpts): Pick<TransformOptions
         },
       ],
     ],
+    plugins: [],
   };
 };
