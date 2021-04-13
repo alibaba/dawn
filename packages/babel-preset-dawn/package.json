@@ -1,6 +1,6 @@
 {
   "name": "@dawnjs/babel-preset-dawn",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Basic babel preset",
   "keywords": [
     "dawn",

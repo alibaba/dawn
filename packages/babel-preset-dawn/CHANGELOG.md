@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.1](https://github.com/alibaba/dawn/compare/@dawnjs/babel-preset-dawn@2.1.0...@dawnjs/babel-preset-dawn@2.1.1) (2021-04-13)
+
+
+### Bug Fixes
+
+* **@dawnjs/babel-preset-dawn:** fix export signature ([f8ccc88](https://github.com/alibaba/dawn/commit/f8ccc8856be07a2ea500d23fb4cd7e4982a645fa))
+
+
+
+
+
 # 2.1.0 (2021-04-12)
 
 
