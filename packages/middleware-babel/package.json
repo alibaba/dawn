@@ -1,6 +1,6 @@
 {
   "name": "@dawnjs/dn-middleware-babel",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Transform code with babel",
   "keywords": [
     "dawn",

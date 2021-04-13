@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.2](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-babel@2.0.1...@dawnjs/dn-middleware-babel@2.0.2) (2021-04-13)
+
+
+### Bug Fixes
+
+* **@dawnjs/dn-middleware-babel:** always return plugins key ([d260885](https://github.com/alibaba/dawn/commit/d2608856e1298dacc5791cd95131da6bba6268fb))
+
+
+
+
+
 ## [2.0.1](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-babel@2.0.0...@dawnjs/dn-middleware-babel@2.0.1) (2021-04-12)
 
 **Note:** Version bump only for package @dawnjs/dn-middleware-babel
