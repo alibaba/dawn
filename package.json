@@ -13,7 +13,9 @@
     "prepare": "husky install",
     "lint": "eslint --quiet --cache --ext .js,.jsx,.ts,.tsx ./",
     "lint:fix": "npm run lint -- --fix",
-    "commitlint": "commitlint --edit $1"
+    "commitlint": "commitlint --edit $1",
+    "build": "lerna run build --stream",
+    "release": "lerna publish --create-release"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.0.1",
