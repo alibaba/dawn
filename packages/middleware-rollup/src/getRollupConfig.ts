@@ -18,7 +18,7 @@ import wasm from "@rollup/plugin-wasm";
 import commonjs from "@rollup/plugin-commonjs";
 import { terser } from "rollup-plugin-terser";
 import html, { IHtmlPluginTemplateFunctionArgument, makeHtmlAttributes } from "@rollup/plugin-html";
-import visualizer from "rollup-plugin-visualizer";
+import { visualizer } from "rollup-plugin-visualizer";
 import { merge } from "lodash";
 import { getOutputFile, hasJsxRuntime, testExternal, testGlobalExternal } from "./utils";
 import { IDawnContext, IGetRollupConfigOpts, IUmd } from "./types";
@@ -218,7 +218,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
         ? [alias({ entries: aliasEntries })]
         : []),
       ...(injectOpts && Object.keys(injectOpts).length ? [inject(injectOpts)] : []),
-      ...(replaceOpts && Object.keys(replaceOpts).length ? [replace(replaceOpts)] : []),
+      ...(replaceOpts && Object.keys(replaceOpts).length ? [replace({ preventAssignment: true, ...replaceOpts })] : []),
       nodeResolve({
         mainFields: ["module", "main"],
         extensions,
@@ -295,6 +295,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
                 plugins: [
                   ...getPlugins({ minCSS: true }),
                   replace({
+                    preventAssignment: true,
                     // eslint-disable-next-line @typescript-eslint/naming-convention
                     "process.env.NODE_ENV": JSON.stringify("production"),
                   }),
@@ -360,6 +361,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
                   ...extraUmdPlugins,
                   ...getPlugins(),
                   replace({
+                    preventAssignment: true,
                     // eslint-disable-next-line @typescript-eslint/naming-convention
                     "process.env.NODE_ENV": JSON.stringify("development"),
                   }),
@@ -399,6 +401,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
                   ...getPlugins({ minCSS: true }),
                   ...extraUmdPlugins,
                   replace({
+                    preventAssignment: true,
                     // eslint-disable-next-line @typescript-eslint/naming-convention
                     "process.env.NODE_ENV": JSON.stringify("production"),
                   }),
@@ -424,6 +427,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
             ...getPlugins({ minCSS: (system && system.minify) || false }),
             ...extraUmdPlugins,
             replace({
+              preventAssignment: true,
               // eslint-disable-next-line @typescript-eslint/naming-convention
               "process.env.NODE_ENV":
                 system && system.minify ? JSON.stringify("production") : JSON.stringify("development"),
@@ -447,6 +451,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
             ...getPlugins({ minCSS: (iife && iife.minify) || false }),
             ...extraUmdPlugins,
             replace({
+              preventAssignment: true,
               // eslint-disable-next-line @typescript-eslint/naming-convention
               "process.env.NODE_ENV":
                 iife && iife.minify ? JSON.stringify("production") : JSON.stringify("development"),
