@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@1.6.3...@dawnjs/dn-middleware-rollup@1.7.0) (2021-04-14)
+
+
+### Features
+
+* **@dawnjs/dn-middleware-rollup:** add `babelExclude` and `babelInclude` options ([af55445](https://github.com/alibaba/dawn/commit/af5544594b0ca4519b76b4387ad6928ac61d0744))
+
+
+
+
+
 ## [1.6.3](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@1.6.2...@dawnjs/dn-middleware-rollup@1.6.3) (2021-04-14)
 
 **Note:** Version bump only for package @dawnjs/dn-middleware-rollup
