@@ -398,8 +398,8 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
                   name: umd && umd.name,
                 },
                 plugins: [
-                  ...getPlugins({ minCSS: true }),
                   ...extraUmdPlugins,
+                  ...getPlugins({ minCSS: true }),
                   replace({
                     preventAssignment: true,
                     // eslint-disable-next-line @typescript-eslint/naming-convention
