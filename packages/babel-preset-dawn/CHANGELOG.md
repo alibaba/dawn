@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.2](https://github.com/alibaba/dawn/compare/@dawnjs/babel-preset-dawn@2.1.1...@dawnjs/babel-preset-dawn@2.1.2) (2021-04-14)
+
+
+### Bug Fixes
+
+* **@dawnjs/babel-preset-dawn:** fix `@babel/plugin-transform-runtime` default option ([be2f925](https://github.com/alibaba/dawn/commit/be2f925b570bb973576fdd7aa7f1e3f57f74a025))
+
+
+
+
+
 ## [2.1.1](https://github.com/alibaba/dawn/compare/@dawnjs/babel-preset-dawn@2.1.0...@dawnjs/babel-preset-dawn@2.1.1) (2021-04-13)
 
 
