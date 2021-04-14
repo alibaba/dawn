@@ -72,6 +72,8 @@ export interface IBundleOptions {
   nodeVersion?: string | "current" | true;
   extraBabelPresets?: any[];
   extraBabelPlugins?: any[];
+  babelExclude?: string | RegExp | Array<string | RegExp>;
+  babelInclude?: string | RegExp | Array<string | RegExp>;
   disableTypeCheck?: boolean;
   typescript?: RollupTypescript2Options;
   nodeResolve?: RollupNodeResolveOptions;

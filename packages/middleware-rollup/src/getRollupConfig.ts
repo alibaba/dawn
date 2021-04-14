@@ -55,6 +55,8 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
     nodeVersion,
     extraBabelPresets = [],
     extraBabelPlugins = [],
+    babelExclude,
+    babelInclude,
     extraExternals = [],
     externalsExclude = [],
     terser: terserOpts = {},
@@ -103,7 +105,8 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
     ],
     plugins: extraBabelPlugins,
     babelrc: true,
-    exclude: "node_modules/**",
+    exclude: babelExclude,
+    include: babelInclude,
     extensions,
     babelHelpers: runtimeHelpers ? "runtime" : "bundled",
   };
@@ -354,8 +357,8 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
                   name: umd && umd.name,
                 },
                 plugins: [
-                  ...getPlugins(),
                   ...extraUmdPlugins,
+                  ...getPlugins(),
                   replace({
                     // eslint-disable-next-line @typescript-eslint/naming-convention
                     "process.env.NODE_ENV": JSON.stringify("development"),

@@ -411,6 +411,20 @@ _说明：会检查当前依赖的 `react` 版本是否支持 `jsxRuntime`，如
 
 额外的 Babel 插件，推荐使用 `.babelrc` 配置文件代替该配置项
 
+### `babelExclude`
+
+类型：`string | RegExp | Array<string | RegExp>`<br>
+默认值：`"node_modules/**"`
+
+自定义的 babel 转换排除路径，默认排除 node_modules 下所有文件，详细说明请查看[相关文档](https://github.com/rollup/plugins/blob/master/packages/babel/README.md#exclude)
+
+### `babelInclude`
+
+类型：`string | RegExp | Array<string | RegExp>`<br>
+默认值：`undefined`
+
+自定义的 babel 转换包含路径，详细说明请查看[相关文档](https://github.com/rollup/plugins/blob/master/packages/babel/README.md#include)
+
 ### `nodeVersion`
 
 类型：`string | "current" | true`<br>

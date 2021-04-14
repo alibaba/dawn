@@ -22,6 +22,7 @@ export const getOpts = (opts: IOpts, ctx: IDawnContext): IOpts => {
   const defaultOpts: IOpts = {
     target: "browser",
     runtimeHelpers: true,
+    babelExclude: "node_modules/**",
     corejs: false,
     esm: {
       minify: false,
