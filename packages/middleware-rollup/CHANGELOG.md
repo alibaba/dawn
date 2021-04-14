@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.1](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@1.7.0...@dawnjs/dn-middleware-rollup@1.7.1) (2021-04-14)
+
+
+### Bug Fixes
+
+* **@dawnjs/dn-middleware-rollup:** fix plugins order for umd min file bundle ([8b8bb97](https://github.com/alibaba/dawn/commit/8b8bb97d6534acbb55dd806538381708355bc13d))
+
+
+
+
+
 # [1.7.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@1.6.3...@dawnjs/dn-middleware-rollup@1.7.0) (2021-04-14)
 
 
