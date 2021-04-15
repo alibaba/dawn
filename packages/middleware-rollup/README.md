@@ -13,7 +13,14 @@
 - 支持复杂的自定义配置场景
 - 支持代码混淆压缩和 `SourceMap`
 
-## 示例
+## 使用说明
+
+### 安装
+```shell
+npm i -D @dawnjs/dn-middleware-rollup
+```
+
+### 配置 `.dawn/pipe.yml`
 
 ```yml
 dev:
