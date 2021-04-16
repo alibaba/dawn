@@ -109,7 +109,7 @@ export const getWebpackConfig = async (options: IGetWebpackConfigOpts, ctx: Dawn
         ctx.cwd,
         path.resolve(__dirname, "../"),
       ],
-      extensions: moduleFileExtensions.concat(ctx.useTypeScript ? [".ts", ".tsx"] : []),
+      extensions: moduleFileExtensions.concat(ctx.useTypeScript ? [".ts", ".tsx", ".d.ts"] : []),
       mainFields: ["module", "jsnext:main", "browser", "main"],
       // Use tsconfig.paths as webpack alias
       plugins: [ctx.useTypeScript && new TsconfigPathsPlugin()].filter(Boolean),
