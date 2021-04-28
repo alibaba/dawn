@@ -1,5 +1,3 @@
-const { off } = require("npm");
-
 module.exports = {
   extends: [
     require.resolve('eslint-config-ali/react'),
