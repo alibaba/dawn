@@ -1,3 +1,5 @@
+const { off } = require("npm");
+
 module.exports = {
   extends: [
     require.resolve('eslint-config-ali/react'),
@@ -17,7 +19,8 @@ module.exports = {
      * bad: useEffect(() => {});
      */
     'react-hooks/exhaustive-deps': 'off',
-
+    // 该规则会修改超链上的ref，但添加noreferrer会对内网统计产生不利影响，经讨论将该规则off
+    'react/jsx-no-target-blank': 'off',
     /**
      * 锚点类标签建议包含内容
      * https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-has-content.md
