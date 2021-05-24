@@ -1,0 +1,27 @@
+build:
+  - name: $local
+    location: ../../lib/index.js
+    entry: ./src/Three.js
+    env: production
+    common:
+      disabled: true
+
+build:esbuild:
+  - name: $local
+    location: ../../lib/index.js
+    entry: ./src/Three.js
+    env: production
+    esbuild:
+      loader: true
+      minify: true
+    common:
+      disabled: true
+
+build:swc:
+  - name: $local
+    location: ../../lib/index.js
+    entry: ./src/Three.js
+    env: production
+    swc: true
+    common:
+      disabled: true

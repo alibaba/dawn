@@ -1,0 +1,36 @@
+dev:
+  - name: $local
+    location: ../../lib/index.js
+    env: development
+
+dev:esbuild:
+  - name: $local
+    location: ../../lib/index.js
+    env: development
+    esbuild:
+      loader: true
+
+dev:swc:
+  - name: $local
+    location: ../../lib/index.js
+    env: development
+    swc: true
+
+build:
+  - name: $local
+    location: ../../lib/index.js
+    env: production
+
+build:esbuild:
+  - name: $local
+    location: ../../lib/index.js
+    env: production
+    esbuild:
+      loader: true
+      minify: true
+
+build:swc:
+  - name: $local
+    location: ../../lib/index.js
+    env: production
+    swc: true

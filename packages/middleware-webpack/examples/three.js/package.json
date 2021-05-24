@@ -1,0 +1,20 @@
+{
+  "name": "three",
+  "version": "0.128.0",
+  "description": "JavaScript 3D library",
+  "main": "build/three.js",
+  "module": "build/three.module.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mrdoob/three.js"
+  },
+  "scripts": {
+    "build": "dn b",
+    "build:esbuild": "dn run build:esbuild",
+    "build:swc": "dn run build:swc",
+    "test": "rm -rf build && time npm run build && rm -rf build && time npm run build:esbuild && rm -rf build && time npm run build:swc"
+  },
+  "author": "mrdoob",
+  "license": "MIT",
+  "homepage": "https://threejs.org/"
+}

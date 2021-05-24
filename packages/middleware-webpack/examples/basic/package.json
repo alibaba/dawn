@@ -1,0 +1,22 @@
+{
+  "name": "basic-example",
+  "private": true,
+  "scripts": {
+    "start": "dn d",
+    "start:esbuild": "dn run dev:esbuild",
+    "start:swc": "dn run dev:swc",
+    "build": "dn b",
+    "build:esbuild": "dn run build:esbuild",
+    "build:swc": "dn run build:swc"
+  },
+  "dependencies": {
+    "@alifd/next": "^1.22.24",
+    "moment": "^2.29.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.5",
+    "@types/react-dom": "^17.0.3"
+  }
+}
