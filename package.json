@@ -15,7 +15,7 @@
     "lint:fix": "npm run lint -- --fix",
     "commitlint": "commitlint --edit $1",
     "build": "lerna run build --stream",
-    "release": "lerna publish --create-release"
+    "release": "lerna publish --create-release github"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.0.1",
