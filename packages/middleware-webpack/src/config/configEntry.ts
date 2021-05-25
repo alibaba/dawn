@@ -1,5 +1,5 @@
-import Config from "webpack-chain";
-import { INormalizedOpts } from "../types";
+import type Config from "webpack-chain";
+import type { INormalizedOpts } from "../types";
 
 export default async (config: Config, options: INormalizedOpts) => {
   options.entry.forEach(({ name, file }) => {

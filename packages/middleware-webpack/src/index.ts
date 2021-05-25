@@ -4,9 +4,9 @@ import webpack from "webpack";
 import Config from "webpack-chain";
 import { dynamicPublicPath, generateConfig } from "./config";
 import { normalizeOpts } from "./opts";
-import { Handler } from "./types";
 import { debug } from "./utils";
 import WebpackDevServer from "webpack-dev-server";
+import type { Handler } from "./types";
 
 // Migrate from v4 to v5: https://webpack.js.org/migrate/5/
 const handler: Handler = (opts = {}) => {

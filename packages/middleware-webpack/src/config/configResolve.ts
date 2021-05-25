@@ -1,8 +1,8 @@
 import path from "path";
 import fs from "fs";
-import Config from "webpack-chain";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
-import { INormalizedOpts } from "../types";
+import type Config from "webpack-chain";
+import type { INormalizedOpts } from "../types";
 
 const mainFields = ["module", "browser", "main"];
 

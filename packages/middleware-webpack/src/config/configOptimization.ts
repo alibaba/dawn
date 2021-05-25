@@ -1,7 +1,7 @@
-import Config from "webpack-chain";
 import { ESBuildMinifyPlugin } from "esbuild-loader";
-import { INormalizedOpts } from "../types";
 import { SWCMinifyPlugin } from "swc-webpack-plugin";
+import type Config from "webpack-chain";
+import type { INormalizedOpts } from "../types";
 
 export default async (config: Config, options: INormalizedOpts) => {
   config.optimization

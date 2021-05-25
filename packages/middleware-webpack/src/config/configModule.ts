@@ -1,6 +1,4 @@
-import Config from "webpack-chain";
 import svgToTinyDataUri from "mini-svg-data-uri";
-import { INormalizedOpts } from "../types";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import postcss from "postcss";
 import less from "less";
@@ -8,6 +6,8 @@ import sass from "sass";
 import Fiber from "fibers";
 import yaml from "js-yaml";
 import merge from "deepmerge";
+import type Config from "webpack-chain";
+import type { INormalizedOpts } from "../types";
 
 const addAssetsRule = (config: Config) => {
   config.module

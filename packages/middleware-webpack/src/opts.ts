@@ -2,8 +2,8 @@ import path from "path";
 import assert from "assert";
 import camelCase from "camelcase";
 import merge from "deepmerge";
-import { Context, Env, INormalizedOpts, IOpts } from "./types";
-import { formatNullStringToList, formatReglikeObject, getExistFile, debug } from "./utils";
+import { debug, formatNullStringToList, formatReglikeObject, getExistFile } from "./utils";
+import type { Context, Env, INormalizedOpts, IOpts } from "./types";
 
 // 生成排除配置
 function makeExternal(commonjs: string, root: string, amd?: string) {
