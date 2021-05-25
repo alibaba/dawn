@@ -6,6 +6,7 @@
 ## Getting Started
 
 To begin, you'll need to install `@dawnjs/dn-middleware-webpack`:
+
 ```console
 $ npm i -D @dawnjs/dn-middleware-webpack
 ```
@@ -13,6 +14,7 @@ $ npm i -D @dawnjs/dn-middleware-webpack
 Then add the middleware to your `dawn` pipeline configuration. For example:
 
 **.dawn/pipe.yml**
+
 ```yaml
 dev:
   - name: '@dawnjs/webpack'
@@ -22,54 +24,54 @@ And run `dn dev` via your preferred method.
 
 ## Options
 
-| Name | Type | Default | Description |
-| :---: | :---: | :---: | :--- |
-| **[`configFile`](#configfile)** | `string` | `"./webpack.config.js"` | The path of custom configration for modify any webpack options |
-| **[`compatible`](#compatible)** | `boolean` | `false` | Use compatible format for custom configration |
-| **[`env`](#env)** | `string` | _Depends on environment variables_ | Set bundle environment, accepted values are `"development"` or `"production"` |
-| **[`cwd`](#cwd)** | `string` | _Depends on current working directory_ | Specify working directory manually, useful for monorepo project etc. |
-| **[`entry`](#entry)** | `string \| string[] \| object` | _Depends on files exist in `src`_ | Specify app entry, support glob pattern and multi-entry |
-| **[`inject`](#inject)** | `string \| string[]` | `[]` | File list to be **prepended** to **all entries** |
-| **[`append`](#append)** | `string \| string[]` | `[]` | File list to be **appended** to **all entries** |
-| **[`output`](#output)** | `string \| object` | `{ path: "./build" }` | Webpack output options |
-| **[`folders`](#folders)** | `object` | `{ script: "js", style: "css", media: "assets", html: "" }` | Output folders for different asset type |
-| **[`disableDynamicPublicPath`](#disabledynamicpublicpath)** | `boolean` | `false` | Wether disable the auto dynamic public path feature or not |
-| **[`template`](#template)** | `boolean \| string \| string[] \| object` | `true` | Specify html template |
-| **[`target`](#target)** | `string \| string[] \| false` |  | Specify webpack target |
-| **[`external`](#external)** | `boolean` | _Depends on `env`_ | Whether enable externals or not |
-| **[`externals`](#externals)** | `object` | _Depends on `env` and `output.library`_ | Specify webpack externals |
-| **[`alias`](#alias)** | `object` |  | Set webpack's `resolve.alias` |
-| **[`tsconfigPathsPlugin`](#tsconfigpathsplugin)** | `object` |  | Options for [`tsconfig-paths-webpack-plugin`](https://github.com/dividab/tsconfig-paths-webpack-plugin) |
-| **[`devtool`](#devtool)** | `boolean \| string` | _Depends on `env`_ | Set webpack's `devtool` option |
-| **[`common`](#common)** | `object` | `{ disabled: false, name: 'common' }` | Simply set whether using common chunk or not and the common chunks's name |
-| **[`compress`](#compress)** | `boolean` | _Depends on `env`_ | Enable webpack's `optimization.minimize` option |
-| **[`esbuild`](#esbuild)** | `object` |  | Options for ESBuild's loader and plugin |
-| **[`swc`](#swc)** | `boolean \| object` |  | Options for swc's loader and plugin |
-| **[`terser`](#terser)** | `object` | `{ extractComments: false, terserOptions: { compress: { drop_console: true }, format: { comments: false } } }` | Options for `terser-webpack-plugin` |
-| **[`cssMinimizer`](#cssminimizer)** | `object` | `{ minimizerOptions: { preset: ["default", { discardComments: { removeAll: true } }] } }` | Options for `css-minimizer-webpack-plugin` |
-| **[`optimization`](#optimization)** | `object` |  | Extra optimization options |
-| **[`ignoreMomentLocale`](#ignoremomentlocale)** | `boolean` | `true` | Whether to ignore locales in moment package or not |
-| **[`babel`](#babel)** | `object` |  | Options to custom behavior of babel preset |
-| **[`disabledTypeCheck`](#disabledtypecheck)** | `boolean` | `false` | Disable type check for typescript files |
-| **[`typeCheckInclude`](#typecheckinclude)** | `string[]` | `["**/*"]` | Glob patterns for files to check types |
-| **[`injectCSS`](#injectcss)** | `boolean` | _Depends on `env`_ | Should inject css into the DOM, otherwise extract css to seperate files |
-| **[`styleLoader`](#styleloader)** | `object` |  | Options for `style-loader` or `MiniCssExtractPlugin.loader` |
-| **[`cssLoader`](#cssloader)** | `object` |  | Options for `css-loader` |
-| **[`postcssLoader`](#postcssloader)** | `object` | `{ implementation: require("postcss"), postcssOptions: { plugins: ["postcss-flexbugs-fixes", "postcss-preset-env"] } }` | Options for `postcss-loader` |
-| **[`extraPostCSSPlugins`](#extrapostcssplugins)** | `any[]` |  | Extra plugins for PostCSS in `postcss-loader` |
-| **[`postcssPresetEnv`](#postcsspresetenv)** | `object` |  | Options for `postcss-preset-env` |
-| **[`lessLoader`](#lessloader)** | `object` | `{ implementation: require("less"), lessOptions: { rewriteUrls: "all" } }` | Options for `less-loader` |
-| **[`resolveUrlLoader`](#resolveurlloader)** | `object` |  | Options for `resolve-url-loader` |
-| **[`sassLoader`](#sassloader)** | `object` | `{ implementation: require("sass"), sourceMap: true, sassOptions: { fiber: require("fibers") } }` | Options for `sass-loader` |
-| **[`workerLoader`](#workerloader)** | `object` | `{ inline: "fallback" }` | Options for `worker-loader` |
-| **[`config`](#config)** | `object` | `{ name: "$config", path: "./src/config", env: ctx.command }` | Options to configure the runtime config virtual module |
-| **[`profile`](#profile)** | `boolean` |  | Enable webpack profile option and add `webpack-stats-plugin` to output stats file |
-| **[`statsOpts`](#statsopts)** | `string \| object` | `"verbose"` | Options for `stats` in `webpack-stats-plugin` |
-| **[`analysis`](#analysis)** | `boolean \| object` |  | Enable and set options for `webpack-bundle-analyzer` |
-| **[`watch`](#watch)** | `boolean` |  | Enable watch mode |
-| **[`watchOpts`](#watchopts)** | `object` | `{ ignored: /node_modules/ }` | Options for watch mode |
-| **[`server`](#server)** | `boolean` | _Depends on `env`_ | Enable server mode |
-| **[`serverOpts`](#serveropts)** | `object` | `{ host: "localhost", historyApiFallback: true, open: true, hot: true, quiet: true }` | Options for `webpack-dev-server` |
+|                            Name                             |                   Type                    |                                                         Default                                                         | Description                                                                                             |
+| :---------------------------------------------------------: | :---------------------------------------: | :---------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------ |
+|               **[`configFile`](#configfile)**               |                 `string`                  |                                                 `"./webpack.config.js"`                                                 | The path of custom configration for modify any webpack options                                          |
+|               **[`compatible`](#compatible)**               |                 `boolean`                 |                                                         `false`                                                         | Use compatible format for custom configration                                                           |
+|                      **[`env`](#env)**                      |                 `string`                  |                                           _Depends on environment variables_                                            | Set bundle environment, accepted values are `"development"` or `"production"`                           |
+|                      **[`cwd`](#cwd)**                      |                 `string`                  |                                         _Depends on current working directory_                                          | Specify working directory manually, useful for monorepo project etc.                                    |
+|                    **[`entry`](#entry)**                    |      `string \| string[] \| object`       |                                            _Depends on files exist in `src`_                                            | Specify app entry, support glob pattern and multi-entry                                                 |
+|                   **[`inject`](#inject)**                   |           `string \| string[]`            |                                                          `[]`                                                           | File list to be **prepended** to **all entries**                                                        |
+|                   **[`append`](#append)**                   |           `string \| string[]`            |                                                          `[]`                                                           | File list to be **appended** to **all entries**                                                         |
+|                   **[`output`](#output)**                   |            `string \| object`             |                                                  `{ path: "./build" }`                                                  | Webpack output options                                                                                  |
+|                  **[`folders`](#folders)**                  |                 `object`                  |                               `{ script: "js", style: "css", media: "assets", html: "" }`                               | Output folders for different asset type                                                                 |
+| **[`disableDynamicPublicPath`](#disabledynamicpublicpath)** |                 `boolean`                 |                                                         `false`                                                         | Wether disable the auto dynamic public path feature or not                                              |
+|                 **[`template`](#template)**                 | `boolean \| string \| string[] \| object` |                                                         `true`                                                          | Specify html template                                                                                   |
+|                   **[`target`](#target)**                   |       `string \| string[] \| false`       |                                                                                                                         | Specify webpack target                                                                                  |
+|                 **[`external`](#external)**                 |                 `boolean`                 |                                                   _Depends on `env`_                                                    | Whether enable externals or not                                                                         |
+|                **[`externals`](#externals)**                |                 `object`                  |                                         _Depends on `env` and `output.library`_                                         | Specify webpack externals                                                                               |
+|                    **[`alias`](#alias)**                    |                 `object`                  |                                                                                                                         | Set webpack's `resolve.alias`                                                                           |
+|      **[`tsconfigPathsPlugin`](#tsconfigpathsplugin)**      |                 `object`                  |                                                                                                                         | Options for [`tsconfig-paths-webpack-plugin`](https://github.com/dividab/tsconfig-paths-webpack-plugin) |
+|                  **[`devtool`](#devtool)**                  |            `boolean \| string`            |                                                   _Depends on `env`_                                                    | Set webpack's `devtool` option                                                                          |
+|                   **[`common`](#common)**                   |                 `object`                  |                                          `{ disabled: false, name: 'common' }`                                          | Simply set whether using common chunk or not and the common chunks's name                               |
+|                 **[`compress`](#compress)**                 |                 `boolean`                 |                                                   _Depends on `env`_                                                    | Enable webpack's `optimization.minimize` option                                                         |
+|                  **[`esbuild`](#esbuild)**                  |                 `object`                  |                                                                                                                         | Options for ESBuild's loader and plugin                                                                 |
+|                      **[`swc`](#swc)**                      |            `boolean \| object`            |                                                                                                                         | Options for swc's loader and plugin                                                                     |
+|                   **[`terser`](#terser)**                   |                 `object`                  |     `{ extractComments: false, terserOptions: { compress: { drop_console: true }, format: { comments: false } } }`      | Options for `terser-webpack-plugin`                                                                     |
+|             **[`cssMinimizer`](#cssminimizer)**             |                 `object`                  |                `{ minimizerOptions: { preset: ["default", { discardComments: { removeAll: true } }] } }`                | Options for `css-minimizer-webpack-plugin`                                                              |
+|             **[`optimization`](#optimization)**             |                 `object`                  |                                                                                                                         | Extra optimization options                                                                              |
+|       **[`ignoreMomentLocale`](#ignoremomentlocale)**       |                 `boolean`                 |                                                         `true`                                                          | Whether to ignore locales in moment package or not                                                      |
+|                    **[`babel`](#babel)**                    |                 `object`                  |                                                                                                                         | Options to custom behavior of babel preset                                                              |
+|        **[`disabledTypeCheck`](#disabledtypecheck)**        |                 `boolean`                 |                                                         `false`                                                         | Disable type check for typescript files                                                                 |
+|         **[`typeCheckInclude`](#typecheckinclude)**         |                `string[]`                 |                                                       `["**/*"]`                                                        | Glob patterns for files to check types                                                                  |
+|                **[`injectCSS`](#injectcss)**                |                 `boolean`                 |                                                   _Depends on `env`_                                                    | Should inject css into the DOM, otherwise extract css to seperate files                                 |
+|              **[`styleLoader`](#styleloader)**              |                 `object`                  |                                                                                                                         | Options for `style-loader` or `MiniCssExtractPlugin.loader`                                             |
+|                **[`cssLoader`](#cssloader)**                |                 `object`                  |                                                                                                                         | Options for `css-loader`                                                                                |
+|            **[`postcssLoader`](#postcssloader)**            |                 `object`                  | `{ implementation: require("postcss"), postcssOptions: { plugins: ["postcss-flexbugs-fixes", "postcss-preset-env"] } }` | Options for `postcss-loader`                                                                            |
+|      **[`extraPostCSSPlugins`](#extrapostcssplugins)**      |                  `any[]`                  |                                                                                                                         | Extra plugins for PostCSS in `postcss-loader`                                                           |
+|         **[`postcssPresetEnv`](#postcsspresetenv)**         |                 `object`                  |                                                                                                                         | Options for `postcss-preset-env`                                                                        |
+|               **[`lessLoader`](#lessloader)**               |                 `object`                  |                       `{ implementation: require("less"), lessOptions: { rewriteUrls: "all" } }`                        | Options for `less-loader`                                                                               |
+|         **[`resolveUrlLoader`](#resolveurlloader)**         |                 `object`                  |                                                                                                                         | Options for `resolve-url-loader`                                                                        |
+|               **[`sassLoader`](#sassloader)**               |                 `object`                  |            `{ implementation: require("sass"), sourceMap: true, sassOptions: { fiber: require("fibers") } }`            | Options for `sass-loader`                                                                               |
+|             **[`workerLoader`](#workerloader)**             |                 `object`                  |                                                `{ inline: "fallback" }`                                                 | Options for `worker-loader`                                                                             |
+|                   **[`config`](#config)**                   |                 `object`                  |                              `{ name: "$config", path: "./src/config", env: ctx.command }`                              | Options to configure the runtime config virtual module                                                  |
+|                  **[`profile`](#profile)**                  |                 `boolean`                 |                                                                                                                         | Enable webpack profile option and add `webpack-stats-plugin` to output stats file                       |
+|                **[`statsOpts`](#statsopts)**                |            `string \| object`             |                                                       `"verbose"`                                                       | Options for `stats` in `webpack-stats-plugin`                                                           |
+|                 **[`analysis`](#analysis)**                 |            `boolean \| object`            |                                                                                                                         | Enable and set options for `webpack-bundle-analyzer`                                                    |
+|                    **[`watch`](#watch)**                    |                 `boolean`                 |                                                                                                                         | Enable watch mode                                                                                       |
+|                **[`watchOpts`](#watchopts)**                |                 `object`                  |                                              `{ ignored: /node_modules/ }`                                              | Options for watch mode                                                                                  |
+|                   **[`server`](#server)**                   |                 `boolean`                 |                                                   _Depends on `env`_                                                    | Enable server mode                                                                                      |
+|               **[`serverOpts`](#serveropts)**               |                 `object`                  |                  `{ host: "localhost", historyApiFallback: true, open: true, hot: true, quiet: true }`                  | Options for `webpack-dev-server`                                                                        |
 
 ### `configFile`
 
@@ -82,11 +84,11 @@ In compatible mode, the custom configration file could export a valid function o
 Examples:
 
 ```js
-module.exports = function(config, webpack, ctx) {
+module.exports = function (config, webpack, ctx) {
   // config: an instance of webpack-chain's `Config` or a webpack config object in compatible mode
   // webpack: the imported `webpack` function
   // ctx: the dawn context
-}
+};
 ```
 
 ### `compatible`
@@ -105,6 +107,7 @@ Default: _Depends on environment variables_
 Available values are `"development"` and `"production"`. If not specified, we will determine it by `process.env.DN_ENV`, `process.env.NODE_ENV` and the dawn command executing currently in order.
 
 Examples:
+
 ```sh
 $ dn dev # set to "development" because of the command includes the "dev" string
 $ dn run daily # set to "development" because of the command includes the "daily" string
@@ -256,6 +259,7 @@ Type: `object`<br>
 Default: `{ script: "js", style: "css", media: "assets", html: "" }`
 
 Output folders for different asset type.
+
 - `script` - All js files.
 - `style` - All css files output by `mini-css-extract-plugin`.
 - `html` - All html files output by `html-webpack-plugin`.
@@ -652,7 +656,7 @@ foo: abc
 In `./src/test.ts`
 
 ```ts
-import config from "$config";
+import config from '$config';
 
 console.log(config.foo); // output abc
 ```
@@ -750,6 +754,21 @@ Defaults to `true` if `env` is `"development"`, otherwise to `false`.
 Type: `object`<br>
 Default: `{ host: "localhost", historyApiFallback: true, open: true, hot: true, quiet: true }`
 
-Options for `webpack-dev-server`.
+Options for `webpack-dev-server`. Support custom server with `server.*` in current working directory, or with a directory `server/` and several config files.
+
+Examples:
+
+```yaml
+# server.yml
+host: 127.0.0.1
+port: 8001
+https: true
+proxy:
+  /api: https://localhost:3000
+  /api2:
+    target: https://localhost:3001
+    pathRewrite:
+      ^/api2: /v2
+```
 
 See [webpack docs](https://webpack.js.org/configuration/dev-server/#devserver).
