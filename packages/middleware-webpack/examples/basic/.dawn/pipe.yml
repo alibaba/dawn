@@ -16,6 +16,13 @@ dev:swc:
     env: development
     swc: true
 
+watch:
+  - name: $local
+    location: ../../lib/index.js
+    env: development
+    server: false
+    watch: true
+
 build:
   - name: $local
     location: ../../lib/index.js

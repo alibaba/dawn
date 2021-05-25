@@ -27,7 +27,7 @@ export default async (config: Config, options: INormalizedOpts) => {
     .modules.add("node_modules")
     .add(path.resolve(options.cwd, "node_modules"))
     .add(path.resolve(__dirname, "../../node_modules"))
-    .add(path.resolve(options.cwd, "src"))
+    .add(options.cwd)
     .end() // end of modules
     // because issue of our internal component template using rollup, we need adjust default mainFields resolve order
     .mainFields.merge(mainFields)
