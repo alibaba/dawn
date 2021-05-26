@@ -17,7 +17,7 @@ Then add the middleware to your `dawn` pipeline configuration. For example:
 
 ```yaml
 dev:
-  - name: '@dawnjs/webpack'
+  - name: '@dawnjs/dn-middleware-webpack'
 ```
 
 And run `dn dev` via your preferred method.
@@ -31,7 +31,7 @@ To be sure no other webpack middleware installed in your project. If any, please
 |                            Name                             |                   Type                    |                                                         Default                                                         | Description                                                                                             |
 | :---------------------------------------------------------: | :---------------------------------------: | :---------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------ |
 |               **[`configFile`](#configfile)**               |                 `string`                  |                                                 `"./webpack.config.js"`                                                 | The path of custom configration for modify any webpack options                                          |
-|               **[`compatible`](#compatible)**               |                 `boolean`                 |                                                         `false`                                                         | Use compatible format for custom configration                                                           |
+|                **[`chainable`](#chainable)**                |                 `boolean`                 |                                                         `false`                                                         | Use webpack-chain's Config instance for custorm config file                                             |
 |                      **[`env`](#env)**                      |                 `string`                  |                                           _Depends on environment variables_                                            | Set bundle environment, accepted values are `"development"` or `"production"`                           |
 |                      **[`cwd`](#cwd)**                      |                 `string`                  |                                         _Depends on current working directory_                                          | Specify working directory manually, useful for monorepo project etc.                                    |
 |                    **[`entry`](#entry)**                    |      `string \| string[] \| object`       |                                            _Depends on files exist in `src`_                                            | Specify app entry, support glob pattern and multi-entry                                                 |
@@ -95,13 +95,13 @@ module.exports = function (config, webpack, ctx) {
 };
 ```
 
-### `compatible`
+### `chainable`
 
 Type: `boolean`<br>
 Default: `false`
 
-By default, the first argument of custom configration function is a webpack-chain's `Config` instance.<br>
-If enable compatible mode, the first argument would be a webpack config object.
+By default, the first argument of custom configration function is a webpack config object.<br>
+If enable chainable mode, the first argument would be a webpack-chain's `Config` instance.
 
 ### `env`
 
@@ -142,7 +142,7 @@ Examples:
 
 ```yaml
 dev:
-  - name: '@dawnjs/webpack'
+  - name: '@dawnjs/dn-middleware-webpack'
     entry: src/app.tsx # The entry name is "app"
 ```
 
@@ -154,7 +154,7 @@ Examples:
 
 ```yaml
 dev:
-  - name: '@dawnjs/webpack'
+  - name: '@dawnjs/dn-middleware-webpack'
     entry:
       - src/foo.tsx # The entry name is "foo"
       - src/bar.tsx # The entry name is "bar"
@@ -168,7 +168,7 @@ Examples:
 
 ```yaml
 dev:
-  - name: '@dawnjs/webpack'
+  - name: '@dawnjs/dn-middleware-webpack'
     entry:
       index: src/index.tsx
       page_{0}: src/pages/*.tsx
@@ -191,7 +191,7 @@ Examples:
 
 ```yaml
 dev:
-  - name: '@dawnjs/webpack'
+  - name: '@dawnjs/dn-middleware-webpack'
     inject: src/setup.ts
 ```
 
@@ -203,7 +203,7 @@ Examples:
 
 ```yaml
 dev:
-  - name: '@dawnjs/webpack'
+  - name: '@dawnjs/dn-middleware-webpack'
     inject:
       - src/bootstrap.ts
       - src/initGlobal.ts
@@ -224,7 +224,7 @@ Examples:
 
 ```yaml
 dev:
-  - name: '@dawnjs/webpack'
+  - name: '@dawnjs/dn-middleware-webpack'
     append: src/cleanup.ts
 ```
 
@@ -236,7 +236,7 @@ Examples:
 
 ```yaml
 dev:
-  - name: '@dawnjs/webpack'
+  - name: '@dawnjs/dn-middleware-webpack'
     append:
       - src/restore.ts
       - src/cleanup.ts
