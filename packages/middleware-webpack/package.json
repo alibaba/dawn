@@ -1,6 +1,6 @@
 {
   "name": "@dawnjs/dn-middleware-webpack",
-  "version": "1.1.35",
+  "version": "1.1.36",
   "description": "A middleware to bundle assets with webpack5 in dawn pipeline",
   "keywords": [
     "dawn",
@@ -54,7 +54,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.14.0",
-    "@dawnjs/babel-preset-dawn": "^2.1.2",
+    "@dawnjs/babel-preset-dawn": "^2.1.3",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.0-beta.7",
     "@swc/core": "^1.2.57",
     "babel-loader": "^8.2.2",
