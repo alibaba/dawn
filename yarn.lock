@@ -3252,6 +3252,15 @@
     "@types/webpack-sources" "*"
     source-map "^0.6.0"
 
+"@types/webpack@^5.28.0":
+  version "5.28.0"
+  resolved "https://registry.nlark.com/@types/webpack/download/@types/webpack-5.28.0.tgz#78dde06212f038d77e54116cfe69e88ae9ed2c03"
+  integrity sha1-eN3gYhLwONd+VBFs/mnoiuntLAM=
+  dependencies:
+    "@types/node" "*"
+    tapable "^2.2.0"
+    webpack "^5"
+
 "@types/webpackbar@^4.0.1":
   version "4.0.1"
   resolved "https://registry.npm.taobao.org/@types/webpackbar/download/@types/webpackbar-4.0.1.tgz#51cb3de91c5c04a1ea5b1abe47decf80c459662e"

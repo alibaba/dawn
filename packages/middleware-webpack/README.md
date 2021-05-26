@@ -22,6 +22,10 @@ dev:
 
 And run `dn dev` via your preferred method.
 
+## _Important Warning_
+
+To be sure no other webpack middleware installed in your project. If any, please install the latest `webpack@5` with `npm install --dev webpack@5` manually in your project to ensure `node_modules/webpack`'s version is `5.x`.
+
 ## Options
 
 |                            Name                             |                   Type                    |                                                         Default                                                         | Description                                                                                             |
