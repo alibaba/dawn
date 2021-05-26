@@ -1,0 +1,28 @@
+init:
+  - name: pkginfo
+
+dev:
+  - name: $local
+    location: ./lib/index.js
+
+test:
+  - name: lint
+
+clean:
+  - name: clean
+    target:
+      - lib
+
+build:
+  - name: call
+    pipe:
+      - clean
+  - name: shell
+    script:
+      - babel src -d lib --extensions ".ts" --copy-files
+
+publish:
+  - name: call
+    pipe:
+      - test
+  - name: publish

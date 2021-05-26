@@ -1,0 +1,61 @@
+init:
+  - name: pkginfo
+
+clean:
+  - name: clean
+    target:
+      - lib
+
+dev:watch:
+  - name: call
+    pipe:
+      - clean
+  - name: lint
+    realtime: true
+  - name: babel
+    watch: true
+    disableTypeCheck: true
+    extraPlugins:
+      - babel-plugin-add-module-exports
+
+dev:
+  - name: clean
+  - name: $local
+    location: ./lib/index.js
+    entry:
+      index: ./test/*.jsx
+    template: ./test/index.html
+    watch: true
+  # - name: server
+  #   historyApiFallback: true
+  #   port: 8892
+  #   host: localhost
+  # - name: browser-sync
+
+
+dev:build:
+  - name: clean
+  - name: $local
+    location: ./lib/index.js
+    entry:
+      index: ./test/*.jsx
+    template: ./test/index.html
+    env: production
+
+test:
+  - name: lint
+
+build:
+  - name: call
+    pipe:
+      - clean
+  - name: babel
+    disableTypeCheck: true
+    extraPlugins:
+      - babel-plugin-add-module-exports
+
+publish:
+  - name: call
+    pipe:
+      - test
+  - name: publish
