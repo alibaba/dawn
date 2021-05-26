@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.4](https://github.com/alibaba/dawn/compare/@dawnjs/babel-preset-dawn@2.1.3...@dawnjs/babel-preset-dawn@2.1.4) (2021-05-26)
+
+
+### Bug Fixes
+
+* **babel-preset-dawn:** remove useless plugin ([767f92d](https://github.com/alibaba/dawn/commit/767f92d9b01222bbbe256eff0589d77214fe7ebe))
+
+
+
+
+
 ## [2.1.3](https://github.com/alibaba/dawn/compare/@dawnjs/babel-preset-dawn@2.1.2...@dawnjs/babel-preset-dawn@2.1.3) (2021-05-26)
 
 
