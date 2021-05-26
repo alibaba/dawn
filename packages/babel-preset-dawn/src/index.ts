@@ -39,9 +39,6 @@ export default (ctx: any, opts: IOpts = {}) => {
       // should be placed before @babel/plugin-proposal-decorators.
       opts.typescript && "babel-plugin-transform-typescript-metadata",
       ["@babel/plugin-proposal-decorators", { legacy: true }],
-      // https://babeljs.io/docs/en/babel-plugin-proposal-class-properties#loose
-      // When `loose` true, class properties are compiled to use an assignment expression instead of Object.defineProperty.
-      ["@babel/plugin-proposal-class-properties", { setPublicClassFields: true }],
       opts.transformRuntime && ["@babel/plugin-transform-runtime", toObject(opts.transformRuntime)],
       "@babel/plugin-proposal-function-bind",
       "@babel/plugin-proposal-logical-assignment-operators",
