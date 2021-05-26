@@ -336,7 +336,7 @@ Defaults to `false` in `development` mode, otherwise to `true`.
 Type: `object`<br>
 Default: _Depends on `env` and `output.library`_
 
-By default, make `jquery`, `zepto`, `react` and `react-dom` as externals.
+By default, make `react` and `react-dom` as externals.
 
 ### `alias`
 
