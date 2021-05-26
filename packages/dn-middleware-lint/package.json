@@ -1,23 +1,25 @@
 {
   "name": "dn-middleware-lint",
-  "version": "2.2.4",
-  "description": "",
+  "version": "3.0.11",
+  "description": "Dawn lint middleware",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "dn test"
+    "postinstall": "node ./lib/postinstall.js || exit 0"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Jeason",
+  "license": "MIT",
   "dependencies": {
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.3.0",
-    "eslint-config-dawn": "^1.0.9",
+    "confman": "^0.2.10",
+    "debug": "^4.1.1",
+    "del": "^5.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-dawn": "^2.0.6",
+    "eslint-formatter-pretty": "^3.0.1",
     "eslint-loader": "^3.0.2",
-    "eslint-plugin-html": "^5.0.0",
-    "eslint-plugin-react": "^7.11.1",
-    "eslint-plugin-react-hooks": "^1.0.1",
-    "globby": "^8.0.1",
-    "js-yaml": "^3.12.0",
-    "ntils": "^4.0.4"
+    "globby": "^11.0.0",
+    "js-yaml": "^3.13.1",
+    "lint-staged": "^10.2.4",
+    "prettier": "^2.0.5",
+    "rollup-plugin-eslint": "^7.0.0"
   }
 }

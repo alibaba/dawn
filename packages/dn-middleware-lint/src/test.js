@@ -2,6 +2,6 @@ console.log('你好', {
   a: 0,
   b: 1,
 });
-const exp = 'dsaf\D\Adsaf';
+const exp = 'dsafDAdsaf';
 console.log(exp);
-const bar = 2;
+// const bar_foo = 2;

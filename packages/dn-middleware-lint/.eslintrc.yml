@@ -1,9 +1,3 @@
-extends:
-  - dawn
-env:
-  browser: true
-  node: true
-globals:
-  window: writable
-  $: writable
-  jQuery: writable
+# Do not modify "extends" & "rules".
+
+extends: dawn
