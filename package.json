@@ -8,12 +8,13 @@
     "url": "git+https://github.com/alibaba/dawn.git"
   },
   "scripts": {
-    "bootstrap": "lerna bootstrap",
+    "bootstrap": "lerna bootstrap && yarn build",
     "clean": "lerna clean --yes",
     "prepare": "husky install",
     "lint": "eslint --quiet --cache --ext .js,.jsx,.ts,.tsx ./",
     "lint:fix": "npm run lint -- --fix",
     "commitlint": "commitlint --edit $1",
+    "test": "yarn bootstrap",
     "build": "lerna run build --stream",
     "release": "lerna publish --create-release github"
   },
