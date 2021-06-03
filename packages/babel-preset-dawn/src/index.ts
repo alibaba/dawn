@@ -39,7 +39,6 @@ export default (ctx: any, opts: IOpts = {}) => {
       // should be placed before @babel/plugin-proposal-decorators.
       opts.typescript && "babel-plugin-transform-typescript-metadata",
       ["@babel/plugin-proposal-decorators", { legacy: true }],
-      ["@babel/plugin-proposal-class-properties", { loose: true }],
       opts.transformRuntime && ["@babel/plugin-transform-runtime", toObject(opts.transformRuntime)],
       "@babel/plugin-proposal-function-bind",
       "@babel/plugin-proposal-logical-assignment-operators",
