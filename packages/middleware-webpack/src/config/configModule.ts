@@ -153,7 +153,7 @@ const addSWCLoader = (config: Config, options: INormalizedOpts) => {
   config.module
     .rule("swc")
     // Transform all `jsx` files
-    .oneOf("jsx")
+    .oneOf("js")
     .test(/\.(mjs|js|jsx)$/)
     .use("swc-loader")
     .loader(require.resolve("swc-loader"))

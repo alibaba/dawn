@@ -85,11 +85,13 @@ Default: `"./webpack.config.js"`
 By default, the custom configration file must export a valid function.<br>
 In compatible mode, the custom configration file could export a valid function or a valid webpack config object.
 
+**Important: It is not recommend to modify existing module rules because their structure might be changed in the future.**
+
 Examples:
 
 ```js
 module.exports = function (config, webpack, ctx) {
-  // config: an instance of webpack-chain's `Config` or a webpack config object in compatible mode
+  // config: a webpack config object or an instance of webpack-chain's `Config` in chainable mode
   // webpack: the imported `webpack` function
   // ctx: the dawn context
 };
@@ -102,6 +104,82 @@ Default: `false`
 
 By default, the first argument of custom configration function is a webpack config object.<br>
 If enable chainable mode, the first argument would be a webpack-chain's `Config` instance.
+
+Avaliable chainable config name:
+
+- rule (Access with `config.module.rule(ruleName)`)
+  - `"assets"`
+    - oneOf (Access with `config.module.rule("assets").oneOf(oneOfName)`)
+      - `"raw"`
+      - `"inline"`
+      - `"images"`
+      - `"svg"`
+      - `"fonts"`
+      - `"plaintext"`
+      - `"yaml"`
+  - `"esbuild"` (If using `esbuild.loader`)
+    - oneOf (Access with `config.module.rule("esbuild").oneOf(oneOfName)`)
+      - `"js"`
+        - use (Access with `config.module.rule("esbuild").oneOf("js").use(useName)`)
+          - `"esbuild-loader"`
+      - `"ts"`
+        - use (Access with `config.module.rule("esbuild").oneOf("ts").use(useName)`)
+          - `"esbuild-loader"`
+      - `"tsx"`
+        - use (Access with `config.module.rule("esbuild").oneOf("tsx").use(useName)`)
+          - `"esbuild-loader"`
+  - `"swc"` (If using `swc`)
+    - oneOf (Access with `config.module.rule("swc").oneOf(oneOfName)`)
+      - `"js"`
+        - use (Access with `config.module.rule("swc").oneOf("js").use(useName)`)
+          - `"swc-loader"`
+      - `"ts"`
+        - use (Access with `config.module.rule("swc").oneOf("ts").use(useName)`)
+          - `"swc-loader"`
+      - `"tsx"`
+        - use (Access with `config.module.rule("swc").oneOf("tsx").use(useName)`)
+          - `"swc-loader"`
+  - `babel` (If using babel, it's default)
+    - oneOf (Access with `config.module.rule("babel").oneOf(oneOfName)`)
+      - `"jsx"`
+        - use (Access with `config.module.rule("babel").oneOf("jsx").use(useName)`)
+          - `"babel-loader"`
+      - `"app-js"`
+        - use (Access with `config.module.rule("babel").oneOf("app-js").use(useName)`)
+          - `"babel-loader"`
+      - `"extra-js"` (If using `babel.extraBabelIncludes`)
+        - use (Access with `config.module.rule("babel").oneOf("extra-js").use(useName)`)
+          - `"babel-loader"`
+      - `"ts"`
+        - use (Access with `config.module.rule("babel").oneOf("ts").use(useName)`)
+          - `"babel-loader"`
+      - `"tsx"`
+        - use (Access with `config.module.rule("babel").oneOf("tsx").use(useName)`)
+          - `"babel-loader"`
+  - `"worker"`
+    - use (Access with `config.module.rule("worker").use(useName)`)
+      - `"worker-loader"`
+  - `"css"`
+    - use (Access with `config.module.rule("css").use(useName)`)
+      - `"style-loader"` (If using `injectCSS`)
+      - `"extract-css-loader"` (If not using `injectCSS`)
+      - `"css-loader"`
+      - `"postcss-loader"`
+  - `"less"`
+    - use (Access with `config.module.rule("less").use(useName)`)
+      - `"style-loader"` (If using `injectCSS`)
+      - `"extract-css-loader"` (If not using `injectCSS`)
+      - `"css-loader"`
+      - `"postcss-loader"`
+      - `"less-loader"`
+  - `"sass"`
+    - use (Access with `config.module.rule("sass").use(useName)`)
+      - `"style-loader"` (If using `injectCSS`)
+      - `"extract-css-loader"` (If not using `injectCSS`)
+      - `"css-loader"`
+      - `"postcss-loader"`
+      - `"resolve-url-loader"`
+      - `"sass-loader"`
 
 ### `env`
 
