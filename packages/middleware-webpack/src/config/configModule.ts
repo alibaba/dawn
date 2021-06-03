@@ -6,6 +6,7 @@ import sass from "sass";
 import Fiber from "fibers";
 import yaml from "js-yaml";
 import merge from "deepmerge";
+import { getDefaultESBuildTarget } from "../utils";
 import type Config from "webpack-chain";
 import type { INormalizedOpts } from "../types";
 
@@ -61,6 +62,7 @@ const addAssetsRule = (config: Config) => {
 };
 
 const addESBuildLoader = (config: Config, options: INormalizedOpts) => {
+  const target = getDefaultESBuildTarget(options);
   config.module
     .rule("esbuild")
     .oneOf("js")
@@ -69,7 +71,7 @@ const addESBuildLoader = (config: Config, options: INormalizedOpts) => {
     .loader(require.resolve("esbuild-loader"))
     .options({
       loader: "jsx",
-      target: "es2015",
+      target,
       ...(typeof options.esbuild.loader === "object" ? options.esbuild.loader : {}),
     })
     .end() // end of use
@@ -80,7 +82,7 @@ const addESBuildLoader = (config: Config, options: INormalizedOpts) => {
     .loader(require.resolve("esbuild-loader"))
     .options({
       loader: "ts",
-      target: "es2015",
+      target,
       ...(typeof options.esbuild.loader === "object" ? options.esbuild.loader : {}),
     })
     .end() // end of use
@@ -91,7 +93,7 @@ const addESBuildLoader = (config: Config, options: INormalizedOpts) => {
     .loader(require.resolve("esbuild-loader"))
     .options({
       loader: "tsx",
-      target: "es2015",
+      target,
       ...(typeof options.esbuild.loader === "object" ? options.esbuild.loader : {}),
     })
     .end() // end of use
@@ -113,6 +115,9 @@ const getSWCOptions = (
   { typescripit = true, react = true }: { typescripit?: boolean; react?: boolean } = {},
 ) => {
   const defaultOptions = {
+    env: {
+      coreJs: 3,
+    },
     jsc: {
       parser: {
         syntax: typescripit ? "typescript" : "ecmascript",
@@ -130,7 +135,6 @@ const getSWCOptions = (
               importMeta: true,
             }),
       },
-      target: "es2015",
       transform: {
         react: {
           development: options.env === "development",
