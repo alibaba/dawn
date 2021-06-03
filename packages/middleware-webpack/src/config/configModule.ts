@@ -116,7 +116,7 @@ const getSWCOptions = (
 ) => {
   const defaultOptions = {
     env: {
-      coreJs: 3,
+      coreJs: "3",
     },
     jsc: {
       parser: {

@@ -27,7 +27,7 @@ export default async (config: Config, options: INormalizedOpts) => {
             optimization.minimizer("swc").use(SWCMinifyPlugin, [
               {
                 env: {
-                  coreJs: 3,
+                  coreJs: "3",
                 },
                 ...(typeof options.swc === "object" ? options.swc : {}),
               },
