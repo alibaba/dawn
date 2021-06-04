@@ -1,7 +1,8 @@
-import Config from "webpack-chain";
 import { ESBuildMinifyPlugin } from "esbuild-loader";
-import { INormalizedOpts } from "../types";
 import { SWCMinifyPlugin } from "swc-webpack-plugin";
+import { getDefaultESBuildTarget } from "../utils";
+import type Config from "webpack-chain";
+import type { INormalizedOpts } from "../types";
 
 export default async (config: Config, options: INormalizedOpts) => {
   config.optimization
@@ -12,7 +13,7 @@ export default async (config: Config, options: INormalizedOpts) => {
       optimization => {
         optimization.minimizer("esbuild").use(ESBuildMinifyPlugin, [
           {
-            target: "es2015",
+            target: getDefaultESBuildTarget(options),
             css: true,
             ...(typeof options.esbuild?.minify === "object" ? options.esbuild?.minify : {}),
           },
@@ -23,7 +24,14 @@ export default async (config: Config, options: INormalizedOpts) => {
           !!options.swc,
           // eslint-disable-next-line @typescript-eslint/no-shadow
           optimization => {
-            optimization.minimizer("swc").use(SWCMinifyPlugin, [typeof options.swc === "object" ? options.swc : {}]);
+            optimization.minimizer("swc").use(SWCMinifyPlugin, [
+              {
+                env: {
+                  coreJs: "3",
+                },
+                ...(typeof options.swc === "object" ? options.swc : {}),
+              },
+            ]);
           },
           // eslint-disable-next-line @typescript-eslint/no-shadow
           optimization => {

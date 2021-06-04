@@ -1,6 +1,6 @@
 import path from "path";
 import globby from "globby";
-import { FileInfo } from "../types";
+import type { FileInfo } from "../types";
 
 // ./src/foo.js => foo
 const getFilenameByPath = (f: string) => path.basename(f).split(".")[0];

@@ -1,8 +1,8 @@
 import path from "path";
 import fs from "fs";
-import Config from "webpack-chain";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
-import { INormalizedOpts } from "../types";
+import type Config from "webpack-chain";
+import type { INormalizedOpts } from "../types";
 
 const mainFields = ["module", "browser", "main"];
 
@@ -27,7 +27,7 @@ export default async (config: Config, options: INormalizedOpts) => {
     .modules.add("node_modules")
     .add(path.resolve(options.cwd, "node_modules"))
     .add(path.resolve(__dirname, "../../node_modules"))
-    .add(path.resolve(options.cwd, "src"))
+    .add(options.cwd)
     .end() // end of modules
     // because issue of our internal component template using rollup, we need adjust default mainFields resolve order
     .mainFields.merge(mainFields)

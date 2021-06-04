@@ -1,7 +1,6 @@
 import path from "path";
 import fs from "fs";
-import Config from "webpack-chain";
-import { IgnorePlugin, DefinePlugin } from "webpack";
+import { DefinePlugin, IgnorePlugin } from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import WebpackBar from "webpackbar";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
@@ -9,7 +8,8 @@ import { StatsWriterPlugin } from "webpack-stats-plugin";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import VModulePlugin from "vmodule-webpack-plugin";
-import { Context, INormalizedOpts } from "../types";
+import type Config from "webpack-chain";
+import type { Context, INormalizedOpts } from "../types";
 
 export default async (config: Config, options: INormalizedOpts, ctx: Context) => {
   if (options.template?.length) {

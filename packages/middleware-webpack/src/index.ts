@@ -4,9 +4,9 @@ import webpack from "webpack";
 import Config from "webpack-chain";
 import { dynamicPublicPath, generateConfig } from "./config";
 import { normalizeOpts } from "./opts";
-import { Handler } from "./types";
 import { debug } from "./utils";
 import WebpackDevServer from "webpack-dev-server";
+import type { Handler } from "./types";
 
 // Migrate from v4 to v5: https://webpack.js.org/migrate/5/
 const handler: Handler = (opts = {}) => {
@@ -24,12 +24,13 @@ const handler: Handler = (opts = {}) => {
 
     const config = await generateConfig(options, ctx);
 
-    let webpackConfig = options.compatible ? config.toConfig() : config;
-
     if (ctx.emit) {
-      ctx.emit("webpack.config", webpackConfig, webpack, opts);
+      ctx.emit("webpack.chain-config", config, webpack, opts);
+      ctx.emit("webpack.config", config.toConfig(), webpack, opts);
       await ctx.utils.sleep(100); // waiting for async listener if any, will be removed while EventEmitter was refactored to async mode
     }
+
+    let webpackConfig = options.chainable ? config : config.toConfig();
 
     // merge custom webpack.config.js
     const customConfigFile = path.resolve(options.cwd, options.configFile);
@@ -38,7 +39,7 @@ const handler: Handler = (opts = {}) => {
       if (typeof customConfigsGenerate === "function") {
         webpackConfig = (await customConfigsGenerate(webpackConfig, webpack, ctx)) || webpackConfig;
         ctx.console.info(`[webpack5] Merged custom webpack config from '${options.configFile}'.`);
-      } else if (customConfigsGenerate && options.compatible) {
+      } else if (customConfigsGenerate && !options.chainable) {
         webpackConfig = customConfigsGenerate;
         ctx.console.error(`[webpack5] Use custom webpack config from '${opts.configFile}'.`);
       }

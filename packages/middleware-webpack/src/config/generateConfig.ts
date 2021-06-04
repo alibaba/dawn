@@ -1,11 +1,11 @@
 import Config from "webpack-chain";
-import { Context, INormalizedOpts } from "../types";
 import configEntry from "./configEntry";
 import configOutput from "./configOutput";
 import configResolve from "./configResolve";
 import configModule from "./configModule";
 import configPlugins from "./configPlugins";
 import configOptimization from "./configOptimization";
+import type { Context, INormalizedOpts } from "../types";
 
 // Generate webpack config
 export default async (options: INormalizedOpts, ctx: Context) => {

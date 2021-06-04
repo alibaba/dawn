@@ -1,10 +1,10 @@
 import path from "path";
 import os from "os";
 import assert from "assert";
-import { Configuration, Entry } from "webpack";
 import Config from "webpack-chain";
 import { debug } from "../utils";
-import { Context } from "../types";
+import type { Configuration, Entry } from "webpack";
+import type { Context } from "../types";
 
 const getInjectFile = async (filename: string, ctx: Context) => {
   const scriptSrcPrefix = path.dirname(filename);

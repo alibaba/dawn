@@ -2,8 +2,8 @@ import path from "path";
 import assert from "assert";
 import camelCase from "camelcase";
 import merge from "deepmerge";
-import { Context, Env, INormalizedOpts, IOpts } from "./types";
-import { formatNullStringToList, formatReglikeObject, getExistFile, debug } from "./utils";
+import { debug, formatNullStringToList, formatReglikeObject, getExistFile } from "./utils";
+import type { Context, Env, INormalizedOpts, IOpts } from "./types";
 
 // 生成排除配置
 function makeExternal(commonjs: string, root: string, amd?: string) {
@@ -14,16 +14,12 @@ function makeExternal(commonjs: string, root: string, amd?: string) {
 
 // 库默认排除设定
 const LIB_DEFAULT_EXTERNALS = {
-  jquery: makeExternal("jquery", "jQuery"),
-  zepto: makeExternal("zepto", "Zepto"),
   react: makeExternal("react", "React"),
   "react-dom": makeExternal("react-dom", "ReactDOM"),
 };
 
 // 普通项目默认排除设定
 const PRO_DEFAULT_EXTERNALS = {
-  jquery: "jQuery",
-  zepto: "Zepto",
   react: "React",
   "react-dom": "ReactDOM",
 };

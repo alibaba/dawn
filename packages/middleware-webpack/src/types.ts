@@ -46,9 +46,9 @@ export interface IOpts {
   configFile?: string;
 
   /**
-   * Compatible for outdated custom configration file
+   * Use webpack-chain's Config instance for custorm config file
    */
-  compatible?: boolean;
+  chainable?: boolean;
 
   /**
    * Bundling environment
