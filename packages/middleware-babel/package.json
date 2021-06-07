@@ -1,6 +1,6 @@
 {
   "name": "@dawnjs/dn-middleware-babel",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "Transform code with babel",
   "keywords": [
     "dawn",
@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.12.3",
-    "@dawnjs/babel-preset-dawn": "^2.1.4",
+    "@dawnjs/babel-preset-dawn": "^2.1.5",
     "chokidar": "^3.5.1",
     "gulp-if": "^3.0.0",
     "gulp-typescript": "^5.0.1",
