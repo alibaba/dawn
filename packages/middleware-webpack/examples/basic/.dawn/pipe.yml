@@ -1,11 +1,13 @@
 dev:
   - name: $local
     location: ../../lib/index.js
+    entry: ./src/pages/index.tsx
     env: development
 
 dev:esbuild:
   - name: $local
     location: ../../lib/index.js
+    entry: ./src/pages/index.tsx
     env: development
     esbuild:
       loader: true
@@ -13,12 +15,14 @@ dev:esbuild:
 dev:swc:
   - name: $local
     location: ../../lib/index.js
+    entry: ./src/pages/index.tsx
     env: development
     swc: true
 
 watch:
   - name: $local
     location: ../../lib/index.js
+    entry: ./src/pages/index.tsx
     env: development
     server: false
     watch: true
@@ -26,11 +30,13 @@ watch:
 build:
   - name: $local
     location: ../../lib/index.js
+    entry: ./src/pages/index.tsx
     env: production
 
 build:esbuild:
   - name: $local
     location: ../../lib/index.js
+    entry: ./src/pages/index.tsx
     env: production
     esbuild:
       loader: true
@@ -39,5 +45,6 @@ build:esbuild:
 build:swc:
   - name: $local
     location: ../../lib/index.js
+    entry: ./src/pages/index.tsx
     env: production
     swc: true

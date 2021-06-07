@@ -65,6 +65,7 @@ const processWithRaw = async (config: Configuration, ctx: Context) => {
           }
         }),
       );
+      return entry;
     } else if (typeof entry === "function") {
       // For dynamic entry, see https://webpack.js.org/configuration/entry-context/#dynamic-entry
       const origEntryFactory = entry;
