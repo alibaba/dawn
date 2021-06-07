@@ -14,13 +14,6 @@ const handler: Handler<IOpts> = options => {
 
     await validateOpts(opts, ctx);
 
-    await ctx.exec({
-      name: "babel",
-      noEmit: true,
-      runtimeHelpers: opts.runtimeHelpers,
-      corejs: opts.corejs,
-    }); // Trigger install babel middleware synchronously and install deps
-
     ctx.console.info("Rollup starting...");
 
     const { cwd, watch, configFile, analysis, fullCustom, ...bundleOpts } = opts;
