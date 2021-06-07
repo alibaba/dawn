@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.2.0...@dawnjs/dn-middleware-webpack@1.2.1) (2021-06-07)
+
+### Bug Fixes
+
+- **@dawnjs/dn-middleware-webpack:** return entry config in every logic branch ([817bd86](https://github.com/alibaba/dawn/commit/817bd86c634a96352577026ca62ad2b1f9959a61))
+
 # [1.2.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.1.37...@dawnjs/dn-middleware-webpack@1.2.0) (2021-06-07)
 
 ### Bug Fixes
