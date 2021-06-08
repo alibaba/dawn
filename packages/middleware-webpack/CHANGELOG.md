@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.2](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.2.1...@dawnjs/dn-middleware-webpack@1.2.2) (2021-06-08)
+
+### Bug Fixes
+
+- **@dawnjs/dn-middleware-webpack:** default use transformRuntime and corejs3 ([6199029](https://github.com/alibaba/dawn/commit/61990290319c2f102b192eac4d9af6170b6c24fe))
+- **@dawnjs/dn-middleware-webpack:** fix webpack.config event ([577bee4](https://github.com/alibaba/dawn/commit/577bee421a8f5195a3d8061bd35febc1e7f291a3))
+
 ## [1.2.1](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.2.0...@dawnjs/dn-middleware-webpack@1.2.1) (2021-06-07)
 
 ### Bug Fixes
