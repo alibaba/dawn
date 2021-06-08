@@ -24,13 +24,12 @@ const handler: Handler = (opts = {}) => {
 
     const config = await generateConfig(options, ctx);
 
+    let webpackConfig = options.chainable ? config : config.toConfig();
+
     if (ctx.emit) {
-      ctx.emit("webpack.chain-config", config, webpack, opts);
-      ctx.emit("webpack.config", config.toConfig(), webpack, opts);
+      ctx.emit(options.chainable ? "webpack.chain-config" : "webpack.config", webpackConfig, webpack, opts);
       await ctx.utils.sleep(100); // waiting for async listener if any, will be removed while EventEmitter was refactored to async mode
     }
-
-    let webpackConfig = options.chainable ? config : config.toConfig();
 
     // merge custom webpack.config.js
     const customConfigFile = path.resolve(options.cwd, options.configFile);
