@@ -1,0 +1,28 @@
+{
+  "name": "@dawnjs/dn-middleware-shell",
+  "version": "1.1.1",
+  "description": "A middleware to exec shell script",
+  "main": "./lib/index.js",
+  "scripts": {
+    "clean": "rimraf lib",
+    "prebuild": "npm run clean",
+    "build": "tsc && ts-add-module-exports",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "lib"
+  ],
+  "author": "",
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "http://dawnjs.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alibaba/dawn.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@dawnjs/types": "^2.0.1"
+  }
+}
