@@ -1,4 +1,5 @@
 declare module "$config";
+declare module "$i18n";
 declare module "*.module.scss";
 declare module "*.module.less";
 declare module "*.module.css";

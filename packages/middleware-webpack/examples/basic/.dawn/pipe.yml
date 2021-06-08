@@ -1,8 +1,12 @@
 dev:
+  - name: i18n
   - name: $local
     location: ../../lib/index.js
     entry: ./src/pages/index.tsx
     env: development
+    babel:
+      runtimeHelpers: true
+      corejs: 3
 
 dev:esbuild:
   - name: $local
@@ -28,6 +32,7 @@ watch:
     watch: true
 
 build:
+  - name: i18n
   - name: $local
     location: ../../lib/index.js
     entry: ./src/pages/index.tsx

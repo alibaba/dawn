@@ -8,6 +8,8 @@ import yamlData from "./data.yml";
 import tsfile from "./tsfile";
 import JSComponent from "./JSComponent";
 import JSXComponent from "./JSXComponent";
+import $config from "$config";
+import $i18n from "$i18n";
 
 import styles from "./app.module.scss";
 import "./app.scss";
@@ -48,6 +50,8 @@ const App: React.FC = () => {
       <React.Suspense fallback="Loading">
         <AsyncComponent />
       </React.Suspense>
+      <div>config: {JSON.stringify($config)}</div>
+      <div>i18n: {$i18n("hello", { name: "龙归" })}</div>
     </div>
   );
 };

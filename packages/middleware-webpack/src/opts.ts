@@ -75,6 +75,8 @@ export const normalizeOpts = (opts: Partial<IOpts>, ctx: Context): INormalizedOp
     },
     babel: {
       jsxRuntime: opts.jsxRuntime,
+      runtimeHelpers: true,
+      corejs: 3,
       ...opts.babel,
     },
     cssLoader: {
