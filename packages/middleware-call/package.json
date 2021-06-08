@@ -8,7 +8,15 @@
     "call"
   ],
   "main": "./lib/index.js",
-  "scripts": {},
+  "scripts": {
+    "clean": "rimraf lib",
+    "prebuild": "npm run clean",
+    "build": "tsc && ts-add-module-exports",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "lib"
+  ],
   "author": "",
   "publishConfig": {
     "access": "public"
@@ -18,5 +26,8 @@
     "type": "git",
     "url": "https://github.com/alibaba/dawn.git"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@dawnjs/types": "^2.0.1"
+  }
 }

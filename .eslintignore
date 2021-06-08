@@ -10,7 +10,6 @@ docs/
 /packages/*/lib/
 /packages/middleware-webpack/examples/
 !/packages/cli/lib/
-!/packages/middleware-call/lib/
 !/packages/middleware-jest/lib/
 
 # node 覆盖率文件
