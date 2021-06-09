@@ -1,0 +1,21 @@
+init:
+  - name: tnpm-install
+  - name: pkginfo
+
+dev:
+  - name: clean
+  - name: ./lib/index.js
+    log: true
+    files:
+      ./build/demo1/(1)/(0).(ext): ./demo/**/*.*
+      ./build/demo2/: ./demo/**/*.*
+    filter: true
+
+test:
+  - name: lint
+
+#中间工程并非要发布到 CDN
+#不放到 aliyun group 下也不会发到 CND
+#只是中间件的版本管理是基于 tag 的，恰好使用
+publish:
+  - name: alicdn-publish
