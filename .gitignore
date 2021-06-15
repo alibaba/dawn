@@ -34,3 +34,4 @@ coverage
 /packages/*/lib/
 !/packages/cli/lib/
 !/packages/middleware-jest/lib/
+!/packages/middleware-lint/lib/
