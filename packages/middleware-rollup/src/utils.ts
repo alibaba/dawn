@@ -90,11 +90,11 @@ export const getOutputFile = (opts: {
       if (file) {
         return `${outDir}/${file}.umd${minFile ? ".min" : ""}.js`;
       }
-      if (pkg.browser) {
+      if (pkg.unpkg || pkg.browser) {
         if (minFile) {
-          return `${getFileName(pkg.browser)}.min.js`;
+          return `${getFileName(pkg.unpkg || pkg.browser)}.min.js`;
         }
-        return pkg.browser;
+        return pkg.unpkg || pkg.browser;
       }
       return `${outDir}/${name}${minFile ? ".min" : ""}.js`;
     case "system":
@@ -104,8 +104,8 @@ export const getOutputFile = (opts: {
       if (file) {
         return `${outDir}/${file}.system.js`;
       }
-      if (pkg.browser) {
-        return `${getFileName(pkg.browser)}.system.js`;
+      if (pkg.unpkg || pkg.browser) {
+        return `${getFileName(pkg.unpkg || pkg.browser)}.system.js`;
       }
       return `${outDir}/${name}.system.js`;
     case "iife":
@@ -115,8 +115,8 @@ export const getOutputFile = (opts: {
       if (file) {
         return `${outDir}/${file}.iife.js`;
       }
-      if (pkg.browser) {
-        return `${getFileName(pkg.browser)}.iife.js`;
+      if (pkg.unpkg || pkg.browser) {
+        return `${getFileName(pkg.unpkg || pkg.browser)}.iife.js`;
       }
       return `${outDir}/${name}.iife.js`;
     default:
