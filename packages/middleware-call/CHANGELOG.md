@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-call@1.1.1...@dawnjs/dn-middleware-call@1.1.2) (2021-06-16)
+
+### Bug Fixes
+
+- **@dawnjs/dn-middleware-call:** fix issue when opts.when is null or undefined ([d72f28f](https://github.com/alibaba/dawn/commit/d72f28fdecf7915df31d471c7797c582443bf122))
+
 ## [1.1.1](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-call@1.1.0...@dawnjs/dn-middleware-call@1.1.1) (2021-06-16)
 
 **Note:** Version bump only for package @dawnjs/dn-middleware-call
