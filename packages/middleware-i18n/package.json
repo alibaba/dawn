@@ -1,0 +1,33 @@
+{
+  "name": "@dawnjs/dn-middleware-i18n",
+  "version": "1.2.3",
+  "description": "A middleware to provide international feature",
+  "main": "./lib/index.js",
+  "scripts": {
+    "clean": "rimraf lib",
+    "prebuild": "npm run clean",
+    "build": "tsc && ts-add-module-exports",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "lib",
+    "template",
+    "i18n.ts"
+  ],
+  "author": "",
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "http://dawnjs.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alibaba/dawn.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "vmodule-webpack-plugin": "^2.0.5"
+  },
+  "devDependencies": {
+    "@dawnjs/types": "^2.0.1"
+  }
+}

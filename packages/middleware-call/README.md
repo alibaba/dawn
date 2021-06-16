@@ -7,22 +7,22 @@
 
 ```yaml
 demo1:
-  - name: shell
+  - name: '@dawnjs/dn-middleware-shell'
     script:
       - echo demo1
 
 demo2:
-  - name: shell
+  - name: '@dawnjs/dn-middleware-shell'
     script:
       - echo demo2
 
 demo3:
-  - name: shell
+  - name: '@dawnjs/dn-middleware-shell'
     script:
       - echo demo3
 
 demo:
-  - name: call
+  - name: '@dawnjs/dn-middleware-call'
     pipe:
       - demo3
     when:
@@ -32,11 +32,12 @@ demo:
 
 ## Options
 
-| Name | Type | Description |
-| --- | --- | --- |
-| pipe | <code>string &#124; string[]</code> | The pipeline name[s] which needs to be called always in order |
-| when | `object` | The pipeline name which needs to be called if meet the conditions after `pipe` array |
+| Name | Type                 | Description                                                                          |
+| ---- | -------------------- | ------------------------------------------------------------------------------------ |
+| pipe | `string \| string[]` | The pipeline name[s] which needs to be called always in order                        |
+| when | `object`             | The pipeline name which needs to be called if meet the conditions after `pipe` array |
 
 ### Condition expression description
+
 - Condition expression can be any valid statement that return boolean value.
 - Middleware will extract all field in context to the condition expression scope with `with` statement.

@@ -1,0 +1,31 @@
+{
+  "name": "@dawnjs/dn-middleware-copy",
+  "version": "0.2.7",
+  "description": "A middleware to copy files",
+  "main": "./lib/index.js",
+  "scripts": {
+    "clean": "rimraf lib",
+    "prebuild": "npm run clean",
+    "build": "tsc && ts-add-module-exports",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "lib"
+  ],
+  "author": "",
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "http://dawnjs.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alibaba/dawn.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@dawnjs/types": "^2.0.1"
+  },
+  "dependencies": {
+    "tpjs": "^3.8.3"
+  }
+}

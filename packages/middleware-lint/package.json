@@ -1,0 +1,36 @@
+{
+  "name": "@dawnjs/dn-middleware-lint",
+  "version": "3.0.11",
+  "description": "Dawn lint middleware",
+  "main": "./lib/index.js",
+  "scripts": {
+    "postinstall": "node ./lib/postinstall.js || exit 0"
+  },
+  "author": "Jeason",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "lib"
+  ],
+  "homepage": "http://dawnjs.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alibaba/dawn.git"
+  },
+  "dependencies": {
+    "@dawnjs/eslint-config-dawn": "^3.0.0",
+    "confman": "^0.2.10",
+    "debug": "^4.3.1",
+    "del": "^6.0.0",
+    "eslint": "^7.28.0",
+    "eslint-formatter-pretty": "^4.1.0",
+    "eslint-webpack-plugin": "^2.5.4",
+    "globby": "^11.0.3",
+    "js-yaml": "^4.1.0",
+    "lint-staged": "^11.0.0",
+    "prettier": "^2.3.1",
+    "rollup-plugin-eslint": "^7.0.0"
+  }
+}

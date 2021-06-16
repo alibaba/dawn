@@ -1,0 +1,16 @@
+dev:
+  - name: ../../lib/index.js
+    jsx: true
+    dir: ./src/locales
+  - name: '@dawnjs/dn-middleware-webpack'
+    env: development
+
+build:
+  - name: '@dawnjs/dn-middleware-clean'
+  - name: ../../lib/index.js
+    jsx: true
+    dir: ./src/locales
+    extract: ./build/locales
+    key: __i18n__
+  - name: '@dawnjs/dn-middleware-webpack'
+    env: production
