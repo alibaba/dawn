@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.5](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@1.7.4...@dawnjs/dn-middleware-rollup@1.7.5) (2021-06-16)
+
+### Bug Fixes
+
+- **@dawnjs/dn-middleware-rollup:** fix using `pkg.unpkg` as the umd entry instead of `pkg.browser` ([1f551cb](https://github.com/alibaba/dawn/commit/1f551cb8df3214a040b287ef1c68186435f80967))
+
 ## [1.7.4](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@1.7.3...@dawnjs/dn-middleware-rollup@1.7.4) (2021-06-07)
 
 ### Bug Fixes

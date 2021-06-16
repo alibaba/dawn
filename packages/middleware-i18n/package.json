@@ -1,6 +1,6 @@
 {
   "name": "@dawnjs/dn-middleware-i18n",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "A middleware to provide international feature",
   "main": "./lib/index.js",
   "scripts": {

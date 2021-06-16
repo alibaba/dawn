@@ -1,6 +1,6 @@
 {
   "name": "@dawnjs/dn-middleware-clean",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A middleware to clean files",
   "keywords": [
     "dawn",
