@@ -6,21 +6,21 @@
 <h4 align="center">Lightweight task management and build tool.</h4>
 
 <p align="center">
-  <a href="https://github.com/alibaba/dawn/blob/master/LICENSE">
-    <img src="https://img.shields.io/npm/l/dawn.svg" alt="LICENSE">
+  <a href="https://github.com/alibaba/dawn/blob/main/LICENSE">
+    <img src="https://img.shields.io/npm/l/@dawnjs/cli.svg" alt="LICENSE">
   </a>
-  <a href="https://www.npmjs.com/package/dawn">
-    <img src="https://img.shields.io/npm/v/dawn.svg" alt="npm version">
+  <a href="https://www.npmjs.com/package/@dawnjs/cli">
+    <img src="https://img.shields.io/npm/v/@dawnjs/cli.svg" alt="npm version">
   </a>
-  <a href="https://www.travis-ci.org/alibaba/dawn">
-    <img src="https://coveralls.io/repos/github/alibaba/dawn/badge.svg?branch=dev" alt="Coverage Status">
+  <a href="https://github.com/alibaba/dawn/actions/workflows/main.yml">
+    <img src="https://github.com/alibaba/dawn/actions/workflows/main.yml/badge.svg" alt="CI">
   </a>
-  <a href="https://www.npmjs.com/package/dawn">
-    <img src="https://img.shields.io/npm/dt/dawn.svg" alt="npm downloads">
+  <a href="https://www.npmjs.com/package/@dawnjs/cli">
+    <img src="https://img.shields.io/npm/dt/@dawnjs/cli.svg" alt="npm downloads">
   </a>
 </p>
 
-<pre align="center">npm i <a href="https://www.npmjs.com/package/dawn">dawn</a> -g</pre>
+<pre align="center">npm i <a href="https://www.npmjs.com/package/@dawnjs/cli">@dawnjs/cli</a> -g</pre>
 
 [README in English](README-intl.md)
 
@@ -37,10 +37,11 @@ Dawn 取「黎明、破晓」之意，原为「阿里云·业务运营团队」�
 ## 安装
 
 ```sh
-$ npm install dawn -g
+$ npm install @dawnjs/cli -g
 ```
 
 ## 使用
+
 ```sh
 # 1. 创建 & 初始化
 $ dn init -t front
@@ -60,16 +61,17 @@ $ dn build
 ```yml
 # 启动开发服务
 dev:
-  - name: webpack
+  - name: '@dawnjs/dn-middleware-webpack'
+    env: development
     entry: ./src/*.js
     template: ./assets/*.html
-    watch: true
-  - name: server
-    port: 8001
-    
+    serverOpts:
+      port: 8001
+
 # 直接构建
 buid:
-  - name: webpack
+  - name: '@dawnjs/dn-middleware-webpack'
+    env: production
     entry: ./src/*.js
     template: ./assets/*.html
 ```

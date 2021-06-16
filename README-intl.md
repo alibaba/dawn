@@ -6,21 +6,21 @@
 <h4 align="center">Lightweight task management and build tool.</h4>
 
 <p align="center">
-  <a href="https://github.com/alibaba/dawn/blob/master/LICENSE">
-    <img src="https://img.shields.io/npm/l/dawn.svg" alt="LICENSE">
+  <a href="https://github.com/alibaba/dawn/blob/main/LICENSE">
+    <img src="https://img.shields.io/npm/l/@dawnjs/cli.svg" alt="LICENSE">
   </a>
-  <a href="https://www.npmjs.com/package/dawn">
-    <img src="https://img.shields.io/npm/v/dawn.svg" alt="npm version">
+  <a href="https://www.npmjs.com/package/@dawnjs/cli">
+    <img src="https://img.shields.io/npm/v/@dawnjs/cli.svg" alt="npm version">
   </a>
-  <a href="https://www.travis-ci.org/alibaba/dawn">
-    <img src="https://coveralls.io/repos/github/alibaba/dawn/badge.svg?branch=dev" alt="Coverage Status">
+  <a href="https://github.com/alibaba/dawn/actions/workflows/main.yml">
+    <img src="https://github.com/alibaba/dawn/actions/workflows/main.yml/badge.svg" alt="CI">
   </a>
-  <a href="https://www.npmjs.com/package/dawn">
-    <img src="https://img.shields.io/npm/dt/dawn.svg" alt="npm downloads">
+  <a href="https://www.npmjs.com/package/@dawnjs/cli">
+    <img src="https://img.shields.io/npm/dt/@dawnjs/cli.svg" alt="npm downloads">
   </a>
 </p>
 
-<pre align="center">npm i <a href="https://www.npmjs.com/package/dawn">dawn</a> -g</pre>
+<pre align="center">npm i <a href="https://www.npmjs.com/package/@dawnjs/cli">@dawnjs/cli</a> -g</pre>
 
 [中文 README](README.md)
 
@@ -37,10 +37,11 @@ Dawn is a lightweight task management and build tool for front-end and nodejs. I
 ## Install
 
 ```sh
-$ npm install dawn -g
+$ npm install @dawnjs/cli -g
 ```
 
 ## Use
+
 ```sh
 # 1. Create & Initialize
 $ dn init -t front
@@ -60,16 +61,17 @@ $ dn build
 ```yml
 # Development & Real-time compilation
 dev:
-  - name: webpack
+  - name: '@dawnjs/dn-middleware-webpack'
+    env: development
     entry: ./src/*.js
     template: ./assets/*.html
-    watch: true
-  - name: server
-    port: 8001
-    
+    serverOpts:
+      port: 8001
+
 # Build & pack
 buid:
-  - name: webpack
+  - name: '@dawnjs/dn-middleware-webpack'
+    env: production
     entry: ./src/*.js
     template: ./assets/*.html
 ```
@@ -80,7 +82,6 @@ buid:
 - Pipeline: [pipeline.md](https://alibaba.github.io/dawn/docs/#!/zh/guide/pipeline)
 - Middleware: [middleware.md](https://alibaba.github.io/dawn/docs/#!/zh/guide/middleware)
 - More docs: [https://alibaba.github.io/dawn/docs/](https://alibaba.github.io/dawn/docs/)
-
 
 ## Others
 
