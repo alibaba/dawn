@@ -41,7 +41,7 @@ const handler: Handler<IOpts> = opts => {
 
     const list = toArr(opts.pipe);
 
-    Object.keys(opts.when).forEach(expr => {
+    Object.keys(opts.when || {}).forEach(expr => {
       const func = compile(expr);
       if (func.call(ctx)) {
         list.push(opts.when[expr]);
