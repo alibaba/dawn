@@ -58,7 +58,6 @@ const handler: Handler<IOpts> = opts => {
         });
       }
       Object.assign(pkg, result);
-      ctx.project = pkg;
       await ctx.utils.writeFile(pkgFile, JSON.stringify(pkg, null, "  "));
       ctx.console.info("Done");
     }
