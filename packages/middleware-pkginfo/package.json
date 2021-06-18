@@ -1,6 +1,6 @@
 {
   "name": "@dawnjs/dn-middleware-pkginfo",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "用于根据用户输入配置 package 中的信息",
   "main": "./lib/index.js",
   "scripts": {
