@@ -394,7 +394,7 @@ export default async (config: Config, options: INormalizedOpts) => {
             if (typeof customOptions === "function") {
               customOptions = customOptions(loaderContext);
             }
-            return { fiber: Fiber, ...customOptions };
+            return { fiber: Fiber, quietDeps: true, ...customOptions };
           },
         },
       },
