@@ -74,7 +74,7 @@ export const normalizeOpts = (opts: Partial<IOpts>, ctx: Context): INormalizedOp
       ...opts.folders,
     },
     babel: {
-      jsxRuntime: opts.jsxRuntime,
+      jsxRuntime: opts.jsxRuntime ?? true,
       runtimeHelpers: true,
       corejs: 3,
       ...opts.babel,
