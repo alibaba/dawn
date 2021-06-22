@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.3](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.2.2...@dawnjs/dn-middleware-webpack@1.2.3) (2021-06-22)
+
+### Bug Fixes
+
+- **@dawnjs/dn-middleware-webpack:** not set globalObject by default ([e46d6e0](https://github.com/alibaba/dawn/commit/e46d6e09a02ad4215cf9403198351016443eefd4))
+- **@dawnjs/dn-middleware-webpack:** set publicPath to "/" in development mode ([ffe23ee](https://github.com/alibaba/dawn/commit/ffe23eeba4d19c76bc2e70d9ca878a8f1b0255cf))
+
 ## [1.2.2](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.2.1...@dawnjs/dn-middleware-webpack@1.2.2) (2021-06-08)
 
 ### Bug Fixes
