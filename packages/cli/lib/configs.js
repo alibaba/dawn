@@ -21,7 +21,7 @@ const paths = require('./common/paths');
 const FETCH_TIMEOUT = 30000;
 
 exports.setLocalRc = async function (name, value) {
-  const rcObject = await this.getLocalRc() || {};
+  const rcObject = (await this.getLocalRc()) || {};
   rcObject[name] = value;
   const text = yaml.stringify(rcObject);
   const rcFile = paths.rcPath();
@@ -39,14 +39,14 @@ exports.getLocalRc = async function (name) {
 };
 
 exports.getRemoteRc = async function (name) {
-  const remoteRCConf = await this.getRemoteConf('rc') || {};
+  const remoteRCConf = (await this.getRemoteConf('rc')) || {};
   const value = name ? remoteRCConf[name] || '' : remoteRCConf;
   debug('getRemoteRc', name || 'all', value || '<null>');
   return utils.isString(value) ? value.trim() : value;
 };
 
 exports.getProjectRc = async function (name) {
-  const configsPath = path.resolve(process.cwd(), `./.${pkg.name}`);
+  const configsPath = path.resolve(process.cwd(), './.dawn');
   const configs = utils.confman.load(configsPath);
   const rcObject = configs.rc || {};
   const value = name ? rcObject[name] || '' : rcObject;
@@ -56,21 +56,21 @@ exports.getProjectRc = async function (name) {
 
 exports.getRc = async function (name, opts) {
   opts = Object.assign({}, opts);
-  const value = await this.getProjectRc(name) ||
-    await this.getLocalRc(name) ||
-    (opts.remote !== false && await this.getRemoteRc(name)) ||
-    pkg.configs[name] || '';
+  const value =
+    (await this.getProjectRc(name)) ||
+    (await this.getLocalRc(name)) ||
+    (opts.remote !== false && (await this.getRemoteRc(name))) ||
+    pkg.configs[name] ||
+    '';
   debug('getRc', name, value || '<null>');
   return utils.isString(value) ? value.trim() : value;
 };
 
 exports.getServerUri = async function () {
-  const serverUri = await this.getProjectRc('server') ||
-    await this.getLocalRc('server') ||
-    pkg.configs.server || '';
+  const serverUri =
+    (await this.getProjectRc('server')) || (await this.getLocalRc('server')) || pkg.configs.server || '';
   debug('getServerUri', serverUri || '<null>');
-  return utils.isString(serverUri) ?
-    trim(serverUri.trim(), '/') : '';
+  return utils.isString(serverUri) ? trim(serverUri.trim(), '/') : '';
 };
 
 exports.getRemoteConf = async function (name, defaultValue = {}) {
