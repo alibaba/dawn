@@ -18,7 +18,6 @@ const stp = require('stp');
 const debug = require('debug')('context');
 
 class Context extends EventEmitter {
-
   constructor(cli, opts) {
     super();
     opts = opts || {};
@@ -34,7 +33,7 @@ class Context extends EventEmitter {
     this.console = console;
     this.utils = utils;
     this.inquirer = utils.inquirer;
-    this.configName = `./.${pkg.name}`;
+    this.configName = './.dawn';
     this.configPath = path.resolve(this.cwd, this.configName);
     this.conf = configs;
     this.mod = mod;
@@ -42,10 +41,7 @@ class Context extends EventEmitter {
 
   async configIsExists() {
     debug('config name', this.configName);
-    const files = await utils.globby([
-      `${this.configName}/**/*.*`,
-      `${this.configName}.*`
-    ]);
+    const files = await utils.globby([`${this.configName}/**/*.*`, `${this.configName}.*`]);
     debug('config files', files);
     return files.length > 0;
   }
@@ -119,10 +115,9 @@ class Context extends EventEmitter {
     const middleware = middlewares.shift();
     if (!middleware) return;
     const handler = await this.load(middleware);
-    const next = (args) => {
+    const next = args => {
       if (next.__result) return next.__result;
-      next.__result = this._execQueue(middlewares, args, onFail)
-        .catch(err => onFail(err));
+      next.__result = this._execQueue(middlewares, args, onFail).catch(err => onFail(err));
       return next.__result;
     };
     return handler.call(this, next, this, args);
@@ -130,7 +125,7 @@ class Context extends EventEmitter {
 
   unescapeExpr(str) {
     if (!str) return str;
-    return str.replace(/\\\{/, '{').replace('/\\\}/', '}');
+    return str.replace(/\\\{/, '{').replace('/\\}/', '}');
   }
 
   _parseOpts(opts) {
@@ -156,9 +151,9 @@ class Context extends EventEmitter {
       throw new Error('Invalid pipeline config');
     }
     opts = this._parseOpts(opts);
-    const modFactory = opts.location ?
-      require(path.resolve(this.cwd, opts.location)) :
-      await middleware.require(opts.name, this.cwd);
+    const modFactory = opts.location
+      ? require(path.resolve(this.cwd, opts.location))
+      : await middleware.require(opts.name, this.cwd);
     if (!utils.isFunction(modFactory)) {
       throw new Error(`Invalid middleware '${opts.name}'`);
     }
@@ -171,8 +166,7 @@ class Context extends EventEmitter {
       middlewares.push((next, ctx, args) => {
         resolve(args);
       });
-      this._execQueue(middlewares, initailArgs, reject)
-        .catch(err => reject(err));
+      this._execQueue(middlewares, initailArgs, reject).catch(err => reject(err));
     });
   }
 
@@ -186,7 +180,6 @@ class Context extends EventEmitter {
     }
     return this.exec(this.pipeline);
   }
-
 }
 
 module.exports = Context;
