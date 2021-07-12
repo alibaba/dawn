@@ -1,4 +1,5 @@
 import type { Configuration } from "webpack/types.d";
+import { TerserPluginOptions } from "terser-webpack-plugin";
 
 export type Env = "development" | "production";
 export type Devtool = boolean | string;
@@ -128,6 +129,9 @@ export interface IOpts {
 
   // esbuild
   esbuild?: IESBuildOptions;
+
+  // optimization
+  terser?: TerserPluginOptions;
 
   // config
   config?: IConfig;

@@ -21,6 +21,7 @@ const getOptimization = (options: IGetWebpackConfigOpts, ctx: Dawn.Context) => {
               output: {
                 comments: false,
               },
+              ...(options?.terser?.terserOptions ? options?.terser?.terserOptions : {}),
             },
             extractComments: false,
           }),

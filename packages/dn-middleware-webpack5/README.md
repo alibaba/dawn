@@ -206,6 +206,9 @@ ts类型检查中的错误是否会阻断编译
 
 是否启用压缩（如果使用了compress中间件，需要将此配置设置为 false）
 
+### `terser.terserOptions`
+类型： `object`<br>
+默认值: {}
 
 ### `esbuild.minify`
 类型：`boolean | object`<br>
