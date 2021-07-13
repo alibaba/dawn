@@ -1,3 +1,2 @@
-module.exports = {
-  ...require("./packages/eslint-config-dawn/prettierrc"),
-};
+/** !!DO NOT MODIFY THIS FILE!! */
+module.exports = require('@dawnjs/eslint-config-dawn/prettierrc');
