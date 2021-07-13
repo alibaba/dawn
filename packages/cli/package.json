@@ -1,6 +1,6 @@
 {
   "name": "@dawnjs/cli",
-  "version": "1.11.1",
+  "version": "1.12.0",
   "description": "dawn cli",
   "main": "./lib/index.js",
   "bin": {

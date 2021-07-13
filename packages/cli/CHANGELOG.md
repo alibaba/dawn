@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.12.0](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.11.1...@dawnjs/cli@1.12.0) (2021-07-13)
+
+### Features
+
+- **@dawnjs/cli:** remove alias resolve for middlewares ([0d889a8](https://github.com/alibaba/dawn/commit/0d889a8577023f666b2d914df5247fe47ad42dd7))
+
 ## [1.11.1](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.11.0...@dawnjs/cli@1.11.1) (2021-07-09)
 
 ### Bug Fixes
