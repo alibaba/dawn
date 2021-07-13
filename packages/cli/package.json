@@ -65,7 +65,6 @@
     "oneport": "^1.0.2",
     "react-dev-utils": "^5.0.1",
     "require-dir": "^0.3.2",
-    "resolve-from": "^5.0.0",
     "rightpad": "^1.0.1",
     "semver": "^5.4.1",
     "shify": "^3.0.5",
