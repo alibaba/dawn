@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.12.1](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.12.0...@dawnjs/cli@1.12.1) (2021-07-13)
+
+### Bug Fixes
+
+- **@dawnjs/cli:** fix module resolve problem after auto-install ([82dfcd1](https://github.com/alibaba/dawn/commit/82dfcd1a6f74372ccd70a4187c2814923727bf54))
+
 # [1.12.0](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.11.1...@dawnjs/cli@1.12.0) (2021-07-13)
 
 ### Features
