@@ -8,8 +8,8 @@ const utils = require('ntils');
 const path = require('path');
 const mod = require('./mod');
 const debug = require('debug')('middleware');
-const resolveFrom = require('resolve-from');
 const pkgname = require('./common/pkgname');
+const moduleResolve = require('./common/moduleResolve');
 
 exports.list = async function () {
   const middlewares = [];
@@ -63,14 +63,14 @@ exports.require = async function (name, cwd) {
   } else {
     debug('isModule', nameInfo);
 
-    let packagePath = resolveFrom.silent(cwd, nameInfo.fullName);
+    let packagePath = moduleResolve(cwd, nameInfo.fullName);
     if (!packagePath) {
       const prefix = await configs.getRc('middlewarePrefix');
       await mod.install(nameInfo.fullNameAndVersion, {
         flag: { 'save-dev': true },
         prefix: prefix,
       });
-      packagePath = resolveFrom.silent(cwd, nameInfo.fullName);
+      packagePath = moduleResolve(cwd, nameInfo.fullName);
     }
 
     debug('packagePath', packagePath);
