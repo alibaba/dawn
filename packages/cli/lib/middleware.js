@@ -44,16 +44,7 @@ exports.getInfo = async function (name) {
   debug('get', name);
   const prefix = await configs.getRc('middlewarePrefix');
   const nameInfo = pkgname(name, prefix);
-  const list = await this.list();
-  const aliasItem = list.find(item => item.name === nameInfo.name || item.name === nameInfo.shortName);
-  debug('aliasItem', name, aliasItem);
-  if (aliasItem && aliasItem.location) {
-    const aliasNameInfo = pkgname(aliasItem.location, prefix);
-    aliasNameInfo.opts.member = nameInfo.member;
-    return aliasNameInfo;
-  } else {
-    return nameInfo;
-  }
+  return nameInfo;
 };
 
 exports.getDocUrl = async function (name) {
@@ -85,5 +76,5 @@ exports.require = async function (name, cwd) {
     debug('packagePath', packagePath);
     mdModule = require(packagePath);
   }
-  return mdModule && nameInfo.member ? mdModule[nameInfo.member] : (mdModule.default || mdModule);
+  return mdModule && nameInfo.member ? mdModule[nameInfo.member] : mdModule.default || mdModule;
 };
