@@ -63,7 +63,7 @@
     "npm": "^6.11.3",
     "ntils": "^3.1.11",
     "oneport": "^1.0.2",
-    "react-dev-utils": "^5.0.1",
+    "react-dev-utils": "^11.0.4",
     "require-dir": "^0.3.2",
     "resolve-from": "^5.0.0",
     "rightpad": "^1.0.1",
