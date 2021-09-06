@@ -5,10 +5,16 @@
 
 ## Getting Started
 
-To begin, you'll need to install `@dawnjs/dn-middleware-webpack`:
+To begin, you'll need to install `@dawnjs/dn-middleware-webpack` and `webpack@5`:
 
 ```console
-$ npm i -D @dawnjs/dn-middleware-webpack
+$ npm i -D @dawnjs/dn-middleware-webpack webpack@5
+```
+
+If need typescript support, add `typescript` to project:
+
+```console
+$ npm i -D typescript
 ```
 
 Then add the middleware to your `dawn` pipeline configuration. For example:
