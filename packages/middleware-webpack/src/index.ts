@@ -61,8 +61,9 @@ const handler: Handler = (opts = {}) => {
     }
 
     if (options.server) {
-      const server = new WebpackDevServer(compiler, options.serverOpts);
-      await server.listen(options.serverOpts.port, options.serverOpts.host);
+      const server = new WebpackDevServer(options.serverOpts, compiler);
+      await server.start();
+      ctx.console.info("Server running");
       next();
     } else if (options.watch) {
       compiler.watch(opts.watchOpts, (err, stats) => {

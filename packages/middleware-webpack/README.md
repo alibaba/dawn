@@ -840,7 +840,7 @@ Defaults to `true` if `env` is `"development"`, otherwise to `false`.
 ### `serverOpts`
 
 Type: `object`<br>
-Default: `{ host: "localhost", historyApiFallback: true, open: true, hot: true, quiet: true }`
+Default: `{ host: "localhost", port: 8080, historyApiFallback: true, open: true, hot: true, setupExitSignals: true }`
 
 Options for `webpack-dev-server`. Support custom server with `server.*` in current working directory, or with a directory `server/` and several config files.
 
