@@ -137,8 +137,8 @@ const getSWCOptions = (
       },
       transform: {
         react: {
-          development: options.env === "development",
           runtime: hasJsxRuntime() ? "automatic" : "classic",
+          refresh: !!(options.server && options.serverOpts?.hot),
         },
         legacyDecorator: true,
         decoratorMetadata: true,
@@ -313,7 +313,7 @@ const addStyleRule = (
     .use("css-loader")
     .loader(require.resolve("css-loader"))
     .options({
-      importLoaders: preProcessors?.length ?? 0 + 1,
+      importLoaders: (preProcessors?.length || 0) + 1,
       ...options.cssLoader,
     })
     .end()
