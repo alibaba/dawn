@@ -18,6 +18,10 @@ const configs = require('./configs');
 const trim = require('./common/trim');
 const console = require('./common/console');
 const pkgname = require('./common/pkgname');
+const moduleResolve = require('./common/moduleResolve');
+const readJson = require('./common/readJson');
+const semver = require('semver');
+const cp = require('child_process');
 
 const FETCT_TIMEOUT = 30000;
 const OFFICIAL_NPM_PKG_URL_PREFIX = 'https://www.npmjs.com/package';
@@ -26,16 +30,14 @@ exports.exec = async function (cmd, opts) {
   opts = Object.assign({}, opts);
   opts.cwd = opts.cwd || process.cwd();
   opts.flag = opts.flag || {};
-  opts.flag.registry = decodeURIComponent(
-    opts.flag.registry || await configs.getRc('registry')
-  );
+  opts.flag.registry = decodeURIComponent(opts.flag.registry || (await configs.getRc('registry')));
   const flags = [];
   utils.each(opts.flag, (name, value) => {
     const flagName = (name.length > 1 ? '--' : '-') + name;
     const flagValue = utils.isString(value) ? `=${value}` : '';
     flags.push(`${flagName}${flagValue}`);
   });
-  const npmBin = await configs.getRc('npm') || 'npm';
+  const npmBin = (await configs.getRc('npm')) || 'npm';
   const script = `${npmBin} ${cmd || ''} ${flags.join(' ')}`;
   debug('exec script', script);
   await exec(script, { cwd: opts.cwd, ...opts.execOpts });
@@ -46,13 +48,93 @@ exports.install = async function (name, opts) {
   opts.flag = opts.flag || {};
   const pkgFile = path.normalize(`${process.cwd()}/package.json`);
   if (!opts.flag.global && !opts.flag.g && !fs.existsSync(pkgFile)) {
-    return;
+    throw new Error('Only support install globally while no local package.json exists.');
   }
   console.info(`Installing '${name || 'dependencies'}' ...`);
   const nameInfo = pkgname(name, opts.prefix);
   delete opts.prefix;
   await this.exec(`i ${nameInfo.fullNameAndVersion || ''}`, opts);
   console.info('Done');
+};
+
+function semverReverseSort(a, b) {
+  const lt = semver.lt(a, b);
+  const gt = semver.gt(a, b);
+  if (!lt && !gt) {
+    return 0;
+  } else if (lt) {
+    return 1;
+  }
+  return -1;
+}
+
+async function findResolution(name, requiredVer) {
+  return new Promise(resolve => {
+    cp.exec(`npm view ${name} versions`, (err, stdout) => {
+      if (err) {
+        console.error(err);
+        return resolve(null);
+      }
+      try {
+        const availableVersions = JSON.parse(stdout.replace(/'/g, '"')).sort(semverReverseSort);
+        const findedVer = availableVersions.find(ver => semver.satisfies(ver, requiredVer));
+        return resolve(findedVer);
+      } catch (e) {
+        console.error(e);
+        return resolve(null);
+      }
+    });
+  });
+}
+
+async function getPeerDeps(name) {
+  const cwd = process.cwd();
+  const pkgPath = moduleResolve(cwd, name);
+  if (!pkgPath) {
+    console.error(`${nameInfo.fullName} not found.`);
+    return [];
+  }
+  const pkgJsonPath = path.join(pkgPath, 'package.json');
+  if (!fs.existsSync(pkgJsonPath)) {
+    console.error(`package.json missing at ${pkgJsonPath}`);
+    return [];
+  }
+  const pkgJson = await readJson(pkgJsonPath);
+  const projectJson = await readJson(path.join(cwd, 'package.json'));
+  return Object.keys(pkgJson.peerDependencies || {}).reduce((acc, depName) => {
+    const requiredDepVer = pkgJson.peerDependencies[depName];
+    const installedDepVer = (projectJson.dependencies || {})[depName] || (projectJson.devDependencies || {})[depName];
+    if (!installedDepVer) {
+      const ver = await findResolution(depName, requiredDepVer);
+      if (!ver) {
+        console.error(`no satisfied verson for ${depName} with ${requiredDepVer}`);
+        return acc;
+      }
+      return acc.concat({ name: depName, version: ver });
+    }
+    if (semver.satisfies(installedDepVer, requiredDepVer)) {
+      return acc;
+    }
+    console.error(
+      `${depName} installed ${installedDepVer} in project not satify peerDeps requirement for ${requiredDepVer}`,
+    );
+    return acc;
+  }, []);
+}
+
+exports.installPeerDeps = async function (name, opts) {
+  opts = Object.assign({}, opts);
+  const nameInfo = pkgname(name, opts.prefix);
+  const peerDeps = await getPeerDeps(nameInfo.fullName);
+  for (let i = 0; i < peerDeps.length; i++) {
+    const peerDep = peerDeps[i];
+    await this.install(`${peerDep.name}@${peerDep.version}`, opts);
+  }
+};
+
+exports.installWithPeer = async function (name, opts) {
+  await this.install(name, opts);
+  await this.installPeerDeps(name, opts);
 };
 
 exports.getInfo = async function (name) {
@@ -72,7 +154,7 @@ exports.getInfo = async function (name) {
 
 exports.getVersionInfo = async function (name, version) {
   debug('getVersionInfo', name, version);
-  const modInfo = await this.getInfo(name) || {};
+  const modInfo = (await this.getInfo(name)) || {};
   const distTags = modInfo['dist-tags'] || {};
   version = version || 'latest';
   version = distTags[version] || version;
@@ -89,11 +171,9 @@ exports.download = async function (name, prefix) {
   debug('download', name, nameInfo.fullName);
   const stamp = new Stamp(`${nameInfo.fullName}.module`);
   const storeDir = await store.getPath('modules');
-  const filename = path.normalize(
-    `${storeDir}/${nameInfo.fullName.replace(/\//, '-')}.tgz`
-  );
+  const filename = path.normalize(`${storeDir}/${nameInfo.fullName.replace(/\//, '-')}.tgz`);
   const isExists = fs.existsSync(filename);
-  if (!isExists || await stamp.isExpire()) {
+  if (!isExists || (await stamp.isExpire())) {
     const verInfo = await this.getVersionInfo(nameInfo.fullName);
     if (!verInfo || !verInfo.dist || !verInfo.dist.tarball) {
       throw new Error(`Cannot download ${nameInfo.fullName}`);
@@ -119,9 +199,7 @@ exports.download = async function (name, prefix) {
 
 exports.getDocUrl = async function (name, prefix) {
   const nameInfo = pkgname(name, prefix);
-  const registryUri = decodeURIComponent(trim(
-    await configs.getRc('registry'), '/'
-  ));
+  const registryUri = decodeURIComponent(trim(await configs.getRc('registry'), '/'));
   debug('registryUri', registryUri);
   const url = `${OFFICIAL_NPM_PKG_URL_PREFIX}/${nameInfo.fullName}`;
   debug('docUrl', url);

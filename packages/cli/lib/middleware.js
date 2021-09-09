@@ -66,7 +66,7 @@ exports.require = async function (name, cwd) {
     let packagePath = moduleResolve(cwd, nameInfo.fullName);
     if (!packagePath) {
       const prefix = await configs.getRc('middlewarePrefix');
-      await mod.install(nameInfo.fullNameAndVersion, {
+      await mod.installWithPeer(nameInfo.fullNameAndVersion, {
         flag: { 'save-dev': true },
         prefix: prefix,
       });
