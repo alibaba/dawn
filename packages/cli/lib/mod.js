@@ -71,7 +71,7 @@ function semverReverseSort(a, b) {
 function findResolution(name, requiredVer) {
   try {
     const stdout = cp.execSync(`npm view ${name} versions`);
-    const availableVersions = JSON.parse(stdout.replace(/'/g, '"')).sort(semverReverseSort);
+    const availableVersions = JSON.parse(stdout.toString('utf-8').replace(/'/g, '"')).sort(semverReverseSort);
     const findedVer = availableVersions.find(ver => semver.satisfies(ver, requiredVer));
     return findedVer;
   } catch (e) {
@@ -118,6 +118,7 @@ async function getPeerDeps(name) {
 exports.installPeerDeps = async function (name, opts) {
   opts = Object.assign({}, opts);
   const nameInfo = pkgname(name, opts.prefix);
+  delete opts.prefix;
   const peerDeps = await getPeerDeps(nameInfo.fullName);
   for (let i = 0; i < peerDeps.length; i++) {
     const peerDep = peerDeps[i];
