@@ -89,7 +89,8 @@ exports.checkPeerDeps = async function (pkgPath, cwd) {
   const errors = [];
   const needInstallDeps = Object.keys(pkgJson.peerDependencies || {}).reduce((acc, depName) => {
     const requiredDepVer = pkgJson.peerDependencies[depName];
-    const installedDepVer = readJson(path.join(moduleResolve(cwd, depName), 'package.json')).version;
+    const installedPkgPath = moduleResolve(cwd, depName);
+    const installedDepVer = installedPkgPath ? readJson(path.join(installedPkgPath, 'package.json')).version : null;
     if (!installedDepVer) {
       const ver = findResolution(depName, requiredDepVer);
       if (!ver) {
