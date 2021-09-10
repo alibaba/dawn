@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.13.6](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.13.5...@dawnjs/cli@1.13.6) (2021-09-10)
+
+### Bug Fixes
+
+- **@dawnjs/cli:** fix async readJson ([dcecd35](https://github.com/alibaba/dawn/commit/dcecd356d3aefda1b94f4de7c6e205e021b13947))
+
 ## [1.13.5](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.13.4...@dawnjs/cli@1.13.5) (2021-09-10)
 
 ### Bug Fixes
