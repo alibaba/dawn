@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.2.3...@dawnjs/dn-middleware-webpack@2.0.0) (2021-09-10)
+
+### Features
+
+- **@dawnjs/dn-middleware-webpack:** adjust deps ([fc60a00](https://github.com/alibaba/dawn/commit/fc60a00b46282f55f1d834b733013b445596a816))
+- **@dawnjs/dn-middleware-webpack:** bump deps and make several core deps as peerDeps ([2519363](https://github.com/alibaba/dawn/commit/251936322a2e4d10349c52cc587f45153df34ab1))
+- **@dawnjs/dn-middleware-webpack:** update css-loader to v6 ([b553160](https://github.com/alibaba/dawn/commit/b5531609b0584b7e8cbb7bf30e78aad15101f3f5))
+- **@dawnjs/dn-middleware-webpack:** update webpack-dev-server to v4 ([0a35d97](https://github.com/alibaba/dawn/commit/0a35d970d438192c713caa4d8487246c94d91b44))
+
+### BREAKING CHANGES
+
+- **@dawnjs/dn-middleware-webpack:** placeholder changed for `localIdentName`
+- **@dawnjs/dn-middleware-webpack:** server.yml migration guide:
+  https://github.com/webpack/webpack-dev-server/blob/master/migration-v4.md
+
 ## [1.2.3](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.2.2...@dawnjs/dn-middleware-webpack@1.2.3) (2021-06-22)
 
 ### Bug Fixes

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.13.0](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.12.2...@dawnjs/cli@1.13.0) (2021-09-10)
+
+### Features
+
+- **@dawnjs/cli:** install middleware with peerDeps ([7b0c8a7](https://github.com/alibaba/dawn/commit/7b0c8a7014651c93093083d475dc921965e2ae74))
+
 ## [1.12.2](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.12.1...@dawnjs/cli@1.12.2) (2021-07-13)
 
 ### Bug Fixes
