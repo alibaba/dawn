@@ -1,5 +1,5 @@
 import path from "path";
-import { globbySync } from "globby";
+import globby from "globby";
 import type { FileInfo } from "../types";
 
 // ./src/foo.js => foo
@@ -19,7 +19,7 @@ export default function (params: Record<string, string> | string[] | string) {
   }
   const nameFileList: FileInfo[] = [];
   Object.entries(paramsMap).forEach(([nameExpr, fileExpr]) => {
-    const files = globbySync(fileExpr);
+    const files = globby.sync(fileExpr);
     files.forEach(file => {
       const paths = file.split("/").reverse()?.map(getFilenameByPath);
       const name = nameExpr.replace(/\((\d+)\)/g, (_, index) => {
