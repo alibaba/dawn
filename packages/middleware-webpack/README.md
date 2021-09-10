@@ -5,10 +5,16 @@
 
 ## Getting Started
 
-To begin, you'll need to install `@dawnjs/dn-middleware-webpack`:
+To begin, you'll need to install `@dawnjs/dn-middleware-webpack` and `webpack@5`:
 
 ```console
-$ npm i -D @dawnjs/dn-middleware-webpack
+$ npm i -D @dawnjs/dn-middleware-webpack webpack@5
+```
+
+If need typescript support, add `typescript` to project:
+
+```console
+$ npm i -D typescript
 ```
 
 Then add the middleware to your `dawn` pipeline configuration. For example:
@@ -834,7 +840,7 @@ Defaults to `true` if `env` is `"development"`, otherwise to `false`.
 ### `serverOpts`
 
 Type: `object`<br>
-Default: `{ host: "localhost", historyApiFallback: true, open: true, hot: true, quiet: true }`
+Default: `{ host: "localhost", port: 8080, historyApiFallback: true, open: true, hot: true, setupExitSignals: true }`
 
 Options for `webpack-dev-server`. Support custom server with `server.*` in current working directory, or with a directory `server/` and several config files.
 

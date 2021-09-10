@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.13.7](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.13.6...@dawnjs/cli@1.13.7) (2021-09-10)
+
+### Bug Fixes
+
+- **@dawnjs/cli:** fix async readJson ([b39858f](https://github.com/alibaba/dawn/commit/b39858faa71a21cc5283718b400718eb890dea98))
+
+## [1.13.6](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.13.5...@dawnjs/cli@1.13.6) (2021-09-10)
+
+### Bug Fixes
+
+- **@dawnjs/cli:** fix async readJson ([dcecd35](https://github.com/alibaba/dawn/commit/dcecd356d3aefda1b94f4de7c6e205e021b13947))
+
+## [1.13.5](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.13.4...@dawnjs/cli@1.13.5) (2021-09-10)
+
+### Bug Fixes
+
+- **@dawnjs/cli:** fix bug ([8b5a887](https://github.com/alibaba/dawn/commit/8b5a887b92adb8cda463f756d88ea1f5986bbfd3))
+
+## [1.13.4](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.13.3...@dawnjs/cli@1.13.4) (2021-09-10)
+
+### Bug Fixes
+
+- **@dawnjs/cli:** not exec empty batch install ([4b5df9b](https://github.com/alibaba/dawn/commit/4b5df9bacecc5e07920e55c5028f10481892eaca))
+
+## [1.13.3](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.13.2...@dawnjs/cli@1.13.3) (2021-09-10)
+
+### Bug Fixes
+
+- **@dawnjs/cli:** move check peer to middleware require ([82dcd0e](https://github.com/alibaba/dawn/commit/82dcd0eca1df1db16a326e727a66dd8d82087bb6))
+
+## [1.13.2](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.13.1...@dawnjs/cli@1.13.2) (2021-09-10)
+
+### Bug Fixes
+
+- **@dawnjs/cli:** fix buffer type and intall peer options ([4f78038](https://github.com/alibaba/dawn/commit/4f7803829df91402a2340d86dc40980b88663149))
+
+## [1.13.1](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.13.0...@dawnjs/cli@1.13.1) (2021-09-10)
+
+### Bug Fixes
+
+- **@dawnjs/cli:** fix async function ([0ff9954](https://github.com/alibaba/dawn/commit/0ff99545131ae7fc073a9b6cbbebff3a9b1c7be6))
+
+# [1.13.0](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.12.2...@dawnjs/cli@1.13.0) (2021-09-10)
+
+### Features
+
+- **@dawnjs/cli:** install middleware with peerDeps ([7b0c8a7](https://github.com/alibaba/dawn/commit/7b0c8a7014651c93093083d475dc921965e2ae74))
+
 ## [1.12.2](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.12.1...@dawnjs/cli@1.12.2) (2021-07-13)
 
 ### Bug Fixes

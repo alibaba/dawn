@@ -10,6 +10,12 @@ const mod = require('./mod');
 const debug = require('debug')('middleware');
 const pkgname = require('./common/pkgname');
 const moduleResolve = require('./common/moduleResolve');
+const fs = require('fs');
+const readJson = require('./common/readJson');
+const cp = require('child_process');
+const semver = require('semver');
+const console = require('./common/console');
+const readJsonSync = require('./common/readJsonSync');
 
 exports.list = async function () {
   const middlewares = [];
@@ -52,6 +58,69 @@ exports.getDocUrl = async function (name) {
   return mod.getDocUrl(name, prefix);
 };
 
+function semverReverseSort(a, b) {
+  const lt = semver.lt(a, b);
+  const gt = semver.gt(a, b);
+  if (!lt && !gt) {
+    return 0;
+  } else if (lt) {
+    return 1;
+  }
+  return -1;
+}
+
+function findResolution(name, requiredVer) {
+  try {
+    const stdout = cp.execSync(`npm view ${name} versions`);
+    const availableVersions = JSON.parse(stdout.toString('utf-8').replace(/'/g, '"')).sort(semverReverseSort);
+    const findedVer = availableVersions.find(ver => semver.satisfies(ver, requiredVer));
+    return findedVer;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+}
+
+exports.checkPeerDeps = async function (pkgPath, cwd) {
+  const pkgJsonPath = path.join(pkgPath, 'package.json');
+  if (!fs.existsSync(pkgJsonPath)) {
+    console.warn(`package.json missing at ${pkgJsonPath}`);
+    return;
+  }
+  const pkgJson = await readJson(pkgJsonPath);
+  const errors = [];
+  const needInstallDeps = Object.keys(pkgJson.peerDependencies || {}).reduce((acc, depName) => {
+    const requiredDepVer = pkgJson.peerDependencies[depName];
+    const installedPkgPath = moduleResolve(cwd, depName);
+    if (installedPkgPath) {
+      debug(`${depName} installed at ${installedPkgPath}`);
+    } else {
+      debug(`${depName} not installed`);
+    }
+    const installedDepVer = installedPkgPath ? readJsonSync(path.join(installedPkgPath, 'package.json')).version : null;
+    if (!installedDepVer) {
+      const ver = findResolution(depName, requiredDepVer);
+      if (!ver) {
+        errors.push(`no satisfied verson for ${depName} with ${requiredDepVer}`);
+        return acc;
+      }
+      return acc.concat(`${depName}@${ver}`);
+    }
+    if (semver.satisfies(installedDepVer, requiredDepVer)) {
+      return acc;
+    } else {
+      errors.push(
+        `${depName} installed ${installedDepVer} in project not satify peerDeps requirement for ${requiredDepVer}`,
+      );
+      return acc;
+    }
+  }, []);
+  await mod.batchInstall(needInstallDeps, { flag: { 'save-dev': true } });
+  errors.forEach(error => {
+    console.error(error);
+  });
+};
+
 exports.require = async function (name, cwd) {
   cwd = cwd || process.cwd();
   debug('require', name, cwd);
@@ -72,6 +141,8 @@ exports.require = async function (name, cwd) {
       });
       packagePath = moduleResolve(cwd, nameInfo.fullName);
     }
+
+    await this.checkPeerDeps(packagePath, cwd);
 
     debug('packagePath', packagePath);
     mdModule = require(packagePath);

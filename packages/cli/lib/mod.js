@@ -26,16 +26,14 @@ exports.exec = async function (cmd, opts) {
   opts = Object.assign({}, opts);
   opts.cwd = opts.cwd || process.cwd();
   opts.flag = opts.flag || {};
-  opts.flag.registry = decodeURIComponent(
-    opts.flag.registry || await configs.getRc('registry')
-  );
+  opts.flag.registry = decodeURIComponent(opts.flag.registry || (await configs.getRc('registry')));
   const flags = [];
   utils.each(opts.flag, (name, value) => {
     const flagName = (name.length > 1 ? '--' : '-') + name;
     const flagValue = utils.isString(value) ? `=${value}` : '';
     flags.push(`${flagName}${flagValue}`);
   });
-  const npmBin = await configs.getRc('npm') || 'npm';
+  const npmBin = (await configs.getRc('npm')) || 'npm';
   const script = `${npmBin} ${cmd || ''} ${flags.join(' ')}`;
   debug('exec script', script);
   await exec(script, { cwd: opts.cwd, ...opts.execOpts });
@@ -46,12 +44,29 @@ exports.install = async function (name, opts) {
   opts.flag = opts.flag || {};
   const pkgFile = path.normalize(`${process.cwd()}/package.json`);
   if (!opts.flag.global && !opts.flag.g && !fs.existsSync(pkgFile)) {
-    return;
+    throw new Error('Only support install globally while no local package.json exists.');
   }
   console.info(`Installing '${name || 'dependencies'}' ...`);
   const nameInfo = pkgname(name, opts.prefix);
   delete opts.prefix;
   await this.exec(`i ${nameInfo.fullNameAndVersion || ''}`, opts);
+  console.info('Done');
+};
+
+exports.batchInstall = async function (names, opts) {
+  if (!names || !names.length) {
+    return;
+  }
+  opts = Object.assign({}, opts);
+  opts.flag = opts.flag || {};
+  const pkgFile = path.normalize(`${process.cwd()}/package.json`);
+  if (!opts.flag.global && !opts.flag.g && !fs.existsSync(pkgFile)) {
+    throw new Error('Only support install globally while no local package.json exists.');
+  }
+  console.info(`Installing '${names.join(',') || 'dependencies'}' ...`);
+  const pkgNames = names.map(name => pkgname(name, opts.prefix).fullNameAndVersion);
+  delete opts.prefix;
+  await this.exec(`i ${pkgNames.join(' ') || ''}`, opts);
   console.info('Done');
 };
 
@@ -72,7 +87,7 @@ exports.getInfo = async function (name) {
 
 exports.getVersionInfo = async function (name, version) {
   debug('getVersionInfo', name, version);
-  const modInfo = await this.getInfo(name) || {};
+  const modInfo = (await this.getInfo(name)) || {};
   const distTags = modInfo['dist-tags'] || {};
   version = version || 'latest';
   version = distTags[version] || version;
@@ -89,11 +104,9 @@ exports.download = async function (name, prefix) {
   debug('download', name, nameInfo.fullName);
   const stamp = new Stamp(`${nameInfo.fullName}.module`);
   const storeDir = await store.getPath('modules');
-  const filename = path.normalize(
-    `${storeDir}/${nameInfo.fullName.replace(/\//, '-')}.tgz`
-  );
+  const filename = path.normalize(`${storeDir}/${nameInfo.fullName.replace(/\//, '-')}.tgz`);
   const isExists = fs.existsSync(filename);
-  if (!isExists || await stamp.isExpire()) {
+  if (!isExists || (await stamp.isExpire())) {
     const verInfo = await this.getVersionInfo(nameInfo.fullName);
     if (!verInfo || !verInfo.dist || !verInfo.dist.tarball) {
       throw new Error(`Cannot download ${nameInfo.fullName}`);
@@ -119,9 +132,7 @@ exports.download = async function (name, prefix) {
 
 exports.getDocUrl = async function (name, prefix) {
   const nameInfo = pkgname(name, prefix);
-  const registryUri = decodeURIComponent(trim(
-    await configs.getRc('registry'), '/'
-  ));
+  const registryUri = decodeURIComponent(trim(await configs.getRc('registry'), '/'));
   debug('registryUri', registryUri);
   const url = `${OFFICIAL_NPM_PKG_URL_PREFIX}/${nameInfo.fullName}`;
   debug('docUrl', url);

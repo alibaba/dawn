@@ -5,7 +5,7 @@ export default function ({ cwd, files, returnRelative }: { cwd: string; files: s
   for (const file of files) {
     const absFilePath = path.join(cwd, file);
     if (fs.existsSync(absFilePath)) {
-      return returnRelative ? file : absFilePath;
+      return returnRelative ? path.relative(cwd, absFilePath) : absFilePath;
     }
   }
 }
