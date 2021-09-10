@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.13.3](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.13.2...@dawnjs/cli@1.13.3) (2021-09-10)
+
+### Bug Fixes
+
+- **@dawnjs/cli:** move check peer to middleware require ([82dcd0e](https://github.com/alibaba/dawn/commit/82dcd0eca1df1db16a326e727a66dd8d82087bb6))
+
 ## [1.13.2](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.13.1...@dawnjs/cli@1.13.2) (2021-09-10)
 
 ### Bug Fixes
