@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.13.2](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.13.1...@dawnjs/cli@1.13.2) (2021-09-10)
+
+### Bug Fixes
+
+- **@dawnjs/cli:** fix buffer type and intall peer options ([4f78038](https://github.com/alibaba/dawn/commit/4f7803829df91402a2340d86dc40980b88663149))
+
 ## [1.13.1](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.13.0...@dawnjs/cli@1.13.1) (2021-09-10)
 
 ### Bug Fixes
