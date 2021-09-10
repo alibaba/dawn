@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@2.0.0...@dawnjs/dn-middleware-webpack@2.0.1) (2021-09-10)
+
+### Bug Fixes
+
+- **@dawnjs/dn-middleware-webpack:** revert globby to v11 ([ea29123](https://github.com/alibaba/dawn/commit/ea2912336e4ab5b8a3b47f32a22c7c16f82a66d8))
+
 # [2.0.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.2.3...@dawnjs/dn-middleware-webpack@2.0.0) (2021-09-10)
 
 ### Features
