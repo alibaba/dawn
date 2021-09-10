@@ -14,6 +14,8 @@ const fs = require('fs');
 const readJson = require('./common/readJson');
 const cp = require('child_process');
 const semver = require('semver');
+const console = require('./common/console');
+const readJsonSync = require('./common/readJsonSync');
 
 exports.list = async function () {
   const middlewares = [];
@@ -90,7 +92,12 @@ exports.checkPeerDeps = async function (pkgPath, cwd) {
   const needInstallDeps = Object.keys(pkgJson.peerDependencies || {}).reduce((acc, depName) => {
     const requiredDepVer = pkgJson.peerDependencies[depName];
     const installedPkgPath = moduleResolve(cwd, depName);
-    const installedDepVer = installedPkgPath ? readJson(path.join(installedPkgPath, 'package.json')).version : null;
+    if (installedPkgPath) {
+      debug(`${depName} installed at ${installedPkgPath}`);
+    } else {
+      debug(`${depName} not installed`);
+    }
+    const installedDepVer = installedPkgPath ? readJsonSync(path.join(installedPkgPath, 'package.json')).version : null;
     if (!installedDepVer) {
       const ver = findResolution(depName, requiredDepVer);
       if (!ver) {
