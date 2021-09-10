@@ -18,10 +18,6 @@ const configs = require('./configs');
 const trim = require('./common/trim');
 const console = require('./common/console');
 const pkgname = require('./common/pkgname');
-const moduleResolve = require('./common/moduleResolve');
-const readJson = require('./common/readJson');
-const semver = require('semver');
-const cp = require('child_process');
 
 const FETCT_TIMEOUT = 30000;
 const OFFICIAL_NPM_PKG_URL_PREFIX = 'https://www.npmjs.com/package';
@@ -57,78 +53,18 @@ exports.install = async function (name, opts) {
   console.info('Done');
 };
 
-function semverReverseSort(a, b) {
-  const lt = semver.lt(a, b);
-  const gt = semver.gt(a, b);
-  if (!lt && !gt) {
-    return 0;
-  } else if (lt) {
-    return 1;
-  }
-  return -1;
-}
-
-function findResolution(name, requiredVer) {
-  try {
-    const stdout = cp.execSync(`npm view ${name} versions`);
-    const availableVersions = JSON.parse(stdout.toString('utf-8').replace(/'/g, '"')).sort(semverReverseSort);
-    const findedVer = availableVersions.find(ver => semver.satisfies(ver, requiredVer));
-    return findedVer;
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
-}
-
-async function getPeerDeps(name) {
-  const cwd = process.cwd();
-  const pkgPath = moduleResolve(cwd, name);
-  if (!pkgPath) {
-    console.error(`${nameInfo.fullName} not found.`);
-    return [];
-  }
-  const pkgJsonPath = path.join(pkgPath, 'package.json');
-  if (!fs.existsSync(pkgJsonPath)) {
-    console.error(`package.json missing at ${pkgJsonPath}`);
-    return [];
-  }
-  const pkgJson = await readJson(pkgJsonPath);
-  const projectJson = await readJson(path.join(cwd, 'package.json'));
-  return Object.keys(pkgJson.peerDependencies || {}).reduce((acc, depName) => {
-    const requiredDepVer = pkgJson.peerDependencies[depName];
-    const installedDepVer = (projectJson.dependencies || {})[depName] || (projectJson.devDependencies || {})[depName];
-    if (!installedDepVer) {
-      const ver = findResolution(depName, requiredDepVer);
-      if (!ver) {
-        console.error(`no satisfied verson for ${depName} with ${requiredDepVer}`);
-        return acc;
-      }
-      return acc.concat({ name: depName, version: ver });
-    }
-    if (semver.satisfies(installedDepVer, requiredDepVer)) {
-      return acc;
-    }
-    console.error(
-      `${depName} installed ${installedDepVer} in project not satify peerDeps requirement for ${requiredDepVer}`,
-    );
-    return acc;
-  }, []);
-}
-
-exports.installPeerDeps = async function (name, opts) {
+exports.batchInstall = async function (names, opts) {
   opts = Object.assign({}, opts);
-  const nameInfo = pkgname(name, opts.prefix);
-  delete opts.prefix;
-  const peerDeps = await getPeerDeps(nameInfo.fullName);
-  for (let i = 0; i < peerDeps.length; i++) {
-    const peerDep = peerDeps[i];
-    await this.install(`${peerDep.name}@${peerDep.version}`, opts);
+  opts.flag = opts.flag || {};
+  const pkgFile = path.normalize(`${process.cwd()}/package.json`);
+  if (!opts.flag.global && !opts.flag.g && !fs.existsSync(pkgFile)) {
+    throw new Error('Only support install globally while no local package.json exists.');
   }
-};
-
-exports.installWithPeer = async function (name, opts) {
-  await this.install(name, opts);
-  await this.installPeerDeps(name, opts);
+  console.info(`Installing '${names.join(',') || 'dependencies'}' ...`);
+  const pkgNames = names.map(name => pkgname(name, opts.prefix).fullNameAndVersion);
+  delete opts.prefix;
+  await this.exec(`i ${pkgNames.join(' ') || ''}`, opts);
+  console.info('Done');
 };
 
 exports.getInfo = async function (name) {
