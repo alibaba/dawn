@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.13.4](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.13.3...@dawnjs/cli@1.13.4) (2021-09-10)
+
+### Bug Fixes
+
+- **@dawnjs/cli:** not exec empty batch install ([4b5df9b](https://github.com/alibaba/dawn/commit/4b5df9bacecc5e07920e55c5028f10481892eaca))
+
 ## [1.13.3](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.13.2...@dawnjs/cli@1.13.3) (2021-09-10)
 
 ### Bug Fixes
