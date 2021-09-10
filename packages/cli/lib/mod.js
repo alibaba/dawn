@@ -68,23 +68,16 @@ function semverReverseSort(a, b) {
   return -1;
 }
 
-async function findResolution(name, requiredVer) {
-  return new Promise(resolve => {
-    cp.exec(`npm view ${name} versions`, (err, stdout) => {
-      if (err) {
-        console.error(err);
-        return resolve(null);
-      }
-      try {
-        const availableVersions = JSON.parse(stdout.replace(/'/g, '"')).sort(semverReverseSort);
-        const findedVer = availableVersions.find(ver => semver.satisfies(ver, requiredVer));
-        return resolve(findedVer);
-      } catch (e) {
-        console.error(e);
-        return resolve(null);
-      }
-    });
-  });
+function findResolution(name, requiredVer) {
+  try {
+    const stdout = cp.execSync(`npm view ${name} versions`);
+    const availableVersions = JSON.parse(stdout.replace(/'/g, '"')).sort(semverReverseSort);
+    const findedVer = availableVersions.find(ver => semver.satisfies(ver, requiredVer));
+    return findedVer;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
 }
 
 async function getPeerDeps(name) {
@@ -105,7 +98,7 @@ async function getPeerDeps(name) {
     const requiredDepVer = pkgJson.peerDependencies[depName];
     const installedDepVer = (projectJson.dependencies || {})[depName] || (projectJson.devDependencies || {})[depName];
     if (!installedDepVer) {
-      const ver = await findResolution(depName, requiredDepVer);
+      const ver = findResolution(depName, requiredDepVer);
       if (!ver) {
         console.error(`no satisfied verson for ${depName} with ${requiredDepVer}`);
         return acc;
