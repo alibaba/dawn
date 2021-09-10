@@ -54,6 +54,9 @@ exports.install = async function (name, opts) {
 };
 
 exports.batchInstall = async function (names, opts) {
+  if (!names || !names.length) {
+    return;
+  }
   opts = Object.assign({}, opts);
   opts.flag = opts.flag || {};
   const pkgFile = path.normalize(`${process.cwd()}/package.json`);
