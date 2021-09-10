@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.13.1](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.13.0...@dawnjs/cli@1.13.1) (2021-09-10)
+
+### Bug Fixes
+
+- **@dawnjs/cli:** fix async function ([0ff9954](https://github.com/alibaba/dawn/commit/0ff99545131ae7fc073a9b6cbbebff3a9b1c7be6))
+
 # [1.13.0](https://github.com/alibaba/dawn/compare/@dawnjs/cli@1.12.2...@dawnjs/cli@1.13.0) (2021-09-10)
 
 ### Features
