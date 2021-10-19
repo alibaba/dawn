@@ -5,16 +5,40 @@
 
 ## Getting Started
 
-To begin, you'll need to install `@dawnjs/dn-middleware-webpack` and `webpack@5`:
+To begin, you'll need to install `@dawnjs/dn-middleware-webpack` and some peerDependencies:
 
 ```console
-$ npm i -D @dawnjs/dn-middleware-webpack webpack@5
+$ npm i -D @dawnjs/dn-middleware-webpack @babel/core webpack
 ```
 
 If need typescript support, add `typescript` to project:
 
 ```console
 $ npm i -D typescript
+```
+
+If need CSS support, add `postcss` to project:
+
+```console
+$ npm i -D postcss
+```
+
+If need SASS support, add `sass` to project:
+
+```console
+$ npm i -D sass
+```
+
+If need LESS support, add `less` to project:
+
+```console
+$ npm i -D less
+```
+
+If need use SWC to transform code and compress bundle, add `@swc/core` to project:
+
+```console
+$ npm i -D @swc/core
 ```
 
 Then add the middleware to your `dawn` pipeline configuration. For example:
