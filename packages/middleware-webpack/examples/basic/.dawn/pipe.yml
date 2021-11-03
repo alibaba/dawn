@@ -9,6 +9,7 @@ dev:
       corejs: 3
 
 dev:esbuild:
+  - name: i18n
   - name: $local
     location: ../../lib/index.js
     entry: ./src/pages/index.tsx
@@ -17,6 +18,7 @@ dev:esbuild:
       loader: true
 
 dev:swc:
+  - name: i18n
   - name: $local
     location: ../../lib/index.js
     entry: ./src/pages/index.tsx
@@ -24,6 +26,7 @@ dev:swc:
     swc: true
 
 watch:
+  - name: i18n
   - name: $local
     location: ../../lib/index.js
     entry: ./src/pages/index.tsx
@@ -39,6 +42,7 @@ build:
     env: production
 
 build:esbuild:
+  - name: i18n
   - name: $local
     location: ../../lib/index.js
     entry: ./src/pages/index.tsx
@@ -48,6 +52,7 @@ build:esbuild:
       minify: true
 
 build:swc:
+  - name: i18n
   - name: $local
     location: ../../lib/index.js
     entry: ./src/pages/index.tsx
