@@ -1,6 +1,5 @@
 import svgToTinyDataUri from "mini-svg-data-uri";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import postcss from "postcss";
 import yaml from "js-yaml";
 import merge from "deepmerge";
 import { getDefaultESBuildTarget } from "../utils";
@@ -318,7 +317,6 @@ const addStyleRule = (
     .use("postcss-loader")
     .loader(require.resolve("postcss-loader"))
     .options({
-      implementation: postcss,
       ...options.postcssLoader,
       postcssOptions: (loaderContext: any) => {
         let customOptions = options.postcssLoader?.postcssOptions;
@@ -328,7 +326,6 @@ const addStyleRule = (
 
         return {
           plugins: [
-            require.resolve("postcss-flexbugs-fixes"),
             [require.resolve("postcss-preset-env"), options.postcssPresetEnv],
             ...(options.extraPostCSSPlugins ?? []),
           ],

@@ -41,7 +41,7 @@ export default async (config: Config, options: INormalizedOpts) => {
                 ...options.terser,
                 terserOptions: {
                   ...options.terser?.terserOptions,
-                  compress: { drop_console: true, ...options.terser?.terserOptions?.compress },
+                  compress: { pure_funcs: ["console.log"], ...options.terser?.terserOptions?.compress },
                   format: { comments: false, ...options.terser?.terserOptions?.format },
                 },
               },
