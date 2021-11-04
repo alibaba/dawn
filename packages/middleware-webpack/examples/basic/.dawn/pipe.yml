@@ -58,3 +58,12 @@ build:swc:
     entry: ./src/pages/index.tsx
     env: production
     swc: true
+
+build:mpa:
+  - name: i18n
+  - name: $local
+    location: ../../lib/index.js
+    entry:
+      index: ./src/pages/index.tsx
+      about: ./src/pages/about.tsx
+    env: production
