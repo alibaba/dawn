@@ -19,7 +19,7 @@ export default async (config: Config, options: INormalizedOpts, ctx: Context) =>
       config.plugin(`html_${name}`).use(HtmlWebpackPlugin, [
         {
           title: "Dawn App",
-          filename: path.join(options.folders.html, "[name].html"),
+          filename: path.join(options.folders.html, `${name}.html`),
           template: template.file,
           inject: true,
           chunks: [options.common?.name, name].filter(Boolean),
