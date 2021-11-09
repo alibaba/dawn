@@ -203,6 +203,7 @@ export interface IOpts {
     extraBabelPresets?: any[];
     extraBabelPlugins?: any[];
     extraBabelIncludes?: any[];
+    ie11Incompatible?: boolean;
     jsxRuntime?: boolean;
     pragma?: string;
     pragmaFrag?: string;

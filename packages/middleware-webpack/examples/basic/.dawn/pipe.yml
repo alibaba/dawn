@@ -23,6 +23,18 @@ dev:swc:
     env: development
     swc: true
 
+
+dev:extraCompile:
+  - name: i18n
+  - name: $local
+    location: ../../lib/index.js
+    entry: ./src/pages/index.tsx
+    env: development
+    babel:
+      runtimeHelpers: true
+      # extraCompile: true
+      corejs: 3
+
 watch:
   - name: $local
     location: ../../lib/index.js
@@ -53,3 +65,14 @@ build:swc:
     entry: ./src/pages/index.tsx
     env: production
     swc: true
+
+build:extraCompile:
+  - name: i18n
+  - name: $local
+    location: ../../lib/index.js
+    entry: ./src/pages/index.tsx
+    env: production
+    babel:
+      runtimeHelpers: true
+      extraCompile: true
+      corejs: 3

@@ -1,13 +1,14 @@
-import svgToTinyDataUri from "mini-svg-data-uri";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import svgToTinyDataUri from "mini-svg-data-uri";
+import type Config from "webpack-chain";
 import postcss from "postcss";
-import less from "less";
-import sass from "sass";
+import merge from "deepmerge";
 import Fiber from "fibers";
 import yaml from "js-yaml";
-import merge from "deepmerge";
-import { getDefaultESBuildTarget } from "../utils";
-import type Config from "webpack-chain";
+import less from "less";
+import sass from "sass";
+
+import { getDefaultESBuildTarget, getIncompatibleConfig } from "../utils";
 import type { INormalizedOpts } from "../types";
 
 const addAssetsRule = (config: Config) => {
@@ -219,6 +220,8 @@ const getBabelOpts = (
   };
 };
 
+const pkgsRegList = getIncompatibleConfig();
+
 const addBabelRule = (config: Config, options: INormalizedOpts) => {
   config.module
     .rule("babel")
@@ -250,6 +253,18 @@ const addBabelRule = (config: Config, options: INormalizedOpts) => {
         .use("babel-loader")
         .loader(require.resolve("babel-loader"))
         .options(getBabelOpts(options, { typescript: false }));
+    })
+    // compile whatever you need in ie11
+    // make ie11 incompatible alone, developer can also use extraBabelIncludes
+    .when(!!options.babel?.ie11Incompatible, rule => {
+      rule
+        .oneOf("ie11-incompatible")
+        .include.merge(pkgsRegList)
+        .end()
+        .use("babel-loader")
+        .loader(require.resolve("babel-loader"))
+        .options(getBabelOpts(options, { typescript: false }))
+        .end();
     })
     // Transform all `ts` files with react off
     .oneOf("ts")
