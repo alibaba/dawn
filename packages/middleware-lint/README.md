@@ -8,7 +8,7 @@
 
 ### 默认配置
 
-支持 JavaScript/TypeScript/React/NodeJS 等多种项目类型，并自动识别。
+支持 JavaScript/TypeScript/React 等多种项目类型，并自动识别。
 
 ```yml
 test:
@@ -51,8 +51,8 @@ precommit:
 
 ## 从旧版本(1.x 2.x)迁移
 
-项目根目录下执行 (c)npm 命令，按照新的包依赖版本
+项目根目录下执行 (c)npm 命令，安装新的包依赖版本
 
 ```bash
-$ npm uninstall dn-middleware-lint && npm install --save-dev eslint@latest prettier@latest @dawnjs/eslint-config-dawn@latest @dawnjs/dn-middleware-lint@latest
+$ npm uninstall dn-middleware-lint && npm install --save-dev eslint@latest prettier@latest @dawnjs/dn-middleware-lint@latest
 ```

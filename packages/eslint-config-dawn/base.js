@@ -1,5 +1,5 @@
 module.exports = {
-  parser: require.resolve('babel-eslint'),
+  parser: require.resolve('@babel/eslint-parser'),
   extends: [require.resolve('eslint-config-prettier')],
   plugins: ['prettier'],
   env: {
