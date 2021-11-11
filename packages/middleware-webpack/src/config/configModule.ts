@@ -1,12 +1,8 @@
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import svgToTinyDataUri from "mini-svg-data-uri";
 import type Config from "webpack-chain";
-import postcss from "postcss";
 import merge from "deepmerge";
-import Fiber from "fibers";
 import yaml from "js-yaml";
-import less from "less";
-import sass from "sass";
 
 import { getDefaultESBuildTarget, getIncompatibleConfig } from "../utils";
 import type { INormalizedOpts } from "../types";
@@ -336,7 +332,6 @@ const addStyleRule = (
     .use("postcss-loader")
     .loader(require.resolve("postcss-loader"))
     .options({
-      implementation: postcss,
       ...options.postcssLoader,
       postcssOptions: (loaderContext: any) => {
         let customOptions = options.postcssLoader?.postcssOptions;
@@ -346,7 +341,6 @@ const addStyleRule = (
 
         return {
           plugins: [
-            require.resolve("postcss-flexbugs-fixes"),
             [require.resolve("postcss-preset-env"), options.postcssPresetEnv],
             ...(options.extraPostCSSPlugins ?? []),
           ],
@@ -380,7 +374,6 @@ export default async (config: Config, options: INormalizedOpts) => {
       {
         loader: "less-loader",
         options: {
-          implementation: less,
           ...options.lessLoader,
           lessOptions: (loaderContext: any) => {
             let customOptions = options.lessLoader?.lessOptions;
@@ -401,7 +394,6 @@ export default async (config: Config, options: INormalizedOpts) => {
       {
         loader: "sass-loader",
         options: {
-          implementation: sass,
           ...options.sassLoader,
           sourceMap: true, // required by `resolve-url-loader`, see https://github.com/bholloway/resolve-url-loader/blob/master/packages/resolve-url-loader/README.md#configure-webpack
           sassOptions: (loaderContext: any) => {
@@ -409,7 +401,7 @@ export default async (config: Config, options: INormalizedOpts) => {
             if (typeof customOptions === "function") {
               customOptions = customOptions(loaderContext);
             }
-            return { fiber: Fiber, quietDeps: true, ...customOptions };
+            return { quietDeps: true, ...customOptions };
           },
         },
       },

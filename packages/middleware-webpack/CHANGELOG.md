@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.3.0...@dawnjs/dn-middleware-webpack@1.3.1) (2021-11-04)
+
+### Bug Fixes
+
+- support multi-entry html output ([e3b481b](https://github.com/alibaba/dawn/commit/e3b481bcfd177ec26f52a5f0b26bd1253bf412de))
+
+# [1.3.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.2.3...@dawnjs/dn-middleware-webpack@1.3.0) (2021-11-03)
+
+### Features
+
+- remove fibers and update less-loader & sass-loader ([122414a](https://github.com/alibaba/dawn/commit/122414aed29095e1fcc4ec016cfb32b2c6637f5f))
+- update deps ([7850146](https://github.com/alibaba/dawn/commit/7850146b339a87ce345b4e917186d1eae43b20b1))
+
 ## [1.2.3](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.2.2...@dawnjs/dn-middleware-webpack@1.2.3) (2021-06-22)
 
 ### Bug Fixes

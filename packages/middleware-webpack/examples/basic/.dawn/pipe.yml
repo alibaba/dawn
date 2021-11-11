@@ -9,6 +9,7 @@ dev:
       corejs: 3
 
 dev:esbuild:
+  - name: i18n
   - name: $local
     location: ../../lib/index.js
     entry: ./src/pages/index.tsx
@@ -17,6 +18,7 @@ dev:esbuild:
       loader: true
 
 dev:swc:
+  - name: i18n
   - name: $local
     location: ../../lib/index.js
     entry: ./src/pages/index.tsx
@@ -24,7 +26,7 @@ dev:swc:
     swc: true
 
 
-dev:extraCompile:
+dev:ie11Incompatible:
   - name: i18n
   - name: $local
     location: ../../lib/index.js
@@ -32,10 +34,11 @@ dev:extraCompile:
     env: development
     babel:
       runtimeHelpers: true
-      # extraCompile: true
+      ie11Incompatible: true
       corejs: 3
 
 watch:
+  - name: i18n
   - name: $local
     location: ../../lib/index.js
     entry: ./src/pages/index.tsx
@@ -51,6 +54,7 @@ build:
     env: production
 
 build:esbuild:
+  - name: i18n
   - name: $local
     location: ../../lib/index.js
     entry: ./src/pages/index.tsx
@@ -60,13 +64,14 @@ build:esbuild:
       minify: true
 
 build:swc:
+  - name: i18n
   - name: $local
     location: ../../lib/index.js
     entry: ./src/pages/index.tsx
     env: production
     swc: true
 
-build:extraCompile:
+build:ie11Incompatible:
   - name: i18n
   - name: $local
     location: ../../lib/index.js
@@ -74,5 +79,14 @@ build:extraCompile:
     env: production
     babel:
       runtimeHelpers: true
-      extraCompile: true
+      ie11Incompatible: true
       corejs: 3
+
+build:mpa:
+  - name: i18n
+  - name: $local
+    location: ../../lib/index.js
+    entry:
+      index: ./src/pages/index.tsx
+      about: ./src/pages/about.tsx
+    env: production
