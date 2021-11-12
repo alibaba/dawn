@@ -248,6 +248,8 @@ export const prepareDeps = async (ctx: Context, projectInfo: IProjectInfo) => {
     })
     .map(dep => `${dep.name}@${dep.version}`);
 
-  ctx.console.log(`Installing missing deps: ${needInstallDeps.join(" ")}`);
-  await ctx.mod.exec(`i ${needInstallDeps.join(" ")}`, { flag: { "save-dev": true } });
+  if (needInstallDeps.length > 0) {
+    ctx.console.log(`Installing missing deps: ${needInstallDeps.join(" ")}`);
+    await ctx.mod.exec(`i ${needInstallDeps.join(" ")}`, { flag: { "save-dev": true } });
+  }
 };
