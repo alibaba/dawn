@@ -109,8 +109,14 @@ export const readAndForceWriteRc = async (options: { console: Console; cwd: stri
   // Overwrite .prettierrc.js file
   await writeFile(path.join(options.cwd, PRETTIERRC_FILE_PATH), PRETTIERRC_FILE_TEMPLATE, "utf8");
 
-  const eslintrcYaml = await readFile(path.join(options.cwd, ESLINTRC_FILE_PATH), "utf-8");
-  let eslintrc: any = await yaml.load(eslintrcYaml);
+  let eslintrc: any;
+  try {
+    const eslintrcYaml = await readFile(path.join(options.cwd, ESLINTRC_FILE_PATH), "utf-8");
+    eslintrc = await yaml.load(eslintrcYaml);
+  } catch (e) {
+    // do nothing
+  }
+
   debug("readAndForceWriteRc.eslintrc.source", eslintrc);
 
   if (!eslintrc) {
