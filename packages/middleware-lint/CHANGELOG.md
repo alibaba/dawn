@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.1](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-lint@3.1.0...@dawnjs/dn-middleware-lint@3.1.1) (2021-11-12)
+
+### Bug Fixes
+
+- fix readFile issue ([9842312](https://github.com/alibaba/dawn/commit/984231235e8b0f08c07bcb69a48c629dfff1e3f9))
+
 # [3.1.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-lint@3.0.12...@dawnjs/dn-middleware-lint@3.1.0) (2021-11-12)
 
 ### Bug Fixes
