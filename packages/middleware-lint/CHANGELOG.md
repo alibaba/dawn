@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.2](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-lint@3.1.1...@dawnjs/dn-middleware-lint@3.1.2) (2021-11-12)
+
+### Bug Fixes
+
+- fix save dev flag ([7797fee](https://github.com/alibaba/dawn/commit/7797fee6b070620f52a173e5dedca83b9c32728b))
+
 ## [3.1.1](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-lint@3.1.0...@dawnjs/dn-middleware-lint@3.1.1) (2021-11-12)
 
 ### Bug Fixes
