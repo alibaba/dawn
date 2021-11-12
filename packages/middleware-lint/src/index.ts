@@ -1,7 +1,7 @@
 import lintStaged from "lint-staged";
 import { validateOpts } from "./opts";
 import { ESLINT_IGNORE_FILE_PATH } from "./constants";
-import { execLint, getProjectInfo, readAndForceWriteRc, rmRcFiles } from "./core";
+import { execLint, getProjectInfo, prepareDeps, readAndForceWriteRc, rmRcFiles } from "./core";
 import { debug } from "./utils";
 import type { Handler } from "./types";
 
@@ -47,6 +47,8 @@ const handler: Handler = opts => {
 
     // Async overwrite .prettierrc.js file
     await readAndForceWriteRc({ console: ctx.console, cwd: ctx.cwd, projectInfo });
+
+    await prepareDeps(ctx, projectInfo);
 
     if (!options.realtime) {
       await execLint({ autoFix: options.autoFix, cache: options.cache, prettier: options.prettier, projectInfo }, ctx);

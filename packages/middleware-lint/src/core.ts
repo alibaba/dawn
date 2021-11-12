@@ -1,11 +1,9 @@
 import fs from "fs";
 import { access, readFile, writeFile } from "fs/promises";
 import path from "path";
-import util from "util";
-import cp from "child_process";
 import yaml from "js-yaml";
 import del from "del";
-import { ESLint } from "eslint";
+import semver from "semver";
 import ruleMerge from "./rules";
 import { debug } from "./utils";
 import {
@@ -152,22 +150,26 @@ export const execESLint = async (
     projectInfo: IProjectInfo;
   },
 ) => {
-  const { ext } = options.projectInfo;
-  const eslint = new ESLint({
-    cwd: ctx.cwd,
-    errorOnUnmatchedPattern: false,
-    extensions: ext.split(","),
-    fix: options.autoFix,
-    cache: options.cache,
-    cacheLocation: path.join(ctx.cwd, "node_modules/.cache/.eslintcache"),
-  });
-  const results = await eslint.lintFiles([ctx.cwd]);
-  if (options.autoFix) {
-    await ESLint.outputFixes(results);
-  }
-  const formatter = await eslint.loadFormatter(require.resolve("eslint-formatter-pretty"));
-  const resultText = formatter.format(results);
-  console.log(resultText);
+  const eslint = ctx.utils.findCommand(__dirname, "eslint");
+  debug("execLint.cmd.eslint", eslint);
+  const ignorePath = path.join(ctx.cwd, ESLINT_IGNORE_FILE_PATH);
+  const eslintCmd = [
+    eslint,
+    ctx.cwd,
+    "--ext",
+    options.projectInfo.ext,
+    options.autoFix ? "--fix" : "",
+    "--ignore-path",
+    ignorePath,
+    "--format",
+    require.resolve("eslint-formatter-pretty"),
+    "--cache-location",
+    path.join(ctx.cwd, "node_modules/.cache/.eslintcache"),
+    options.cache ? "--cache" : "",
+  ].join(" ");
+  debug("execLint.eslint", eslintCmd);
+
+  await ctx.utils.exec(eslintCmd);
 };
 
 export const execPrettier = async (ctx: Context) => {
@@ -197,15 +199,49 @@ export const execLint = async (
   debug("execLint.finish");
 };
 
-export const prepareDeps = async (options: { cwd: string; projectInfo: IProjectInfo }) => {
-  const deps = ["eslint@8.2.0", "prettier@2.4.1", "eslint-plugin-import@2.25.2", "eslint-plugin-prettier@4.0.0"];
-  if (options.projectInfo.isTypescript) {
-    deps.push("@typescript-eslint/eslint-plugin@5.3.1", "@typescript-eslint/parser@5.3.1");
+export const prepareDeps = async (ctx: Context, projectInfo: IProjectInfo) => {
+  const deps = [
+    { name: "eslint", version: "^8.0.0" },
+    { name: "prettier", version: "^2.4.0" },
+    { name: "eslint-plugin-import", version: "^2.25.0" },
+    { name: "eslint-plugin-prettier", version: "^4.0.0" },
+  ];
+  if (projectInfo.isTypescript) {
+    deps.push(
+      { name: "@typescript-eslint/eslint-plugin", version: "^5.0.0" },
+      { name: "@typescript-eslint/parser", version: "^5.0.0" },
+    );
   } else {
-    deps.push("@babel/eslint-parser@7.16.3");
+    deps.push({ name: "@babel/eslint-parser", version: "^7.16.0" });
   }
-  if (options.projectInfo.isReact) {
-    deps.push("eslint-plugin-react@7.27.0", "eslint-plugin-react-hooks@4.3.0", "eslint-plugin-jsx-a11y@6.5.1");
+  if (projectInfo.isReact) {
+    deps.push(
+      { name: "eslint-plugin-react", version: "^7.27.0" },
+      { name: "eslint-plugin-react-hooks", version: "^4.3.0" },
+      { name: "eslint-plugin-jsx-a11y", version: "^6.5.0" },
+    );
   }
-  await util.promisify(cp.exec)(`npm i -D ${deps.join(" ")}`);
+  const projectDeps = ctx.project.dependencies;
+  const projectDevDeps = ctx.project.devDependencies;
+
+  const needInstallDeps = deps
+    .filter(dep => {
+      const projectDepVersion = projectDeps[dep.name] || projectDevDeps[dep.name];
+      if (!projectDepVersion) {
+        ctx.console.warn(`${dep.name} not installed in project.`);
+        return true;
+      }
+
+      if (!semver.satisfies(semver.minVersion(projectDepVersion), dep.version)) {
+        ctx.console.warn(
+          `${dep.name} installed in project does not satisfy requirement. Installed version ${projectDepVersion}, required version ${dep.version}`,
+        );
+        return true;
+      }
+      return false;
+    })
+    .map(dep => `${dep.name}@${dep.version}`);
+
+  ctx.console.log(`Installing missing deps: ${needInstallDeps.join(" ")}`);
+  await ctx.mod.exec(`i ${needInstallDeps.join(" ")}`, { flags: { "save-dev": true } });
 };

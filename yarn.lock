@@ -3360,6 +3360,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/semver@^7.3.9":
+  version "7.3.9"
+  resolved "https://registry.npmmirror.com/@types/semver/download/@types/semver-7.3.9.tgz#152c6c20a7688c30b967ec1841d31ace569863fc"
+  integrity sha1-FSxsIKdojDC5Z+wYQdMazlaYY/w=
+
 "@types/serve-index@*":
   version "1.9.1"
   resolved "https://registry.nlark.com/@types/serve-index/download/@types/serve-index-1.9.1.tgz?cache=0&sync_timestamp=1629709176592&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fserve-index%2Fdownload%2F%40types%2Fserve-index-1.9.1.tgz#1b5e85370a192c01ec6cec4735cf2917337a6278"
