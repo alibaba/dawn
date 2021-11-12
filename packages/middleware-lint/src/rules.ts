@@ -22,7 +22,7 @@ const ruleMerge = (rules: Rules, options: { console: Console }): Rules => {
   };
   Object.entries(rules).forEach(([name, rule]) => {
     let isLegalRule = true;
-    if (Array.isArray(rule) && rule[0]) {
+    if (Array.isArray(rule)) {
       isLegalRule = isLegal(rule[0]);
     } else {
       isLegalRule = isLegal(rule);

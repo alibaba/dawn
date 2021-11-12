@@ -24,30 +24,23 @@
     "url": "https://github.com/alibaba/dawn.git"
   },
   "dependencies": {
-    "@babel/core": "^7.16.0",
-    "@babel/eslint-parser": "^7.16.3",
     "@dawnjs/eslint-config-dawn": "^3.0.0",
-    "@typescript-eslint/eslint-plugin": "^5.3.0",
-    "@typescript-eslint/parser": "^5.3.0",
     "debug": "^4.3.2",
     "del": "^6.0.0",
-    "eslint": "^8.1.0",
-    "eslint-config-prettier": "^8.3.0",
     "eslint-formatter-pretty": "^4.1.0",
-    "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-jsx-plus": "^0.1.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.26.1",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "eslint-plugin-vue": "^8.0.3",
     "js-yaml": "^4.1.0",
-    "lint-staged": "^11.2.6",
-    "prettier": "^2.4.1",
-    "typescript": "^4.4.4",
-    "vue-eslint-parser": "^8.0.1"
+    "lint-staged": "^11.2.6"
   },
   "devDependencies": {
-    "@dawnjs/types": "^2.0.1"
+    "@dawnjs/types": "^2.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.3.1",
+    "@typescript-eslint/parser": "^5.3.1",
+    "eslint": "^8.2.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.27.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "prettier": "^2.4.1"
   }
 }

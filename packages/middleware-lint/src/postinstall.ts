@@ -1,4 +1,4 @@
-import { editorconfig, eslintignore, getProjectInfo, readAndForceWriteRc, rmRcFiles } from "./core";
+import { editorconfig, eslintignore, getProjectInfo, prepareDeps, readAndForceWriteRc, rmRcFiles } from "./core";
 
 // Change post-install hook CWD to project.
 // May not work in some cases.
@@ -19,5 +19,6 @@ const cwd = process.env.INIT_CWD || process.cwd().replace(/\/node_modules\/.+$/,
     editorconfig(cwd),
     rmRcFiles({ console, cwd }),
     readAndForceWriteRc({ console, cwd, projectInfo }),
+    prepareDeps({ cwd, projectInfo }),
   ]);
 })();

@@ -1,6 +1,6 @@
 import type { Context, IOpts } from "./types";
 
-export const validateOpts = (opts: IOpts, ctx: Context) => {
+export const validateOpts = (opts: Partial<IOpts>, ctx: Context) => {
   if (opts.env || opts.global) {
     ctx.console.warn('`env` & `gloabl` config is deprecated. Please set in ".eslintrc.yml" file.');
   }

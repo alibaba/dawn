@@ -1,6 +1,8 @@
 import fs from "fs";
 import { access, readFile, writeFile } from "fs/promises";
 import path from "path";
+import util from "util";
+import cp from "child_process";
 import yaml from "js-yaml";
 import del from "del";
 import { ESLint } from "eslint";
@@ -20,7 +22,7 @@ import {
 } from "./constants";
 import type { Context, IProjectInfo } from "./types";
 
-export const getProjectInfo = async (cwd: string): IProjectInfo => {
+export const getProjectInfo = async (cwd: string): Promise<IProjectInfo> => {
   // const { project = {} } = options;
   let extend = "@dawnjs/eslint-config-dawn/standard";
   let ext = ".js,.jsx";
@@ -65,17 +67,17 @@ export const eslintignore = async (cwd: string) => {
   const eslintIgnoreFilePath = path.join(cwd, ESLINT_IGNORE_FILE_PATH);
   const gitIgnoreFilePath = path.join(cwd, GIT_IGNORE_FILE_PATH);
   try {
-    await fs.promises.access(eslintIgnoreFilePath);
+    await access(eslintIgnoreFilePath);
   } catch (e) {
     let ignoreText: string;
     try {
-      await fs.promises.access(gitIgnoreFilePath, fs.constants.R_OK);
-      ignoreText = await fs.promises.readFile(gitIgnoreFilePath, "utf8");
+      await access(gitIgnoreFilePath, fs.constants.R_OK);
+      ignoreText = await readFile(gitIgnoreFilePath, "utf8");
     } catch (e2) {
       ignoreText = ESLINT_IGNORE_FILE_TEMPLATE;
     }
     debug("eslintignore.ignoreText", ignoreText);
-    await fs.promises.writeFile(eslintIgnoreFilePath, ignoreText, "utf-8");
+    await writeFile(eslintIgnoreFilePath, ignoreText, "utf-8");
   }
 };
 
@@ -83,9 +85,9 @@ export const eslintignore = async (cwd: string) => {
 export const editorconfig = async (cwd: string) => {
   const editorConfigFilePath = path.join(cwd, EDITOR_CONFIG_FILE_PATH);
   try {
-    await fs.promises.access(editorConfigFilePath);
+    await access(editorConfigFilePath);
   } catch (e) {
-    await fs.promises.writeFile(editorConfigFilePath, EDITOR_CONFIG_FILE_TEMPLATE, "utf-8");
+    await writeFile(editorConfigFilePath, EDITOR_CONFIG_FILE_TEMPLATE, "utf-8");
   }
 };
 
@@ -110,7 +112,7 @@ export const readAndForceWriteRc = async (options: { console: Console; cwd: stri
   await writeFile(path.join(options.cwd, PRETTIERRC_FILE_PATH), PRETTIERRC_FILE_TEMPLATE, "utf8");
 
   const eslintrcYaml = await readFile(path.join(options.cwd, ESLINTRC_FILE_PATH), "utf-8");
-  let eslintrc = await yaml.load(eslintrcYaml);
+  let eslintrc: any = await yaml.load(eslintrcYaml);
   debug("readAndForceWriteRc.eslintrc.source", eslintrc);
 
   if (!eslintrc) {
@@ -193,4 +195,17 @@ export const execLint = async (
   // if (report && report.errorCount && report.errorCount > 0) process.exit(1);
   ctx.console.info(`Lint completed.`);
   debug("execLint.finish");
+};
+
+export const prepareDeps = async (options: { cwd: string; projectInfo: IProjectInfo }) => {
+  const deps = ["eslint@8.2.0", "prettier@2.4.1", "eslint-plugin-import@2.25.2", "eslint-plugin-prettier@4.0.0"];
+  if (options.projectInfo.isTypescript) {
+    deps.push("@typescript-eslint/eslint-plugin@5.3.1", "@typescript-eslint/parser@5.3.1");
+  } else {
+    deps.push("@babel/eslint-parser@7.16.3");
+  }
+  if (options.projectInfo.isReact) {
+    deps.push("eslint-plugin-react@7.27.0", "eslint-plugin-react-hooks@4.3.0", "eslint-plugin-jsx-a11y@6.5.1");
+  }
+  await util.promisify(cp.exec)(`npm i -D ${deps.join(" ")}`);
 };

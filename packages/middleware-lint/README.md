@@ -54,5 +54,5 @@ precommit:
 项目根目录下执行 (c)npm 命令，安装新的包依赖版本
 
 ```bash
-$ npm uninstall dn-middleware-lint && npm install --save-dev eslint@latest prettier@latest @dawnjs/dn-middleware-lint@latest
+$ npm uninstall dn-middleware-lint && npm install -D @dawnjs/dn-middleware-lint@latest
 ```
