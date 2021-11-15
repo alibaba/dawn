@@ -68,7 +68,6 @@
     "debug": "^4.3.2",
     "deepmerge": "^4.2.2",
     "es5-imcompatible-versions": "^0.1.73",
-    "fibers": "^5.0.0",
     "esbuild": "~0.13.12",
     "esbuild-loader": "^2.16.0",
     "esbuild-plugin-browserslist": "^0.3.0",
