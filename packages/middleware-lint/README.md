@@ -20,6 +20,7 @@ test:
 ```yml
 test:
   - name: '@dawnjs/dn-middleware-lint'
+    noEmit: false # 仅准备配置文件，不执行实际 lint
     autoFix: true # 默认是 true，开启 prettier 和 eslint 的自动修复
     realtime: false # 默认是 false，可结合 webpack 等中间件实现开发时实时 lint
     staged: false # 默认是 false，可结合 husky 等修改 precommit hook

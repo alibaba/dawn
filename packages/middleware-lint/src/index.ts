@@ -12,6 +12,7 @@ const handler: Handler = opts => {
     validateOpts(opts, ctx);
 
     const options = {
+      noEmit: opts.noEmit === true,
       realtime: opts.realtime === true, // default false
       autoFix: opts.autoFix !== false, // default true
       lintStaged: opts.staged === true, // default false
@@ -50,7 +51,7 @@ const handler: Handler = opts => {
 
     await prepareDeps(ctx, projectInfo);
 
-    if (!options.realtime) {
+    if (!options.realtime && !options.noEmit) {
       await execLint({ autoFix: options.autoFix, cache: options.cache, prettier: options.prettier, projectInfo }, ctx);
     }
 

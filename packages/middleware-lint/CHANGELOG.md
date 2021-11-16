@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-lint@3.1.3...@dawnjs/dn-middleware-lint@3.2.0) (2021-11-16)
+
+### Features
+
+- add noEmit option ([49f89b6](https://github.com/alibaba/dawn/commit/49f89b6f2b2f5b00c84eac0fef49aa0be673b132))
+
 ## [3.1.3](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-lint@3.1.2...@dawnjs/dn-middleware-lint@3.1.3) (2021-11-12)
 
 ### Bug Fixes

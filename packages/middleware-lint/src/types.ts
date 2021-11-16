@@ -3,6 +3,8 @@ import * as Dawn from "@dawnjs/types";
 export interface IOpts {
   /** @deprecated Please use features in webpack/rollup/vite middleware instead */
   realtime: boolean;
+  /** Only prepare configuration */
+  noEmit: boolean;
   /** Enable auto-fix for eslint, default is true */
   autoFix: boolean;
   /** Enable staged mode with lint-staged, usually run in precommit hook, default is false */
