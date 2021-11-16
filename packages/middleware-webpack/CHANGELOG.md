@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.3.1...@dawnjs/dn-middleware-webpack@1.4.0) (2021-11-16)
+
+### Features
+
+- add eslint to webpack ([ecf75de](https://github.com/alibaba/dawn/commit/ecf75de199460498311b1be355818a8d86c50a4e))
+
 ## [1.3.1](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.3.0...@dawnjs/dn-middleware-webpack@1.3.1) (2021-11-04)
 
 ### Bug Fixes
