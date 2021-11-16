@@ -1,4 +1,6 @@
 dev:
+  - name: '@dawnjs/dn-middleware-lint'
+    realtime: true
   - name: i18n
   - name: $local
     location: ../../lib/index.js
@@ -7,6 +9,8 @@ dev:
     babel:
       runtimeHelpers: true
       corejs: 3
+    lint:
+      failOnError: true
 
 dev:esbuild:
   - name: i18n
