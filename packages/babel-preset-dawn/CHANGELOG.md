@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/alibaba/dawn/compare/@dawnjs/babel-preset-dawn@2.1.5...@dawnjs/babel-preset-dawn@2.2.0) (2021-11-17)
+
+### Features
+
+- update deps ([c6a0c06](https://github.com/alibaba/dawn/commit/c6a0c069e2439e9ccf1dfc33b3a958e1ff295dda))
+
 ## [2.1.5](https://github.com/alibaba/dawn/compare/@dawnjs/babel-preset-dawn@2.1.4...@dawnjs/babel-preset-dawn@2.1.5) (2021-06-07)
 
 **Note:** Version bump only for package @dawnjs/babel-preset-dawn
