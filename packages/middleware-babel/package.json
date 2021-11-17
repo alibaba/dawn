@@ -32,21 +32,21 @@
   },
   "devDependencies": {
     "@dawnjs/types": "^2.0.1",
-    "@types/babel__core": "^7.1.12",
-    "@types/gulp-if": "0.0.33",
-    "@types/lodash": "^4.14.165",
+    "@types/babel__core": "^7.1.16",
+    "@types/gulp-if": "0.0.34",
+    "@types/lodash": "^4.14.177",
     "@types/through2": "^2.0.36",
-    "@types/vinyl-fs": "^2.4.11"
+    "@types/vinyl-fs": "^2.4.12"
   },
   "dependencies": {
-    "@babel/core": "^7.12.3",
+    "@babel/core": "^7.16.0",
     "@dawnjs/babel-preset-dawn": "^2.2.0",
-    "chokidar": "^3.5.1",
+    "chokidar": "^3.5.2",
     "gulp-if": "^3.0.0",
     "gulp-typescript": "^5.0.1",
     "lodash": "^4.17.21",
     "through2": "^4.0.2",
-    "typescript": "^4.2.4",
+    "typescript": "^4.4.4",
     "vinyl-fs": "^3.0.3"
   },
   "license": "MIT"
