@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-babel@2.0.8...@dawnjs/dn-middleware-babel@2.1.0) (2021-11-17)
+
+### Features
+
+- update deps ([ea32a47](https://github.com/alibaba/dawn/commit/ea32a479e8e337f04c1acd69684ff0ddd1f5cf2e))
+
 ## [2.0.8](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-babel@2.0.7...@dawnjs/dn-middleware-babel@2.0.8) (2021-11-17)
 
 **Note:** Version bump only for package @dawnjs/dn-middleware-babel

@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.3](https://github.com/alibaba/dawn/compare/@dawnjs/eslint-config-dawn@3.1.2...@dawnjs/eslint-config-dawn@3.1.3) (2021-11-17)
+
+**Note:** Version bump only for package @dawnjs/eslint-config-dawn
+
 ## [3.1.2](https://github.com/alibaba/dawn/compare/@dawnjs/eslint-config-dawn@3.1.1...@dawnjs/eslint-config-dawn@3.1.2) (2021-11-17)
 
 **Note:** Version bump only for package @dawnjs/eslint-config-dawn
