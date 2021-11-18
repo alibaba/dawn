@@ -7853,6 +7853,11 @@ es-to-primitive@^1.2.1:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
+es5-imcompatible-versions@^0.1.73:
+  version "0.1.73"
+  resolved "https://registry.nlark.com/es5-imcompatible-versions/download/es5-imcompatible-versions-0.1.73.tgz#2d34dbb29cbc54f38902cc1150bbe301b388c014"
+  integrity sha1-LTTbspy8VPOJAswRULvjAbOIwBQ=
+
 es6-promise@^4.0.3:
   version "4.2.8"
   resolved "https://registry.npm.taobao.org/es6-promise/download/es6-promise-4.2.8.tgz#4eb21594c972bc40553d276e510539143db53e0a"

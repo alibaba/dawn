@@ -12,11 +12,17 @@
   "dependencies": {
     "@alifd/next": "^1.22.24",
     "@babel/runtime-corejs3": "^7.14.0",
+    "abort-controller": "^3.0.0",
+    "d3-hierarchy": "^3.0.1",
+    "mathjs": "^10.0.0",
     "moment": "^2.29.1",
+    "query-string": "^7.0.1",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "swr": "^1.0.1"
   },
   "devDependencies": {
+    "@types/d3-hierarchy": "^3.0.2",
     "@types/react": "^17.0.5",
     "@types/react-dom": "^17.0.3",
     "@typescript-eslint/eslint-plugin": "^5.4.0",

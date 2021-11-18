@@ -29,6 +29,18 @@ dev:swc:
     env: development
     swc: true
 
+
+dev:ie11Incompatible:
+  - name: i18n
+  - name: $local
+    location: ../../lib/index.js
+    entry: ./src/pages/index.tsx
+    env: development
+    babel:
+      runtimeHelpers: true
+      ie11Incompatible: true
+      corejs: 3
+
 watch:
   - name: i18n
   - name: $local
@@ -62,6 +74,17 @@ build:swc:
     entry: ./src/pages/index.tsx
     env: production
     swc: true
+
+build:ie11Incompatible:
+  - name: i18n
+  - name: $local
+    location: ../../lib/index.js
+    entry: ./src/pages/index.tsx
+    env: production
+    babel:
+      runtimeHelpers: true
+      ie11Incompatible: true
+      corejs: 3
 
 build:mpa:
   - name: i18n
