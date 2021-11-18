@@ -10,6 +10,7 @@ import { IHtmlPluginOptions } from "@rollup/plugin-html";
 import { RollupJsonOptions } from "@rollup/plugin-json";
 import { IYamlPluginOptions } from "@rollup/plugin-yaml";
 import { RollupWasmOptions } from "@rollup/plugin-wasm";
+import { RollupEslintOptions } from "@rollup/plugin-eslint";
 import { Context } from "@dawnjs/types";
 
 export interface IBundleOutput {
@@ -88,6 +89,7 @@ export interface IBundleOptions {
   json?: RollupJsonOptions;
   yaml?: IYamlPluginOptions;
   wasm?: boolean | RollupWasmOptions;
+  lint?: boolean | RollupEslintOptions;
 }
 
 export interface IOpts extends IBundleOptions {

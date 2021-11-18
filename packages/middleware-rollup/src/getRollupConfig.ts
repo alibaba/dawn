@@ -19,6 +19,7 @@ import commonjs from "@rollup/plugin-commonjs";
 import { terser } from "rollup-plugin-terser";
 import html, { IHtmlPluginTemplateFunctionArgument, makeHtmlAttributes } from "@rollup/plugin-html";
 import { visualizer } from "rollup-plugin-visualizer";
+import eslint from "@rollup/plugin-eslint";
 import { merge } from "lodash";
 import { getOutputFile, hasJsxRuntime, testExternal, testGlobalExternal } from "./utils";
 import { IDawnContext, IGetRollupConfigOpts, IUmd } from "./types";
@@ -64,6 +65,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
     json: jsonOpts = {},
     yaml: yamlOpts = {},
     wasm: wasmOpts = false,
+    lint: lintOpts = false,
   } = bundleOpts;
 
   const entryExt = extname(entry);
@@ -198,6 +200,14 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
     return [
       url(),
       svgr(),
+      ...(lintOpts
+        ? [
+            eslint({
+              formatter: require.resolve("eslint-formatter-pretty"),
+              ...(typeof lintOpts === "object" ? lintOpts : {}),
+            }),
+          ]
+        : []),
       postcss({
         extract: extractCSS,
         inject: injectCSS,
@@ -222,6 +232,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
       nodeResolve({
         mainFields: ["module", "main"],
         extensions,
+        ...(target === "browser" ? { browser: true } : {}),
         ...nodeResolveOpts,
       }),
       ...(isTypeScript

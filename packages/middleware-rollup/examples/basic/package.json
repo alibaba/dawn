@@ -1,0 +1,35 @@
+{
+  "name": "basic-component",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "unpkg": "dist/index.js",
+  "scripts": {
+    "start": "dn d",
+    "build": "dn b"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "dependencies": {
+    "@alifd/next": "^1.22.24",
+    "@formily/core": "^2.0.0-rc.20",
+    "@formily/next": "^2.0.0-rc.20",
+    "@formily/react": "^2.0.0-rc.20",
+    "axios": "^0.24.0",
+    "moment": "^2.29.1"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.35",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "eslint": "^8.2.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.27.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "prettier": "^2.4.1",
+    "react": "^17.0.2"
+  }
+}

@@ -15,6 +15,14 @@ const logError = (error: RollupError, ctx: IDawnContext) => {
 };
 
 const logWarn = (warning: RollupWarning, ctx: IDawnContext) => {
+  if (!process.env.DN_DEBUG) {
+    if (warning.code === "CIRCULAR_DEPENDENCY") {
+      return;
+    }
+    if (warning.code === "THIS_IS_UNDEFINED") {
+      return;
+    }
+  }
   if (warning.loc) {
     ctx.console.warn(`${warning.loc.file}(${warning.loc.line}:${warning.loc.column}): ${warning.message}`);
   } else {
@@ -22,9 +30,6 @@ const logWarn = (warning: RollupWarning, ctx: IDawnContext) => {
   }
   if (warning.frame) {
     ctx.console.warn(warning.frame);
-  }
-  if (warning.guess) {
-    ctx.console.warn(warning.guess);
   }
 };
 
