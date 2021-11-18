@@ -1,6 +1,7 @@
 import * as Dawn from "@dawnjs/types";
 import { DevTool } from "webpack-chain";
 import { Configuration as ServerConfiguration } from "webpack-dev-server";
+import { Options as EslintWebpackPluginOptions } from "eslint-webpack-plugin";
 
 export type Env = "development" | "production";
 export interface FileInfo {
@@ -330,6 +331,11 @@ export interface IOpts {
    * Reference to https://webpack.js.org/configuration/dev-server/#devserver
    */
   serverOpts?: ServerConfiguration;
+
+  /**
+   * Enable ESLint in server mode, see https://github.com/webpack-contrib/eslint-webpack-plugin#options
+   */
+  lint?: boolean | EslintWebpackPluginOptions;
 }
 
 export interface INormalizedOpts extends Omit<IOpts, "entry" | "template" | "inject" | "append" | "output"> {

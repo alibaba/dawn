@@ -110,4 +110,15 @@ export default async (config: Config, options: INormalizedOpts, ctx: Context) =>
   if (options.server && options.serverOpts.hot) {
     config.plugin("react-refresh").use(require.resolve("@pmmmwh/react-refresh-webpack-plugin"));
   }
+
+  if (options.lint) {
+    config.plugin("eslint").use(require.resolve("eslint-webpack-plugin"), [
+      {
+        extensions: "js,jsx,ts,tsx",
+        formatter: require.resolve("eslint-formatter-pretty"),
+        failOnError: false,
+        ...(typeof options.lint === "object" ? options.lint : {}),
+      },
+    ]);
+  }
 };

@@ -73,7 +73,7 @@ export const run = async (
   const transform = (file: { contents: string; path: string }): string => {
     ctx.console.log(`Transform to ${type} for ${relative(cwd, file.path)}`);
 
-    return babel.transform(file.contents, { ...babelOpts, filename: file.path }).code;
+    return babel.transformSync(file.contents, { ...babelOpts, filename: file.path }).code;
   };
 
   // Get compilerOptions from project's tsconfig.json or default template

@@ -61,6 +61,7 @@ const handler: Handler = (opts = {}) => {
     }
 
     if (options.server) {
+      // @ts-ignore
       const server = new WebpackDevServer(options.serverOpts, compiler);
       await server.start();
       next();

@@ -1,0 +1,6 @@
+# Do not modify "extends" & "rules".
+
+root: true
+extends: '@dawnjs/eslint-config-dawn/typescript-react'
+parserOptions:
+  project: ./tsconfig.json

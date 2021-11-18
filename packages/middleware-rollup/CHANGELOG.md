@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.7](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@1.7.6...@dawnjs/dn-middleware-rollup@1.7.7) (2021-11-17)
+
+**Note:** Version bump only for package @dawnjs/dn-middleware-rollup
+
+## [1.7.6](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@1.7.5...@dawnjs/dn-middleware-rollup@1.7.6) (2021-11-17)
+
+**Note:** Version bump only for package @dawnjs/dn-middleware-rollup
+
 ## [1.7.5](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@1.7.4...@dawnjs/dn-middleware-rollup@1.7.5) (2021-06-16)
 
 ### Bug Fixes
