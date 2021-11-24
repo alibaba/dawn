@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.4.2...@dawnjs/dn-middleware-webpack@1.5.0) (2021-11-18)
+
+### Features
+
+- **@dawnjs/middleware-webpack:** add ie11 Incompatible ([e313e40](https://github.com/alibaba/dawn/commit/e313e40fd271c91c73604813be9cefdec8144984))
+
 ## [1.4.2](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.4.1...@dawnjs/dn-middleware-webpack@1.4.2) (2021-11-17)
 
 **Note:** Version bump only for package @dawnjs/dn-middleware-webpack

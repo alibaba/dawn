@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.8](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@1.7.7...@dawnjs/dn-middleware-rollup@1.7.8) (2021-11-18)
+
+### Bug Fixes
+
+- add @babel/eslint-parser to project by default ([3df8b25](https://github.com/alibaba/dawn/commit/3df8b25ab171f5fa379e08a75bbeae98783b52ff))
+
 ## [1.7.7](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@1.7.6...@dawnjs/dn-middleware-rollup@1.7.7) (2021-11-17)
 
 **Note:** Version bump only for package @dawnjs/dn-middleware-rollup

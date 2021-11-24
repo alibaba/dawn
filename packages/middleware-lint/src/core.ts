@@ -211,14 +211,13 @@ export const prepareDeps = async (ctx: Context, projectInfo: IProjectInfo) => {
     { name: "prettier", version: "^2.4.0" },
     { name: "eslint-plugin-import", version: "^2.25.0" },
     { name: "eslint-plugin-prettier", version: "^4.0.0" },
+    { name: "@babel/eslint-parser", version: "^7.16.0" },
   ];
   if (projectInfo.isTypescript) {
     deps.push(
       { name: "@typescript-eslint/eslint-plugin", version: "^5.0.0" },
       { name: "@typescript-eslint/parser", version: "^5.0.0" },
     );
-  } else {
-    deps.push({ name: "@babel/eslint-parser", version: "^7.16.0" });
   }
   if (projectInfo.isReact) {
     deps.push(

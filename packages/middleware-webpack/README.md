@@ -592,6 +592,13 @@ Default:
 
 Specify extra babel presets.
 
+#### `babel.ie11Incompatible`
+
+Type: `boolean`<br>
+Default: false
+
+Enable IE11 compatible mode, use [es5-imcompatible-versions](https://github.com/umijs/es5-imcompatible-versions)
+
 #### `babel.jsxRuntime`
 
 Type: `boolean`<br>

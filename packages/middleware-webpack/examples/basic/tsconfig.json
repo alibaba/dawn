@@ -4,6 +4,7 @@
     "allowJs": true,
     "baseUrl": "./",
     "rootDir": "src",
-    "outDir": "build"
+    "outDir": "build",
+    "moduleResolution": "node"
   }
 }
