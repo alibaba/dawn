@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "target": "esnext",
+    "jsx": "react",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "sourceMap": true,
+    "declaration": false,
+    "removeComments": false,
+    "importsNotUsedAsValues": "preserve",
+  }
+}

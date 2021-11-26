@@ -2,6 +2,7 @@ import { OutputOptions, rollup, RollupError, RollupOptions, RollupWarning, watch
 import { getRollupConfig } from "./getRollupConfig";
 import { IDawnContext, IRollupOpts } from "./types";
 import { mergeCustomRollupConfig } from "./mergeCustomRollupConfig";
+import async from "async";
 
 const logError = (error: RollupError, ctx: IDawnContext) => {
   if (error.loc) {
@@ -15,6 +16,14 @@ const logError = (error: RollupError, ctx: IDawnContext) => {
 };
 
 const logWarn = (warning: RollupWarning, ctx: IDawnContext) => {
+  if (!process.env.DN_DEBUG) {
+    if (warning.code === "CIRCULAR_DEPENDENCY") {
+      return;
+    }
+    if (warning.code === "THIS_IS_UNDEFINED") {
+      return;
+    }
+  }
   if (warning.loc) {
     ctx.console.warn(`${warning.loc.file}(${warning.loc.line}:${warning.loc.column}): ${warning.message}`);
   } else {
@@ -22,9 +31,6 @@ const logWarn = (warning: RollupWarning, ctx: IDawnContext) => {
   }
   if (warning.frame) {
     ctx.console.warn(warning.frame);
-  }
-  if (warning.guess) {
-    ctx.console.warn(warning.guess);
   }
 };
 
@@ -82,26 +88,56 @@ export const start = async (entry: string, opts: IRollupOpts, rollupConfig: Roll
 };
 
 export const build = async (entry: string, opts: IRollupOpts, ctx: IDawnContext) => {
-  const { cwd, type, bundleOpts } = opts;
+  const { cwd, type, bundleOpts, analysis, parallel } = opts;
   const rollupConfigs = await getRollupConfig(
     {
       cwd,
       entry,
       type,
       bundleOpts,
-      analysis: opts.analysis,
+      analysis,
+      parallel,
     },
     ctx,
   );
 
-  await Promise.all(rollupConfigs.map(rollupConfig => start(entry, opts, rollupConfig, ctx)));
+  const subTasks = rollupConfigs
+    .filter(rollupConfig => !!rollupConfig)
+    .map((rollupConfig: RollupOptions) => {
+      return cb => {
+        start(entry, opts, rollupConfig, ctx).then(() => {
+          cb();
+        });
+      };
+    });
+
+  if (parallel) {
+    await async.parallel(subTasks);
+  } else {
+    await async.series(subTasks);
+  }
 };
 
 export const run = async (opts: IRollupOpts, ctx: IDawnContext) => {
-  if (Array.isArray(opts.entry)) {
-    const { entry: entries } = opts;
-    await Promise.all(entries.map(entry => build(entry, opts, ctx)));
+  const { entry: entries, parallel } = opts;
+  const subTasks = Array.isArray(entries)
+    ? entries.map(entry => {
+        return cb => {
+          build(entry, opts, ctx).then(() => {
+            cb();
+          });
+        };
+      })
+    : [
+        cb => {
+          build(entries, opts, ctx).then(() => {
+            cb();
+          });
+        },
+      ];
+  if (parallel) {
+    await async.parallel(subTasks);
   } else {
-    await build(opts.entry, opts, ctx);
+    await async.series(subTasks);
   }
 };

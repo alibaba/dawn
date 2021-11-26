@@ -1,7 +1,8 @@
 import { Handler } from "@dawnjs/types";
 import { getOpts, validateOpts } from "./opts";
 import { run } from "./rollup";
-import { IOpts } from "./types";
+import { BundleType, IOpts } from "./types";
+import async from "async";
 
 const handler: Handler<IOpts> = options => {
   return async (next, ctx) => {
@@ -16,91 +17,34 @@ const handler: Handler<IOpts> = options => {
 
     ctx.console.info("Rollup starting...");
 
-    const { cwd, watch, configFile, analysis, fullCustom, ...bundleOpts } = opts;
+    const { cwd, watch, configFile, analysis, fullCustom, parallel, ...bundleOpts } = opts;
 
-    // Bundle different type parallelly
-    const tasks = [];
-    if (bundleOpts.umd) {
-      tasks.push(
-        run(
-          {
-            cwd,
-            type: "umd",
-            entry: bundleOpts.entry,
-            watch,
-            bundleOpts,
-            configFile,
-            analysis,
-          },
-          ctx,
-        ),
-      );
+    const tasks = ["esm", "cjs", "umd", "system", "iife"]
+      .filter(type => !!bundleOpts[type])
+      .map((type: BundleType) => {
+        return cb => {
+          run(
+            {
+              cwd,
+              type,
+              entry: bundleOpts.entry,
+              watch,
+              bundleOpts,
+              configFile,
+              analysis,
+              parallel,
+            },
+            ctx,
+          ).then(() => {
+            cb();
+          });
+        };
+      });
+    if (parallel) {
+      await async.parallel(tasks);
+    } else {
+      await async.series(tasks);
     }
-    if (bundleOpts.cjs) {
-      tasks.push(
-        run(
-          {
-            cwd,
-            type: "cjs",
-            entry: bundleOpts.entry,
-            watch,
-            bundleOpts,
-            configFile,
-            analysis,
-          },
-          ctx,
-        ),
-      );
-    }
-    if (bundleOpts.esm) {
-      tasks.push(
-        run(
-          {
-            cwd,
-            type: "esm",
-            entry: bundleOpts.entry,
-            watch,
-            bundleOpts,
-            configFile,
-            analysis,
-          },
-          ctx,
-        ),
-      );
-    }
-    if (bundleOpts.system) {
-      tasks.push(
-        run(
-          {
-            cwd,
-            type: "system",
-            entry: bundleOpts.entry,
-            watch,
-            bundleOpts,
-            configFile,
-            analysis,
-          },
-          ctx,
-        ),
-      );
-    }
-    if (bundleOpts.iife) {
-      tasks.push(
-        run(
-          {
-            cwd,
-            type: "iife",
-            entry: bundleOpts.entry,
-            watch,
-            bundleOpts,
-            configFile,
-            analysis,
-          },
-          ctx,
-        ),
-      );
-    }
-    await Promise.all(tasks);
 
     await next();
   };

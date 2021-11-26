@@ -1,0 +1,6 @@
+foo: 1
+bar: true
+extraType:
+  - !!js/regexp /pattern/gim
+  - !!js/undefined ''
+  - !!js/function 'function () { return true }'

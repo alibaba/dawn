@@ -1,0 +1,34 @@
+dev:
+  - name: '@dawnjs/dn-middleware-lint'
+    noEmit: true
+  - name: '@dawnjs/dn-middleware-clean'
+    target:
+      - dist
+      - lib
+      - es
+  - name: $local
+    location: ../../lib/index.js
+    watch: true
+    entry: ./src/index.tsx
+    lint: true
+    esm: false
+    cjs: false
+
+test:
+  - name: '@dawnjs/dn-middleware-lint'
+
+build:
+  - name: '@dawnjs/dn-middleware-clean'
+    target:
+      - dist
+      - lib
+      - es
+  - name: $local
+    location: ../../lib/index.js
+    entry: ./src/index.tsx
+    # esm: false
+    # cjs: false
+    # umd:
+    #   minFile: false
+    # parallel: true
+    analysis: true

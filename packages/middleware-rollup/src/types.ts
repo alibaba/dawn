@@ -6,11 +6,16 @@ import { RollupInjectOptions } from "@rollup/plugin-inject";
 import { RollupReplaceOptions } from "@rollup/plugin-replace";
 import { Options as RollupTerserOptions } from "rollup-plugin-terser";
 import { RollupCommonJSOptions } from "@rollup/plugin-commonjs";
-import { IHtmlPluginOptions } from "@rollup/plugin-html";
+import { RollupHtmlOptions } from "@rollup/plugin-html";
 import { RollupJsonOptions } from "@rollup/plugin-json";
-import { IYamlPluginOptions } from "@rollup/plugin-yaml";
+import { RollupYamlOptions } from "@rollup/plugin-yaml";
 import { RollupWasmOptions } from "@rollup/plugin-wasm";
+import { RollupEslintOptions } from "@rollup/plugin-eslint";
 import { Context } from "@dawnjs/types";
+import { IStringPluginOptions } from "rollup-plugin-string";
+import { PostCSSPluginConf } from "rollup-plugin-postcss";
+import { ISvgrPluginOptions } from "@svgr/rollup";
+import { AtImportOptions } from "postcss-import";
 
 export interface IBundleOutput {
   file?: string;
@@ -62,6 +67,9 @@ export interface IBundleOptions {
   cssModules?: boolean | Record<string, any>;
   less?: Record<string, any>;
   sass?: Record<string, any>;
+  postcss?: PostCSSPluginConf;
+  postcssPresetEnv?: Record<string, any>;
+  postcssImport?: AtImportOptions;
   autoprefixer?: AutoprefixerOptions;
   runtimeHelpers?: boolean | string;
   corejs?: false | 2 | 3 | { version: 2 | 3; proposals: boolean };
@@ -84,10 +92,13 @@ export interface IBundleOptions {
   replace?: RollupReplaceOptions;
   commonjs?: RollupCommonJSOptions;
   terser?: RollupTerserOptions;
-  html?: Omit<IHtmlPluginOptions, "template">;
+  html?: Omit<RollupHtmlOptions, "template">;
   json?: RollupJsonOptions;
-  yaml?: IYamlPluginOptions;
+  yaml?: RollupYamlOptions;
   wasm?: boolean | RollupWasmOptions;
+  lint?: boolean | RollupEslintOptions;
+  string?: IStringPluginOptions;
+  svgr?: ISvgrPluginOptions;
 }
 
 export interface IOpts extends IBundleOptions {
@@ -96,31 +107,36 @@ export interface IOpts extends IBundleOptions {
   fullCustom?: boolean;
   configFile?: string;
   analysis?: boolean;
+  parallel?: boolean;
 }
 
 export type IDawnContext = Context<IOpts>;
 
+export type BundleType = "cjs" | "esm" | "umd" | "system" | "iife";
+
 export interface IRollupOpts {
   cwd: string;
   entry: string | string[];
-  type: "cjs" | "esm" | "umd" | "system" | "iife";
+  type: BundleType;
   bundleOpts: IBundleOptions;
   watch?: boolean;
   configFile?: string;
   analysis?: boolean;
+  parallel?: boolean;
 }
 
 export interface IGetRollupConfigOpts {
   cwd: string;
   entry: string;
-  type: "cjs" | "esm" | "umd" | "system" | "iife";
+  type: BundleType;
   bundleOpts: IBundleOptions;
   analysis?: boolean;
+  parallel?: boolean;
 }
 
 export interface IGetBabelConfigOpts {
   target: "browser" | "node";
-  type?: "cjs" | "esm" | "umd" | "system" | "iife";
+  type?: BundleType;
   typescript?: boolean;
   runtimeHelpers?: boolean;
   nodeVersion?: number;

@@ -16,6 +16,7 @@
 ## 使用说明
 
 ### 安装
+
 ```shell
 npm i -D @dawnjs/dn-middleware-rollup
 ```
@@ -112,6 +113,13 @@ module.exports = {
 
 开启打包分析功能，会产出打包内容的体积等信息，主要用于打包体积调优过程
 
+### `parallel`
+
+类型：`boolean`<br>
+默认值：`false`
+
+开启并行打包模式
+
 ### `entry`
 
 类型：`string | string[]`<br>
@@ -142,7 +150,7 @@ _说明：当配置为 `"browser"` 时，可通过 `.browserslistrc` 指定目�
 类型：`string` | `Object`<br>
 默认值：
 
-指定输出文件路径和文件名，对于多entry的项目，可以传入entry名与输出名的Map
+指定输出文件路径和文件名，对于多 entry 的项目，可以传入 entry 名与输出名的 Map
 
 _说明：输出文件的最终文件名由多个条件与配置项组合后形成，详细说明请查看[输出文件名说明](#输出文件名说明)_
 
@@ -472,7 +480,14 @@ _说明：会检查当前依赖的 `react` 版本是否支持 `jsxRuntime`，如
 类型：`Object`<br>
 默认值：
 
-透传给 `node-sass` 的选项，详细说明请查看[相关文档](https://github.com/sass/node-sass#options)
+透传给 [`sass`](https://github.com/sass/dart-sass#javascript-api) 或 [`node-sass`](https://github.com/sass/node-sass#options) 的选项
+
+### `postcssImport`
+
+类型：`Object`<br>
+默认值：
+
+额外的 `postcss-import` 配置项，详细说明请查看[相关文档](https://github.com/postcss/postcss-import#options)
 
 ### `autoprefixer`
 
@@ -480,6 +495,20 @@ _说明：会检查当前依赖的 `react` 版本是否支持 `jsxRuntime`，如
 默认值：
 
 额外的 `autoprefixer` 配置项，详细说明请查看[相关文档](https://github.com/postcss/autoprefixer#options)
+
+### `postcssPresetEnv`
+
+类型：`Object`<br>
+默认值：
+
+额外的 `postcss-preset-env` 配置项，详细说明请查看[相关文档](https://github.com/csstools/postcss-preset-env#options)
+
+### `postcss`
+
+类型：`Object`<br>
+默认值：
+
+额外的 `rollup-plugin-postcss` 配置项，详细说明请查看[相关文档](https://github.com/egoist/rollup-plugin-postcss#options)
 
 ### `nodeResolve`
 
@@ -570,6 +599,20 @@ _说明：如果是已加入到 `peerDependencies` 或 `dependencies` 中的依�
 默认值：`false`
 
 开启对 `WebAssembly` 模块的打包支持。当配置成对象时，作为 `@rollup/plugin-wasm` 的配置项，详细说明请查看[相关文档](https://github.com/rollup/plugins/tree/master/packages/wasm#options)
+
+### `string`
+
+类型：`Object`<br>
+默认值：`{ include: "**/*.txt" }`
+
+透传给 `rollup-plugin-string` ，详细说明请查看[相关文档](https://github.com/TrySound/rollup-plugin-string#usage)
+
+### `svgr`
+
+类型：`Object`<br>
+默认值：
+
+透传给 `@svgr/rollup` ，详细说明请查看[相关文档](https://react-svgr.com/docs/rollup/#passing-options)
 
 ## 其他
 

@@ -1,0 +1,13 @@
+@width: 0.5;
+@height: 100px;
+
+.bordered {
+  border-top: dotted 1px black;
+  border-bottom: solid 2px black;
+}
+
+.sec-1 {
+  width: percentage(@width);
+  height: @height;
+  .bordered();
+}
