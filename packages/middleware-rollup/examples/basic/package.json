@@ -12,7 +12,7 @@
     "react-dom": "^17.0.2"
   },
   "dependencies": {
-    "@alifd/next": "^1.22.24",
+    "@alifd/next": "1.20.28",
     "@formily/core": "^2.0.0-rc.20",
     "@formily/next": "^2.0.0-rc.20",
     "@formily/react": "^2.0.0-rc.20",

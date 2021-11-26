@@ -1,0 +1,5 @@
+@import './variables.css';
+
+.main {
+  width: var(--width);
+}

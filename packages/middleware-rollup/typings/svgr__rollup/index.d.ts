@@ -3,8 +3,8 @@ declare module "@svgr/rollup" {
 
   export interface ISvgrPluginOptions {
     include?: string;
-    exclude: string;
-    babel: boolean;
+    exclude?: string;
+    babel?: boolean;
   }
 
   function svgr(options?: ISvgrPluginOptions): Plugin;

@@ -4,7 +4,8 @@ import { RollupOptions } from "rollup";
 import url from "@rollup/plugin-url";
 import svgr from "@svgr/rollup";
 import postcss from "rollup-plugin-postcss";
-import autoprefixer from "autoprefixer";
+import postcssPresetEnv from "postcss-preset-env";
+import atImport from "postcss-import";
 import NpmImport from "less-plugin-npm-import";
 import alias from "@rollup/plugin-alias";
 import inject from "@rollup/plugin-inject";
@@ -15,18 +16,23 @@ import babel, { RollupBabelInputPluginOptions } from "@rollup/plugin-babel";
 import json from "@rollup/plugin-json";
 import yaml from "@rollup/plugin-yaml";
 import wasm from "@rollup/plugin-wasm";
+import { string } from "rollup-plugin-string";
 import commonjs from "@rollup/plugin-commonjs";
 import { terser } from "rollup-plugin-terser";
-import html, { IHtmlPluginTemplateFunctionArgument, makeHtmlAttributes } from "@rollup/plugin-html";
+import html, { makeHtmlAttributes, RollupHtmlTemplateOptions } from "@rollup/plugin-html";
 import { visualizer } from "rollup-plugin-visualizer";
 import eslint from "@rollup/plugin-eslint";
-import { merge } from "lodash";
+import progress from "rollup-plugin-progress";
+import { isEmpty, merge } from "lodash";
 import { getOutputFile, hasJsxRuntime, testExternal, testGlobalExternal } from "./utils";
 import { IDawnContext, IGetRollupConfigOpts, IUmd } from "./types";
 
 // eslint-disable-next-line max-lines-per-function
-export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnContext): Promise<RollupOptions[]> => {
-  const { cwd, entry, type, bundleOpts, analysis } = opts;
+export const getRollupConfig = async (
+  opts: IGetRollupConfigOpts,
+  ctx: IDawnContext,
+): Promise<Array<RollupOptions | false | null | undefined>> => {
+  const { cwd, entry, type, bundleOpts, analysis, parallel } = opts;
   const {
     umd,
     esm,
@@ -38,6 +44,9 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
     cssModules: modules = false,
     less: lessOpts = {},
     sass: sassOpts = {},
+    postcss: postcssOpts = {},
+    postcssPresetEnv: postcssPresetEnvOpts = {},
+    postcssImport: atImportOpts = {},
     autoprefixer: autoprefixerOpts,
     commonjs: commonjsOpts = {},
     alias: aliasEntries,
@@ -66,6 +75,8 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
     yaml: yamlOpts = {},
     wasm: wasmOpts = false,
     lint: lintOpts = false,
+    string: stringOpts = {},
+    svgr: svgrOpts = {},
   } = bundleOpts;
 
   const entryExt = extname(entry);
@@ -141,7 +152,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
     terserOpts,
   );
 
-  const template = async ({ attributes, files, meta, publicPath, title }: IHtmlPluginTemplateFunctionArgument) => {
+  const template = ({ attributes, files, meta, publicPath, title }: RollupHtmlTemplateOptions) => {
     const htmlAttr = makeHtmlAttributes(attributes.html);
     const scripts = (files.js || [])
       .map(({ fileName }) => {
@@ -199,15 +210,12 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
   const getPlugins = ({ minCSS }: { minCSS?: boolean } = {}) => {
     return [
       url(),
-      svgr(),
-      ...(lintOpts
-        ? [
-            eslint({
-              formatter: require.resolve("eslint-formatter-pretty"),
-              ...(typeof lintOpts === "object" ? lintOpts : {}),
-            }),
-          ]
-        : []),
+      svgr(svgrOpts),
+      lintOpts &&
+        eslint({
+          formatter: require.resolve("eslint-formatter-pretty"),
+          ...(typeof lintOpts === "object" ? lintOpts : {}),
+        }),
       postcss({
         extract: extractCSS,
         inject: injectCSS,
@@ -218,54 +226,57 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
           stylus: {},
           less: { javascriptEnabled: true, plugins: [new NpmImport({ prefix: "~" })], ...lessOpts },
         },
-        plugins: [autoprefixer(autoprefixerOpts)],
+        plugins: [
+          atImport(atImportOpts),
+          postcssPresetEnv({ autoprefixer: autoprefixerOpts, ...postcssPresetEnvOpts }),
+        ],
         config: {
           path: join(cwd, "postcss.config.js"),
           ctx: opts,
         },
+        ...postcssOpts,
       }),
-      ...(aliasEntries && ((Array.isArray(aliasEntries) && aliasEntries.length) || Object.keys(aliasEntries).length)
-        ? [alias({ entries: aliasEntries })]
-        : []),
-      ...(injectOpts && Object.keys(injectOpts).length ? [inject(injectOpts)] : []),
-      ...(replaceOpts && Object.keys(replaceOpts).length ? [replace({ preventAssignment: true, ...replaceOpts })] : []),
+      !isEmpty(aliasEntries) && alias({ entries: aliasEntries }),
+      !isEmpty(injectOpts) && inject(injectOpts),
+      !isEmpty(replaceOpts) && replace({ preventAssignment: true, ...replaceOpts }),
       nodeResolve({
         mainFields: ["module", "main"],
         extensions,
         ...(target === "browser" ? { browser: true } : {}),
         ...nodeResolveOpts,
       }),
-      ...(isTypeScript
-        ? [
-            typescript2({
-              cwd,
-              // @see https://github.com/ezolenko/rollup-plugin-typescript2/issues/105 >> try disabling it now
-              // objectHashIgnoreUnknownHack: true,
-              // @see https://github.com/umijs/father/issues/61#issuecomment-544822774
-              clean: true,
-              tsconfig: join(cwd, "tsconfig.json"),
-              tsconfigDefaults: {
-                compilerOptions: {
-                  // Generate declaration files by default
-                  declaration: true,
-                },
-              },
-              tsconfigOverride: {
-                compilerOptions: {
-                  // Support dynamic import
-                  target: "esnext",
-                  ...(jsxRuntime === "automatic" && hasJsxRuntime() ? { jsx: "preserve" } : {}),
-                },
-              },
-              check: !disableTypeCheck,
-              ...typescriptOpts,
-            }),
-          ]
-        : []),
+      isTypeScript &&
+        typescript2({
+          cwd,
+          // @see https://github.com/ezolenko/rollup-plugin-typescript2/issues/105 >> try disabling it now
+          // objectHashIgnoreUnknownHack: true,
+          // @see https://github.com/umijs/father/issues/61#issuecomment-544822774
+          clean: true,
+          tsconfig: join(cwd, "tsconfig.json"),
+          tsconfigDefaults: {
+            compilerOptions: {
+              // Generate declaration files by default
+              declaration: true,
+            },
+          },
+          tsconfigOverride: {
+            compilerOptions: {
+              // Support dynamic import
+              target: "esnext",
+              ...(jsxRuntime === "automatic" && hasJsxRuntime() ? { jsx: "preserve" } : {}),
+              resolveJsonModule: true,
+              noEmit: true,
+            },
+          },
+          check: !disableTypeCheck,
+          ...typescriptOpts,
+        }),
       babel(babelPluginOptions),
       json(jsonOpts),
       yaml(yamlOpts),
-      ...(wasmOpts ? [wasm({ ...(typeof wasmOpts === "object" ? wasmOpts : {}) })] : []),
+      wasmOpts && wasm({ ...(typeof wasmOpts === "object" ? wasmOpts : {}) }),
+      string({ include: "**/*.txt", ...stringOpts }),
+      !parallel && progress(),
     ];
   };
   const extraUmdPlugins = [commonjs(commonjsOpts)];
@@ -281,54 +292,45 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
           },
           plugins: [
             ...getPlugins({ minCSS: (esm && esm.minify) || false }),
-            ...(esm && esm.minify ? [terser(terserOptions)] : []),
-            ...(analysis
-              ? [
-                  visualizer({
-                    filename: join(dirname(getOutputFile({ entry, type: "esm", pkg, bundleOpts })), "stats-esm.html"),
-                    title: "Rollup Visualizer - ESM",
-                    open: true,
-                    gzipSize: true,
-                  }),
-                ]
-              : []),
+            esm && esm.minify && terser(terserOptions),
+            analysis &&
+              visualizer({
+                filename: join(dirname(getOutputFile({ entry, type: "esm", pkg, bundleOpts })), "stats-esm.html"),
+                title: "Rollup Visualizer - ESM",
+                open: true,
+                gzipSize: true,
+              }),
           ],
           external: id => testExternal(external, externalsExclude, id),
         },
-        ...(esm && esm.mjs
-          ? [
-              {
-                input,
-                output: {
-                  format,
-                  file: getOutputFile({ entry, type: "esm", pkg, bundleOpts, mjs: true }),
-                },
-                plugins: [
-                  ...getPlugins({ minCSS: true }),
-                  replace({
-                    preventAssignment: true,
-                    // eslint-disable-next-line @typescript-eslint/naming-convention
-                    "process.env.NODE_ENV": JSON.stringify("production"),
-                  }),
-                  terser(terserOptions),
-                  ...(analysis
-                    ? [
-                        visualizer({
-                          filename: join(
-                            dirname(getOutputFile({ entry, type: "esm", pkg, bundleOpts, mjs: true })),
-                            "stats-mjs.html",
-                          ),
-                          title: "Rollup Visualizer - MJS",
-                          open: true,
-                          gzipSize: true,
-                        }),
-                      ]
-                    : []),
-                ],
-                external: (id: string) => testExternal(externalPeerDeps, externalsExclude, id),
-              },
-            ]
-          : []),
+        esm &&
+          esm.mjs && {
+            input,
+            output: {
+              format,
+              file: getOutputFile({ entry, type: "esm", pkg, bundleOpts, mjs: true }),
+            },
+            plugins: [
+              ...getPlugins({ minCSS: true }),
+              replace({
+                preventAssignment: true,
+                // eslint-disable-next-line @typescript-eslint/naming-convention
+                "process.env.NODE_ENV": JSON.stringify("production"),
+              }),
+              terser(terserOptions),
+              analysis &&
+                visualizer({
+                  filename: join(
+                    dirname(getOutputFile({ entry, type: "esm", pkg, bundleOpts, mjs: true })),
+                    "stats-mjs.html",
+                  ),
+                  title: "Rollup Visualizer - MJS",
+                  open: true,
+                  gzipSize: true,
+                }),
+            ],
+            external: (id: string) => testExternal(externalPeerDeps, externalsExclude, id),
+          },
       ];
     case "cjs":
       return [
@@ -340,88 +342,71 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
           },
           plugins: [
             ...getPlugins({ minCSS: (cjs && cjs.minify) || false }),
-            ...(cjs && cjs.minify ? [terser(terserOptions)] : []),
-            ...(analysis
-              ? [
-                  visualizer({
-                    filename: join(dirname(getOutputFile({ entry, type: "cjs", pkg, bundleOpts })), "stats-cjs.html"),
-                    title: "Rollup Visualizer - CJS",
-                    open: true,
-                    gzipSize: true,
-                  }),
-                ]
-              : []),
+            cjs && cjs.minify && terser(terserOptions),
+            analysis &&
+              visualizer({
+                filename: join(dirname(getOutputFile({ entry, type: "cjs", pkg, bundleOpts })), "stats-cjs.html"),
+                title: "Rollup Visualizer - CJS",
+                open: true,
+                gzipSize: true,
+              }),
           ],
           external: id => testExternal(external, externalsExclude, id),
         },
       ];
     case "umd":
       return [
-        ...(umd && !umd.onlyMinFile
-          ? [
-              {
-                input,
-                output: {
-                  format,
-                  sourcemap: (umd && umd.sourcemap) || false,
-                  file: getOutputFile({ entry, type: "umd", pkg, bundleOpts }),
-                  globals: umd && umd.globals,
-                  name: umd && umd.name,
-                },
-                plugins: [
-                  ...extraUmdPlugins,
-                  ...getPlugins(),
-                  replace({
-                    preventAssignment: true,
-                    // eslint-disable-next-line @typescript-eslint/naming-convention
-                    "process.env.NODE_ENV": JSON.stringify("development"),
-                  }),
-                  ...(target === "browser" && umd && umd.template !== false
-                    ? [html({ title: "Dawn", ...htmlOpts, template })]
-                    : []),
-                  ...(analysis
-                    ? [
-                        visualizer({
-                          filename: join(
-                            dirname(getOutputFile({ entry, type: "umd", pkg, bundleOpts })),
-                            "stats-umd.html",
-                          ),
-                          title: "Rollup Visualizer - UMD",
-                          open: true,
-                          gzipSize: true,
-                        }),
-                      ]
-                    : []),
-                ],
-                external: (id: string) => testGlobalExternal(externalPeerDeps, externalsExclude, id),
-              },
-            ]
-          : []),
-        ...(umd && (umd.minFile || umd.onlyMinFile)
-          ? [
-              {
-                input,
-                output: {
-                  format,
-                  sourcemap: (umd && umd.sourcemap) || false,
-                  file: getOutputFile({ entry, type: "umd", pkg, bundleOpts, minFile: true }),
-                  globals: umd && umd.globals,
-                  name: umd && umd.name,
-                },
-                plugins: [
-                  ...extraUmdPlugins,
-                  ...getPlugins({ minCSS: true }),
-                  replace({
-                    preventAssignment: true,
-                    // eslint-disable-next-line @typescript-eslint/naming-convention
-                    "process.env.NODE_ENV": JSON.stringify("production"),
-                  }),
-                  terser(terserOptions),
-                ],
-                external: (id: string) => testGlobalExternal(externalPeerDeps, externalsExclude, id),
-              },
-            ]
-          : []),
+        umd &&
+          !umd.onlyMinFile && {
+            input,
+            output: {
+              format,
+              sourcemap: (umd && umd.sourcemap) || false,
+              file: getOutputFile({ entry, type: "umd", pkg, bundleOpts }),
+              globals: umd && umd.globals,
+              name: umd && umd.name,
+            },
+            plugins: [
+              ...extraUmdPlugins,
+              ...getPlugins(),
+              replace({
+                preventAssignment: true,
+                // eslint-disable-next-line @typescript-eslint/naming-convention
+                "process.env.NODE_ENV": JSON.stringify("development"),
+              }),
+              target === "browser" && umd && umd.template !== false && html({ title: "Dawn", ...htmlOpts, template }),
+              analysis &&
+                visualizer({
+                  filename: join(dirname(getOutputFile({ entry, type: "umd", pkg, bundleOpts })), "stats-umd.html"),
+                  title: "Rollup Visualizer - UMD",
+                  open: true,
+                  gzipSize: true,
+                }),
+            ],
+            external: (id: string) => testGlobalExternal(externalPeerDeps, externalsExclude, id),
+          },
+        umd &&
+          (umd.minFile || umd.onlyMinFile) && {
+            input,
+            output: {
+              format,
+              sourcemap: (umd && umd.sourcemap) || false,
+              file: getOutputFile({ entry, type: "umd", pkg, bundleOpts, minFile: true }),
+              globals: umd && umd.globals,
+              name: umd && umd.name,
+            },
+            plugins: [
+              ...extraUmdPlugins,
+              ...getPlugins({ minCSS: true }),
+              replace({
+                preventAssignment: true,
+                // eslint-disable-next-line @typescript-eslint/naming-convention
+                "process.env.NODE_ENV": JSON.stringify("production"),
+              }),
+              terser(terserOptions),
+            ],
+            external: (id: string) => testGlobalExternal(externalPeerDeps, externalsExclude, id),
+          },
       ];
     case "system":
       return [
@@ -443,7 +428,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
               "process.env.NODE_ENV":
                 system && system.minify ? JSON.stringify("production") : JSON.stringify("development"),
             }),
-            ...(system && system.minify ? [terser(terserOptions)] : []),
+            system && system.minify && terser(terserOptions),
           ],
           external: id => testGlobalExternal(externalPeerDeps, externalsExclude, id),
         },
@@ -467,7 +452,7 @@ export const getRollupConfig = async (opts: IGetRollupConfigOpts, ctx: IDawnCont
               "process.env.NODE_ENV":
                 iife && iife.minify ? JSON.stringify("production") : JSON.stringify("development"),
             }),
-            ...(iife && iife.minify ? [terser(terserOptions)] : []),
+            iife && iife.minify && terser(terserOptions),
           ],
           external: id => testGlobalExternal(externalPeerDeps, externalsExclude, id),
         },
