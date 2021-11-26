@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@1.7.8...@dawnjs/dn-middleware-rollup@1.8.0) (2021-11-26)
+
+### Features
+
+- suppress some warnings and add eslint support ([052acab](https://github.com/alibaba/dawn/commit/052acab1faf9442f399bf04923f2c2868a770b8b))
+- update postcss, add string support and defaults to series mode ([77b9199](https://github.com/alibaba/dawn/commit/77b91991b92c3bfb215c4dd73a6cf1efb35cc995))
+
 ## [1.7.8](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@1.7.7...@dawnjs/dn-middleware-rollup@1.7.8) (2021-11-18)
 
 ### Bug Fixes
