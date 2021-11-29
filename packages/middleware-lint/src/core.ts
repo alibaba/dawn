@@ -125,6 +125,8 @@ export const readAndForceWriteRc = async (options: { console: Console; cwd: stri
     eslintrc.extends = extend; // Force rewrite extends
   }
 
+  eslintrc.root = true;
+
   if (eslintrc.rules) {
     const mergedRule = ruleMerge(eslintrc.rules, { console: options.console });
     if (mergedRule) {
