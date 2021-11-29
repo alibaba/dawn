@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.3.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-lint@3.2.3...@dawnjs/dn-middleware-lint@3.3.0) (2021-11-29)
+
+### Bug Fixes
+
+- prepare before lintStaged mode and fix nullish issue ([e81f9af](https://github.com/alibaba/dawn/commit/e81f9af7b13732a34cd72f19939d5006e2a5a8f4))
+
+### Features
+
+- add `root: true` to rc file ([1ade889](https://github.com/alibaba/dawn/commit/1ade88969091b4217b4c87cffc74a1f25a02f099))
+
 ## [3.2.3](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-lint@3.2.2...@dawnjs/dn-middleware-lint@3.2.3) (2021-11-18)
 
 ### Bug Fixes
