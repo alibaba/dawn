@@ -125,6 +125,8 @@ export const readAndForceWriteRc = async (options: { console: Console; cwd: stri
     eslintrc.extends = extend; // Force rewrite extends
   }
 
+  eslintrc.root = true;
+
   if (eslintrc.rules) {
     const mergedRule = ruleMerge(eslintrc.rules, { console: options.console });
     if (mergedRule) {
@@ -231,7 +233,7 @@ export const prepareDeps = async (ctx: Context, projectInfo: IProjectInfo) => {
 
   const needInstallDeps = deps
     .filter(dep => {
-      const projectDepVersion = projectDeps[dep.name] || projectDevDeps[dep.name];
+      const projectDepVersion = projectDeps?.[dep.name] || projectDevDeps?.[dep.name];
       if (!projectDepVersion) {
         ctx.console.warn(`${dep.name} not installed in project.`);
         return true;

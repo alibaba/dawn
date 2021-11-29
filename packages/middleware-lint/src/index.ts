@@ -24,6 +24,15 @@ const handler: Handler = opts => {
     const projectInfo = await getProjectInfo(ctx.cwd);
     debug("projectInfo", projectInfo);
 
+    // Async Remove unused .eslintrc files
+    // Async Remove unused .prettierrc files
+    await rmRcFiles({ console: ctx.console, cwd: ctx.cwd });
+
+    // Async overwrite .prettierrc.js file
+    await readAndForceWriteRc({ console: ctx.console, cwd: ctx.cwd, projectInfo });
+
+    await prepareDeps(ctx, projectInfo);
+
     if (options.lintStaged) {
       // Support LintStaged
       // Before all logic, simple and fast
@@ -41,15 +50,6 @@ const handler: Handler = opts => {
       }
       return next();
     }
-
-    // Async Remove unused .eslintrc files
-    // Async Remove unused .prettierrc files
-    await rmRcFiles({ console: ctx.console, cwd: ctx.cwd });
-
-    // Async overwrite .prettierrc.js file
-    await readAndForceWriteRc({ console: ctx.console, cwd: ctx.cwd, projectInfo });
-
-    await prepareDeps(ctx, projectInfo);
 
     if (!options.realtime && !options.noEmit) {
       await execLint({ autoFix: options.autoFix, cache: options.cache, prettier: options.prettier, projectInfo }, ctx);
