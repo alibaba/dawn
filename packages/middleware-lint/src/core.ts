@@ -231,7 +231,7 @@ export const prepareDeps = async (ctx: Context, projectInfo: IProjectInfo) => {
 
   const needInstallDeps = deps
     .filter(dep => {
-      const projectDepVersion = projectDeps[dep.name] || projectDevDeps[dep.name];
+      const projectDepVersion = projectDeps?.[dep.name] || projectDevDeps?.[dep.name];
       if (!projectDepVersion) {
         ctx.console.warn(`${dep.name} not installed in project.`);
         return true;
