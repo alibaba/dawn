@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0](https://github.com/alibaba/dawn/compare/@dawnjs/eslint-config-dawn@3.1.3...@dawnjs/eslint-config-dawn@3.2.0) (2021-12-02)
+
+### Features
+
+- disable js-doc rule by default ([047eb66](https://github.com/alibaba/dawn/commit/047eb66ff3c174d6dc4922c9746754d7c28472b5))
+
 ## [3.1.3](https://github.com/alibaba/dawn/compare/@dawnjs/eslint-config-dawn@3.1.2...@dawnjs/eslint-config-dawn@3.1.3) (2021-11-17)
 
 **Note:** Version bump only for package @dawnjs/eslint-config-dawn

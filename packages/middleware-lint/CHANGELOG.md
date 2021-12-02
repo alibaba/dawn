@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.1](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-lint@3.3.0...@dawnjs/dn-middleware-lint@3.3.1) (2021-12-02)
+
+**Note:** Version bump only for package @dawnjs/dn-middleware-lint
+
 # [3.3.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-lint@3.2.3...@dawnjs/dn-middleware-lint@3.3.0) (2021-11-29)
 
 ### Bug Fixes
