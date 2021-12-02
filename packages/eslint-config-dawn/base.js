@@ -118,11 +118,6 @@ module.exports = {
     'no-path-concat': 'warn',
 
     /**
-     * 使用有效的 jsdoc 注释
-     */
-    'valid-jsdoc': 'warn',
-
-    /**
      * babel 会帮我们添加 `'use strict';`
      */
     strict: ['error', 'never'],
