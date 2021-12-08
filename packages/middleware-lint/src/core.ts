@@ -1,5 +1,4 @@
 import fs from "fs";
-import { access, readFile, writeFile } from "fs/promises";
 import path from "path";
 import yaml from "js-yaml";
 import del from "del";
@@ -19,6 +18,8 @@ import {
   PRETTIERRC_FILE_TEMPLATE,
 } from "./constants";
 import type { Context, IProjectInfo } from "./types";
+
+const { access, readFile, writeFile } = fs.promises;
 
 export const getProjectInfo = async (cwd: string): Promise<IProjectInfo> => {
   // const { project = {} } = options;
