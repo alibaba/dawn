@@ -1,11 +1,18 @@
-dev:
-  - name: '@dawnjs/dn-middleware-lint'
-    noEmit: true
+clean:
   - name: '@dawnjs/dn-middleware-clean'
     target:
       - dist
+      - build
       - lib
-      - es
+      - esm
+      - types
+
+dev:
+  - name: '@dawnjs/dn-middleware-lint'
+    noEmit: true
+  - name: '@dawnjs/dn-middleware-call'
+    pipe:
+      - clean
   - name: $local
     location: ../../lib/index.js
     watch: true
@@ -18,17 +25,45 @@ test:
   - name: '@dawnjs/dn-middleware-lint'
 
 build:
-  - name: '@dawnjs/dn-middleware-clean'
-    target:
-      - dist
-      - lib
-      - es
+  - name: '@dawnjs/dn-middleware-call'
+    pipe:
+      - clean
   - name: $local
     location: ../../lib/index.js
     entry: ./src/index.tsx
+    # generateDts: false
+    # extractCSS: false
     # esm: false
     # cjs: false
     # umd:
     #   minFile: false
+    #   onlyMinFile: true
     # parallel: true
-    analysis: true
+    # analysis: true
+
+build-multi:
+  - name: '@dawnjs/dn-middleware-call'
+    pipe:
+      - clean
+  - name: $local
+    location: ../../lib/index.js
+    entry:
+      - ./src/components/ComponentA/index.tsx
+      - ./src/components/ComponentB/index.tsx
+
+build-multi2:
+  - name: '@dawnjs/dn-middleware-call'
+    pipe:
+      - clean
+  - name: $local
+    location: ../../lib/index.js
+    entry:
+      ./src/index.tsx:
+        file: index
+      ./src/components/ComponentA/index.tsx:
+        umd: false
+        file: component-a
+      ./src/components/ComponentB/index.tsx:
+        umd: false
+        file: component-b
+    outDir: build

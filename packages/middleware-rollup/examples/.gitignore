@@ -1,5 +1,6 @@
 !package-lock.json
 build
 lib
-es
+esm
 dist
+types

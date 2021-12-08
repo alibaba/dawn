@@ -1,8 +1,9 @@
 {
   "name": "basic-component",
-  "main": "lib/index.js",
-  "module": "es/index.js",
-  "unpkg": "dist/index.js",
+  "main": "./lib/index.js",
+  "module": "./esm/index.js",
+  "unpkg": "./build/index.js",
+  "types": "./types/index.d.ts",
   "scripts": {
     "start": "dn d",
     "build": "dn b"

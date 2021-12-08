@@ -15,6 +15,7 @@ import { Context } from "@dawnjs/types";
 import { IStringPluginOptions } from "rollup-plugin-string";
 import { PostCSSPluginConf } from "rollup-plugin-postcss";
 import { ISvgrPluginOptions } from "@svgr/rollup";
+import { PostcssPresetEnvOptions } from "postcss-preset-env";
 import { AtImportOptions } from "postcss-import";
 
 export interface IBundleOutput {
@@ -54,7 +55,7 @@ export interface IIIFE extends IBundleOptions {
 
 export interface IBundleOptions {
   target?: "node" | "browser";
-  entry?: string | string[];
+  entry?: string | string[] | Record<string, Omit<IBundleOptions, "entry">>;
   outDir?: string;
   file?: string | Record<string, string>;
   esm?: IEsm | false;
@@ -68,7 +69,7 @@ export interface IBundleOptions {
   less?: Record<string, any>;
   sass?: Record<string, any>;
   postcss?: PostCSSPluginConf;
-  postcssPresetEnv?: Record<string, any>;
+  postcssPresetEnv?: PostcssPresetEnvOptions;
   postcssImport?: AtImportOptions;
   autoprefixer?: AutoprefixerOptions;
   runtimeHelpers?: boolean | string;
@@ -82,8 +83,10 @@ export interface IBundleOptions {
   extraBabelPlugins?: any[];
   babelExclude?: string | RegExp | Array<string | RegExp>;
   babelInclude?: string | RegExp | Array<string | RegExp>;
+  disableTypescript?: boolean;
   disableTypeCheck?: boolean;
   typescript?: RollupTypescript2Options;
+  generateDts?: boolean;
   nodeResolve?: RollupNodeResolveOptions;
   extraExternals?: string[];
   externalsExclude?: string[];
@@ -116,8 +119,8 @@ export type BundleType = "cjs" | "esm" | "umd" | "system" | "iife";
 
 export interface IRollupOpts {
   cwd: string;
-  entry: string | string[];
-  type: BundleType;
+  entry: string;
+  type: BundleType | "dts";
   bundleOpts: IBundleOptions;
   watch?: boolean;
   configFile?: string;
@@ -128,7 +131,7 @@ export interface IRollupOpts {
 export interface IGetRollupConfigOpts {
   cwd: string;
   entry: string;
-  type: BundleType;
+  type: BundleType | "dts";
   bundleOpts: IBundleOptions;
   analysis?: boolean;
   parallel?: boolean;

@@ -13,5 +13,6 @@
     "declaration": false,
     "removeComments": false,
     "importsNotUsedAsValues": "preserve",
+    "resolveJsonModule": true
   }
 }

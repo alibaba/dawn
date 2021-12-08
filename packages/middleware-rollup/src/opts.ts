@@ -2,7 +2,7 @@ import * as assert from "assert";
 import { basename, join } from "path";
 import { existsSync } from "fs";
 import { camelCase, merge } from "lodash";
-import { getExistFile, isTypescriptFile } from "./utils";
+import { getExistFile } from "./utils";
 import { IDawnContext, IOpts } from "./types";
 
 export const getOpts = (opts: IOpts, ctx: IDawnContext): IOpts => {
@@ -21,6 +21,8 @@ export const getOpts = (opts: IOpts, ctx: IDawnContext): IOpts => {
   const pkg = ctx.project;
   const defaultOpts: IOpts = {
     target: "browser",
+    disableTypescript: false,
+    generateDts: true,
     runtimeHelpers: true,
     babelExclude: "node_modules/**",
     corejs: false,
@@ -35,7 +37,7 @@ export const getOpts = (opts: IOpts, ctx: IDawnContext): IOpts => {
       sourcemap: false,
       minFile: true,
       name: pkg.name && camelCase(basename(pkg.name)),
-      template: "./src/assets/index.html",
+      template: false,
       globals: {
         jquery: "$",
         react: "React",
@@ -70,10 +72,9 @@ export const validateOpts = async (opts: IOpts, ctx: IDawnContext): Promise<void
 
   assert.ok(opts.entry, "No entry found, checkout guide for usage details.");
 
-  const hasTypescript = Array.isArray(opts.entry) ? opts.entry.some(isTypescriptFile) : isTypescriptFile(opts.entry);
-  if (hasTypescript) {
+  if (!opts.disableTypescript) {
     if (!existsSync(join(opts.cwd, "tsconfig.json"))) {
-      ctx.console.warn("Project using typescript but tsconfig.json not exists. Using default...");
+      ctx.console.warn("Project has no tsconfig.json exists. Using default...");
       await ctx.utils.writeFile(
         join(opts.cwd, "tsconfig.json"),
         await ctx.utils.readFile(join(__dirname, "../template/tsconfig.json")),

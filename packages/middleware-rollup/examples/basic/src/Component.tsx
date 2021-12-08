@@ -10,7 +10,7 @@ import "./style.css";
 import "./less-style.less";
 import "./sass-style.scss";
 
-const Component: React.FC = () => {
+const Component: React.FC<{ foo?: string; bar?: number }> = () => {
   useEffect(() => {
     axios.get("https://alibaba.github.io/dawn/middleware.yml");
   }, []);

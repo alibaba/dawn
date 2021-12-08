@@ -1,7 +1,10 @@
 import { existsSync } from "fs";
-import { basename, dirname, extname, join } from "path";
-import { PackageJson } from "@dawnjs/types";
-import { IBundleOptions } from "./types";
+import path from "path";
+import resolve, { AsyncOpts } from "resolve";
+import { isNil } from "lodash";
+import type { AtImportOptions } from "postcss-import";
+import type { PackageJson } from "@dawnjs/types";
+import type { IBundleOptions } from "./types";
 
 export const getExistFile = ({
   cwd,
@@ -13,47 +16,52 @@ export const getExistFile = ({
   returnRelative: boolean;
 }) => {
   for (const file of files) {
-    const absFilePath = join(cwd, file);
+    const absFilePath = path.join(cwd, file);
     if (existsSync(absFilePath)) {
       return returnRelative ? file : absFilePath;
     }
   }
 };
 
-export const isTypescriptFile = (filePath: string): boolean => {
-  return filePath.endsWith(".ts") || filePath.endsWith(".tsx");
-};
-
 export const getFileName = (filePath: string): string => {
   if (!filePath) {
     return "";
   }
-  return `${dirname(filePath)}/${basename(filePath, extname(filePath))}`;
+  return `${path.dirname(filePath)}/${path.basename(filePath, path.extname(filePath))}`;
 };
 
 const DEFAULT_OUTPUT_DIR: Record<string, string> = {
   esm: "esm",
   cjs: "lib",
   umd: "build",
+  dts: "types",
 };
 
 // filename priority：specific module type file option > top level file option > pkg field value > basename of entry file
 export const getOutputFile = (opts: {
+  cwd: string;
   entry: string;
-  type: "cjs" | "esm" | "umd" | "system" | "iife";
+  type: "cjs" | "esm" | "umd" | "system" | "iife" | "dts";
   pkg: PackageJson;
   bundleOpts: IBundleOptions;
   minFile?: boolean;
   mjs?: boolean;
 }): string => {
-  const { entry, type, pkg, bundleOpts, minFile, mjs } = opts;
+  const { cwd, entry, type, pkg, bundleOpts, minFile, mjs } = opts;
   const { outDir = DEFAULT_OUTPUT_DIR[type as string] || "build", esm, cjs, umd, system, iife } = bundleOpts;
-  let { file } = bundleOpts;
 
-  let name = basename(entry, extname(entry));
-  if (typeof file === "object") {
-    name = file[entry] || name;
-    file = undefined;
+  const isMultiEntry =
+    (Array.isArray(bundleOpts.entry) && bundleOpts.entry.length > 1) ||
+    (typeof bundleOpts.entry === "object" && Object.keys(bundleOpts.entry).length > 1);
+
+  const name = path
+    .relative(cwd, path.resolve(cwd, entry))
+    .replace(/^src\//, "")
+    .replace(path.extname(entry), "");
+
+  let { file } = bundleOpts;
+  if (isMultiEntry) {
+    file = file || name;
   }
 
   switch (type) {
@@ -96,7 +104,7 @@ export const getOutputFile = (opts: {
         }
         return pkg.unpkg || pkg.browser;
       }
-      return `${outDir}/${name}${minFile ? ".min" : ""}.js`;
+      return `${outDir}/${name}.umd${minFile ? ".min" : ""}.js`;
     case "system":
       if (system && system.file) {
         return `${outDir}/${system.file}.js`;
@@ -119,6 +127,14 @@ export const getOutputFile = (opts: {
         return `${getFileName(pkg.unpkg || pkg.browser)}.iife.js`;
       }
       return `${outDir}/${name}.iife.js`;
+    case "dts":
+      if (file) {
+        return `${outDir}/${file}.d.ts`;
+      }
+      if (pkg.types || pkg.typings) {
+        return pkg.types || pkg.typings;
+      }
+      return `${outDir}/${name}.d.ts`;
     default:
       throw new Error(`Unsupported type ${type}`);
   }
@@ -154,5 +170,75 @@ export const hasJsxRuntime = () => {
     return true;
   } catch (e) {
     return false;
+  }
+};
+
+export const toArr = o => {
+  if (isNil(o)) {
+    return [];
+  } else if (Array.isArray(o)) {
+    return o;
+  } else {
+    return [o];
+  }
+};
+
+function resolveModule(id: string, opts: AsyncOpts): Promise<string> {
+  return new Promise((res, rej) => {
+    resolve(id, opts, (err, p) => {
+      if (err) {
+        rej(err);
+        return;
+      }
+      res(p);
+    });
+  });
+}
+
+export const resolveCss = (id: string, base: string, options: AtImportOptions) => {
+  const paths = options.path;
+
+  const resolveOpts: AsyncOpts = {
+    basedir: base,
+    moduleDirectory: ["web_modules", "node_modules"].concat(options.addModulesDirectories),
+    paths,
+    extensions: [".css"],
+    packageFilter: pkg => {
+      if (pkg.style) {
+        pkg.main = pkg.style;
+      } else if (!pkg.main || !/\.css$/.test(pkg.main)) {
+        pkg.main = "index.css";
+      }
+      return pkg;
+    },
+    preserveSymlinks: false,
+  };
+
+  // 以 `~` 开头的路径，只从 moduleDirectory 中查找，用于兼容 webpack 的 css-loader 处理逻辑
+  if (/^~/.test(id)) {
+    return resolveModule(id.substring(1), resolveOpts).catch(() => {
+      throw new Error(
+        `Failed to find '${id.substring(1)}'
+  in [
+    ${toArr(paths).join(",\n        ")}
+  ]`,
+      );
+    });
+  } else {
+    return resolveModule(`./${id}`, resolveOpts)
+      .catch(() => resolveModule(id, resolveOpts))
+      .catch(() => {
+        const seekPath = toArr(paths);
+        if (seekPath.indexOf(base) === -1) {
+          seekPath.unshift(base);
+        }
+
+        throw new Error(
+          `Failed to find '${id}'
+  in [
+    ${seekPath.join(",\n        ")}
+  ]`,
+        );
+      });
   }
 };
