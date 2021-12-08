@@ -1,6 +1,6 @@
-import { dirname, extname, join, resolve } from "path";
+import path from "path";
 import { existsSync, readFileSync, statSync } from "fs";
-import { RollupOptions } from "rollup";
+import { ModuleFormat, RollupOptions } from "rollup";
 import url from "@rollup/plugin-url";
 import svgr from "@svgr/rollup";
 import postcss from "rollup-plugin-postcss";
@@ -23,9 +23,10 @@ import html, { makeHtmlAttributes, RollupHtmlTemplateOptions } from "@rollup/plu
 import { visualizer } from "rollup-plugin-visualizer";
 import eslint from "@rollup/plugin-eslint";
 import progress from "rollup-plugin-progress";
+import dts from "rollup-plugin-dts";
 import { isEmpty, merge } from "lodash";
-import { getOutputFile, hasJsxRuntime, testExternal, testGlobalExternal } from "./utils";
-import { IDawnContext, IGetRollupConfigOpts, IUmd } from "./types";
+import { getOutputFile, hasJsxRuntime, resolveCss, testExternal, testGlobalExternal } from "./utils";
+import { IBundleOptions, IDawnContext, IGetRollupConfigOpts, IUmd } from "./types";
 
 // eslint-disable-next-line max-lines-per-function
 export const getRollupConfig = async (
@@ -53,6 +54,7 @@ export const getRollupConfig = async (
     inject: injectOpts,
     replace: replaceOpts,
     nodeResolve: nodeResolveOpts = {},
+    disableTypescript = false,
     disableTypeCheck = false,
     typescript: typescriptOpts = {},
     target = "browser",
@@ -79,8 +81,6 @@ export const getRollupConfig = async (
     svgr: svgrOpts = {},
   } = bundleOpts;
 
-  const entryExt = extname(entry);
-  const isTypeScript = entryExt === ".ts" || entryExt === ".tsx";
   const extensions = [".js", ".jsx", ".ts", ".tsx", ".es6", ".es", ".mjs"];
 
   const pkg = ctx.project;
@@ -124,8 +124,8 @@ export const getRollupConfig = async (
     babelHelpers: runtimeHelpers ? "runtime" : "bundled",
   };
 
-  const input = join(cwd, entry);
-  const format = type;
+  const input = path.join(cwd, entry);
+  const format = type as ModuleFormat;
 
   const external = new Set([
     ...Object.keys(pkg.dependencies || {}),
@@ -199,7 +199,7 @@ export const getRollupConfig = async (
   </body>
 </html>
 `;
-    const templateFile = resolve(cwd, (umd as IUmd).template as string);
+    const templateFile = path.resolve(cwd, (umd as IUmd).template as string);
     if (existsSync(templateFile) && statSync(templateFile).isFile()) {
       const strTmpl = readFileSync(templateFile, "utf-8");
       return ctx.utils.stp(strTmpl, data);
@@ -211,7 +211,8 @@ export const getRollupConfig = async (
     return [
       url(),
       svgr(svgrOpts),
-      lintOpts &&
+      type !== "dts" &&
+        lintOpts &&
         eslint({
           formatter: require.resolve("eslint-formatter-pretty"),
           ...(typeof lintOpts === "object" ? lintOpts : {}),
@@ -227,38 +228,38 @@ export const getRollupConfig = async (
           less: { javascriptEnabled: true, plugins: [new NpmImport({ prefix: "~" })], ...lessOpts },
         },
         plugins: [
-          atImport(atImportOpts),
+          atImport({
+            resolve: resolveCss,
+            ...atImportOpts,
+          }),
           postcssPresetEnv({ autoprefixer: autoprefixerOpts, ...postcssPresetEnvOpts }),
         ],
         config: {
-          path: join(cwd, "postcss.config.js"),
+          path: path.join(cwd, "postcss.config.js"),
           ctx: opts,
         },
         ...postcssOpts,
+        ...(type === "dts" ? { extract: false, inject: false } : {}),
       }),
       !isEmpty(aliasEntries) && alias({ entries: aliasEntries }),
       !isEmpty(injectOpts) && inject(injectOpts),
       !isEmpty(replaceOpts) && replace({ preventAssignment: true, ...replaceOpts }),
-      nodeResolve({
-        mainFields: ["module", "main"],
-        extensions,
-        ...(target === "browser" ? { browser: true } : {}),
-        ...nodeResolveOpts,
-      }),
-      isTypeScript &&
+      type !== "dts" &&
+        nodeResolve({
+          mainFields: ["module", "main"],
+          extensions,
+          ...(target === "browser" ? { browser: true } : {}),
+          ...nodeResolveOpts,
+        }),
+      type !== "dts" &&
+        !disableTypescript &&
         typescript2({
           cwd,
           // @see https://github.com/ezolenko/rollup-plugin-typescript2/issues/105 >> try disabling it now
           // objectHashIgnoreUnknownHack: true,
           // @see https://github.com/umijs/father/issues/61#issuecomment-544822774
           clean: true,
-          tsconfig: join(cwd, "tsconfig.json"),
-          tsconfigDefaults: {
-            compilerOptions: {
-              // Generate declaration files by default
-              declaration: true,
-            },
-          },
+          tsconfig: path.join(cwd, "tsconfig.json"),
           tsconfigOverride: {
             compilerOptions: {
               // Support dynamic import
@@ -266,12 +267,13 @@ export const getRollupConfig = async (
               ...(jsxRuntime === "automatic" && hasJsxRuntime() ? { jsx: "preserve" } : {}),
               resolveJsonModule: true,
               noEmit: true,
+              declaration: false,
             },
           },
           check: !disableTypeCheck,
           ...typescriptOpts,
         }),
-      babel(babelPluginOptions),
+      type !== "dts" && babel(babelPluginOptions),
       json(jsonOpts),
       yaml(yamlOpts),
       wasmOpts && wasm({ ...(typeof wasmOpts === "object" ? wasmOpts : {}) }),
@@ -288,14 +290,17 @@ export const getRollupConfig = async (
           input,
           output: {
             format,
-            file: getOutputFile({ entry, type: "esm", pkg, bundleOpts }),
+            file: getOutputFile({ cwd, entry, type: "esm", pkg, bundleOpts }),
           },
           plugins: [
             ...getPlugins({ minCSS: (esm && esm.minify) || false }),
             esm && esm.minify && terser(terserOptions),
             analysis &&
               visualizer({
-                filename: join(dirname(getOutputFile({ entry, type: "esm", pkg, bundleOpts })), "stats-esm.html"),
+                filename: path.join(
+                  path.dirname(getOutputFile({ cwd, entry, type: "esm", pkg, bundleOpts })),
+                  "stats-esm.html",
+                ),
                 title: "Rollup Visualizer - ESM",
                 open: true,
                 gzipSize: true,
@@ -308,7 +313,7 @@ export const getRollupConfig = async (
             input,
             output: {
               format,
-              file: getOutputFile({ entry, type: "esm", pkg, bundleOpts, mjs: true }),
+              file: getOutputFile({ cwd, entry, type: "esm", pkg, bundleOpts, mjs: true }),
             },
             plugins: [
               ...getPlugins({ minCSS: true }),
@@ -320,8 +325,8 @@ export const getRollupConfig = async (
               terser(terserOptions),
               analysis &&
                 visualizer({
-                  filename: join(
-                    dirname(getOutputFile({ entry, type: "esm", pkg, bundleOpts, mjs: true })),
+                  filename: path.join(
+                    path.dirname(getOutputFile({ cwd, entry, type: "esm", pkg, bundleOpts, mjs: true })),
                     "stats-mjs.html",
                   ),
                   title: "Rollup Visualizer - MJS",
@@ -338,14 +343,18 @@ export const getRollupConfig = async (
           input,
           output: {
             format,
-            file: getOutputFile({ entry, type: "cjs", pkg, bundleOpts }),
+            file: getOutputFile({ cwd, entry, type: "cjs", pkg, bundleOpts }),
+            exports: "auto",
           },
           plugins: [
             ...getPlugins({ minCSS: (cjs && cjs.minify) || false }),
             cjs && cjs.minify && terser(terserOptions),
             analysis &&
               visualizer({
-                filename: join(dirname(getOutputFile({ entry, type: "cjs", pkg, bundleOpts })), "stats-cjs.html"),
+                filename: path.join(
+                  path.dirname(getOutputFile({ cwd, entry, type: "cjs", pkg, bundleOpts })),
+                  "stats-cjs.html",
+                ),
                 title: "Rollup Visualizer - CJS",
                 open: true,
                 gzipSize: true,
@@ -362,7 +371,7 @@ export const getRollupConfig = async (
             output: {
               format,
               sourcemap: (umd && umd.sourcemap) || false,
-              file: getOutputFile({ entry, type: "umd", pkg, bundleOpts }),
+              file: getOutputFile({ cwd, entry, type: "umd", pkg, bundleOpts }),
               globals: umd && umd.globals,
               name: umd && umd.name,
             },
@@ -377,7 +386,10 @@ export const getRollupConfig = async (
               target === "browser" && umd && umd.template !== false && html({ title: "Dawn", ...htmlOpts, template }),
               analysis &&
                 visualizer({
-                  filename: join(dirname(getOutputFile({ entry, type: "umd", pkg, bundleOpts })), "stats-umd.html"),
+                  filename: path.join(
+                    path.dirname(getOutputFile({ cwd, entry, type: "umd", pkg, bundleOpts })),
+                    "stats-umd.html",
+                  ),
                   title: "Rollup Visualizer - UMD",
                   open: true,
                   gzipSize: true,
@@ -391,7 +403,7 @@ export const getRollupConfig = async (
             output: {
               format,
               sourcemap: (umd && umd.sourcemap) || false,
-              file: getOutputFile({ entry, type: "umd", pkg, bundleOpts, minFile: true }),
+              file: getOutputFile({ cwd, entry, type: "umd", pkg, bundleOpts, minFile: true }),
               globals: umd && umd.globals,
               name: umd && umd.name,
             },
@@ -415,7 +427,7 @@ export const getRollupConfig = async (
           output: {
             format,
             sourcemap: (system && system.sourcemap) || false,
-            file: getOutputFile({ entry, type: "system", pkg, bundleOpts }),
+            file: getOutputFile({ cwd, entry, type: "system", pkg, bundleOpts }),
             globals: system && system.globals,
             name: system && system.name,
           },
@@ -440,7 +452,7 @@ export const getRollupConfig = async (
           output: {
             format,
             sourcemap: (iife && iife.sourcemap) || false,
-            file: getOutputFile({ entry, type: "iife", pkg, bundleOpts }),
+            file: getOutputFile({ cwd, entry, type: "iife", pkg, bundleOpts }),
             globals: iife && iife.globals,
           },
           plugins: [
@@ -457,7 +469,46 @@ export const getRollupConfig = async (
           external: id => testGlobalExternal(externalPeerDeps, externalsExclude, id),
         },
       ];
+    case "dts":
+      return [
+        {
+          input,
+          output: {
+            file:
+              ctx.project.types ||
+              ctx.project.typings ||
+              `types/${path
+                .relative(cwd, path.resolve(cwd, entry))
+                .replace(/^src\//, "")
+                .replace(path.extname(entry), "")}.d.ts`,
+            format: "es",
+          },
+          plugins: [...getPlugins(), dts()],
+        },
+      ];
     default:
       throw new Error(`Unsupported type ${type}`);
   }
+};
+
+export const getRollupDtsConfig = async (
+  opts: { cwd: string; entry: string; bundleOptions: IBundleOptions },
+  ctx: IDawnContext,
+): Promise<RollupOptions> => {
+  const { cwd, entry, bundleOptions } = opts;
+  const { json: jsonOpts = {}, yaml: yamlOpts = {} } = bundleOptions;
+  return {
+    input: path.join(cwd, entry),
+    output: {
+      file:
+        ctx.project.types ||
+        ctx.project.typings ||
+        `types/${path
+          .relative(cwd, path.resolve(cwd, entry))
+          .replace(/^src\//, "")
+          .replace(path.extname(entry), "")}.d.ts`,
+      format: "es",
+    },
+    plugins: [json(jsonOpts), yaml(yamlOpts), dts()],
+  };
 };

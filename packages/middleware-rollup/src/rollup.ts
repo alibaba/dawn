@@ -34,8 +34,7 @@ const logWarn = (warning: RollupWarning, ctx: IDawnContext) => {
   }
 };
 
-export const start = async (entry: string, opts: IRollupOpts, rollupConfig: RollupOptions, ctx: IDawnContext) => {
-  const config = await mergeCustomRollupConfig(rollupConfig, { ...opts, entry }, ctx);
+export const start = async (entry: string, opts: IRollupOpts, config: RollupOptions, ctx: IDawnContext) => {
   if (ctx.emit) {
     ctx.emit("rollup.config", config, { ...opts, entry });
     await ctx.utils.sleep(100); // Waiting for synchronously modification for config
@@ -87,8 +86,68 @@ export const start = async (entry: string, opts: IRollupOpts, rollupConfig: Roll
   }
 };
 
-export const build = async (entry: string, opts: IRollupOpts, ctx: IDawnContext) => {
-  const { cwd, type, bundleOpts, analysis, parallel } = opts;
+export const buildDts = async (opts: IRollupOpts, ctx: IDawnContext) => {
+  const { cwd, entry, type, bundleOpts, analysis, parallel } = opts;
+  const rollupConfigs = await getRollupConfig(
+    {
+      cwd,
+      entry,
+      type,
+      bundleOpts,
+      analysis,
+      parallel,
+    },
+    ctx,
+  );
+  const config = rollupConfigs[0] as RollupOptions;
+  if (opts.watch) {
+    ctx.console.info("Start watching...");
+    const watcher = watch([
+      {
+        onwarn(warning) {
+          logWarn(warning, ctx);
+        },
+        ...config,
+        watch: {
+          exclude: ["node_modules/**"],
+        },
+      },
+    ]);
+    watcher.on("event", event => {
+      if (event.code === "ERROR" && event.error) {
+        logError(event.error, ctx);
+      } else if (event.code === "START") {
+        ctx.console.log(`Rebuild dts for ${entry} since file changed.`);
+      }
+    });
+    process.once("SIGINT", () => {
+      watcher.close();
+      ctx.console.info("End watching...");
+      process.exit(0);
+    });
+  } else {
+    ctx.console.info(`Bundle dts for ${entry}...`);
+
+    const { output, ...input } = config;
+    try {
+      const bundle = await rollup({
+        onwarn(warning) {
+          logWarn(warning, ctx);
+        },
+        ...input,
+      });
+      await bundle.write(output as OutputOptions);
+    } catch (e) {
+      logError(e, ctx);
+      throw new Error(`[rollup] bundle dts for ${entry} failed.`);
+    }
+
+    ctx.console.info(`Bundle dts for ${entry} finished.`);
+  }
+};
+
+export const build = async (opts: IRollupOpts, ctx: IDawnContext) => {
+  const { cwd, entry, type, bundleOpts, analysis, parallel } = opts;
   const rollupConfigs = await getRollupConfig(
     {
       cwd,
@@ -105,36 +164,16 @@ export const build = async (entry: string, opts: IRollupOpts, ctx: IDawnContext)
     .filter(rollupConfig => !!rollupConfig)
     .map((rollupConfig: RollupOptions) => {
       return cb => {
-        start(entry, opts, rollupConfig, ctx).then(() => {
-          cb();
-        });
+        mergeCustomRollupConfig(rollupConfig, { ...opts, entry }, ctx)
+          .then(config => {
+            return start(entry, opts, config, ctx);
+          })
+          .then(() => {
+            cb();
+          });
       };
     });
 
-  if (parallel) {
-    await async.parallel(subTasks);
-  } else {
-    await async.series(subTasks);
-  }
-};
-
-export const run = async (opts: IRollupOpts, ctx: IDawnContext) => {
-  const { entry: entries, parallel } = opts;
-  const subTasks = Array.isArray(entries)
-    ? entries.map(entry => {
-        return cb => {
-          build(entry, opts, ctx).then(() => {
-            cb();
-          });
-        };
-      })
-    : [
-        cb => {
-          build(entries, opts, ctx).then(() => {
-            cb();
-          });
-        },
-      ];
   if (parallel) {
     await async.parallel(subTasks);
   } else {

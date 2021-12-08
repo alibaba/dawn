@@ -1,3 +1,4 @@
+@import '~@alifd/next/dist/next.css';
 @import './variables.css';
 
 .container {

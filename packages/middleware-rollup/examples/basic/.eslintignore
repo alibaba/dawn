@@ -1,4 +1,5 @@
 node_modules
-dist
-es
+build
+esm
 lib
+types

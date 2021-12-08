@@ -122,12 +122,28 @@ module.exports = {
 
 ### `entry`
 
-类型：`string | string[]`<br>
+类型：`string | string[] | Object`<br>
 默认值：
 
 打包入口，如果未配置，默认会按优先级自动查找
 
 _说明：优先级顺序 `src/index.tsx` > `src/index.ts` > `src/index.jsx` > `src/index.js`_
+
+#### `string`
+
+最常规的单入口模式，输出文件规则遵循[输出文件名说明](#输出文件名说明)
+
+#### `string[]`
+
+简单的多入口模式，每个入口的构建配置都完全一致，输出文件名由入口路径结合输出格式决定，不再识别 package.json 中的配置和统一的 file 配置
+
+_说明：如果数组中只有一个值，等同于单入口模式_
+
+#### `Object`
+
+完整的多入口模式，key 为入口文件，value 为完整的一份构建配置，会和顶层的配置进行合并处理，优先级高于顶层配置，不再识别 package.json 中的配置和统一的 file 配置
+
+_说明：如果对象只有一个 key，等同于单入口模式_
 
 ### `target`
 
@@ -147,10 +163,10 @@ _说明：当配置为 `"browser"` 时，可通过 `.browserslistrc` 指定目�
 
 ### `file`
 
-类型：`string` | `Object`<br>
+类型：`string`<br>
 默认值：
 
-指定输出文件路径和文件名，对于多 entry 的项目，可以传入 entry 名与输出名的 Map
+指定输出文件路径和文件名
 
 _说明：输出文件的最终文件名由多个条件与配置项组合后形成，详细说明请查看[输出文件名说明](#输出文件名说明)_
 
@@ -351,6 +367,13 @@ _说明：输出文件的最终文件名由多个条件与配置项组合后形�
 默认值：
 
 指定外部依赖的全局变量名，详细说明请查看[相关文档](https://rollupjs.org/guide/en/#outputglobals)
+
+### `disableTypescript`
+
+类型：`boolean`<br>
+默认值：`false`
+
+是否禁用 TypeScript 编译（使用 babel 代替）
 
 ### `typescript`
 
