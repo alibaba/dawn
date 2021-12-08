@@ -14,7 +14,7 @@ import { RollupEslintOptions } from "@rollup/plugin-eslint";
 import { Context } from "@dawnjs/types";
 import { IStringPluginOptions } from "rollup-plugin-string";
 import { PostCSSPluginConf } from "rollup-plugin-postcss";
-import { ISvgrPluginOptions } from "@svgr/rollup";
+import { Options as RollupSvgrOptions } from "@svgr/rollup";
 import { PostcssPresetEnvOptions } from "postcss-preset-env";
 import { AtImportOptions } from "postcss-import";
 
@@ -101,7 +101,7 @@ export interface IBundleOptions {
   wasm?: boolean | RollupWasmOptions;
   lint?: boolean | RollupEslintOptions;
   string?: IStringPluginOptions;
-  svgr?: ISvgrPluginOptions;
+  svgr?: RollupSvgrOptions;
 }
 
 export interface IOpts extends IBundleOptions {
