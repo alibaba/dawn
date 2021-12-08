@@ -474,13 +474,7 @@ export const getRollupConfig = async (
         {
           input,
           output: {
-            file:
-              ctx.project.types ||
-              ctx.project.typings ||
-              `types/${path
-                .relative(cwd, path.resolve(cwd, entry))
-                .replace(/^src\//, "")
-                .replace(path.extname(entry), "")}.d.ts`,
+            file: getOutputFile({ cwd, entry, type: "dts", pkg, bundleOpts }),
             format: "es",
           },
           plugins: [...getPlugins(), dts()],

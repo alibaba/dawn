@@ -1,6 +1,7 @@
 clean:
   - name: '@dawnjs/dn-middleware-clean'
     target:
+      - dist
       - build
       - lib
       - esm
@@ -30,7 +31,7 @@ build:
   - name: $local
     location: ../../lib/index.js
     entry: ./src/index.tsx
-    generateDts: true
+    # generateDts: false
     # extractCSS: false
     # esm: false
     # cjs: false
@@ -49,7 +50,6 @@ build-multi:
     entry:
       - ./src/components/ComponentA/index.tsx
       - ./src/components/ComponentB/index.tsx
-    generateDts: true
 
 build-multi2:
   - name: '@dawnjs/dn-middleware-call'
@@ -58,6 +58,12 @@ build-multi2:
   - name: $local
     location: ../../lib/index.js
     entry:
-      - ./src/components/ComponentA/index.tsx
-      - ./src/components/ComponentB/index.tsx
-    generateDts: true
+      ./src/index.tsx:
+        file: index
+      ./src/components/ComponentA/index.tsx:
+        umd: false
+        file: component-a
+      ./src/components/ComponentB/index.tsx:
+        umd: false
+        file: component-b
+    outDir: build

@@ -34,13 +34,14 @@ const DEFAULT_OUTPUT_DIR: Record<string, string> = {
   esm: "esm",
   cjs: "lib",
   umd: "build",
+  dts: "types",
 };
 
 // filename priority：specific module type file option > top level file option > pkg field value > basename of entry file
 export const getOutputFile = (opts: {
   cwd: string;
   entry: string;
-  type: "cjs" | "esm" | "umd" | "system" | "iife";
+  type: "cjs" | "esm" | "umd" | "system" | "iife" | "dts";
   pkg: PackageJson;
   bundleOpts: IBundleOptions;
   minFile?: boolean;
@@ -126,6 +127,14 @@ export const getOutputFile = (opts: {
         return `${getFileName(pkg.unpkg || pkg.browser)}.iife.js`;
       }
       return `${outDir}/${name}.iife.js`;
+    case "dts":
+      if (file) {
+        return `${outDir}/${file}.d.ts`;
+      }
+      if (pkg.types || pkg.typings) {
+        return pkg.types || pkg.typings;
+      }
+      return `${outDir}/${name}.d.ts`;
     default:
       throw new Error(`Unsupported type ${type}`);
   }
