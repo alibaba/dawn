@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@1.8.0...@dawnjs/dn-middleware-rollup@2.0.0) (2021-12-08)
+
+### Features
+
+- 更新对于多入口的支持方式 ([aad55ae](https://github.com/alibaba/dawn/commit/aad55aeb97139d8c835e096e437d406ed16f0172))
+- 默认生成 dts, 并支持多入口自动识别 ([67daae3](https://github.com/alibaba/dawn/commit/67daae3b6b3ac7af3b9e7d1d7b8cebd79b622f80))
+
+### BREAKING CHANGES
+
+- file 配置项不再支持对象，对于多入口的自定义输出文件名配置，请使用入口定义中的独立 file 配置项
+
 # [1.8.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@1.7.8...@dawnjs/dn-middleware-rollup@1.8.0) (2021-11-26)
 
 ### Features
