@@ -15,6 +15,7 @@ import { Context } from "@dawnjs/types";
 import { IStringPluginOptions } from "rollup-plugin-string";
 import { PostCSSPluginConf } from "rollup-plugin-postcss";
 import { ISvgrPluginOptions } from "@svgr/rollup";
+import { PostcssPresetEnvOptions } from "postcss-preset-env";
 import { AtImportOptions } from "postcss-import";
 
 export interface IBundleOutput {
@@ -68,7 +69,7 @@ export interface IBundleOptions {
   less?: Record<string, any>;
   sass?: Record<string, any>;
   postcss?: PostCSSPluginConf;
-  postcssPresetEnv?: Record<string, any>;
+  postcssPresetEnv?: PostcssPresetEnvOptions;
   postcssImport?: AtImportOptions;
   autoprefixer?: AutoprefixerOptions;
   runtimeHelpers?: boolean | string;
