@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.2](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-lint@3.3.1...@dawnjs/dn-middleware-lint@3.3.2) (2021-12-08)
+
+### Bug Fixes
+
+- 修复 lint 中间件在 node 12.x 环境下的兼容性问题 ([25b8d1a](https://github.com/alibaba/dawn/commit/25b8d1aeb561e3149da1a8efe2392d44702e283c))
+
 ## [3.3.1](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-lint@3.3.0...@dawnjs/dn-middleware-lint@3.3.1) (2021-12-02)
 
 **Note:** Version bump only for package @dawnjs/dn-middleware-lint

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@2.0.0...@dawnjs/dn-middleware-rollup@2.1.0) (2021-12-08)
+
+### Features
+
+- 更新 @svgr/rollup 至 v6 ([aff5f06](https://github.com/alibaba/dawn/commit/aff5f06697fa8a80e5631edcf447a7b13c0ad4e5))
+
 # [2.0.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@1.8.0...@dawnjs/dn-middleware-rollup@2.0.0) (2021-12-08)
 
 ### Features

@@ -1,6 +1,6 @@
 {
   "name": "@dawnjs/dn-middleware-rollup",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Dawn middleware to bundle assets with rollup",
   "keywords": [
     "dawn",
