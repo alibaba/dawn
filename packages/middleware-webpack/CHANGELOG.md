@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.5.0...@dawnjs/dn-middleware-webpack@1.6.0) (2021-12-09)
+
+### Features
+
+- 调整默认参数 ([6cb8302](https://github.com/alibaba/dawn/commit/6cb83029f9fe4ec95545efbecf3b93142b8db3e7))
+
 # [1.5.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.4.2...@dawnjs/dn-middleware-webpack@1.5.0) (2021-11-18)
 
 ### Features
