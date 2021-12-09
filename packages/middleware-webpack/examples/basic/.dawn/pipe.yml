@@ -1,6 +1,6 @@
 dev:
   - name: '@dawnjs/dn-middleware-lint'
-    realtime: true
+    noEmit: true
   - name: i18n
   - name: $local
     location: ../../lib/index.js

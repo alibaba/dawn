@@ -1,0 +1,11 @@
+:root {
+  --bg-color: red;
+  --font-size: 12px;
+}
+
+.container {
+  background-color: var(--bg-color);
+  & .content {
+    font-size: var(--font-size);
+  }
+}

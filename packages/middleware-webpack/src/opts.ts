@@ -44,7 +44,7 @@ export const normalizeOpts = (opts: Partial<IOpts>, ctx: Context): INormalizedOp
       env = ctx.command.includes("dev") || ctx.command.includes("daily") ? "development" : "production";
       envMessage += `, set to "${env}" automatically by DN_CMD`;
     }
-    ctx.console.warn(envMessage);
+    ctx.console.log(envMessage);
   }
 
   // @ts-ignore
@@ -61,7 +61,14 @@ export const normalizeOpts = (opts: Partial<IOpts>, ctx: Context): INormalizedOp
     statsOpts: "verbose",
     ...opts,
     env,
-    serverOpts: { host: "localhost", historyApiFallback: true, open: true, hot: true, ...opts.serverOpts },
+    serverOpts: {
+      host: "localhost",
+      historyApiFallback: true,
+      open: true,
+      hot: true,
+      ...opts.serverOpts,
+      client: { overlay: { errors: true, warnings: false }, ...opts.serverOpts?.client },
+    },
     watchOpts: { ignored: /node_modules/, ...opts.watchOpts },
     devtool: opts.devtool ?? opts.sourceMap,
     inject: formatNullStringToList(opts.inject),
@@ -184,13 +191,11 @@ export const normalizeOpts = (opts: Partial<IOpts>, ctx: Context): INormalizedOp
   if (options.external === false) {
     options.externals = {};
   } else {
-    if (options.server && options.serverOpts.hot && options.externals) {
-      options.externals = {};
-      ctx.console.warn(
-        "[webpack5] Auto set `externals` to {} by using react-refresh in development mode. You can set `hot` to false to disabled it in development mode",
-      );
-    }
     options.externals = options.externals || (options.output?.library ? LIB_DEFAULT_EXTERNALS : PRO_DEFAULT_EXTERNALS);
+  }
+  if (options.server && options.serverOpts?.hot && Object.keys(options.externals).length > 0) {
+    options.serverOpts.hot = false;
+    ctx.console.warn("[webpack5] Disable hot mode while using externals");
   }
 
   // target

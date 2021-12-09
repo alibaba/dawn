@@ -14,6 +14,7 @@ import $i18n from "$i18n";
 import styles from "./app.module.scss";
 import "./app.scss";
 import "./app.less";
+import "./app.css";
 
 const AsyncComponent = React.lazy(() => import(/* webpackChunkName: "async-component" */ "./AsyncComponent"));
 
