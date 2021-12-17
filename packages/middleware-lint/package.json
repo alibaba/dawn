@@ -7,8 +7,7 @@
     "clean": "rimraf lib",
     "prebuild": "npm run clean",
     "build": "tsc && ts-add-module-exports",
-    "prepublishOnly": "npm run build",
-    "postinstall": "node ./lib/postinstall.js || exit 0"
+    "prepublishOnly": "npm run build"
   },
   "author": "Jeason",
   "license": "MIT",

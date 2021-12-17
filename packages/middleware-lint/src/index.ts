@@ -1,7 +1,15 @@
 import lintStaged from "lint-staged";
 import { validateOpts } from "./opts";
 import { ESLINT_IGNORE_FILE_PATH } from "./constants";
-import { execLint, getProjectInfo, prepareDeps, readAndForceWriteRc, rmRcFiles } from "./core";
+import {
+  editorconfig,
+  eslintignore,
+  execLint,
+  getProjectInfo,
+  prepareDeps,
+  readAndForceWriteRc,
+  rmRcFiles,
+} from "./core";
 import { debug } from "./utils";
 import type { Handler } from "./types";
 
@@ -23,6 +31,9 @@ const handler: Handler = opts => {
 
     const projectInfo = await getProjectInfo(ctx.cwd);
     debug("projectInfo", projectInfo);
+
+    await eslintignore(ctx.cwd);
+    await editorconfig(ctx.cwd);
 
     // Async Remove unused .eslintrc files
     // Async Remove unused .prettierrc files
