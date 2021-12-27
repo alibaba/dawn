@@ -341,7 +341,7 @@ const addStyleRule = (
 
         return {
           plugins: [
-            [require.resolve("postcss-preset-env"), options.postcssPresetEnv],
+            [require.resolve("postcss-preset-env"), { stage: 0, ...options.postcssPresetEnv }],
             ...(options.extraPostCSSPlugins ?? []),
           ],
           ...customOptions,
