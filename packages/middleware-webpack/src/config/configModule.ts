@@ -332,6 +332,7 @@ const addStyleRule = (
     .use("postcss-loader")
     .loader(require.resolve("postcss-loader"))
     .options({
+      implementation: require.resolve("postcss"),
       ...options.postcssLoader,
       postcssOptions: (loaderContext: any) => {
         let customOptions = options.postcssLoader?.postcssOptions;
@@ -374,13 +375,14 @@ export default async (config: Config, options: INormalizedOpts) => {
       {
         loader: "less-loader",
         options: {
+          implementation: require.resolve("less"),
           ...options.lessLoader,
           lessOptions: (loaderContext: any) => {
             let customOptions = options.lessLoader?.lessOptions;
             if (typeof customOptions === "function") {
               customOptions = customOptions(loaderContext);
             }
-            return { rewriteUrls: "all", ...customOptions };
+            return { rewriteUrls: "all", javascriptEnabled: true, ...customOptions };
           },
         },
       },
@@ -394,6 +396,7 @@ export default async (config: Config, options: INormalizedOpts) => {
       {
         loader: "sass-loader",
         options: {
+          implementation: require.resolve("sass"),
           ...options.sassLoader,
           sourceMap: true, // required by `resolve-url-loader`, see https://github.com/bholloway/resolve-url-loader/blob/master/packages/resolve-url-loader/README.md#configure-webpack
           sassOptions: (loaderContext: any) => {
