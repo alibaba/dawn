@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@2.1.0...@dawnjs/dn-middleware-rollup@2.2.0) (2021-12-27)
+
+### Features
+
+- 优化 less/sass 配置 ([8f0d0f5](https://github.com/alibaba/dawn/commit/8f0d0f5b66e5e723f9ee155022e038b4e9f588af))
+
 # [2.1.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@2.0.0...@dawnjs/dn-middleware-rollup@2.1.0) (2021-12-08)
 
 ### Features

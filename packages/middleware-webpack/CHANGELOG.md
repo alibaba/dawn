@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.6.0...@dawnjs/dn-middleware-webpack@1.7.0) (2021-12-27)
+
+### Features
+
+- 优化样式相关 loader 配置 ([284208a](https://github.com/alibaba/dawn/commit/284208a1d1eb83e6744a3c20d1654176e5f82e4f))
+- config postcss-preset-env with `stage: 0` as default ([14dd938](https://github.com/alibaba/dawn/commit/14dd938b59abaa9c90baa5cef268fb98b5da819e))
+
 # [1.6.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.5.0...@dawnjs/dn-middleware-webpack@1.6.0) (2021-12-09)
 
 ### Features
