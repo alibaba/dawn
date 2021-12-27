@@ -6,7 +6,6 @@ import svgr from "@svgr/rollup";
 import postcss from "rollup-plugin-postcss";
 import postcssPresetEnv from "postcss-preset-env";
 import atImport from "postcss-import";
-import NpmImport from "less-plugin-npm-import";
 import alias from "@rollup/plugin-alias";
 import inject from "@rollup/plugin-inject";
 import replace from "@rollup/plugin-replace";
@@ -223,16 +222,16 @@ export const getRollupConfig = async (
         modules,
         minimize: !!minCSS,
         use: {
-          sass: { ...sassOpts },
+          sass: { quietDeps: true, ...sassOpts },
           stylus: {},
-          less: { javascriptEnabled: true, plugins: [new NpmImport({ prefix: "~" })], ...lessOpts },
+          less: { rewriteUrls: "all", javascriptEnabled: true, ...lessOpts },
         },
         plugins: [
           atImport({
             resolve: resolveCss,
             ...atImportOpts,
           }),
-          postcssPresetEnv({ autoprefixer: autoprefixerOpts, ...postcssPresetEnvOpts }),
+          postcssPresetEnv({ autoprefixer: autoprefixerOpts, stage: 0, ...postcssPresetEnvOpts }),
         ],
         config: {
           path: path.join(cwd, "postcss.config.js"),

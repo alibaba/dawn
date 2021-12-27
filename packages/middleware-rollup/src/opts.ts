@@ -84,11 +84,11 @@ export const validateOpts = async (opts: IOpts, ctx: IDawnContext): Promise<void
 
   if (opts.target === "browser") {
     if (!existsSync(join(opts.cwd, ".browserslistrc"))) {
-      ctx.console.warn("No .browserslistrc found for browser target. Using default...");
-      await ctx.utils.writeFile(
-        join(opts.cwd, ".browserslistrc"),
-        await ctx.utils.readFile(join(__dirname, "../template/.browserslistrc")),
-      );
+      ctx.console.warn("No .browserslistrc found for browser target.");
+      // await ctx.utils.writeFile(
+      //   join(opts.cwd, ".browserslistrc"),
+      //   await ctx.utils.readFile(join(__dirname, "../template/.browserslistrc")),
+      // );
     }
   }
 };
