@@ -205,7 +205,7 @@ export const normalizeOpts = (opts: Partial<IOpts>, ctx: Context): INormalizedOp
 
   if (options.devtool === true || typeof options.devtool === "undefined") {
     // @ts-ignore
-    options.devtool = env === "development" ? "eval-cheap-module-source-map" : "cheap-source-map";
+    options.devtool = env === "development" ? "eval-cheap-module-source-map" : "source-map";
   }
 
   // analysis
