@@ -1,6 +1,6 @@
 {
   "name": "@dawnjs/dn-middleware-webpack",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "A middleware to bundle assets with webpack5 in dawn pipeline",
   "keywords": [
     "dawn",

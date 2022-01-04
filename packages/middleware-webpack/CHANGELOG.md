@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.1](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.7.0...@dawnjs/dn-middleware-webpack@1.7.1) (2022-01-04)
+
+### Bug Fixes
+
+- fix default production source map type ([d550b0e](https://github.com/alibaba/dawn/commit/d550b0e8b9ec653dfbc06ac5c13cc13675ff40e1))
+
 # [1.7.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.6.0...@dawnjs/dn-middleware-webpack@1.7.0) (2021-12-27)
 
 ### Features
