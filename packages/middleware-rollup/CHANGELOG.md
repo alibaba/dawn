@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.1](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@2.2.0...@dawnjs/dn-middleware-rollup@2.2.1) (2022-01-07)
+
+### Bug Fixes
+
+- fix some esm build issue ([ca618bb](https://github.com/alibaba/dawn/commit/ca618bbae16f496e7c146c3fe3b0d5f1936370d3))
+
 # [2.2.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@2.1.0...@dawnjs/dn-middleware-rollup@2.2.0) (2021-12-27)
 
 ### Features
