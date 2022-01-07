@@ -2,6 +2,7 @@ import * as assert from "assert";
 import { basename, join } from "path";
 import { existsSync } from "fs";
 import { camelCase, merge } from "lodash";
+import semver from "semver";
 import { getExistFile } from "./utils";
 import { IDawnContext, IOpts } from "./types";
 
@@ -89,6 +90,24 @@ export const validateOpts = async (opts: IOpts, ctx: IDawnContext): Promise<void
       //   join(opts.cwd, ".browserslistrc"),
       //   await ctx.utils.readFile(join(__dirname, "../template/.browserslistrc")),
       // );
+    }
+  }
+
+  if (opts.runtimeHelpers) {
+    let depName = "@babel/runtime";
+    if (opts.corejs) {
+      const corejsVersion = typeof opts.corejs === "number" ? opts.corejs : opts.corejs.version;
+      depName = `@babel/runtime-corejs${corejsVersion}`;
+    }
+    const depVersion = typeof opts.runtimeHelpers === "string" ? opts.runtimeHelpers : "*";
+
+    const installedDepVersion = ctx.project.dependencies?.[depName];
+    if (!installedDepVersion || !semver.satisfies(semver.minVersion(installedDepVersion), depVersion)) {
+      if (depVersion === "*") {
+        await ctx.mod.install(depName);
+      } else {
+        await ctx.mod.install(`${depName}@${depVersion}`);
+      }
     }
   }
 };

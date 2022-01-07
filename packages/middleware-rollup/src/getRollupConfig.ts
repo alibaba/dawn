@@ -247,8 +247,14 @@ export const getRollupConfig = async (
         nodeResolve({
           mainFields: ["module", "main"],
           extensions,
-          ...(target === "browser" ? { browser: true } : {}),
+          ...(target === "browser" ? { browser: true, preferBuiltins: false } : { preferBuiltins: true }),
           ...nodeResolveOpts,
+        }),
+      type !== "dts" &&
+        commonjs({
+          transformMixedEsModules: true,
+          requireReturnsDefault: "auto",
+          ...commonjsOpts,
         }),
       type !== "dts" &&
         !disableTypescript &&
@@ -280,7 +286,6 @@ export const getRollupConfig = async (
       !parallel && progress(),
     ];
   };
-  const extraUmdPlugins = [commonjs(commonjsOpts)];
 
   switch (type) {
     case "esm":
@@ -375,7 +380,6 @@ export const getRollupConfig = async (
               name: umd && umd.name,
             },
             plugins: [
-              ...extraUmdPlugins,
               ...getPlugins(),
               replace({
                 preventAssignment: true,
@@ -407,7 +411,6 @@ export const getRollupConfig = async (
               name: umd && umd.name,
             },
             plugins: [
-              ...extraUmdPlugins,
               ...getPlugins({ minCSS: true }),
               replace({
                 preventAssignment: true,
@@ -432,7 +435,6 @@ export const getRollupConfig = async (
           },
           plugins: [
             ...getPlugins({ minCSS: (system && system.minify) || false }),
-            ...extraUmdPlugins,
             replace({
               preventAssignment: true,
               // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -456,7 +458,6 @@ export const getRollupConfig = async (
           },
           plugins: [
             ...getPlugins({ minCSS: (iife && iife.minify) || false }),
-            ...extraUmdPlugins,
             replace({
               preventAssignment: true,
               // eslint-disable-next-line @typescript-eslint/naming-convention

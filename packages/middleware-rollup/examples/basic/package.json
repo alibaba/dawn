@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@alifd/next": "1.20.28",
+    "@babel/runtime": "^7.16.7",
     "@formily/core": "^2.0.0-rc.20",
     "@formily/next": "^2.0.0-rc.20",
     "@formily/react": "^2.0.0-rc.20",

@@ -12,7 +12,10 @@ import "./sass-style.scss";
 
 const Component: React.FC<{ foo?: string; bar?: number }> = () => {
   useEffect(() => {
-    axios.get("https://alibaba.github.io/dawn/middleware.yml");
+    (async () => {
+      const ret = await axios.get("https://alibaba.github.io/dawn/middleware.yml");
+      console.log(ret);
+    })();
   }, []);
 
   return (
