@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@2.2.1...@dawnjs/dn-middleware-rollup@2.3.0) (2022-01-17)
+
+### Features
+
+- 开启 css modules 导出类名的驼峰转换 ([1e6a13f](https://github.com/alibaba/dawn/commit/1e6a13f8e6e64f51318230c0cd4ea6433cbf17f8))
+
 ## [2.2.1](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@2.2.0...@dawnjs/dn-middleware-rollup@2.2.1) (2022-01-07)
 
 ### Bug Fixes

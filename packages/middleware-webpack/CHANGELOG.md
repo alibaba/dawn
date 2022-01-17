@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.7.1...@dawnjs/dn-middleware-webpack@1.8.0) (2022-01-17)
+
+### Features
+
+- css modules 类名默认开启驼峰转换 ([b01f72b](https://github.com/alibaba/dawn/commit/b01f72b500aa2b2ee1be10f6e6854be3b0e22734))
+
 ## [1.7.1](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.7.0...@dawnjs/dn-middleware-webpack@1.7.1) (2022-01-04)
 
 ### Bug Fixes
