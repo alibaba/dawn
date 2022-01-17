@@ -66,6 +66,7 @@ export interface IBundleOptions {
   extractCSS?: boolean | string;
   injectCSS?: boolean | Record<string, any>;
   cssModules?: boolean | Record<string, any>;
+  autoCssModules?: boolean;
   less?: Record<string, any>;
   sass?: Record<string, any>;
   postcss?: PostCSSPluginConf;

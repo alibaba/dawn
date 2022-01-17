@@ -487,9 +487,16 @@ _说明：会检查当前依赖的 `react` 版本是否支持 `jsxRuntime`，如
 ### `cssModules`
 
 类型：`boolean | Object`<br>
-默认值：`false`
+默认值：`{ localsConvention: 'camelCase' }`
 
-是否开启 `CSS Module` ，详细说明请查看[相关文档](https://github.com/egoist/rollup-plugin-postcss#modules)
+是否开启 CSS modules 或设置 `postcss-modules` 选项，详细说明请查看[相关文档](https://github.com/egoist/rollup-plugin-postcss#modules)
+
+### `autoCssModules`
+
+类型：`boolean`<br>
+默认值：`true`
+
+是否自动对 `.module.*` 文件开启 CSS modules ，详细说明请查看[相关文档](https://github.com/egoist/rollup-plugin-postcss#automodules)
 
 ### `less`
 

@@ -41,7 +41,8 @@ export const getRollupConfig = async (
     iife,
     extractCSS = true,
     injectCSS = true,
-    cssModules: modules = false,
+    cssModules: modules,
+    autoCssModules: autoModules = true,
     less: lessOpts = {},
     sass: sassOpts = {},
     postcss: postcssOpts = {},
@@ -219,7 +220,14 @@ export const getRollupConfig = async (
       postcss({
         extract: extractCSS,
         inject: injectCSS,
-        modules,
+        modules:
+          typeof modules === "object"
+            ? {
+                localsConvention: "camelCase",
+                ...modules,
+              }
+            : modules,
+        autoModules,
         minimize: !!minCSS,
         use: {
           sass: { quietDeps: true, ...sassOpts },
