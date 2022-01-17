@@ -326,6 +326,15 @@ const addStyleRule = (
     .options({
       importLoaders: preProcessors?.length ?? 0 + 1,
       ...options.cssLoader,
+      modules: {
+        auto: true,
+        exportLocalsConvention: "camelCase",
+        ...(typeof options.cssLoader?.modules === "boolean"
+          ? { auto: options.cssLoader?.modules }
+          : typeof options.cssLoader?.modules === "string"
+          ? { mode: options.cssLoader?.modules }
+          : options.cssLoader?.modules),
+      },
     })
     .end()
     // use postcss-loader before css-loader, but after any pre-processor loader
