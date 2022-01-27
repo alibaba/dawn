@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.1](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@2.3.0...@dawnjs/dn-middleware-rollup@2.3.1) (2022-01-27)
+
+### Bug Fixes
+
+- disable dts generate for watch mode ([3ad1a5c](https://github.com/alibaba/dawn/commit/3ad1a5c15ec14b098bcf2445df73891bc031048e))
+
 # [2.3.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-rollup@2.2.1...@dawnjs/dn-middleware-rollup@2.3.0) (2022-01-17)
 
 ### Features
