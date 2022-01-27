@@ -61,7 +61,7 @@ const handler: Handler<IOpts> = options => {
       const mergedBundleOpts = merge(bundleOpts, customBundleOpts) as IBundleOptions;
       // 生成单入口单格式构建任务
       totalTasks.push(...getTasks(entry, mergedBundleOpts));
-      if (mergedBundleOpts.generateDts) {
+      if (!opts.watch && mergedBundleOpts.generateDts) {
         totalTasks.push(cb => {
           buildDts(
             {
