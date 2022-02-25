@@ -67,7 +67,10 @@ export const normalizeOpts = (opts: Partial<IOpts>, ctx: Context): INormalizedOp
       open: true,
       hot: true,
       ...opts.serverOpts,
-      client: { overlay: { errors: true, warnings: false }, ...opts.serverOpts?.client },
+      client:
+        typeof opts.serverOpts?.client === "boolean"
+          ? opts.serverOpts?.client
+          : { overlay: { errors: true, warnings: false }, ...opts.serverOpts?.client },
     },
     watchOpts: { ignored: /node_modules/, ...opts.watchOpts },
     devtool: opts.devtool ?? opts.sourceMap,
