@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.1](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.9.0...@dawnjs/dn-middleware-webpack@1.9.1) (2022-02-25)
+
+### Bug Fixes
+
+- update default lint files glob pattern ([9f4eb9e](https://github.com/alibaba/dawn/commit/9f4eb9ee13e9d979b696159e0fa372b651e658a3))
+
 # [1.9.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.8.0...@dawnjs/dn-middleware-webpack@1.9.0) (2022-02-25)
 
 ### Features
