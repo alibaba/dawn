@@ -117,7 +117,7 @@ export default async (config: Config, options: INormalizedOpts, ctx: Context) =>
         extensions: "js,jsx,ts,tsx",
         formatter: require.resolve("eslint-formatter-pretty"),
         failOnError: false,
-        files: "**/*",
+        files: "**/*.(js|jsx|ts|tsx)",
         ...(typeof options.lint === "object" ? options.lint : {}),
       },
     ]);
