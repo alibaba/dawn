@@ -30,7 +30,7 @@ export default async (options: INormalizedOpts, ctx: Context) => {
   await configEntry(config, options);
   await configOutput(config, options);
   await configResolve(config, options);
-  await configModule(config, options);
+  await configModule(config, options, ctx);
   await configPlugins(config, options, ctx);
   await configOptimization(config, options);
 

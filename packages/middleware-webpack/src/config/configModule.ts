@@ -5,7 +5,7 @@ import merge from "deepmerge";
 import yaml from "js-yaml";
 
 import { getDefaultESBuildTarget, getIncompatibleConfig } from "../utils";
-import type { INormalizedOpts } from "../types";
+import type { Context, INormalizedOpts } from "../types";
 
 const addAssetsRule = (config: Config) => {
   config.module
@@ -306,6 +306,7 @@ const addStyleRule = (
     importLoaders?: number;
     preProcessors?: Array<{ loader: string; options?: object }>;
   },
+  ctx: Context,
 ) => {
   config.module
     .rule(name)
@@ -329,6 +330,7 @@ const addStyleRule = (
       modules: {
         auto: true,
         exportLocalsConvention: "camelCase",
+        localIdentHashSalt: ctx.project.name,
         ...(typeof options.cssLoader?.modules === "boolean"
           ? { auto: options.cssLoader?.modules }
           : typeof options.cssLoader?.modules === "string"
@@ -366,7 +368,7 @@ const addStyleRule = (
     });
 };
 
-export default async (config: Config, options: INormalizedOpts) => {
+export default async (config: Config, options: INormalizedOpts, ctx: Context) => {
   addAssetsRule(config);
   if (options.esbuild?.loader) {
     addESBuildLoader(config, options);
@@ -376,47 +378,57 @@ export default async (config: Config, options: INormalizedOpts) => {
     addBabelRule(config, options);
   }
   addWorkerRule(config, options); // MUST AFTER BABEL RULE !!!
-  addStyleRule(config, options, { name: "css", test: /\.css(\?.*)?$/, importLoaders: 1 });
-  addStyleRule(config, options, {
-    name: "less",
-    test: /\.less(\?.*)?$/,
-    preProcessors: [
-      {
-        loader: "less-loader",
-        options: {
-          implementation: require.resolve("less"),
-          ...options.lessLoader,
-          lessOptions: (loaderContext: any) => {
-            let customOptions = options.lessLoader?.lessOptions;
-            if (typeof customOptions === "function") {
-              customOptions = customOptions(loaderContext);
-            }
-            return { rewriteUrls: "all", javascriptEnabled: true, ...customOptions };
+  addStyleRule(config, options, { name: "css", test: /\.css(\?.*)?$/, importLoaders: 1 }, ctx);
+  addStyleRule(
+    config,
+    options,
+    {
+      name: "less",
+      test: /\.less(\?.*)?$/,
+      preProcessors: [
+        {
+          loader: "less-loader",
+          options: {
+            implementation: require.resolve("less"),
+            ...options.lessLoader,
+            lessOptions: (loaderContext: any) => {
+              let customOptions = options.lessLoader?.lessOptions;
+              if (typeof customOptions === "function") {
+                customOptions = customOptions(loaderContext);
+              }
+              return { rewriteUrls: "all", javascriptEnabled: true, ...customOptions };
+            },
           },
         },
-      },
-    ],
-  });
-  addStyleRule(config, options, {
-    name: "sass",
-    test: /\.s(a|c)ss(\?.*)?$/,
-    preProcessors: [
-      { loader: "resolve-url-loader", options: { ...options.resolveUrlLoader } },
-      {
-        loader: "sass-loader",
-        options: {
-          implementation: require.resolve("sass"),
-          ...options.sassLoader,
-          sourceMap: true, // required by `resolve-url-loader`, see https://github.com/bholloway/resolve-url-loader/blob/master/packages/resolve-url-loader/README.md#configure-webpack
-          sassOptions: (loaderContext: any) => {
-            let customOptions = options.sassLoader?.sassOptions;
-            if (typeof customOptions === "function") {
-              customOptions = customOptions(loaderContext);
-            }
-            return { quietDeps: true, ...customOptions };
+      ],
+    },
+    ctx,
+  );
+  addStyleRule(
+    config,
+    options,
+    {
+      name: "sass",
+      test: /\.s(a|c)ss(\?.*)?$/,
+      preProcessors: [
+        { loader: "resolve-url-loader", options: { ...options.resolveUrlLoader } },
+        {
+          loader: "sass-loader",
+          options: {
+            implementation: require.resolve("sass"),
+            ...options.sassLoader,
+            sourceMap: true, // required by `resolve-url-loader`, see https://github.com/bholloway/resolve-url-loader/blob/master/packages/resolve-url-loader/README.md#configure-webpack
+            sassOptions: (loaderContext: any) => {
+              let customOptions = options.sassLoader?.sassOptions;
+              if (typeof customOptions === "function") {
+                customOptions = customOptions(loaderContext);
+              }
+              return { quietDeps: true, ...customOptions };
+            },
           },
         },
-      },
-    ],
-  });
+      ],
+    },
+    ctx,
+  );
 };
