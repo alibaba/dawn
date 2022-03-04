@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.10.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.9.1...@dawnjs/dn-middleware-webpack@1.10.0) (2022-03-04)
+
+### Features
+
+- add default hash salt for css modules ([839aa1e](https://github.com/alibaba/dawn/commit/839aa1e2582b69f0463e825c66daef1c4f1c6db4))
+
 ## [1.9.1](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.9.0...@dawnjs/dn-middleware-webpack@1.9.1) (2022-02-25)
 
 ### Bug Fixes
