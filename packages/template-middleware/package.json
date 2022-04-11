@@ -1,0 +1,15 @@
+{
+  "name": "@dawnjs/dn-template-middleware",
+  "version": "2.0.0",
+  "description": "Dawn middleware project template with typescript support",
+  "author": {
+    "name": "soulwu",
+    "email": "soulwuzjjx@vip.qq.com"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "license": "MIT",
+  "devDependencies": {}
+}

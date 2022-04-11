@@ -1,0 +1,39 @@
+{
+  "name": "dn-middleware-demo",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [
+    "dawn",
+    "middleware"
+  ],
+  "main": "./lib/index.js",
+  "scripts": {
+    "start": "dn d",
+    "build": "dn b",
+    "test": "dn t",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "lib",
+    "typings"
+  ],
+  "author": "",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=12"
+  },
+  "devDependencies": {
+    "@dawnjs/dn-middleware-babel": "^2.1.0",
+    "@dawnjs/dn-middleware-call": "^1.1.2",
+    "@dawnjs/dn-middleware-clean": "^1.0.3",
+    "@dawnjs/dn-middleware-lint": "^3.3.3",
+    "@dawnjs/dn-middleware-pkginfo": "^1.1.5",
+    "@dawnjs/types": "^2.0.1",
+    "babel-plugin-add-module-exports": "^1.0.4",
+    "typescript": "^4.6.3"
+  },
+  "license": "MIT"
+}
