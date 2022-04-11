@@ -15,7 +15,7 @@
     "abort-controller": "^3.0.0",
     "d3-hierarchy": "^3.0.1",
     "mathjs": "^10.0.0",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "query-string": "^7.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
