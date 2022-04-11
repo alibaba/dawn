@@ -1,0 +1,31 @@
+init:
+  - name: '@dawnjs/dn-middleware-pkginfo'
+
+clean:
+  - name: '@dawnjs/dn-middleware-clean'
+    target:
+      - lib
+
+dev:
+  - name: '@dawnjs/dn-middleware-call'
+    pipe:
+      - clean
+  - name: '@dawnjs/dn-middleware-lint'
+    noEmit: true
+  - name: '@dawnjs/dn-middleware-babel'
+    watch: true
+    extraPlugins:
+      - babel-plugin-add-module-exports
+  - name: $local
+    location: ./lib/index.js
+
+test:
+  - name: '@dawnjs/dn-middleware-lint'
+
+build:
+  - name: '@dawnjs/dn-middleware-call'
+    pipe:
+      - clean
+  - name: '@dawnjs/dn-middleware-babel'
+    extraPlugins:
+      - babel-plugin-add-module-exports
