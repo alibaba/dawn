@@ -1,0 +1,32 @@
+{
+  "name": "@dawnjs/dn-middleware-version",
+  "version": "1.0.4",
+  "description": "A middleware to bump package version",
+  "main": "./lib/index.js",
+  "scripts": {
+    "clean": "rimraf lib",
+    "prebuild": "npm run clean",
+    "build": "tsc && ts-add-module-exports",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "lib"
+  ],
+  "author": "",
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "http://dawnjs.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alibaba/dawn.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@dawnjs/types": "^2.0.1",
+    "@types/semver": "^7.3.9"
+  },
+  "dependencies": {
+    "semver": "^7.3.7"
+  }
+}
