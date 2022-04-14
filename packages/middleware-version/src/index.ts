@@ -80,7 +80,7 @@ const handler: Handler<IOpts> = opts => {
       command.push("--no-commit-hooks");
     }
     if (answers.preid) {
-      command.push(`--preid=${answers.preid}`);
+      command.push(`--preid ${answers.preid}`);
     }
     await ctx.utils.exec(command.join(" "));
     ctx.console.warn("版本已更新为:", ctx.project.version);
