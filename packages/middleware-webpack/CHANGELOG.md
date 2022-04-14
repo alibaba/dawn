@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.1](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.10.0...@dawnjs/dn-middleware-webpack@1.10.1) (2022-04-14)
+
+**Note:** Version bump only for package @dawnjs/dn-middleware-webpack
+
 # [1.10.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-webpack@1.9.1...@dawnjs/dn-middleware-webpack@1.10.0) (2022-03-04)
 
 ### Features

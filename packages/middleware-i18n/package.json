@@ -1,6 +1,6 @@
 {
   "name": "@dawnjs/dn-middleware-i18n",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "A middleware to provide international feature",
   "main": "./lib/index.js",
   "scripts": {
@@ -28,6 +28,6 @@
     "vmodule-webpack-plugin": "^2.0.5"
   },
   "devDependencies": {
-    "@dawnjs/types": "^2.0.1"
+    "@dawnjs/types": "^2.0.2"
   }
 }

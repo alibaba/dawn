@@ -1,6 +1,6 @@
 {
   "name": "@dawnjs/dn-middleware-rollup",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "Dawn middleware to bundle assets with rollup",
   "keywords": [
     "dawn",
@@ -34,7 +34,7 @@
     "url": "https://github.com/alibaba/dawn.git"
   },
   "devDependencies": {
-    "@dawnjs/types": "^2.0.1",
+    "@dawnjs/types": "^2.0.2",
     "@types/async": "^3.2.10",
     "@types/lodash": "^4.14.177",
     "@types/postcss-import": "^14.0.0",

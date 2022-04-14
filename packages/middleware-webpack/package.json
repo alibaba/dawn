@@ -1,6 +1,6 @@
 {
   "name": "@dawnjs/dn-middleware-webpack",
-  "version": "1.10.0",
+  "version": "1.10.1",
   "description": "A middleware to bundle assets with webpack5 in dawn pipeline",
   "keywords": [
     "dawn",
@@ -38,7 +38,7 @@
     "node": ">= 12.13.0"
   },
   "devDependencies": {
-    "@dawnjs/types": "^2.0.1",
+    "@dawnjs/types": "^2.0.2",
     "@types/css-minimizer-webpack-plugin": "^3.2.1",
     "@types/debug": "^4.1.7",
     "@types/html-webpack-plugin": "^3.2.6",

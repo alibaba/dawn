@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.6](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-pkginfo@1.1.5...@dawnjs/dn-middleware-pkginfo@1.1.6) (2022-04-14)
+
+**Note:** Version bump only for package @dawnjs/dn-middleware-pkginfo
+
 ## [1.1.5](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-pkginfo@1.1.4...@dawnjs/dn-middleware-pkginfo@1.1.5) (2021-06-18)
 
 ### Bug Fixes

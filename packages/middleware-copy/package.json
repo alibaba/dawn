@@ -1,6 +1,6 @@
 {
   "name": "@dawnjs/dn-middleware-copy",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "A middleware to copy files",
   "main": "./lib/index.js",
   "scripts": {
@@ -23,7 +23,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@dawnjs/types": "^2.0.1"
+    "@dawnjs/types": "^2.0.2"
   },
   "dependencies": {
     "tpjs": "^3.8.3"

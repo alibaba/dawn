@@ -1,6 +1,6 @@
 {
   "name": "@dawnjs/dn-middleware-lint",
-  "version": "3.3.3",
+  "version": "3.3.4",
   "description": "Dawn lint middleware",
   "main": "./lib/index.js",
   "scripts": {
@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.16.3",
-    "@dawnjs/types": "^2.0.1",
+    "@dawnjs/types": "^2.0.2",
     "@types/semver": "^7.3.9",
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.3.1",
