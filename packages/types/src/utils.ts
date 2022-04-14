@@ -14,7 +14,9 @@ type Any2Any = (stream: any) => Promise<any>;
 type Ntils = typeof ntils;
 
 export default interface Utils extends Ntils {
-  exec: (script: string, opts?: any) => Promise<void>;
+  exec: ((script: string, opts?: any) => Promise<void>) & {
+    withResult: (script: string, opts?: any) => Promise<string>;
+  };
   writeFile: (filename: string, content: any) => Promise<string>;
   readFile: <Content = any>(filename: string) => Promise<Content>;
   del: typeof del;
