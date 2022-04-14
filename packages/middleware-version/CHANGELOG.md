@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-version@1.1.2...@dawnjs/dn-middleware-version@1.1.3) (2022-04-14)
+
+### Bug Fixes
+
+- 修复 preid 参数出现条件判断 ([6fd710d](https://github.com/alibaba/dawn/commit/6fd710dcb561a541834413e9b7286112aebc9a45))
+
 ## [1.1.2](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-version@1.1.1...@dawnjs/dn-middleware-version@1.1.2) (2022-04-14)
 
 ### Bug Fixes
