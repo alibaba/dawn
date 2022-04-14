@@ -54,6 +54,9 @@ const handler: Handler<IOpts> = opts => {
         type: "input",
         message: "请输入预发行版本前缀",
         default: "alpha",
+        when({ version }) {
+          return ["prerelease", "prepatch", "preminor", "premajor"].includes(version);
+        },
         validate(input) {
           if (!/^[a-z0-9]*$/i.test(input)) {
             return "预发行版本前缀只能包含英文字母和数字";
