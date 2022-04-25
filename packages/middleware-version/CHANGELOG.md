@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.4](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-version@1.1.3...@dawnjs/dn-middleware-version@1.1.4) (2022-04-25)
+
+### Bug Fixes
+
+- add compatible for ctx.version ([d266b89](https://github.com/alibaba/dawn/commit/d266b897cdb0d37d9285ca723f81e9749df9c7b0))
+
 ## [1.1.3](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-version@1.1.2...@dawnjs/dn-middleware-version@1.1.3) (2022-04-14)
 
 ### Bug Fixes
