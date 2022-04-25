@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.5](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-version@1.1.4...@dawnjs/dn-middleware-version@1.1.5) (2022-04-25)
+
+### Bug Fixes
+
+- fix next args ([dc91595](https://github.com/alibaba/dawn/commit/dc91595c237148133a4c497ac9fc8138ebc1cc2e))
+
 ## [1.1.4](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-version@1.1.3...@dawnjs/dn-middleware-version@1.1.4) (2022-04-25)
 
 ### Bug Fixes
