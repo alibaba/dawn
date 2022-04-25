@@ -2,7 +2,7 @@ import semver from "semver";
 import type { Handler } from "@dawnjs/types";
 import type { IOpts } from "./types";
 
-const handler: Handler<IOpts> = opts => {
+const handler: Handler<IOpts, { version: string }> = opts => {
   return async (next, ctx) => {
     const envOpts = JSON.parse(decodeURIComponent(process.env.DN_ARGV || "{}"));
     const versionEnv = envOpts.version || {};
@@ -86,8 +86,11 @@ const handler: Handler<IOpts> = opts => {
       command.push(`--preid ${answers.preid}`);
     }
     await ctx.utils.exec(command.join(" "));
+
+    ctx.version = ctx.project.version;
     ctx.console.warn("版本已更新为:", ctx.project.version);
-    next();
+
+    next({ version: ctx.project.version });
   };
 };
 
