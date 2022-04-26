@@ -41,7 +41,7 @@ const handler: Handler<IOpts> = opts => {
 
     if (statusResult.tracking && statusResult.behind) {
       ctx.console.log(`落后 ${statusResult.tracking} 分支共 ${statusResult.behind} 个提交，拉取最新提交...`);
-      await git.pull({ "--rebase": true });
+      await git.pull({ "--rebase": "true" });
     }
     ctx.console.log("合并远程主干");
     await git.pull("origin", "master");
