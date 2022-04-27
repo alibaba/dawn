@@ -75,17 +75,21 @@ const handler: Handler<IOpts, string> = opts => {
     } else {
       answers = await ctx.inquirer.prompt(questions);
     }
-    const command = [`npm version ${answers.inputVersion || answers.version}`, "--allow-same-version"];
-    if (opts.noGitTagVersion) {
-      command.push("--no-git-tag-version");
+    const version = answers.inputVersion || answers.version;
+
+    if (version !== ctx.project.version) {
+      const command = [`npm version ${version}`, "--allow-same-version"];
+      if (opts.noGitTagVersion) {
+        command.push("--no-git-tag-version");
+      }
+      if (opts.skitCommitHooks) {
+        command.push("--no-commit-hooks");
+      }
+      if (answers.preid) {
+        command.push(`--preid ${answers.preid}`);
+      }
+      await ctx.utils.exec(command.join(" "));
     }
-    if (opts.skitCommitHooks) {
-      command.push("--no-commit-hooks");
-    }
-    if (answers.preid) {
-      command.push(`--preid ${answers.preid}`);
-    }
-    await ctx.utils.exec(command.join(" "));
 
     ctx.version = ctx.project.version;
     ctx.console.warn("版本已更新为:", ctx.project.version);
