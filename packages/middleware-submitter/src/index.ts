@@ -29,9 +29,8 @@ const handler: Handler<IOpts> = opts => {
         : await ctx.inquirer.prompt([
             {
               name: "message",
-              type: "editor",
-              message:
-                "请输入提交信息，推荐格式\n<type>[optional scope]: <subject>\n\n[optional body]\n\n[optional footer(s)]",
+              type: "input",
+              message: "请输入提交信息",
               validate: value => !!value,
             },
           ]);
