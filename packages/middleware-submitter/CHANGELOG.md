@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-submitter@1.1.0...@dawnjs/dn-middleware-submitter@1.1.1) (2022-04-28)
+
+### Bug Fixes
+
+- rollback message prompt type ([6403fbc](https://github.com/alibaba/dawn/commit/6403fbc5d796f2f9a6a5310eb2b1edeea3744a28))
+
 # 1.1.0 (2022-04-26)
 
 ### Bug Fixes
