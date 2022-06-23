@@ -49,7 +49,9 @@ const handler: Handler = opts => {
       // Before all logic, simple and fast
       const lintStagedConfig = {
         config: {
-          "**/*.{js,jsx,ts,tsx}": `eslint --ignore-path ${ESLINT_IGNORE_FILE_PATH} --quiet --color`,
+          "**/*.{js,jsx,ts,tsx}": `eslint --ignore-path ${ESLINT_IGNORE_FILE_PATH} --quiet --color${
+            options.autoFix ? " --fix" : ""
+          }`,
         },
       };
       if (options.prettier) {
