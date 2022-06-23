@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.4.0](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-lint@3.3.4...@dawnjs/dn-middleware-lint@3.4.0) (2022-06-23)
+
+### Features
+
+- add --fix for lintStaged ([f30e1b0](https://github.com/alibaba/dawn/commit/f30e1b0291483e1d9299af7d50365a740049d39e))
+
 ## [3.3.4](https://github.com/alibaba/dawn/compare/@dawnjs/dn-middleware-lint@3.3.3...@dawnjs/dn-middleware-lint@3.3.4) (2022-04-14)
 
 **Note:** Version bump only for package @dawnjs/dn-middleware-lint
