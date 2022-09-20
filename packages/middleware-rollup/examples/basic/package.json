@@ -19,7 +19,7 @@
     "@formily/next": "^2.0.0-rc.20",
     "@formily/react": "^2.0.0-rc.20",
     "axios": "^0.24.0",
-    "moment": "^2.29.1"
+    "moment": "^2.29.4"
   },
   "devDependencies": {
     "@types/react": "^17.0.35",
